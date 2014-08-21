@@ -1,0 +1,65 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "HeaderController"
+    },
+    "designerId": "d6fa6c36-6f0b-4f72-a6f0-b4f3f97e5031",
+    "cn": [
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "logoImg",
+                "selector": "#logoImg"
+            },
+            "designerId": "462d801f-e3e3-4897-ad09-c7c796ad3850"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "logoutLabel",
+                "selector": "#logoutLabel"
+            },
+            "designerId": "dec98c3a-a53e-4489-906e-77a2a1e4aea4"
+        },
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onLaunch",
+                "implHandler": [
+                    "/**",
+                    " * CI Logo Image click event를 catch 하도록 설정",
+                    " */",
+                    "this.getLogoImg().getEl().on('click', function() {",
+                    "    window.open('http://www.osci.kr', '_blank');",
+                    "});",
+                    "",
+                    "// var me = this;",
+                    "// this.getLogoutLabel().getEl().on('mouseover', function() {",
+                    "//     console.log(me.getLogoutLabel().style);",
+                    "// });"
+                ]
+            },
+            "designerId": "875f19c3-ef53-4ea3-85b6-4373bf386562"
+        }
+    ]
+}

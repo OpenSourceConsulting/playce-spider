@@ -1,0 +1,12 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "DashboardController"
+    },
+    "designerId": "1a1e5142-8285-4926-8418-239c3b9677df"
+}

@@ -1,0 +1,36 @@
+{
+    "type": "Ext.app.Application",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "controllers": [
+            "HeaderController",
+            "FooterController",
+            "GlobalController",
+            "MenuController",
+            "DashboardController",
+            "HostManagementController",
+            "NetoworkInstanceController"
+        ],
+        "models": [
+            "HostListData"
+        ],
+        "name": "spider",
+        "requires": [
+            "Ext.window.MessageBox"
+        ],
+        "stores": [
+            "ServerListStore",
+            "HostListStore",
+            "ChartDataStore"
+        ],
+        "views": [
+            "AthenaSpider",
+            "MyPanel31"
+        ]
+    },
+    "designerId": "application"
+}

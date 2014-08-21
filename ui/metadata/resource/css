@@ -1,0 +1,13 @@
+{
+    "type": "cssresource",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "css",
+        "url": "resources/css/spider.css"
+    },
+    "designerId": "64377f87-b1ab-4ee8-a2de-fef7bccb504e"
+}

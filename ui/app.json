@@ -1,0 +1,8 @@
+{
+   "name": "spider",
+   "requires": [],
+   "id": "43d200db-c120-41e3-90a7-5c0e08a3bd22",
+   "resources": [
+      "resources/css/spider.css"
+   ]
+}

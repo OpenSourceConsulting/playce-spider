@@ -1,0 +1,66 @@
+{
+    "name": "athena_spider",
+    "settings": {
+        "cmd": {
+            "license": "commercial",
+            "cmdVersion": "4.0.4.84",
+            "frameworkVersion": "4.2.1.883"
+        },
+        "canvasControls": {
+            "viewportSize": {
+                "name": "Auto Expand",
+                "builtIn": true,
+                "height": null,
+                "width": null
+            }
+        },
+        "urlPrefix": "http://localhost:1841/athena-spider/",
+        "exportPath": "",
+        "spacesToIndent": 4,
+        "sdkPath": "",
+        "lineEnding": "LF",
+        "genTimestamps": false,
+        "cacheBust": false,
+        "buildShouldOverwriteIndex": true,
+        "generateArchitectVersion": true
+    },
+    "xdsVersion": "3.0.4",
+    "xdsBuild": 1386,
+    "schemaVersion": 1,
+    "upgradeVersion": 300000000004,
+    "framework": "ext42",
+    "viewOrderMap": {
+        "view": [
+            "948ddada-3391-4646-a025-1c11823f32b3",
+            "9b739b4c-68bd-4169-979c-379be47117e4"
+        ],
+        "store": [
+            "8c7d1916-bb60-4648-b2c3-c766c7cccf3d",
+            "e7464f3b-9b9b-4953-811a-1e7801e633ed",
+            "e1a1db0e-4e00-4686-95b4-7cb4d9009a49"
+        ],
+        "controller": [
+            "d6fa6c36-6f0b-4f72-a6f0-b4f3f97e5031",
+            "7418fc00-6d0e-4fe7-8adc-f26b67ba3d82",
+            "df715fd1-d322-4ab9-ac90-81ef58b29e21",
+            "c34b50b2-314d-45d8-8b91-b2a4bf025973",
+            "1a1e5142-8285-4926-8418-239c3b9677df",
+            "0eb4e7ed-8602-4b32-8083-58bafa7d6c08",
+            "3ea5d800-6e04-46b9-8c53-3ce0516bab92"
+        ],
+        "model": [
+            "4a5c8737-78ce-4a8b-b21c-d4c4f41c6d7c"
+        ],
+        "resource": [
+            "f285a095-0040-4629-abf2-74be70bab208",
+            "53ad7284-fe8c-4dc6-a10a-39957fbff312",
+            "58e6420d-f61a-4047-bb96-735f892e2c7f",
+            "81c649a4-2965-4b34-95cd-c6c4d85d3280",
+            "948b426e-de0f-4a7d-a6db-05b1671e6d44",
+            "64377f87-b1ab-4ee8-a2de-fef7bccb504e"
+        ],
+        "app": [
+            "application"
+        ]
+    }
+}
