@@ -1,0 +1,209 @@
+{
+    "type": "Ext.container.Container",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "mycontainer1",
+        "designer|userClassName": "MyContainer1",
+        "itemId": "mycontainer1",
+        "layout": "fit"
+    },
+    "designerId": "39eb896a-2ca4-4a41-adc4-0cc0fbcbaf8c",
+    "cn": [
+        {
+            "type": "Ext.panel.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "layout": "border",
+                "title": null
+            },
+            "designerId": "ac8e3dcc-d3fa-4a3e-93fb-b7bae13f3cac",
+            "cn": [
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "animCollapse": false,
+                        "collapsed": false,
+                        "collapsible": false,
+                        "dock": null,
+                        "itemId": "mypanel94",
+                        "layout|flex": 1,
+                        "layout|region": "west",
+                        "layout|split": true,
+                        "split": null,
+                        "title": "Graphite",
+                        "titleCollapse": false,
+                        "width": 150
+                    },
+                    "configAlternates": {
+                        "split": "boolean"
+                    },
+                    "designerId": "3a571b3a-0744-43e5-9f24-4b220d0df4fb",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "split",
+                            "type": "string"
+                        }
+                    ],
+                    "cn": [
+                        {
+                            "type": "Ext.Img",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": 200,
+                                "id": "graphiteImg",
+                                "src": "http://192.168.0.3:8000/render/?width=200&height=200&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes",
+                                "width": 200
+                            },
+                            "designerId": "00fc46cb-391e-43da-9a80-1a1b852c0ba4"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "collapsed": false,
+                        "collapsible": false,
+                        "container|align": "stretch",
+                        "dock": null,
+                        "layout": "hbox",
+                        "layout|flex": 1,
+                        "layout|region": "center",
+                        "title": "Sencha"
+                    },
+                    "designerId": "302daf81-1772-4e7e-b14e-c59e8d3999cf",
+                    "cn": [
+                        {
+                            "type": "Ext.chart.Chart",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "animate": [
+                                    "true"
+                                ],
+                                "flex": null,
+                                "height": 250,
+                                "id": "sampleChart",
+                                "insetPadding": 20,
+                                "itemId": "sampleChart",
+                                "layout|flex": 1,
+                                "store": "SampleStore",
+                                "width": null
+                            },
+                            "designerId": "b0a19125-db11-4068-89af-c4d3572966cd",
+                            "isBuiltIn": true,
+                            "iconCls": "icon-line-chart",
+                            "autoName": "LineChart",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "flex",
+                                    "type": "string"
+                                }
+                            ],
+                            "cn": [
+                                {
+                                    "type": "Ext.chart.axis.Category",
+                                    "reference": {
+                                        "name": "axes",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fields": [
+                                            "cate"
+                                        ],
+                                        "grid": false,
+                                        "title": null
+                                    },
+                                    "configAlternates": {
+                                        "grid": "boolean"
+                                    },
+                                    "designerId": "d16b9354-1d42-4128-8a81-3a2eb8c7fc08"
+                                },
+                                {
+                                    "type": "Ext.chart.axis.Numeric",
+                                    "reference": {
+                                        "name": "axes",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fields": [
+                                            "test"
+                                        ],
+                                        "grid": true,
+                                        "label": [
+                                            "\"\""
+                                        ],
+                                        "maximum": null,
+                                        "minimum": null,
+                                        "title": null
+                                    },
+                                    "configAlternates": {
+                                        "grid": "boolean"
+                                    },
+                                    "designerId": "fe8a6c5f-8e80-4669-bbb0-c45802a2791e"
+                                },
+                                {
+                                    "type": "Ext.chart.series.Line",
+                                    "reference": {
+                                        "name": "series",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "label": [
+                                            "\"\""
+                                        ],
+                                        "showMarkers": false,
+                                        "smooth": 3,
+                                        "xField": "cate",
+                                        "yField": [
+                                            "test"
+                                        ]
+                                    },
+                                    "designerId": "608a2b0c-d21d-4a32-be0c-4b81d4162dbf"
+                                },
+                                {
+                                    "type": "Ext.chart.Legend",
+                                    "reference": {
+                                        "name": "legend",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "designerId": "8093ec36-7344-4db0-bd32-800ffa80e5db"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

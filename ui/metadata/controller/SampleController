@@ -1,0 +1,149 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "SampleController"
+    },
+    "designerId": "849baa9a-7294-4073-85e9-d35a2b5cdc0f",
+    "cn": [
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "monitoringBtn",
+                "selector": "#monitoringBtn"
+            },
+            "designerId": "3853b378-c863-4c5a-a36e-20d406182ecf"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#monitoringBtn",
+                "designer|targetType": "Ext.button.Button",
+                "fn": "onMonitoringBtnClick",
+                "implHandler": [
+                    "",
+                    "/**",
+                    " * Sample 메뉴 버튼 클릭 시 수행되는 function",
+                    " */",
+                    "var centerContainer = Ext.getCmp('centerContainer'),",
+                    "    dashboardBtn = Ext.getCmp('dashboardBtn'),",
+                    "    managementBtn = Ext.getCmp('managementBtn'),",
+                    "    menuPanel = Ext.getCmp('menuPanel');",
+                    "",
+                    "// 현재 선택된 item이 dashboardPanel일 경우 무시한다.",
+                    "if (centerContainer.layout.getActiveItem().itemId === \"samplePanel\") {",
+                    "    button.toggle(true);",
+                    "    return;",
+                    "}",
+                    "",
+                    "dashboardBtn.toggle(false);",
+                    "managementBtn.toggle(false);",
+                    "button.toggle(true);",
+                    "",
+                    "menuPanel.layout.setActiveItem(0);",
+                    "centerContainer.layout.setActiveItem(2);",
+                    "",
+                    "//this.renderDashboard();",
+                    "",
+                    "Ext.Ajax.request({",
+                    "    url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',",
+                    "    disableCaching : true,",
+                    "    success: function(response){",
+                    "        ",
+                    "        var columnData = Ext.decode(response.responseText);",
+                    "        var data = columnData[0];",
+                    "",
+                    "        // Get the quality field from record",
+                    "        // Update chart with data",
+                    "        var chartList = [];",
+                    "        Ext.each(data.datapoints, function (chartData) {",
+                    "            var chartCol = {};",
+                    "            chartCol.test = chartData[0];",
+                    "            chartCol.cate = chartData[1];",
+                    "            chartList.push(chartCol);",
+                    "        });",
+                    "        ",
+                    "        Ext.getCmp('sampleChart').series.getAt(0).setTitle(data.target);",
+                    "        ",
+                    "        Ext.getCmp('sampleChart').getStore().loadData(chartList, false);",
+                    "        ",
+                    "    }",
+                    "});"
+                ],
+                "name": "click",
+                "scope": "me"
+            },
+            "designerId": "b1ac0be1-d331-4a5d-afa8-09ed099389af"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "myContainer1",
+                "selector": "#mycontainer1"
+            },
+            "designerId": "bad2e1e9-866e-4fb3-b47e-fdc679f76c75"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#mypanel94",
+                "designer|targetType": "Ext.container.Container",
+                "fn": "onContainerResize",
+                "implHandler": [
+                    "",
+                    "var cmpWidth = width - 5;",
+                    "var cmpHeight = height - 40;",
+                    "",
+                    "var imgCmp = Ext.getCmp('graphiteImg');",
+                    "",
+                    "imgCmp.setWidth(cmpWidth);",
+                    "imgCmp.setHeight(cmpHeight);",
+                    "",
+                    "imgCmp.setSrc('http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes'",
+                    "        + '&width='+cmpWidth + '&height=' + cmpHeight);",
+                    ""
+                ],
+                "name": "resize",
+                "scope": "me"
+            },
+            "designerId": "5397eda2-e93c-4053-ab69-d00eb94a3291"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "mypanel94",
+                "selector": "#mypanel94"
+            },
+            "designerId": "efa5e2d8-096f-44e9-aa55-349ff675d494"
+        }
+    ]
+}

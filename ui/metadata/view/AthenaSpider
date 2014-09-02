@@ -220,6 +220,23 @@
                                         "text": "NFV Management"
                                     },
                                     "designerId": "4bfdc802-de40-4ea7-8a0e-8b2ca511ab84"
+                                },
+                                {
+                                    "type": "Ext.button.Button",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "enableToggle": true,
+                                        "icon": null,
+                                        "id": "monitoringBtn",
+                                        "itemId": "monitoringBtn",
+                                        "scale": "medium",
+                                        "text": "Sample Monitoring"
+                                    },
+                                    "designerId": "190639bc-e1a5-44b2-8827-000b45def140"
                                 }
                             ]
                         }
@@ -3329,6 +3346,19 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "type": "linkedinstance",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "id": "samplePanel"
+                    },
+                    "designerId": "1df16852-3010-4d50-922a-3c2e26217d5e",
+                    "masterInstanceId": "39eb896a-2ca4-4a41-adc4-0cc0fbcbaf8c"
                 }
             ]
         }

@@ -13,10 +13,12 @@
             "MenuController",
             "DashboardController",
             "HostManagementController",
-            "NetoworkInstanceController"
+            "NetoworkInstanceController",
+            "SampleController"
         ],
         "models": [
-            "HostListData"
+            "HostListData",
+            "SampleModel"
         ],
         "name": "spider",
         "requires": [
@@ -25,11 +27,13 @@
         "stores": [
             "ServerListStore",
             "HostListStore",
-            "ChartDataStore"
+            "ChartDataStore",
+            "SampleStore"
         ],
         "views": [
             "AthenaSpider",
-            "MyPanel31"
+            "MyPanel31",
+            "MyContainer1"
         ]
     },
     "designerId": "application"

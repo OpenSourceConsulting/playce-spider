@@ -18,6 +18,7 @@ Ext.define('spider.view.AthenaSpider', {
 
     requires: [
         'spider.view.MyPanel31',
+        'spider.view.MyContainer1',
         'Ext.Img',
         'Ext.toolbar.Fill',
         'Ext.form.Label',
@@ -150,6 +151,14 @@ Ext.define('spider.view.AthenaSpider', {
                                             icon: 'resources/images/icons/management.png',
                                             scale: 'medium',
                                             text: 'NFV Management'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            id: 'monitoringBtn',
+                                            itemId: 'monitoringBtn',
+                                            enableToggle: true,
+                                            scale: 'medium',
+                                            text: 'Sample Monitoring'
                                         }
                                     ]
                                 }
@@ -1658,6 +1667,10 @@ Ext.define('spider.view.AthenaSpider', {
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            xtype: 'mycontainer1',
+                            id: 'samplePanel'
                         }
                     ]
                 }

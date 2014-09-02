@@ -14,7 +14,7 @@
                 "width": null
             }
         },
-        "urlPrefix": "http://localhost:1841/athena-spider/",
+        "urlPrefix": "http://localhost:1841/",
         "exportPath": "",
         "spacesToIndent": 4,
         "sdkPath": "",
@@ -22,7 +22,11 @@
         "genTimestamps": false,
         "cacheBust": false,
         "buildShouldOverwriteIndex": true,
-        "generateArchitectVersion": true
+        "generateArchitectVersion": true,
+        "lastBuildSelection": {
+            "value": "webBuild",
+            "display": "Build web app"
+        }
     },
     "xdsVersion": "3.0.4",
     "xdsBuild": 1386,
@@ -32,12 +36,14 @@
     "viewOrderMap": {
         "view": [
             "948ddada-3391-4646-a025-1c11823f32b3",
-            "9b739b4c-68bd-4169-979c-379be47117e4"
+            "9b739b4c-68bd-4169-979c-379be47117e4",
+            "39eb896a-2ca4-4a41-adc4-0cc0fbcbaf8c"
         ],
         "store": [
             "8c7d1916-bb60-4648-b2c3-c766c7cccf3d",
             "e7464f3b-9b9b-4953-811a-1e7801e633ed",
-            "e1a1db0e-4e00-4686-95b4-7cb4d9009a49"
+            "e1a1db0e-4e00-4686-95b4-7cb4d9009a49",
+            "2ed29fba-879c-41f2-b9fe-3ebf57b46394"
         ],
         "controller": [
             "d6fa6c36-6f0b-4f72-a6f0-b4f3f97e5031",
@@ -46,10 +52,12 @@
             "c34b50b2-314d-45d8-8b91-b2a4bf025973",
             "1a1e5142-8285-4926-8418-239c3b9677df",
             "0eb4e7ed-8602-4b32-8083-58bafa7d6c08",
-            "3ea5d800-6e04-46b9-8c53-3ce0516bab92"
+            "3ea5d800-6e04-46b9-8c53-3ce0516bab92",
+            "849baa9a-7294-4073-85e9-d35a2b5cdc0f"
         ],
         "model": [
-            "4a5c8737-78ce-4a8b-b21c-d4c4f41c6d7c"
+            "4a5c8737-78ce-4a8b-b21c-d4c4f41c6d7c",
+            "b47a6f4a-deb0-4d94-bbc5-76dbbbb1aed1"
         ],
         "resource": [
             "f285a095-0040-4629-abf2-74be70bab208",

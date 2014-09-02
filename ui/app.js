@@ -25,16 +25,19 @@ Ext.application({
         'Ext.window.MessageBox'
     ],
     models: [
-        'HostListData'
+        'HostListData',
+        'SampleModel'
     ],
     stores: [
         'ServerListStore',
         'HostListStore',
-        'ChartDataStore'
+        'ChartDataStore',
+        'SampleStore'
     ],
     views: [
         'AthenaSpider',
-        'MyPanel31'
+        'MyPanel31',
+        'MyContainer1'
     ],
     controllers: [
         'HeaderController',
@@ -43,7 +46,8 @@ Ext.application({
         'MenuController',
         'DashboardController',
         'HostManagementController',
-        'NetoworkInstanceController'
+        'NetoworkInstanceController',
+        'SampleController'
     ],
     name: 'spider',
 

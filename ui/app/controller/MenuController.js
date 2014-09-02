@@ -65,6 +65,8 @@ Ext.define('spider.controller.MenuController', {
         dashboardBtn.toggle(true);
         managementBtn.toggle(false);
 
+        Ext.getCmp('monitoringBtn').toggle(false);
+
         menuPanel.layout.setActiveItem(0);
         centerContainer.layout.setActiveItem(0);
 
@@ -88,6 +90,8 @@ Ext.define('spider.controller.MenuController', {
 
         managementBtn.toggle(true);
         dashboardBtn.toggle(false);
+
+        Ext.getCmp('monitoringBtn').toggle(false);
 
         menuPanel.layout.setActiveItem(1);
         centerContainer.layout.setActiveItem(1);

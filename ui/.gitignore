@@ -1,0 +1,15 @@
+*.class
+/target
+
+.project
+.settings
+.architect
+.sencha
+packages
+ext
+app.json.meta
+build
+build.xml
+build.settings
+*.$old
+sencha_web_start.bat
