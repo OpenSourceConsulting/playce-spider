@@ -1,0 +1,17 @@
+[
+	{
+		'_id':'vm-0011011',
+		'vmhost':'vmhost-001',
+		'type':'nfv',
+		'vmtype':'kvm',
+		'vendor':'vyatta'
+	},
+	{
+		'_id':'vm-0021011',
+		'vmhost':'vmhost-011',
+		'type':'non-nfv',
+		'vmtype':'kvm',
+		'vendor':'vyatta'
+	}
+	
+]

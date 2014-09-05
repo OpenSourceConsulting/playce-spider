@@ -1,0 +1,13 @@
+[
+	{
+		'_id':'vmhost-001',
+		'location':'¥Î¿¸',
+		'type':'kvm'
+	},
+	{
+		'_id':'vmhost-011',
+		'location':'±§¡÷',
+		'type':'kvm'
+	}
+	
+]
