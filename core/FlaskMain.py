@@ -3,22 +3,137 @@ Created on 2014. 9. 4.
 
 @author: jerryj
 '''
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
+import json
+import codecs
+import uuid
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    body = "<form action='/'>name: <input name='name'><br>dept: <input name='dept'><br><p><input type='submit'></form>"
-    name = request.args.get('name', '')
-    dept = request.args.get('dept', '')
-    if name == "":
-        return Response(response=body, mimetype='text/html')
-    else:
-        data1 = "The data has been stored successfully<p>"
-        data2 = "Data: " + name + ", dept: " + dept
-        return Response(response=data1+data2, mimetype='text/html')
+def read_repository(name):
+	print "Name: " + name
+	f = codecs.open(name + ".json", 'r', encoding='utf8')
+	data = f.read()
+	f.close()
+# 	print data
+	jsonData = json.loads(data)
+	return jsonData
+
+def write_repository(name, data):
+	print "Name: " + name
+	f = codecs.open(name + ".new.json", 'w', encoding='utf8')
+	data = f.write(json.dumps(data, indent=4))
+	f.close()
+
+#	Controller API
+
+@app.route("/vmhost/register", methods=['POST'])
+def vmhost_register():
+	data = request.data
+	print 'Data: ' + data
+	jsonData = request.json
+	print 'JSON: ' + json.dumps(jsonData)
+	token = jsonData['token']
+	vmhosts = read_repository("vmhosts")
+	for vmhost in vmhosts:
+		if 'token' in vmhost:
+			if token == vmhost['token']:
+				print vmhost['token']
+				id = str(uuid.uuid4())
+				vmhost['_id'] = id
+				vmhost['hostname'] = jsonData['hostname']
+				vmhost['type'] = jsonData['type']
+				vmhost['addresses'] = jsonData['addresses']
+				vmhost.pop('token')
+	write_repository('vmhosts', vmhosts)
+	return json.dumps({'_id': id})
+
+@app.route("/vm/register", methods=['POST'])
+def vm_register():
+	data = request.data
+	print 'Data: ' + data
+	jsonData = request.json
+	print 'JSON: ' + json.dumps(jsonData)
+	vmhostName = jsonData['vmhost']
+	hostname = jsonData['hostname']
+	
+# 	Finding a VM Host designated in the JSON request
+	vmhosts = read_repository("vmhosts")
+	found = False
+	for vmhost in vmhosts:
+		if vmhost['name'] == vmhostName:
+			found = True
+	
+	if found == True:
+		vms = read_repository("vms")
+		id = str(uuid.uuid4())
+		jsonData['_id'] = id
+		jsonData['name'] = vmhostName + '-' + hostname
+		vms.append(jsonData)
+		write_repository('vms', vms)
+		return json.dumps({'_id': id})
+	else:
+		return 'VM Host(' + vmhostName + ') was not found', 404
+
+#	Monitoring API
+
+@app.route("/mon/vmhost/<id>", methods=['GET'])
+def mon_vmhost(id=None):
+	if id == None:
+		return "No unique id for VM Host", 404
+	
+	vmhosts = read_repository("vmhosts")
+	results = []
+	for vmhost in vmhosts:
+		if '_id' in vmhost and id == vmhost['_id']:
+			results.append(vmhost)
+		elif id == '_all':
+			results.append(vmhost)
+			
+	return json.dumps(results)
+
+@app.route("/mon/vm/<id>", methods=['GET'])
+def mon_vm(id=None):
+	if id == None:
+		return "No unique id for VM Host", 404
+	
+	vms = read_repository("vms")
+	results = []
+	for vm in vms:
+		if '_id' in vm and id == vm['_id']:
+			results.append(vm)
+		elif id == '_all':
+			results.append(vm)
+			
+	return json.dumps(results)
+
+@app.route("/mon/vmbyhost/<id>", methods=['GET'])
+def mon_vmbyhost(id=None):
+	if id == None:
+		return "No unique id for VM Host", 404
+	
+	vmhosts = read_repository("vmhosts")
+	vmhostName = None
+	for vmhost in vmhosts:
+		if '_id' in vmhost and id == vmhost['_id']:
+			vmhostName = vmhost['name']
+
+	print "vmhostName: " + vmhostName
+	
+	if vmhostName != None:
+		vms = read_repository("vms")
+		results = []
+		for vm in vms:
+			print vm['vmhost']
+			if vmhostName == vm['vmhost']:
+				results.append(vm)
+					
+		return json.dumps(results)
+	else:
+		return 'Not found', 404
+		
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5001, debug=True)
+
 

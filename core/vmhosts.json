@@ -1,13 +1,47 @@
 [
 	{
-		'_id':'vmhost-001',
-		'location':'´ëÀü',
-		'type':'kvm'
+		"token": "token008",
+		"name":"KVMHost#8"
 	},
 	{
-		'_id':'vmhost-011',
-		'location':'±¤ÁÖ',
-		'type':'kvm'
+		"token": "token009",
+		"name":"KVMHost#9"
+	},
+	{
+		"_id":"c8b31078-d8d3-4b02-a1ad-c56841176b671",
+		"name":"KVMHost#1",
+		"location":"ëŒ€ì „",
+		"type":"kvm",
+		"address":[
+			{
+				"nic":"eth1",
+				"addr":"10.10.10.1"
+			},
+			{
+				"nic":"eth2",
+				"addr":"20.20.20.1"
+			}
+			
+		]
+		
+	},
+	{
+		"_id":"vmhost-011",
+		"name":"KVMHost#12",
+		"location":"ê´‘ì£¼",
+		"type":"kvm",
+		"address":[
+			{
+				"nic":"eth1",
+				"addr":"10.10.10.1"
+			},
+			{
+				"nic":"eth2",
+				"addr":"20.20.20.1"
+			}
+			
+		]
+		
 	}
 	
 ]
