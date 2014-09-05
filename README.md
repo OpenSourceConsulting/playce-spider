@@ -5,3 +5,4 @@ Major features we're planning
 - Integrated management console UI for multiple virtual devices
 - Automatic provisioning
 
+* Github & FogBugz has been connected
