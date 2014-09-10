@@ -7,6 +7,7 @@ from flask import Flask, request, Response, jsonify
 import json
 import codecs
 import uuid
+import requests
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ def read_repository(name):
 def write_repository(name, data):
 	print "Name: " + name
 	f = codecs.open(name + ".new.json", 'w', encoding='utf8')
-	data = f.write(json.dumps(data, indent=4))
+	data = f.write(json.dumps(data))
 	f.close()
 
 #	Controller API
@@ -133,14 +134,26 @@ def mon_vmbyhost(id=None):
 		return 'Not found', 404
 		
 
+#	Monitoring API
+
+@app.route("/mon/graphite", methods=['GET'])
+def mon_graphite():
+	queryStr = request.query_string
+	result = requests.get('http://192.168.56.12:8000/render?' + queryStr + '&format=json').json()
+	for metric in result:
+		datapoints = metric['datapoints']
+		newDatapoints = []
+		for val in datapoints:
+			newVal = { "value": val[0], "date": val[1]}
+			newDatapoints.append(newVal)
+		metric['datapoints'] = newDatapoints
+	return json.dumps(result) + '\n'
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)
 
 
-# for FogBugz integration
-# for FogBugz integration
-# for FogBugz integration
-# for FogBugz integration
 
 
 
