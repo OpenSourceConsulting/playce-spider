@@ -8,5 +8,67 @@
     "userConfig": {
         "designer|userClassName": "DashboardController"
     },
-    "designerId": "1a1e5142-8285-4926-8418-239c3b9677df"
+    "designerId": "1a1e5142-8285-4926-8418-239c3b9677df",
+    "cn": [
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "application"
+                ],
+                "fn": "init",
+                "implHandler": [
+                    "var dashBoard = this;",
+                    "",
+                    "var dashBoardContextMenu = new Ext.menu.Menu({",
+                    "    items:",
+                    "    [",
+                    "        { text: 'NIC 관리',",
+                    "         handler: function() {",
+                    "             alert('NIC 관리');",
+                    "         }",
+                    "        },",
+                    "        { text: '라우팅',",
+                    "         handler: function() {",
+                    "             alert('라우팅');",
+                    "         }",
+                    "        },",
+                    "        { text: '파이어월',",
+                    "         handler: function() {",
+                    "             alert('파이어월');",
+                    "         }",
+                    "        },",
+                    "        { text: 'NAT 관리',",
+                    "         handler: function() {",
+                    "             alert('NAT 관리');",
+                    "         }",
+                    "        },",
+                    "        {",
+                    "            xtype: 'menuseparator'",
+                    "        },",
+                    "        { text: 'VM 시작/중단',",
+                    "         handler: function() {",
+                    "             alert('VM 시작/중단');",
+                    "         }",
+                    "        }",
+                    "    ]",
+                    "",
+                    "});",
+                    "",
+                    "//Dashboard Menu Constants",
+                    "Ext.define('dashboardConstants', {",
+                    "    singleton: true,",
+                    "    me : dashBoard,",
+                    "    contextMenu: dashBoardContextMenu",
+                    "});"
+                ]
+            },
+            "designerId": "4f1a0368-c71b-4659-8ccd-893667a7f1a4"
+        }
+    ]
 }

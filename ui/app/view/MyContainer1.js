@@ -59,7 +59,13 @@ Ext.define('spider.view.MyContainer1', {
                                     width: 200,
                                     src: 'http://192.168.0.3:8000/render/?width=200&height=200&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes'
                                 }
-                            ]
+                            ],
+                            listeners: {
+                                resize: {
+                                    fn: me.onMypanel94Resize,
+                                    scope: me
+                                }
+                            }
                         },
                         {
                             xtype: 'panel',
@@ -123,6 +129,19 @@ Ext.define('spider.view.MyContainer1', {
         });
 
         me.callParent(arguments);
+    },
+
+    onMypanel94Resize: function(component, width, height, oldWidth, oldHeight, eOpts) {
+        var cmpWidth = width - 5;
+        var cmpHeight = height - 40;
+
+        var imgCmp = Ext.getCmp('graphiteImg');
+
+        imgCmp.setWidth(cmpWidth);
+        imgCmp.setHeight(cmpHeight);
+
+        imgCmp.setSrc('http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes'
+                + '&width='+cmpWidth + '&height=' + cmpHeight);
     }
 
 });

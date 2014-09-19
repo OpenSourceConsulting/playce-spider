@@ -83,8 +83,21 @@
             },
             "codeClass": null,
             "userConfig": {
+                "ref": "monitoringBtn",
+                "selector": "#monitoringBtn"
+            },
+            "designerId": "f1e96d98-b459-4bb1-92b4-2421767f8aaa"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "ref": "centerContainer",
-                "selector": "#centerContainer"
+                "selector": "#centerPanel"
             },
             "designerId": "7d8554e4-19c9-4449-b9af-2f409fcad7ee"
         },
@@ -100,6 +113,19 @@
                 "selector": "#menuPanel"
             },
             "designerId": "41375451-12ec-4ef5-97bf-e7b6371b1070"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "mainViewBtn",
+                "selector": "#mainViewBtn"
+            },
+            "designerId": "2735abb2-b38b-4d5d-9a5f-4a99fbec130a"
         },
         {
             "type": "fixedfunction",
@@ -127,7 +153,15 @@
                     "    listMenuPanel.collapseAll();",
                     "});",
                     "",
-                    "this.renderDashboard();"
+                    "//this.renderDashboard();",
+                    "/*",
+                    "",
+                    "Ext.select(\".dashboard-graph-panel\").on('resize', function(panel, w, h) {",
+                    "    alert('Panel resized to ' + w + 'x' + h);",
+                    "});",
+                    "",
+                    "",
+                    "*/"
                 ]
             },
             "designerId": "3ab9c6dd-78c4-43d7-8c59-10ac1379e55c"
@@ -150,6 +184,8 @@
                     "var centerContainer = this.getCenterContainer(),",
                     "    dashboardBtn = this.getDashboardBtn(),",
                     "    managementBtn = this.getManagementBtn(),",
+                    "    monitoringBtn = this.getMonitoringBtn(),",
+                    "    mainViewBtn = this.getMainViewBtn(),",
                     "    menuPanel = this.getMenuPanel();",
                     "",
                     "// 현재 선택된 item이 dashboardPanel일 경우 무시한다.",
@@ -160,13 +196,13 @@
                     "",
                     "dashboardBtn.toggle(true);",
                     "managementBtn.toggle(false);",
+                    "monitoringBtn.toggle(false);",
+                    "mainViewBtn.toggle(false);",
                     "",
-                    "Ext.getCmp('monitoringBtn').toggle(false);",
-                    "",
-                    "menuPanel.layout.setActiveItem(0);",
                     "centerContainer.layout.setActiveItem(0);",
                     "",
-                    "this.renderDashboard();"
+                    "//this.renderDashboard();",
+                    "clearInterval(GlobalData.intervalId2);"
                 ],
                 "name": "click",
                 "scope": "me"
@@ -191,6 +227,8 @@
                     "var centerContainer = this.getCenterContainer(),",
                     "    dashboardBtn = this.getDashboardBtn(),",
                     "    managementBtn = this.getManagementBtn(),",
+                    "    monitoringBtn = this.getMonitoringBtn(),",
+                    "    mainViewBtn = this.getMainViewBtn(),",
                     "    menuPanel = this.getMenuPanel();",
                     "",
                     "// 현재 선택된 item이 managementPanel일 경우 무시한다.",
@@ -201,18 +239,20 @@
                     "",
                     "managementBtn.toggle(true);",
                     "dashboardBtn.toggle(false);",
+                    "monitoringBtn.toggle(false);",
+                    "mainViewBtn.toggle(false);",
                     "",
                     "Ext.getCmp('monitoringBtn').toggle(false);",
                     "",
-                    "menuPanel.layout.setActiveItem(1);",
                     "centerContainer.layout.setActiveItem(1);",
                     "",
-                    "Ext.getCmp('hostMgmtBtn').fireEvent('click');",
-                    "Ext.getCmp('utilizationBtn').fireEvent('click');",
+                    "vmConstants.me.initVmManagement();",
+                    "//Ext.getCmp('hostMgmtBtn').fireEvent('click');",
+                    "//Ext.getCmp('utilizationBtn').fireEvent('click');",
                     "",
-                    "if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {",
-                    "    Ext.getCmp('hostGridPanel').selModel.select(0);",
-                    "}"
+                    "//if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {",
+                    "//    Ext.getCmp('hostGridPanel').selModel.select(0);",
+                    "//}"
                 ],
                 "name": "click",
                 "scope": "me"
@@ -229,7 +269,8 @@
             "userConfig": {
                 "fn": "renderDashboard",
                 "implHandler": [
-                    "var dashboardPanel = Ext.getCmp('dashboardPanel');",
+                    "",
+                    "var dashboardPanel = Ext.getCmp('DashboardPanel');",
                     "",
                     "dashboardPanel.setLoading(true);",
                     "",
@@ -830,6 +871,117 @@
                 ]
             },
             "designerId": "189dc96b-a674-4338-910b-1153acb0c4e3"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#monitoringBtn",
+                "designer|targetType": "Ext.button.Button",
+                "fn": "onMonitoringBtnClick",
+                "implHandler": [
+                    "",
+                    "/**",
+                    " * Sample 메뉴 버튼 클릭 시 수행되는 function",
+                    " */",
+                    "var centerContainer = this.getCenterContainer(),",
+                    "    dashboardBtn = this.getDashboardBtn(),",
+                    "    managementBtn = this.getManagementBtn(),",
+                    "    monitoringBtn = this.getMonitoringBtn(),",
+                    "    mainViewBtn = this.getMainViewBtn(),",
+                    "    menuPanel = this.getMenuPanel();",
+                    "",
+                    "// 현재 선택된 item이 dashboardPanel일 경우 무시한다.",
+                    "if (centerContainer.layout.getActiveItem().itemId === \"samplePanel\") {",
+                    "    button.toggle(true);",
+                    "    return;",
+                    "}",
+                    "",
+                    "dashboardBtn.toggle(false);",
+                    "managementBtn.toggle(false);",
+                    "mainViewBtn.toggle(false);",
+                    "monitoringBtn.toggle(true);",
+                    "",
+                    "centerContainer.layout.setActiveItem(2);",
+                    "",
+                    "Ext.Ajax.request({",
+                    "    url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',",
+                    "    disableCaching : true,",
+                    "    success: function(response){",
+                    "",
+                    "        var columnData = Ext.decode(response.responseText);",
+                    "        var data = columnData[0];",
+                    "",
+                    "        // Get the quality field from record",
+                    "        // Update chart with data",
+                    "        var chartList = [];",
+                    "        Ext.each(data.datapoints, function (chartData) {",
+                    "            var chartCol = {};",
+                    "            chartCol.test = chartData.value;",
+                    "            chartCol.cate = chartData.date;",
+                    "            chartList.push(chartCol);",
+                    "        });",
+                    "",
+                    "        Ext.getCmp('sampleChart').series.getAt(0).setTitle(data.target);",
+                    "",
+                    "        Ext.getCmp('sampleChart').getStore().loadData(chartList, false);",
+                    "",
+                    "    }",
+                    "});",
+                    "",
+                    "clearInterval(GlobalData.intervalId2);"
+                ],
+                "name": "click",
+                "scope": "me"
+            },
+            "designerId": "6bf02c35-56fb-4c59-bfb1-9bc9737448be"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#mainViewBtn",
+                "designer|targetType": "Ext.button.Button",
+                "fn": "onMainViewBtnClick",
+                "implHandler": [
+                    "",
+                    "/**",
+                    " * Main View 메뉴 버튼 클릭 시 수행되는 function",
+                    " */",
+                    "var centerContainer = this.getCenterContainer(),",
+                    "    dashboardBtn = this.getDashboardBtn(),",
+                    "    managementBtn = this.getManagementBtn(),",
+                    "    monitoringBtn = this.getMonitoringBtn(),",
+                    "    mainViewBtn = this.getMainViewBtn(),",
+                    "    menuPanel = this.getMenuPanel();",
+                    "",
+                    "// 현재 선택된 item이 dashboardPanel일 경우 무시한다.",
+                    "if (centerContainer.layout.getActiveItem().itemId === \"samplePanel\") {",
+                    "    button.toggle(true);",
+                    "    return;",
+                    "}",
+                    "",
+                    "dashboardBtn.toggle(false);",
+                    "managementBtn.toggle(false);",
+                    "monitoringBtn.toggle(false);",
+                    "mainViewBtn.toggle(true);",
+                    "",
+                    "centerContainer.layout.setActiveItem(3);",
+                    "",
+                    "clearInterval(GlobalData.intervalId2);"
+                ],
+                "name": "click",
+                "scope": "me"
+            },
+            "designerId": "105907ea-48c8-4a10-bcd9-43102f287fb7"
         }
     ]
 }

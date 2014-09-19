@@ -37,7 +37,11 @@ Ext.application({
     views: [
         'AthenaSpider',
         'MyPanel31',
-        'MyContainer1'
+        'MyContainer1',
+        'MyPanel93',
+        'DashBoardNodePanel',
+        'VMInfoWindow',
+        'vmMgmtPanel'
     ],
     controllers: [
         'HeaderController',
@@ -45,9 +49,7 @@ Ext.application({
         'GlobalController',
         'MenuController',
         'DashboardController',
-        'HostManagementController',
-        'NetoworkInstanceController',
-        'SampleController'
+        'VmManagementController'
     ],
     name: 'spider',
 

@@ -1,0 +1,46 @@
+{
+    "type": "Ext.panel.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoScroll": true,
+        "designer|userAlias": "dashboardpanel",
+        "designer|userClassName": "DashboardPanel",
+        "id": "DashboardPanel",
+        "itemId": "DashboardPanel",
+        "layout": "column",
+        "title": null
+    },
+    "designerId": "0f66f808-6d0a-416c-8073-fe7069aa4d3a",
+    "cn": [
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "layout|columnWidth": 0.5
+            },
+            "designerId": "51b22bf1-0d7c-4f0e-b5cc-4bca79581f46",
+            "masterInstanceId": "4eb80fef-a2f0-48ac-99f6-54852805210d"
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "layout|columnWidth": 0.5
+            },
+            "designerId": "b647c96d-fc58-4618-9f46-5f15938dbfa2",
+            "masterInstanceId": "4eb80fef-a2f0-48ac-99f6-54852805210d"
+        }
+    ]
+}
