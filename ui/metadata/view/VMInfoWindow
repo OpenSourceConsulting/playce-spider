@@ -1,0 +1,1076 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "VMInfoWindow",
+        "designer|userClassName": "VMInfoWindow",
+        "height": 531,
+        "modal": true,
+        "resizable": false,
+        "title": "VM Info",
+        "width": 600
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "02d4a011-77dc-4bc5-bd31-0a40017c7ee9",
+    "cn": [
+        {
+            "type": "Ext.panel.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "header": false,
+                "layout": "column",
+                "title": "My Panel"
+            },
+            "designerId": "ae091d06-d1b8-4c96-81f4-3b0b5d04a267",
+            "cn": [
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "header": false,
+                        "layout|columnWidth": 0.6,
+                        "title": "My Panel"
+                    },
+                    "designerId": "89acdda3-526a-4cf6-afb9-6387a3817ba5",
+                    "cn": [
+                        {
+                            "type": "Ext.panel.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "container|align": "stretch",
+                                "header": false,
+                                "layout": "hbox",
+                                "title": "My Panel"
+                            },
+                            "designerId": "edcdfd17-4f1e-456f-8087-664584bd14c3",
+                            "cn": [
+                                {
+                                    "type": "Ext.panel.Panel",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "container|align": "stretch",
+                                        "layout": "vbox",
+                                        "layout|flex": 3,
+                                        "title": null,
+                                        "width": null
+                                    },
+                                    "designerId": "5e6b1590-8cf9-4401-bbf1-487931836027",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.toolbar.Toolbar",
+                                            "reference": {
+                                                "name": "dockedItems",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "dock": "top",
+                                                "layout|flex": 1
+                                            },
+                                            "designerId": "1acbfba6-ffc6-40c7-90f5-37596b1a2e6e",
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.button.Button",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "height": 30,
+                                                        "layout|flex": 5,
+                                                        "margin": null,
+                                                        "scale": "medium",
+                                                        "text": "VM Host #1",
+                                                        "width": null
+                                                    },
+                                                    "designerId": "e785aa9d-98d4-438b-b647-92767538216b"
+                                                },
+                                                {
+                                                    "type": "Ext.form.Label",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                                        "layout|flex": null,
+                                                        "style": "{text-align: center;}",
+                                                        "text": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "style": "string"
+                                                    },
+                                                    "designerId": "b7a6ff26-903b-4650-b004-52ef1bca7376"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Ext.panel.Panel",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "animCollapse": false,
+                                                "cls": "dashboard-graph-panel",
+                                                "collapsed": false,
+                                                "collapsible": false,
+                                                "dock": null,
+                                                "header": false,
+                                                "height": 45,
+                                                "html": null,
+                                                "itemId": "mypanel95",
+                                                "layout|flex": 1,
+                                                "split": null,
+                                                "title": "Graphite",
+                                                "titleCollapse": false,
+                                                "width": null
+                                            },
+                                            "configAlternates": {
+                                                "split": "boolean",
+                                                "html": "string"
+                                            },
+                                            "designerId": "3ef12b39-510e-4e54-9709-b552e49f38d5",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "split",
+                                                    "type": "string"
+                                                }
+                                            ],
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.Img",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "cls": "dashboard-graph-img",
+                                                        "flex": null,
+                                                        "height": null,
+                                                        "id": null,
+                                                        "src": "http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=300&height=82",
+                                                        "width": null
+                                                    },
+                                                    "designerId": "2d3d2641-e06a-4323-a459-acce1cc4dbd5",
+                                                    "customConfigs": [
+                                                        {
+                                                            "group": "(Custom Properties)",
+                                                            "name": "flex",
+                                                            "type": "string"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Ext.panel.Panel",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "animCollapse": false,
+                                                "cls": "dashboard-graph-panel",
+                                                "collapsed": false,
+                                                "collapsible": false,
+                                                "dock": null,
+                                                "header": false,
+                                                "height": 45,
+                                                "itemId": "mypanel98",
+                                                "layout|flex": 1,
+                                                "split": null,
+                                                "title": "Graphite",
+                                                "titleCollapse": false,
+                                                "width": null
+                                            },
+                                            "configAlternates": {
+                                                "split": "boolean",
+                                                "html": "string"
+                                            },
+                                            "designerId": "b51d3184-5899-4fb7-aade-a135b92070c7",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "split",
+                                                    "type": "string"
+                                                }
+                                            ],
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.Img",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "cls": "dashboard-graph-img",
+                                                        "height": null,
+                                                        "id": null,
+                                                        "src": "http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=300&height=82",
+                                                        "width": null
+                                                    },
+                                                    "designerId": "c9f5856f-2ef1-42f5-b5d9-e0adfffd3437"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Ext.panel.Panel",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "animCollapse": false,
+                                                "cls": "dashboard-graph-panel",
+                                                "collapsed": false,
+                                                "collapsible": false,
+                                                "dock": null,
+                                                "header": false,
+                                                "height": 45,
+                                                "itemId": "mypanel99",
+                                                "layout|flex": 1,
+                                                "split": null,
+                                                "title": "Graphite",
+                                                "titleCollapse": false,
+                                                "width": null
+                                            },
+                                            "configAlternates": {
+                                                "split": "boolean",
+                                                "html": "string"
+                                            },
+                                            "designerId": "68a20439-8301-4838-8d44-ff15e612a4c5",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "split",
+                                                    "type": "string"
+                                                }
+                                            ],
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.Img",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "cls": "dashboard-graph-img",
+                                                        "height": null,
+                                                        "id": null,
+                                                        "src": "http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=300&height=82",
+                                                        "width": null
+                                                    },
+                                                    "designerId": "8f780cb8-95b7-4499-bdf2-525d8f4ca907"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Ext.panel.Panel",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "container|align": "stretch",
+                                        "layout": "vbox",
+                                        "layout|flex": null,
+                                        "margin": "0 20 0 0",
+                                        "title": null,
+                                        "width": 50
+                                    },
+                                    "designerId": "b1a78288-0794-49c7-b781-1a24b3874e98",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.form.Label",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "layout|flex": 1,
+                                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                                "text": null
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "7c1dbde1-81ee-40ac-a1e2-292bf8c9cad8"
+                                        },
+                                        {
+                                            "type": "Ext.form.Label",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                                "layout|flex": 1,
+                                                "style": "{text-align: center;}",
+                                                "text": null
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "5d95cbff-c7dc-4bed-998c-4b092d756fdf"
+                                        },
+                                        {
+                                            "type": "Ext.form.Label",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                                "layout|flex": 1,
+                                                "style": "{text-align: center;}",
+                                                "text": null
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "06af5f22-0ffa-4e80-84da-b4fd0831e3fc"
+                                        },
+                                        {
+                                            "type": "Ext.form.Label",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                                "layout|flex": 1,
+                                                "style": "{text-align: center;}",
+                                                "text": null
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "4817dd7b-9376-4a87-9f7d-eb9d995dde36"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.form.FieldSet",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": 242,
+                                "margin": "10 10 0 15",
+                                "title": "VM Host 상세정보"
+                            },
+                            "designerId": "feea30b5-b8bd-4367-a7e7-7f528ede2aac"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "autoScroll": true,
+                        "container|align": "stretch",
+                        "header": false,
+                        "layout": "hbox",
+                        "layout|columnWidth": 0.4,
+                        "title": "My Panel"
+                    },
+                    "designerId": "a3ea50bc-0811-4814-9f3b-222c9b5d677b",
+                    "cn": [
+                        {
+                            "type": "Ext.panel.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "container|align": "stretch",
+                                "layout": "vbox",
+                                "layout|flex": 1,
+                                "title": null,
+                                "width": null
+                            },
+                            "designerId": "35613b5d-432a-4dca-b84f-07fd1a568382",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "a660b284-1e41-4aa1-aa37-85714d604d19"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                        "text": "NFV1-1"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "d61f5f7d-89cc-45f4-b3ee-1eb562dc1c75"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                        "text": "NFV1-2"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "5e4fefc7-2f0d-4203-86e5-c74b20fcdaad"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                        "text": "NFV1-3"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "26f58efe-d684-48f6-b62f-612a2d3bcc16"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                        "text": "NFV1-4"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "ce7ff9d8-985e-42b4-96b7-6f3e8d187e33"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                        "text": "NFV1-5"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "a2fc7706-1192-464c-8204-c22c51d43c53"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                        "text": "NFV1-6"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "dba1b775-e2d1-4d34-8c67-74773a8828eb"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.panel.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "container|align": "stretch",
+                                "layout": "vbox",
+                                "layout|flex": 1,
+                                "title": null,
+                                "width": null
+                            },
+                            "designerId": "f64bd514-ba7e-4622-9105-df05e72ddff3",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": null,
+                                        "html": "<center><b>CPU</b></center>",
+                                        "layout|flex": 1,
+                                        "layout|margins": null,
+                                        "margin": null,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "65ef08ba-28ad-4950-9745-e07d36b6ae30"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "b6bc1c02-71c4-4950-8aa2-47063c1b3530"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "c451258e-51d9-4a70-8a6e-a2f6f1b2e28b"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "76527f7e-1c9c-4710-8af2-d53dbc6f2b48"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "4325b06e-5346-47d6-ab6e-4c22f5897f21"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "f846dc8d-cc4f-465d-b1a2-499f14c6be32"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "<center><img src=\"resources/images/icons/status_04.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "6a715311-536f-46c1-b334-63e4655f48bf"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.panel.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "container|align": "stretch",
+                                "layout": "vbox",
+                                "layout|flex": 1,
+                                "title": null,
+                                "width": null
+                            },
+                            "designerId": "677f2471-be1b-4e5a-9938-ff3d85e67cae",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": null,
+                                        "html": "<center><b>Mem</b></center>",
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;}",
+                                        "text": ""
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "a38a75dc-1b1a-4c83-b8ac-c4d60e6ba57e"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_05.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "bd6a9f49-d98d-434f-bba2-5d940c1cedd3"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_05.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "1eda9427-b828-450f-9229-989a7b1be047"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_04.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "9089d4e7-a35c-45dc-af70-39c4539dce3e"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "c19adb07-12a3-4c12-8119-b18bf6ffc60f"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "be790966-534a-4dfc-90c0-14498dabb140"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "da8b409b-b108-4b19-8b3a-4edb98876f05"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.panel.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "container|align": "stretch",
+                                "layout": "vbox",
+                                "layout|flex": 1,
+                                "title": null,
+                                "width": null
+                            },
+                            "designerId": "6efa25d6-ae33-4104-95ca-59faf513ebd2",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": null,
+                                        "html": "<center><b>Net</b></center>",
+                                        "layout|flex": 1,
+                                        "style": "{display:inline-block;padding-top:10px;height: 36px;}",
+                                        "text": ""
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "a156a994-03d6-4357-9f7c-73db793d481e"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_05.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "8abaf216-707d-46b1-adfe-67d3bc00279e"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_04.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "3eff3ce9-21f1-4b70-8225-03cfd8dcde78"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "46523d0a-fb44-48a0-8616-3f6042376825"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "b0558839-d7c6-4ed4-9b1b-aa282305cf14"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "a348aa4a-521f-4826-a37e-54766774b411"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "height": 36,
+                                        "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "layout|flex": 1,
+                                        "style": "{text-align: center;}",
+                                        "text": null
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "945609d6-681e-4f5a-9f31-6c15772a638e"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.toolbar.Toolbar",
+            "reference": {
+                "name": "dockedItems",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|pack": "end",
+                "designer|uiInterfaceName": "footer",
+                "dock": "bottom",
+                "ui": "footer"
+            },
+            "designerId": "413c2098-80e8-4a4c-bd44-1aa2d73fb434",
+            "cn": [
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "margin": "0 5 0 5",
+                        "text": "VM  생성"
+                    },
+                    "designerId": "45ec2a49-53bf-487b-870f-cc337ef50294"
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "margin": "0 5 0 5",
+                        "text": "VM  관리"
+                    },
+                    "designerId": "ac679b89-b90c-4708-822f-97b002caf4d4"
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "margin": "0 10 0 5",
+                        "text": "VM  Template"
+                    },
+                    "designerId": "2c9c4807-051f-4f46-ae36-2ff9ef7bcaa9"
+                }
+            ]
+        }
+    ]
+}

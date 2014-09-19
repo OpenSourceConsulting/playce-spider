@@ -14,5 +14,52 @@
  */
 
 Ext.define('spider.controller.DashboardController', {
-    extend: 'Ext.app.Controller'
+    extend: 'Ext.app.Controller',
+
+    init: function(application) {
+        var dashBoard = this;
+
+        var dashBoardContextMenu = new Ext.menu.Menu({
+            items:
+            [
+                { text: 'NIC 관리',
+                 handler: function() {
+                     alert('NIC 관리');
+                 }
+                },
+                { text: '라우팅',
+                 handler: function() {
+                     alert('라우팅');
+                 }
+                },
+                { text: '파이어월',
+                 handler: function() {
+                     alert('파이어월');
+                 }
+                },
+                { text: 'NAT 관리',
+                 handler: function() {
+                     alert('NAT 관리');
+                 }
+                },
+                {
+                    xtype: 'menuseparator'
+                },
+                { text: 'VM 시작/중단',
+                 handler: function() {
+                     alert('VM 시작/중단');
+                 }
+                }
+            ]
+
+        });
+
+        //Dashboard Menu Constants
+        Ext.define('dashboardConstants', {
+            singleton: true,
+            me : dashBoard,
+            contextMenu: dashBoardContextMenu
+        });
+    }
+
 });

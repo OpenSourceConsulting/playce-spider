@@ -38,12 +38,20 @@ Ext.define('spider.controller.MenuController', {
             selector: '#managementBtn'
         },
         {
+            ref: 'monitoringBtn',
+            selector: '#monitoringBtn'
+        },
+        {
             ref: 'centerContainer',
-            selector: '#centerContainer'
+            selector: '#centerPanel'
         },
         {
             ref: 'menuPanel',
             selector: '#menuPanel'
+        },
+        {
+            ref: 'mainViewBtn',
+            selector: '#mainViewBtn'
         }
     ],
 
@@ -54,6 +62,8 @@ Ext.define('spider.controller.MenuController', {
         var centerContainer = this.getCenterContainer(),
             dashboardBtn = this.getDashboardBtn(),
             managementBtn = this.getManagementBtn(),
+            monitoringBtn = this.getMonitoringBtn(),
+            mainViewBtn = this.getMainViewBtn(),
             menuPanel = this.getMenuPanel();
 
         // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
@@ -64,13 +74,13 @@ Ext.define('spider.controller.MenuController', {
 
         dashboardBtn.toggle(true);
         managementBtn.toggle(false);
+        monitoringBtn.toggle(false);
+        mainViewBtn.toggle(false);
 
-        Ext.getCmp('monitoringBtn').toggle(false);
-
-        menuPanel.layout.setActiveItem(0);
         centerContainer.layout.setActiveItem(0);
 
-        this.renderDashboard();
+        //this.renderDashboard();
+        clearInterval(GlobalData.intervalId2);
     },
 
     managementClick: function(button, e, eOpts) {
@@ -80,6 +90,8 @@ Ext.define('spider.controller.MenuController', {
         var centerContainer = this.getCenterContainer(),
             dashboardBtn = this.getDashboardBtn(),
             managementBtn = this.getManagementBtn(),
+            monitoringBtn = this.getMonitoringBtn(),
+            mainViewBtn = this.getMainViewBtn(),
             menuPanel = this.getMenuPanel();
 
         // 현재 선택된 item이 managementPanel일 경우 무시한다.
@@ -90,18 +102,101 @@ Ext.define('spider.controller.MenuController', {
 
         managementBtn.toggle(true);
         dashboardBtn.toggle(false);
+        monitoringBtn.toggle(false);
+        mainViewBtn.toggle(false);
 
         Ext.getCmp('monitoringBtn').toggle(false);
 
-        menuPanel.layout.setActiveItem(1);
         centerContainer.layout.setActiveItem(1);
 
-        Ext.getCmp('hostMgmtBtn').fireEvent('click');
-        Ext.getCmp('utilizationBtn').fireEvent('click');
+        vmConstants.me.initVmManagement();
+        //Ext.getCmp('hostMgmtBtn').fireEvent('click');
+        //Ext.getCmp('utilizationBtn').fireEvent('click');
 
-        if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {
-            Ext.getCmp('hostGridPanel').selModel.select(0);
+        //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {
+        //    Ext.getCmp('hostGridPanel').selModel.select(0);
+        //}
+    },
+
+    onMonitoringBtnClick: function(button, e, eOpts) {
+
+        /**
+         * Sample 메뉴 버튼 클릭 시 수행되는 function
+         */
+        var centerContainer = this.getCenterContainer(),
+            dashboardBtn = this.getDashboardBtn(),
+            managementBtn = this.getManagementBtn(),
+            monitoringBtn = this.getMonitoringBtn(),
+            mainViewBtn = this.getMainViewBtn(),
+            menuPanel = this.getMenuPanel();
+
+        // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
+        if (centerContainer.layout.getActiveItem().itemId === "samplePanel") {
+            button.toggle(true);
+            return;
         }
+
+        dashboardBtn.toggle(false);
+        managementBtn.toggle(false);
+        mainViewBtn.toggle(false);
+        monitoringBtn.toggle(true);
+
+        centerContainer.layout.setActiveItem(2);
+
+        Ext.Ajax.request({
+            url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
+            disableCaching : true,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+                var data = columnData[0];
+
+                // Get the quality field from record
+                // Update chart with data
+                var chartList = [];
+                Ext.each(data.datapoints, function (chartData) {
+                    var chartCol = {};
+                    chartCol.test = chartData.value;
+                    chartCol.cate = chartData.date;
+                    chartList.push(chartCol);
+                });
+
+                Ext.getCmp('sampleChart').series.getAt(0).setTitle(data.target);
+
+                Ext.getCmp('sampleChart').getStore().loadData(chartList, false);
+
+            }
+        });
+
+        clearInterval(GlobalData.intervalId2);
+    },
+
+    onMainViewBtnClick: function(button, e, eOpts) {
+
+        /**
+         * Main View 메뉴 버튼 클릭 시 수행되는 function
+         */
+        var centerContainer = this.getCenterContainer(),
+            dashboardBtn = this.getDashboardBtn(),
+            managementBtn = this.getManagementBtn(),
+            monitoringBtn = this.getMonitoringBtn(),
+            mainViewBtn = this.getMainViewBtn(),
+            menuPanel = this.getMenuPanel();
+
+        // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
+        if (centerContainer.layout.getActiveItem().itemId === "samplePanel") {
+            button.toggle(true);
+            return;
+        }
+
+        dashboardBtn.toggle(false);
+        managementBtn.toggle(false);
+        monitoringBtn.toggle(false);
+        mainViewBtn.toggle(true);
+
+        centerContainer.layout.setActiveItem(3);
+
+        clearInterval(GlobalData.intervalId2);
     },
 
     onLaunch: function() {
@@ -121,11 +216,20 @@ Ext.define('spider.controller.MenuController', {
             listMenuPanel.collapseAll();
         });
 
-        this.renderDashboard();
+        //this.renderDashboard();
+        /*
+
+        Ext.select(".dashboard-graph-panel").on('resize', function(panel, w, h) {
+            alert('Panel resized to ' + w + 'x' + h);
+        });
+
+
+        */
     },
 
     renderDashboard: function() {
-        var dashboardPanel = Ext.getCmp('dashboardPanel');
+
+        var dashboardPanel = Ext.getCmp('DashboardPanel');
 
         dashboardPanel.setLoading(true);
 
@@ -732,6 +836,12 @@ Ext.define('spider.controller.MenuController', {
             },
             "#managementBtn": {
                 click: this.managementClick
+            },
+            "#monitoringBtn": {
+                click: this.onMonitoringBtnClick
+            },
+            "#mainViewBtn": {
+                click: this.onMainViewBtnClick
             }
         });
     }

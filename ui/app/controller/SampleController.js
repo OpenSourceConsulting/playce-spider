@@ -31,79 +31,41 @@ Ext.define('spider.controller.SampleController', {
         }
     ],
 
-    onMonitoringBtnClick: function(button, e, eOpts) {
+    onMypanel95Resize: function(component, width, height, oldWidth, oldHeight, eOpts) {
+        this.resizeGraphImage(component, width, height);
 
-        /**
-         * Sample 메뉴 버튼 클릭 시 수행되는 function
-         */
-        var centerContainer = Ext.getCmp('centerContainer'),
-            dashboardBtn = Ext.getCmp('dashboardBtn'),
-            managementBtn = Ext.getCmp('managementBtn'),
-            menuPanel = Ext.getCmp('menuPanel');
-
-        // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
-        if (centerContainer.layout.getActiveItem().itemId === "samplePanel") {
-            button.toggle(true);
-            return;
-        }
-
-        dashboardBtn.toggle(false);
-        managementBtn.toggle(false);
-        button.toggle(true);
-
-        menuPanel.layout.setActiveItem(0);
-        centerContainer.layout.setActiveItem(2);
-
-        //this.renderDashboard();
-
-        Ext.Ajax.request({
-            url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
-            disableCaching : true,
-            success: function(response){
-
-                var columnData = Ext.decode(response.responseText);
-                var data = columnData[0];
-
-                // Get the quality field from record
-                // Update chart with data
-                var chartList = [];
-                Ext.each(data.datapoints, function (chartData) {
-                    var chartCol = {};
-                    chartCol.test = chartData[0];
-                    chartCol.cate = chartData[1];
-                    chartList.push(chartCol);
-                });
-
-                Ext.getCmp('sampleChart').series.getAt(0).setTitle(data.target);
-
-                Ext.getCmp('sampleChart').getStore().loadData(chartList, false);
-
-            }
-        });
     },
 
-    onContainerResize: function(component, width, height, oldWidth, oldHeight, eOpts) {
+    onMypanel98Resize: function(component, width, height, oldWidth, oldHeight, eOpts) {
+        this.resizeGraphImage(component, width, height);
+    },
 
-        var cmpWidth = width - 5;
-        var cmpHeight = height - 40;
+    onMypanel99Resize: function(component, width, height, oldWidth, oldHeight, eOpts) {
+        this.resizeGraphImage(component, width, height);
+    },
 
-        var imgCmp = Ext.getCmp('graphiteImg');
+    resizeGraphImage: function(cmp, cmpWidth, cmpHeight) {
 
-        imgCmp.setWidth(cmpWidth);
-        imgCmp.setHeight(cmpHeight);
+        var imgCmp = cmp.down('image');
+
+        //imgCmp.setWidth(cmpWidth);
+        //imgCmp.setHeight(cmpHeight);
 
         imgCmp.setSrc('http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes'
-                + '&width='+cmpWidth + '&height=' + cmpHeight);
+                + '&width='+cmpWidth + '&height=' + (cmpHeight+35));
 
     },
 
     init: function(application) {
         this.control({
-            "#monitoringBtn": {
-                click: this.onMonitoringBtnClick
+            "#mypanel95": {
+                resize: this.onMypanel95Resize
             },
-            "#mypanel94": {
-                resize: this.onContainerResize
+            "#mypanel98": {
+                resize: this.onMypanel98Resize
+            },
+            "#mypanel99": {
+                resize: this.onMypanel99Resize
             }
         });
     }

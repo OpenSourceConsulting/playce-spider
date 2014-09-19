@@ -1,0 +1,45 @@
+{
+    "type": "Ext.panel.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoScroll": true,
+        "designer|userClassName": "MyPanel93",
+        "id": "dashboardPanel1",
+        "itemId": "dashboardPanel1",
+        "layout": "column",
+        "title": null
+    },
+    "designerId": "5151a217-0174-4c4c-a7d0-69123eeec3fc",
+    "cn": [
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "layout|columnWidth": 0.5
+            },
+            "designerId": "dd45801e-8133-4daa-b022-ae3353a49b0d",
+            "masterInstanceId": "9b739b4c-68bd-4169-979c-379be47117e4"
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "layout|columnWidth": 0.5
+            },
+            "designerId": "7898de7a-7549-4e18-9a86-158696063c38",
+            "masterInstanceId": "9b739b4c-68bd-4169-979c-379be47117e4"
+        }
+    ]
+}
