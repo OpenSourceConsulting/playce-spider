@@ -65,7 +65,7 @@ def vm_register():
 		if vmhost['name'] == vmhostName:
 			found = True
 	
-	if found == True:
+	if found:
 		vms = read_repository("vms")
 		id = str(uuid.uuid4())
 		jsonData['_id'] = id
