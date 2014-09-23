@@ -148,7 +148,7 @@ def mon_vmbyhost(id=None):
 @app.route("/mon/graphite", methods=['GET'])
 def mon_graphite():
 	queryStr = request.query_string
-	result = requests.get('http://192.168.56.12:8000/render?' + queryStr + '&format=json').json()
+	result = requests.get('http://localhost:8000/render?' + queryStr + '&format=json').json()
 	for metric in result:
 		datapoints = metric['datapoints']
 		newDatapoints = []
@@ -160,7 +160,7 @@ def mon_graphite():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001, debug=False)
+	app.run(host='0.0.0.0', port=5001, debug=False)
 
 
 
