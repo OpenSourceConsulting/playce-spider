@@ -26,6 +26,13 @@ def write_repository(name, data):
 	data = f.write(json.dumps(data))
 	f.close()
 
+@app.route("/shutdown", methods=['GET'])
+def vmhost_shutdown():
+	func = request.environ.get('werkzeug.server.shutdown')
+	if func is None:
+		raise RuntimeError('Not running with the Werkzeug Server')
+	func()
+	
 #	Controller API
 
 @app.route("/vmhost/register", methods=['POST'])
