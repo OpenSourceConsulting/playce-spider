@@ -8,6 +8,36 @@ from fabric.api import run, sudo, env, put, cd
 from fabric.tasks import execute
 import rpyc
 import json
+from pyparsing import *
+
+keywords = CaselessKeyword('interfaces') | CaselessKeyword('nat') | CaselessKeyword('service') | CaselessKeyword('system')
+elementList = Forward()
+string = Word( alphanums+'_-:/.+@$' )
+number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) +
+                   Optional( '.' + Word(nums) ) +
+                   Optional( Word('eE',exact=1) + Word(nums+'+-',nums) ) )
+value = string | number | dblQuotedString.setParseAction(removeQuotes)
+unaryItem = value + lineEnd()
+item = Group(string + value + Suppress(lineEnd()))
+element = Forward()
+itemOrElement = item | unaryItem | element
+element << Group(string + Optional(string) + Group(Suppress('{') + ZeroOrMore(itemOrElement) + Suppress('}')))
+elementList = ZeroOrMore(itemOrElement)
+rootKeywords = keywords + Group( Suppress('{') + elementList + Suppress('}'))
+config = OneOrMore(rootKeywords)
+vbash_message = Regex(r"vbash\:.*").setName("vbash message")
+config.ignore(vbash_message)
+
+
+def convertNumbers(s,l,toks):
+	n = toks[0]
+	try:
+		return int(n)
+	except ValueError, ve:
+		return float(n)
+	
+number.setParseAction( convertNumbers )
+
 
 def dev():
 	env.hosts = [ 'vyatta' ]
@@ -38,8 +68,8 @@ def show_interfaces():
 def show_interfaces_with_configure():
 	f = open('./commands.txt', 'w')
 	commands = [
-			'$SET interfaces loopback lo address 127.0.0.5/24',
-			'$COMMIT',
+# 			'$SET interfaces loopback lo address 127.0.0.5/24',
+# 			'$COMMIT',
 			'$SHOW interfaces'
 			]
 	f.write("; ".join(commands))
@@ -51,6 +81,25 @@ def show_interfaces_with_configure():
 	lines = result.split('\n')
 	for line in lines:
 		print "LINE: " + line
+
+	import pprint
+	results = elementList.parseString(result)
+#  	pprint.pprint( results.asList() )
+ 	
+ 	for eth in results.asList():
+ 		print "---------------------------------"
+#  		pprint.pprint(eth)
+ 		ethName = eth[1]
+ 		print "ethName: " + ethName
+ 		
+ 		for attr in eth[2]:
+ 			key = attr[0]
+ 			val = attr[1]
+ 			print "  %s: %s" % (key, val)
+ 			
+ 		
+ 	
+
 
 def locale():
 	run('locale')
