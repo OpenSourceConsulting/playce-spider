@@ -119,13 +119,12 @@ class FlaskMainTestCase(unittest.TestCase):
 		else:
 			print results.status_code, results.content
 	
-	@unittest.skip("Cause network connection error")
-	def testGraphite(self):
-		results = requests.get('http://localhost:5001/mon/graphite?width=786&height=508&_salt=1410357564.227&target=vyatta.cpu.0.cpu.user.value&from=-3minutes')
-		if results.status_code == 200:
-			print json.dumps(results.json(), indent=4)
-		else:
-			print results.status_code, results.content
+# 	def testGraphite(self):
+# 		results = requests.get('http://localhost:5001/mon/graphite?width=786&height=508&_salt=1410357564.227&target=vyatta.cpu.0.cpu.user.value&from=-3minutes')
+# 		if results.status_code == 200:
+# 			print json.dumps(results.json(), indent=4)
+# 		else:
+# 			print results.status_code, results.content
 
 if __name__ == "__main__":
 	unittest.main()
