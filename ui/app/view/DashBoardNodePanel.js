@@ -18,12 +18,12 @@ Ext.define('spider.view.DashBoardNodePanel', {
     alias: 'widget.dashboardnodepanel',
 
     requires: [
+        'spider.view.MyPanel119',
         'Ext.form.FieldSet',
         'Ext.panel.Panel',
         'Ext.toolbar.Toolbar',
         'Ext.button.Button',
-        'Ext.form.Label',
-        'Ext.Img'
+        'Ext.form.Label'
     ],
 
     height: 214,
@@ -92,9 +92,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     titleCollapse: false,
                                     items: [
                                         {
-                                            xtype: 'image',
-                                            cls: 'dashboard-graph-img',
-                                            src: 'http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=199&height=82'
+                                            xtype: 'mypanel119'
                                         }
                                     ]
                                 },
@@ -112,9 +110,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     titleCollapse: false,
                                     items: [
                                         {
-                                            xtype: 'image',
-                                            cls: 'dashboard-graph-img',
-                                            src: 'http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=199&height=82'
+                                            xtype: 'mypanel119'
                                         }
                                     ]
                                 },
@@ -132,9 +128,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     titleCollapse: false,
                                     items: [
                                         {
-                                            xtype: 'image',
-                                            cls: 'dashboard-graph-img',
-                                            src: 'http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=199&height=82'
+                                            xtype: 'mypanel119'
                                         }
                                     ]
                                 }

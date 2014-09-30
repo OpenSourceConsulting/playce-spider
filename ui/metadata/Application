@@ -16,7 +16,8 @@
         ],
         "models": [
             "HostListData",
-            "SampleModel"
+            "SampleModel",
+            "VmHostModel"
         ],
         "name": "spider",
         "requires": [
@@ -26,7 +27,8 @@
             "ServerListStore",
             "HostListStore",
             "ChartDataStore",
-            "SampleStore"
+            "SampleStore",
+            "VmHostStore"
         ],
         "views": [
             "AthenaSpider",
@@ -35,7 +37,8 @@
             "MyPanel93",
             "DashBoardNodePanel",
             "VMInfoWindow",
-            "vmMgmtPanel"
+            "vmMgmtPanel",
+            "MyPanel119"
         ]
     },
     "designerId": "application"

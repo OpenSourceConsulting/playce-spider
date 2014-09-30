@@ -424,7 +424,7 @@ Ext.define('spider.controller.VmManagementController', {
         clearInterval(GlobalData.intervalId2);
         GlobalData.intervalId2 = setInterval(function() {
             loadResourceUsage();
-        }, 1000);
+        }, 2000);
 
         loadResourceUsage = function() {
             cpu = Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0));
@@ -434,8 +434,207 @@ Ext.define('spider.controller.VmManagementController', {
             Ext.getCmp('cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
             Ext.getCmp('memoryBar').updateProgress(memory / 100, memory.toFixed(2) + "% of " + data.usage.memory.total);
             Ext.getCmp('diskBar').updateProgress(disk / 100, disk.toFixed(2) + "% of " + data.usage.disk.total);
+
         };
 
+        this.interfacesSelect(0);
+    },
+
+    interfacesSelect: function(index) {
+        var currentDate = new Date();
+
+        // milli second 값을 지운다.
+        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDay(), currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+
+        // chart에 표시될 x축 개수
+        var length = 60;
+
+        // x축의 시간 차(초)
+        // length가 20이고 step이 3일 경우 1분간의 데이터가 3초 단위로 20번 표시된다.
+        // length가 30이고 step이 2일 경우 1분간의 데이터가 2초 단위로 30번 표시된다.
+        var step = 1;
+
+        var interfaceChart;
+        var ifChartData = [];
+
+        var ifChartStore = Ext.create('Ext.data.Store', {
+            fields: ['date', 'cur_in', 'cur_out']
+        });
+
+        Ext.ComponentManager.unregister(Ext.getCmp('interfaceChart'));
+
+        var curIn = 0, curOut = 0, avgIn = 0, avgOut = 0, peakIn = 0, peakOut = 0;
+        var cnt = 0;
+
+        var curInLabel = Ext.getCmp('curInLabel'),
+            curOutLabel = Ext.getCmp('curOutLabel'),
+            avgInLabel = Ext.getCmp('avgInLabel'),
+            avgOutLabel = Ext.getCmp('avgOutLabel'),
+            peakInLabel = Ext.getCmp('peakInLabel'),
+            peakOutLabel = Ext.getCmp('peakOutLabel');
+
+        // interfaceChart 생성 후 ifChartPanel에 draw 한다.
+        var interfaceChartItem = Ext.create('Ext.chart.Chart', {
+            width: 250,
+            height: 400,
+            style: 'background:#fff',
+            id: 'interfaceChart',
+            store: ifChartStore,
+            shadow: true,
+            animate: true,
+            //margins: '15 0 0 0',
+            //autoSize: true, // true로 변경하면 Error: Invalid value for <svg> attribute width="-Infinity" 에러 발생
+            //insetPadding: 20,
+            legend: {
+                visible: true,
+                position: 'bottom'
+            },
+            axes: [{
+                type: 'Numeric',
+                //minimum: 0,
+                //maximum: 100,
+                position: 'left',
+                title: 'Usage (kbps)',
+                grid: {
+                    odd: {
+                        fill: '#dedede',
+                        stroke: '#ddd',
+                        'stroke-width': 0.5
+                    }
+                }
+            }, {
+                type: 'Time',
+                position: 'bottom',
+                fields: 'date',
+                dateFormat: 'H:i:s',
+                constrain: true,
+                fromDate: Ext.Date.add(currentDate, Ext.Date.SECOND, 0),
+                toDate: Ext.Date.add(currentDate, Ext.Date.SECOND, (length * step)),
+                grid: true,
+                step: [
+                    's',
+                    step
+                ],
+                label: {
+                    rotate: {
+                        degrees: 315
+                    }
+                }
+            }],
+            series: [{
+                type: 'line',
+                smooth: false,
+                fill: false,
+                axis: ['left', 'bottom'],
+                xField: 'date',
+                yField: 'cur_in',
+                title: 'Network In',
+                label: {
+                    display: 'none',
+                    field: 'cur_in',
+                    renderer: function(v) { return v >> 0; },
+                    'text-anchor': 'middle'
+                },
+                markerConfig: {
+                    radius: 3,
+                    size: 3
+                }
+            },{
+                type: 'line',
+                smooth: false,
+                fill: false,
+                axis: ['left', 'bottom'],
+                xField: 'date',
+                yField: 'cur_out',
+                title: 'Network Out',
+                label: {
+                    display: 'none',
+                    field: 'cur_out',
+                    renderer: function(v) { return v >> 0; },
+                    'text-anchor': 'middle'
+                },
+                markerConfig: {
+                    radius: 3,
+                    size: 3
+                }
+            }]
+        });
+
+        Ext.getCmp('ifChartPanel').removeAll();
+        Ext.getCmp('ifChartPanel').add(interfaceChartItem);
+
+        interfaceChart = Ext.getCmp('interfaceChart');
+
+        // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
+        clearInterval(GlobalData.intervalId3);
+        GlobalData.intervalId3 = setInterval(function() {
+            loadNetworkRealtime();
+        }, step * 2000);
+
+        // 실시간 네트워크 인터페이스 상태 정보를 조회하기 위한 function
+        loadNetworkRealtime = function() {
+            var last = false, date = new Date();
+            ifChartData = ifChartData.slice();
+
+            last = ifChartData[ifChartData.length -1];
+
+            curIn = Math.min(200, Math.max(last? last.cur_in + ((Math.random() - 0.5) * 2345) / 1000 : 15.27, 1.52));
+            curOut = Math.min(200, Math.max(last? last.cur_out + ((Math.random() - 0.5) * 1234) / 1000 : 8.96, 1.52));
+
+            ifChartData.push({
+                date: new Date(date.getFullYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes(), date.getSeconds()),
+                cur_in: curIn,
+                cur_out: curOut
+            });
+
+            if (ifChartData.length > length + 1) {
+                ifChartData.splice(0, 1);
+            }
+
+            ifAxis = interfaceChart.axes.get(1);
+
+            var toDate = ifAxis.toDate,
+                lastDate = ifChartData[ifChartData.length - 1].date;
+
+            if (+toDate < +lastDate) {
+                ifAxis.fromDate = ifChartData[0].date;
+                ifAxis.toDate = ifChartData[ifChartData.length -1].date;
+
+                interfaceChart.markerIndex = 1;
+            } else {
+                ifAxis.fromDate = ifChartData[0].date;
+                ifAxis.toDate = Ext.Date.add(ifChartData[0].date, Ext.Date.SECOND, (length * step));
+            }
+
+            if (peakIn < curIn) {
+                peakIn = curIn;
+            }
+            if (peakOut < curOut) {
+                peakOut = curOut;
+            }
+
+            if (cnt === 0) {
+                avgIn = curIn;
+                avgOut = curOut;
+            } else {
+                if (cnt > 1000000) {
+                    cnt = 1000000;
+                }
+                avgIn = ((avgIn * cnt) + curIn) / (cnt + 1);
+                avgOut = ((avgOut * cnt) + curOut) / (cnt + 1);
+            }
+
+            cnt++;
+
+            curInLabel.setText(curIn.toFixed(2) + " kbps");
+            curOutLabel.setText(curOut.toFixed(2) + " kbps");
+            avgInLabel.setText(avgIn.toFixed(2) + " kbps");
+            avgOutLabel.setText(avgOut.toFixed(2) + " kbps");
+            peakInLabel.setText(peakIn.toFixed(2) + " kbps");
+            peakOutLabel.setText(peakOut.toFixed(2) + " kbps");
+
+            ifChartStore.loadData(ifChartData);
+        };
     }
 
 });

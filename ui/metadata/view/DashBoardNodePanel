@@ -156,20 +156,14 @@
                             ],
                             "cn": [
                                 {
-                                    "type": "Ext.Img",
+                                    "type": "linkedinstance",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "cls": "dashboard-graph-img",
-                                        "height": null,
-                                        "id": null,
-                                        "src": "http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=199&height=82",
-                                        "width": null
-                                    },
-                                    "designerId": "c0fed70e-0642-4745-a915-76d5726b2a2f"
+                                    "designerId": "3ebf35e3-02c3-472e-ab03-80db1deea7ba",
+                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
                                 }
                             ]
                         },
@@ -209,20 +203,14 @@
                             ],
                             "cn": [
                                 {
-                                    "type": "Ext.Img",
+                                    "type": "linkedinstance",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "cls": "dashboard-graph-img",
-                                        "height": null,
-                                        "id": null,
-                                        "src": "http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=199&height=82",
-                                        "width": null
-                                    },
-                                    "designerId": "e56315cf-7f7f-4d1f-9717-e9002fd318be"
+                                    "designerId": "eda4c4d4-e6e8-4200-a6aa-accf1e5930c3",
+                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
                                 }
                             ]
                         },
@@ -262,20 +250,14 @@
                             ],
                             "cn": [
                                 {
-                                    "type": "Ext.Img",
+                                    "type": "linkedinstance",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "cls": "dashboard-graph-img",
-                                        "height": null,
-                                        "id": null,
-                                        "src": "http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&width=199&height=82",
-                                        "width": null
-                                    },
-                                    "designerId": "595abdfc-c9b6-4313-870d-32f79a8a70f2"
+                                    "designerId": "42f73e0e-33dd-4859-bc3f-0602be225b93",
+                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
                                 }
                             ]
                         }

@@ -80,7 +80,11 @@ Ext.define('spider.controller.MenuController', {
         centerContainer.layout.setActiveItem(0);
 
         //this.renderDashboard();
+        clearInterval(GlobalData.intervalId1);
         clearInterval(GlobalData.intervalId2);
+        clearInterval(GlobalData.intervalId3);
+
+
     },
 
     managementClick: function(button, e, eOpts) {
@@ -168,7 +172,9 @@ Ext.define('spider.controller.MenuController', {
             }
         });
 
+        clearInterval(GlobalData.intervalId1);
         clearInterval(GlobalData.intervalId2);
+        clearInterval(GlobalData.intervalId3);
     },
 
     onMainViewBtnClick: function(button, e, eOpts) {
@@ -196,7 +202,9 @@ Ext.define('spider.controller.MenuController', {
 
         centerContainer.layout.setActiveItem(3);
 
+        clearInterval(GlobalData.intervalId1);
         clearInterval(GlobalData.intervalId2);
+        clearInterval(GlobalData.intervalId3);
     },
 
     onLaunch: function() {
@@ -225,6 +233,64 @@ Ext.define('spider.controller.MenuController', {
 
 
         */
+
+        clearInterval(GlobalData.intervalId4);
+        Ext.Ajax.request({
+            url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
+            disableCaching : true,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+                var data = columnData[0];
+
+                // Get the quality field from record
+                // Update chart with data
+                var chartList = [];
+                Ext.each(data.datapoints, function (chartData) {
+                    var chartCol = {};
+                    chartCol.test = chartData.value;
+                    chartCol.cate = chartData.date;
+                    chartList.push(chartCol);
+                });
+
+                //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+
+                Ext.getStore('SampleStore').loadData(chartList, false);
+
+
+                GlobalData.intervalId4 = setInterval(function() {
+
+                    Ext.Ajax.request({
+                        url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
+                        disableCaching : true,
+                        success: function(response){
+
+                            var columnData = Ext.decode(response.responseText);
+                            var data = columnData[0];
+
+                            // Get the quality field from record
+                            // Update chart with data
+                            var chartList = [];
+                            Ext.each(data.datapoints, function (chartData) {
+                                var chartCol = {};
+                                chartCol.test = chartData.value;
+                                chartCol.cate = chartData.date;
+                                chartList.push(chartCol);
+                            });
+
+                            //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+
+                            Ext.getStore('SampleStore').loadData(chartList, false);
+
+                        }
+                    });
+
+                }, 5000);
+
+
+            }
+        });
+
     },
 
     renderDashboard: function() {
@@ -827,6 +893,9 @@ Ext.define('spider.controller.MenuController', {
         dashboardPanel.add(dashboardPanels);
 
         dashboardPanel.setLoading(false);
+
+
+
     },
 
     init: function(application) {

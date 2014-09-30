@@ -165,6 +165,7 @@
                                             "cate"
                                         ],
                                         "grid": false,
+                                        "label": null,
                                         "title": null
                                     },
                                     "configAlternates": {

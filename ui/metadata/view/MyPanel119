@@ -1,0 +1,128 @@
+{
+    "type": "Ext.panel.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "collapsed": false,
+        "collapsible": false,
+        "container|align": "stretch",
+        "designer|userAlias": "mypanel119",
+        "designer|userClassName": "MyPanel119",
+        "header": false,
+        "height": 45,
+        "layout": "hbox",
+        "title": "Sencha"
+    },
+    "designerId": "a6502197-2cf9-4d57-8687-8602e0299260",
+    "cn": [
+        {
+            "type": "Ext.chart.Chart",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "flex": null,
+                "height": 250,
+                "id": null,
+                "insetPadding": 5,
+                "itemId": null,
+                "layout|flex": 1,
+                "shadow": false,
+                "store": "SampleStore",
+                "width": null
+            },
+            "designerId": "465106f9-d576-49c9-aa13-f2ca796cb464",
+            "isBuiltIn": true,
+            "iconCls": "icon-line-chart",
+            "autoName": "LineChart",
+            "customConfigs": [
+                {
+                    "group": "(Custom Properties)",
+                    "name": "flex",
+                    "type": "string"
+                }
+            ],
+            "cn": [
+                {
+                    "type": "Ext.chart.axis.Category",
+                    "reference": {
+                        "name": "axes",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fields": [
+                            "cate"
+                        ],
+                        "grid": false,
+                        "hidden": true,
+                        "title": null
+                    },
+                    "configAlternates": {
+                        "grid": "boolean"
+                    },
+                    "designerId": "2f9dbfd9-d26b-42f1-9543-526f635ad8d1"
+                },
+                {
+                    "type": "Ext.chart.axis.Numeric",
+                    "reference": {
+                        "name": "axes",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "dashSize": null,
+                        "fields": [
+                            "test"
+                        ],
+                        "grid": false,
+                        "label": [
+                            "\"\""
+                        ],
+                        "majorTickSteps": 1,
+                        "maximum": null,
+                        "minimum": null,
+                        "minorTickSteps": 1,
+                        "title": null
+                    },
+                    "configAlternates": {
+                        "grid": "boolean"
+                    },
+                    "designerId": "4a3c192f-4dab-4b39-bd97-be7b32bc3805"
+                },
+                {
+                    "type": "Ext.chart.series.Line",
+                    "reference": {
+                        "name": "series",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "label": [
+                            "\"\""
+                        ],
+                        "showMarkers": false,
+                        "smooth": 3,
+                        "style": [
+                            "{",
+                            "    fill: \"#3892d3\",",
+                            "    'stroke-width': 1.2,",
+                            "    stroke: \"#3892d3\"",
+                            "}"
+                        ],
+                        "xField": "cate",
+                        "yField": [
+                            "test"
+                        ]
+                    },
+                    "designerId": "e44e35c4-a97a-455d-997b-5b6d4a597f35"
+                }
+            ]
+        }
+    ]
+}

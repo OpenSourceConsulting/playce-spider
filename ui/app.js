@@ -26,13 +26,15 @@ Ext.application({
     ],
     models: [
         'HostListData',
-        'SampleModel'
+        'SampleModel',
+        'VmHostModel'
     ],
     stores: [
         'ServerListStore',
         'HostListStore',
         'ChartDataStore',
-        'SampleStore'
+        'SampleStore',
+        'VmHostStore'
     ],
     views: [
         'AthenaSpider',
@@ -41,7 +43,8 @@ Ext.application({
         'MyPanel93',
         'DashBoardNodePanel',
         'VMInfoWindow',
-        'vmMgmtPanel'
+        'vmMgmtPanel',
+        'MyPanel119'
     ],
     controllers: [
         'HeaderController',

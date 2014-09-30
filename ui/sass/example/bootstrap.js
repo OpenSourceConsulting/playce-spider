@@ -876,16 +876,19 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.controller.VmManagementController": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
+  "spider.model.VmHostModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.HostListStore": [],
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
+  "spider.store.VmHostStore": [],
   "spider.view.AthenaSpider": [],
   "spider.view.DashBoardNodePanel": [],
   "spider.view.DashBoardSplitPanel": [],
   "spider.view.DashboardPanel": [],
   "spider.view.Main": [],
   "spider.view.MyContainer1": [],
+  "spider.view.MyPanel119": [],
   "spider.view.MyPanel31": [],
   "spider.view.MyPanel93": [],
   "spider.view.VMInfoWindow": [],
@@ -1908,10 +1911,12 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.controller.VmManagementController": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
+  "spider.model.VmHostModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.HostListStore": [],
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
+  "spider.store.VmHostStore": [],
   "spider.view.AthenaSpider": [],
   "spider.view.DashBoardNodePanel": [
     "widget.dashboardnodepanel"
@@ -1927,6 +1932,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "spider.view.MyContainer1": [
     "widget.mycontainer1"
+  ],
+  "spider.view.MyPanel119": [
+    "widget.mypanel119"
   ],
   "spider.view.MyPanel31": [
     "widget.mypanel31"

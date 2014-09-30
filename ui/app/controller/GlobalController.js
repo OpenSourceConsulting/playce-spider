@@ -17,7 +17,7 @@ Ext.define('spider.controller.GlobalController', {
     extend: 'Ext.app.Controller',
 
     init: function(application) {
-        var intervalId1, intervalId2, intervalId3;
+        var intervalId1, intervalId2, intervalId3, intervalId4;
         var chartDataStore = Ext.getStore('chartDataStore');
         var cpuChart = Ext.getCmp('cpuChart');
         var memoryChart = Ext.getCmp('memoryChart');
@@ -30,6 +30,7 @@ Ext.define('spider.controller.GlobalController', {
             intervalId1: intervalId1,
             intervalId2: intervalId2,
             intervalId3: intervalId3,
+            intervalId4: intervalId4,
             chartDataStore: chartDataStore,
             cpuChart: cpuChart,
             memoryChart: memoryChart,
