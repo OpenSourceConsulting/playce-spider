@@ -29,7 +29,7 @@ def getDomainList(addr, sshid, sshpw):
 	results = execute(virsh_list_all, hosts=[addr])
 	return results[addr]
 
-def virsh_nodeinfo():
+def virsh_getAllInfo():
 	result = run('virsh nodeinfo', pty=False, quiet=True)
 	lines = result.split('\n')
 	info = []
@@ -38,13 +38,32 @@ def virsh_nodeinfo():
 		words = line.split(':')
 		info.append({'name': words[0].strip(), 'value': words[1].strip()})
 
-	return info
+	result = run('virsh version', pty=False, quiet=True)
+	lines = result.split('\n')
+	version = []
+	for line in lines:
+		print "LINE: " + line
+		words = line.split(':')
+		version.append({'name': words[0].strip(), 'value': words[1].strip()})
 
-def getNodeInfo(addr, sshid, sshpw):
+	result = run('virsh hostname', pty=False, quiet=True)
+	hostname = result.strip()
+
+	result = run('virsh iface-list', pty=False, quiet=True)
+	lines = result.split('\n')
+	interfaces = []
+	for line in lines[2:]:
+		print "LINE: " + line
+		words = line.strip().split()
+		interfaces.append({'name': words[0], 'state': words[1], 'macaddr': words[2]})
+
+	return {'info': info, 'version': version, 'hostname': hostname, 'interfaces': interfaces}
+
+def getAllInfo(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
-	results = execute(virsh_nodeinfo, hosts=[addr])
+	results = execute(virsh_getAllInfo, hosts=[addr])
 	return results[addr]
 
 

@@ -36,8 +36,11 @@ def vmhost_create():
 	vms = getDomainList(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
 	jsonData['vms'] = vms
 	
-	info = getNodeInfo(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
-	jsonData['info'] = info
+	results = getAllInfo(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
+	jsonData['info'] = results['info']
+	jsonData['version'] = results['version']
+	jsonData['hostname'] = results['hostname']
+	jsonData['interfaces'] = results['interfaces']
 	
 	vmhosts.append(jsonData)
 	write_repository('vmhosts', vmhosts)
