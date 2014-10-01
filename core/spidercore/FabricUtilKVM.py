@@ -6,14 +6,13 @@ Created on 2014. 9. 11.
 
 from fabric.api import run, sudo, env, put, cd
 from fabric.tasks import execute
-import rpyc
 import json
 from spidercore import *
 
 
 
 def virsh_list_all():
-	result = run('virsh list -all', pty=False)
+	result = run('virsh list --all', pty=False)
 	lines = result.split('\n')
 	for line in lines:
 		print "LINE: " + line
