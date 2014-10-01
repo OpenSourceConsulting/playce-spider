@@ -67,6 +67,7 @@ def vm_reg_init():
 #	Asking which KVM Host host this NFV VM by matching MAC Addr
 
 	vmhostId = None
+	domain = None
 	vmhosts = read_repository("vmhosts")
 	results = []
 	for vmhost in vmhosts:
@@ -76,6 +77,7 @@ def vm_reg_init():
 			for mac in macaddrs:
 				if mac in vm['macaddrs']:
 					vmhostId = vmhost['_id']
+					domain = vm['domain']
 					break
 	
 	if vmhostId != None:
@@ -83,6 +85,7 @@ def vm_reg_init():
 		    "vmhost": vmhostId,
 		    "vyatta": isVyatta,
 		    "hostname": hostname,
+		    "vmname": domain,
 		    "kernel": kernel,
 		    "arch": arch,
 		    "ostype": ostype,
@@ -93,6 +96,9 @@ def vm_reg_init():
 		}
 		
 		vms = read_repository("vms")
+		for vm in vms:
+			if domain == vm['vmname']:
+				return "DUP"
 		id = str(uuid.uuid4())
 		jsonData['_id'] = id
 		vms.append(jsonData)

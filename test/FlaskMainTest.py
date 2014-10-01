@@ -73,6 +73,8 @@ class FlaskMainTestCase(unittest.TestCase):
 		print "POST /vm"
 		print json.dumps(results.json(), indent=4)
 		
+		requests.delete('http://localhost:5001/vm/' + id)
+		
 	def testGetAllVMHost(self):
 		results = requests.get('http://localhost:5001/mon/vmhost/_all')
 		if results.status_code == 200:
