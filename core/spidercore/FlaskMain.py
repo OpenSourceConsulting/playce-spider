@@ -47,6 +47,7 @@ def vmhost_create():
 	
 	return json.dumps({'token': token})
 
+# Deprecated
 @app.route("/vmhost/<token>", methods=['PUT'])
 def vmhost_register(token=None):
 	jsonData = request.json
@@ -118,7 +119,7 @@ def mon_vmhost(id=None):
 
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=5001, debug=True)
+	app.run(host='0.0.0.0', port=5001, debug=False)
 
 
 

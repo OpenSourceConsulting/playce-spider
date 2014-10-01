@@ -7,6 +7,7 @@ from flask import Flask, request, Response
 import json
 import uuid
 from spidercore import *
+from spidercore.FabricUtilKVM import getAllMacAddrs
 
 @app.route("/vmreg", methods=['POST'])
 def vm_reg_init():
@@ -61,6 +62,14 @@ def vm_reg_init():
 	print "Hostname: %s, Kernel: %s, Arch: %s, OsType: %s" % (hostname, kernel, arch, ostype)
 	print "Vyatta: %s" % isVyatta
 	
+#	Asking which KVM Host host this NFV VM by matching MAC Addr
+
+	vmhosts = read_repository("vmhosts")
+	results = []
+	for vmhost in vmhosts:
+		vms = getAllMacAddrs(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
+		for vm in vms:
+			print vm
 
 	return "OK"
 

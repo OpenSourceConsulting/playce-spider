@@ -67,4 +67,30 @@ def getAllInfo(addr, sshid, sshpw):
 	return results[addr]
 
 
+def virsh_get_macaddrs_from_all_domains():
+	result = run('virsh list --all', pty=False, quiet=True)
+	lines = result.split('\n')
+	vms = []
+	for line in lines[2:]:
+		print "LINE: " + line
+		domain = line.strip().split()[1]
+
+		result = run("virsh domiflist %s" % domain, pty=False, quiet=True)
+		nics = result.split('\n')
+		vm = {'domain': domain, 'macaddrs': []}
+		for nic in nics[2:]:
+			macaddr = nic.split()[4]
+			vm['macaddrs'].append(macaddr)
+		
+		vms.append(vm)
+
+	return vms
+
+def getAllMacAddrs(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	results = execute(virsh_get_macaddrs_from_all_domains, hosts=[addr])
+	return results[addr]
+
 
