@@ -1,7 +1,7 @@
 # /etc/spider/init.sh
 # Vyatta VM Initial Provisioning Script
 
-IFCFG=`ifconfig -a`
+IFCFG=`/sbin/ifconfig -a`
 ROUTE=`netstat -nr`
 VBASH=`vbash --version`
 UNAME=`uname -a`
