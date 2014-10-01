@@ -8,6 +8,14 @@ import json
 import uuid
 from spidercore import *
 
+@app.route("/vmreg", methods=['POST'])
+def vm_reg_init():
+	data = request.data
+	print "Data: %s" % data.split("\n")
+	for header in request.headers:
+		print header
+	return "OK"
+
 @app.route("/vm", methods=['POST'])
 def vm_register():
 	data = request.data

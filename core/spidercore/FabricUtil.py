@@ -18,7 +18,7 @@ number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) +
                    Optional( '.' + Word(nums) ) +
                    Optional( Word('eE',exact=1) + Word(nums+'+-',nums) ) )
 value = string | number | dblQuotedString.setParseAction(removeQuotes)
-unaryItem = value + lineEnd()
+unaryItem = Group(value + Suppress(lineEnd()))
 item = Group(string + value + Suppress(lineEnd()))
 element = Forward()
 itemOrElement = item | unaryItem | element
@@ -172,7 +172,9 @@ def show_service_with_configure():
 		service = {'service': svc[0]}
 		
 		for attr in svc[1]:
-			if len(attr) > 1:
+			if len(attr) > 2:
+				service[attr[0]] = [attr[1], attr[2]]
+			elif len(attr) > 1:
 				service[attr[0]] = attr[1]
 			else:
 				service[attr[0]] = True
