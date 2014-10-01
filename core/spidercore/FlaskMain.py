@@ -22,8 +22,6 @@ def vmhost_shutdown():
 
 @app.route("/vmhost", methods=['POST'])
 def vmhost_create():
-	data = request.data
-# 	print 'Data: ' + data
 	jsonData = request.json
 # 	print 'JSON: ' + json.dumps(jsonData)
 	name = jsonData['name']
@@ -34,18 +32,20 @@ def vmhost_create():
 
 	token = str(uuid.uuid4())
 	jsonData['_id'] = token;
-	vmhosts.append(jsonData)
-	write_repository('vmhosts', vmhosts)
 	
 	vms = getDomainList(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
-	print json.dumps(vms, indent=4)
+	jsonData['vms'] = vms
+	
+	info = getNodeInfo(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
+	jsonData['info'] = info
+	
+	vmhosts.append(jsonData)
+	write_repository('vmhosts', vmhosts)
 	
 	return json.dumps({'token': token})
 
 @app.route("/vmhost/<token>", methods=['PUT'])
 def vmhost_register(token=None):
-	data = request.data
-# 	print 'Data: ' + data
 	jsonData = request.json
 # 	print 'JSON: ' + json.dumps(jsonData)
 	vmhosts = read_repository("vmhosts")
