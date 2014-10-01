@@ -12,7 +12,7 @@ from spidercore import *
 
 
 def virsh_list_all():
-	result = run('virsh list --all', pty=False)
+	result = run('virsh list --all', pty=False, quiet=True)
 	lines = result.split('\n')
 	for line in lines:
 		print "LINE: " + line
