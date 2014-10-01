@@ -42,22 +42,6 @@ class FlaskMainTestCase(unittest.TestCase):
 		print "POST /vmhost"
 		print json.dumps(results.json(), indent=4)
 
-		jsonData = {
-		    "hostname": "centos7",
-		    "type":"kvm",
-		    "interfaces": [
-		        {
-		            "nic": "eth2",
-		            "addr": "192.168.56.13"
-		        }
-			]
-		}
-		
-		results = requests.put('http://localhost:5001/vmhost/' + token, data=json.dumps(jsonData), headers=headers)
-		
-		print "PUT /vmhost/%s" % token
-		print json.dumps(results.json(), indent=4)
-	
 	def testRegisterVM(self):
 		headers = {'content-type': 'application/json'}
 		

@@ -19,6 +19,7 @@ def vm_reg_init():
 	uname = sections[4]
 	
 	ifs = {}
+	macaddrs = []
 	ethName = None
 	for line in ifconfig.split('\n'):
 		sl = line.strip()
@@ -27,6 +28,7 @@ def vm_reg_init():
 			macAddr = sl.split()[4]
 # 			print ethName, macAddr
 			ifs[ethName] = {'macaddr': macAddr}
+			macaddrs.append(macAddr)
 		elif 'inet addr' in sl:
 			ipAddr = sl.split()[1][5:]
 # 			print ipAddr
@@ -64,14 +66,41 @@ def vm_reg_init():
 	
 #	Asking which KVM Host host this NFV VM by matching MAC Addr
 
+	vmhostId = None
 	vmhosts = read_repository("vmhosts")
 	results = []
 	for vmhost in vmhosts:
 		vms = getAllMacAddrs(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
 		for vm in vms:
 			print vm
+			for mac in macaddrs:
+				if mac in vm['macaddrs']:
+					vmhostId = vmhost['_id']
+					break
+	
+	if vmhostId != None:
+		jsonData = {
+		    "vmhost": vmhostId,
+		    "vyatta": isVyatta,
+		    "hostname": hostname,
+		    "kernel": kernel,
+		    "arch": arch,
+		    "ostype": ostype,
+		    "vmtype": "kvm",
+		    "sshid": "vyos",
+		    "sshpw": "vyos",
+		    "interfaces": ifs
+		}
+		
+		vms = read_repository("vms")
+		id = str(uuid.uuid4())
+		jsonData['_id'] = id
+		vms.append(jsonData)
+		write_repository('vms', vms)
 
-	return "OK"
+		return "OK"
+	else:
+		return "FAIL"
 
 @app.route("/vm", methods=['POST'])
 def vm_register():
