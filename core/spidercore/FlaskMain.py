@@ -9,6 +9,7 @@ import uuid
 from spidercore import *
 from FlaskGraphite import *
 from FlaskMainNFV import *
+from FabricUtilKVM import *
 
 @app.route("/shutdown", methods=['GET'])
 def vmhost_shutdown():
@@ -35,6 +36,9 @@ def vmhost_create():
 	jsonData['_id'] = token;
 	vmhosts.append(jsonData)
 	write_repository('vmhosts', vmhosts)
+	
+	getDomainList(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
+	
 	return json.dumps({'token': token})
 
 @app.route("/vmhost/<token>", methods=['PUT'])
