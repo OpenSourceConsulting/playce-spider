@@ -11,9 +11,57 @@ from spidercore import *
 @app.route("/vmreg", methods=['POST'])
 def vm_reg_init():
 	data = request.data
-	print "Data: %s" % data.split("\n")
-	for header in request.headers:
-		print header
+	sections = data.split('###')
+	ifconfig = sections[1]
+	route = sections[2]
+	vbash = sections[3]
+	uname = sections[4]
+	
+	ifs = {}
+	ethName = None
+	for line in ifconfig.split('\n'):
+		sl = line.strip()
+		if 'Link' in sl and 'Ethernet' in sl and 'HWaddr' in sl:
+			ethName = sl.split()[0]
+			macAddr = sl.split()[4]
+# 			print ethName, macAddr
+			ifs[ethName] = {'macaddr': macAddr}
+		elif 'inet addr' in sl:
+			ipAddr = sl.split()[1][5:]
+# 			print ipAddr
+			if 'ipaddr' not in ifs[ethName]:
+				ifs[ethName]['ipaddr'] = ipAddr
+	
+	for line in route.split('\n'):
+		words = line.strip().split()
+		if len(words) == 8:
+			ethName = words[7]
+# 			print ethName
+			if ethName in ifs:
+				if 'routes' not in ifs[ethName]:
+					ifs[ethName]['routes'] = []
+				ifs[ethName]['routes'].append({'destination': words[0], 'gateway': words[1]})
+	
+	line = uname.split('\n')[1]
+	words = line.split()
+	hostname = words[1]
+	kernel = words[2]
+	arch = words[-2]
+	ostype = words[-1]
+	isVyatta = False
+
+	if 'vyatta' in kernel.lower():
+		isVyatta = True
+		vbashVersion = None
+		for line in vbash.split('\n'):
+			if 'gnu bash' in line.lower():
+				vbashVersion = line.split()[3]
+
+	print json.dumps(ifs, indent=4)
+	print "Hostname: %s, Kernel: %s, Arch: %s, OsType: %s" % (hostname, kernel, arch, ostype)
+	print "Vyatta: %s" % isVyatta
+	
+
 	return "OK"
 
 @app.route("/vm", methods=['POST'])
