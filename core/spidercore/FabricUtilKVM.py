@@ -14,12 +14,13 @@ from spidercore import *
 def virsh_list_all():
 	result = run('virsh list --all', pty=False, quiet=True)
 	lines = result.split('\n')
-	for line in lines:
+	vms = []
+	for line in lines[2:]:
 		print "LINE: " + line
+		words = line.strip().split()
+		vms.append({'id': words[0], 'name': words[1], 'state': words[2]})
 
-	services =[]
-	
-	return services
+	return vms
 
 def getDomainList(addr, sshid, sshpw):
 	env.hosts = [ addr ]

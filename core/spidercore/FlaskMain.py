@@ -37,7 +37,8 @@ def vmhost_create():
 	vmhosts.append(jsonData)
 	write_repository('vmhosts', vmhosts)
 	
-	getDomainList(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
+	vms = getDomainList(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
+	print json.dumps(vms, indent=4)
 	
 	return json.dumps({'token': token})
 
