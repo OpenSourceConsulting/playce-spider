@@ -30,10 +30,10 @@ class FlaskMainTestCase(unittest.TestCase):
 		
 		jsonData = {
 		    "name": self.name,
-		    'location': '����',
-		    "addr": "centos7",
-		    "sshid": "jerryj",
-		    "sshpw": "ma1183"
+		    'location': '대전',
+		    "addr": "192.168.0.244",
+		    "sshid": "root",
+		    "sshpw": "redhat"
 		}
 		
 		results = requests.post('http://localhost:5001/vmhost', data=json.dumps(jsonData), headers=headers)

@@ -172,7 +172,7 @@ def mon_vmif(id=None, ifid=None):
 	results = []
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
-			from FabricUtil import getInterfaces
+			from spidercore.FabricUtilNFV import getInterfaces
 			nics = getInterfaces(vm['addr'], vm['sshid'], vm['sshpw'])
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
@@ -196,7 +196,7 @@ def mon_vmnat(id=None, rule=None):
 	results = []
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
-			from FabricUtil import getNATs
+			from spidercore.FabricUtilNFV import getNATs
 			nats = getNATs(vm['addr'], vm['sshid'], vm['sshpw'])
  			for nat in nats:
 				if rule == '_all' or rule == nat['rule']:
@@ -220,7 +220,7 @@ def mon_vmservice(id=None, svc=None):
 	results = []
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
-			from FabricUtil import getServices
+			from spidercore.FabricUtilNFV import getServices
 			services = getServices(vm['addr'], vm['sshid'], vm['sshpw'])
  			for service in services:
 				if svc == '_all' or svc == service['service']:
