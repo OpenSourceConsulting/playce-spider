@@ -19,47 +19,46 @@ Ext.define('spider.controller.DashboardController', {
     init: function(application) {
         var dashBoard = this;
 
-        var dashBoardContextMenu = new Ext.menu.Menu({
-            items:
-            [
-                { text: 'NIC 관리',
-                 handler: function() {
-                     alert('NIC 관리');
-                 }
-                },
-                { text: '라우팅',
-                 handler: function() {
-                     alert('라우팅');
-                 }
-                },
-                { text: '파이어월',
-                 handler: function() {
-                     alert('파이어월');
-                 }
-                },
-                { text: 'NAT 관리',
-                 handler: function() {
-                     alert('NAT 관리');
-                 }
-                },
-                {
-                    xtype: 'menuseparator'
-                },
-                { text: 'VM 시작/중단',
-                 handler: function() {
-                     alert('VM 시작/중단');
-                 }
-                }
-            ]
-
-        });
-
         //Dashboard Menu Constants
         Ext.define('dashboardConstants', {
             singleton: true,
-            me : dashBoard,
-            contextMenu: dashBoardContextMenu
+            me : dashBoard
         });
+    },
+
+    renderDashboard: function() {
+
+        var dashboardPanel = Ext.getCmp("DashboardPanel");
+
+        dashboardPanel.setLoading(true);
+
+        Ext.each(Ext.getCmp("listMenuPanel").store.getRootNode().childNodes, function(record, idx){
+
+            var nodePanel = Ext.getCmp("DashBoardNodePanel").cloneConfig({itemId : "DashBoardNodePanel"+idx});
+
+            nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
+            nodePanel.down('#VmHostName').setText(record.get('text'));
+
+            nodePanel.down('#cpuBar');
+            nodePanel.down('#memoryBar');
+            nodePanel.down('#diskBar');
+
+            if(idx%2 === 0) {
+                Ext.getCmp("DashBoardLeftPanel").add(nodePanel);
+            } else {
+                Ext.getCmp("DashBoardRightPanel").add(nodePanel);
+            }
+
+            nodePanel.show();
+            nodePanel.body.on('click', function(e) {
+                treeConstants.me.popVMHostInfoWindow();
+            });
+
+
+        });
+
+        dashboardPanel.setLoading(false);
+
     }
 
 });

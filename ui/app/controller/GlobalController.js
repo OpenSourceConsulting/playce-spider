@@ -17,13 +17,26 @@ Ext.define('spider.controller.GlobalController', {
     extend: 'Ext.app.Controller',
 
     init: function(application) {
+        var global = this;
+
         var intervalId1, intervalId2, intervalId3, intervalId4;
         var chartDataStore = Ext.getStore('chartDataStore');
         var cpuChart = Ext.getCmp('cpuChart');
         var memoryChart = Ext.getCmp('memoryChart');
         var networkChart = Ext.getCmp('networkChart');
 
+        //CROS 설정
+        Ext.data.Connection.prototype.useDefaultXhrHeader = false;
+
         // Global variables를 정의하는 구문으로 GlobalData.urlPrefix, GlobalData.serverSize 등으로 어디에서든 접근이 가능하다.
+        Ext.define('GLOBAL', {
+            singleton: true,
+            me: global,
+
+            apiUrlPrefix : "http://192.168.0.3:5001/",
+            graphiteUrlPrefix : ""
+        });
+
         Ext.define('GlobalData', {
             singleton: true,
 
@@ -36,6 +49,22 @@ Ext.define('spider.controller.GlobalController', {
             memoryChart: memoryChart,
             networkChart: networkChart
         });
+    },
+
+    closeWindow: function(button, msg) {
+        var closeMsg = "작업을 취소하시겠습니까?";
+        if(msg) {
+            closeMsg = msg;
+        }
+
+        Ext.MessageBox.confirm('Confirm', closeMsg, function(btn){
+
+            if(btn == "yes"){
+                button.up("window").close();
+            }
+
+        });
+
     }
 
 });

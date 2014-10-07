@@ -269,48 +269,6 @@
             },
             "codeClass": null,
             "userConfig": {
-                "container|align": "stretch",
-                "height": 50,
-                "id": "southPanel",
-                "itemId": "southPanel",
-                "layout": "vbox",
-                "layout|margins": "5 0 0 0",
-                "layout|region": "south",
-                "title": null
-            },
-            "designerId": "1d4b1519-1c4e-40a5-b701-33b6af9da472",
-            "cn": [
-                {
-                    "type": "Ext.form.Label",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "html": "© 2014 , Open Source Consulting, Inc. All rights reserved.</br>Gangnam Mirae Tower 805, Saimdang-ro 174(Seocho-dong), Seocho-gu, Seoul, Korea</br>+ 82 (2) 516-0711, sales@osci.kr",
-                        "id": "footerLabel",
-                        "itemId": "footerLabel",
-                        "layout|flex": 1,
-                        "layout|margins": "3 0 0 0",
-                        "style": "{text-align: center;}",
-                        "text": null
-                    },
-                    "configAlternates": {
-                        "style": "string"
-                    },
-                    "designerId": "9c706015-1dc4-4eb7-a7c7-cc839ec9bd5a"
-                }
-            ]
-        },
-        {
-            "type": "Ext.panel.Panel",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
                 "collapsible": true,
                 "container|align": "stretch",
                 "id": "westPanel",
@@ -579,7 +537,28 @@
                                                     "userConfig": {
                                                         "text": "VM  Host 추가"
                                                     },
-                                                    "designerId": "1ee50ac8-6809-438d-8541-d4da2752a96d"
+                                                    "designerId": "1ee50ac8-6809-438d-8541-d4da2752a96d",
+                                                    "cn": [
+                                                        {
+                                                            "type": "fixedfunction",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "designer|params": [
+                                                                    "button",
+                                                                    "e"
+                                                                ],
+                                                                "fn": "handler",
+                                                                "implHandler": [
+                                                                    "treeConstants.me.popAddVMHostWindow();"
+                                                                ]
+                                                            },
+                                                            "designerId": "c0a63fb5-30df-4405-aa84-8f4b65c26cb9"
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }
@@ -615,7 +594,7 @@
                                                 "id": "listMenuPanel",
                                                 "itemId": "listMenuPanel",
                                                 "rootVisible": false,
-                                                "store": "ServerListStore",
+                                                "store": null,
                                                 "style": "{height: 100%; overflow: scroll;}",
                                                 "title": null
                                             },
@@ -637,27 +616,6 @@
                                                         "preserveScrollOnRefresh": true
                                                     },
                                                     "designerId": "d4e73b0a-6c6d-49eb-b522-b867ab4e4292"
-                                                },
-                                                {
-                                                    "type": "basiceventbinding",
-                                                    "reference": {
-                                                        "name": "listeners",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "fn": "onListMenuPanelBeforeItemContextMenu",
-                                                        "implHandler": [
-                                                            "",
-                                                            "var position = e.getXY();",
-                                                            "e.stopEvent();",
-                                                            "",
-                                                            "dashboardConstants.contextMenu.showAt(position);"
-                                                        ],
-                                                        "name": "beforeitemcontextmenu",
-                                                        "scope": "me"
-                                                    },
-                                                    "designerId": "bf5c0f05-97db-421e-a2e7-345fb39c3314"
                                                 }
                                             ]
                                         }
@@ -693,7 +651,7 @@
                     "codeClass": null,
                     "userConfig": {
                         "designer|uiInterfaceName": "footer",
-                        "height": 50,
+                        "height": 45,
                         "layout|region": "north",
                         "ui": "footer"
                     },
@@ -707,7 +665,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 30,
+                                "height": 27,
                                 "icon": null,
                                 "iconAlign": "right",
                                 "layout|flex": null,
@@ -726,7 +684,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 30,
+                                "height": 27,
                                 "layout|flex": null,
                                 "margin": "5 0 0 10",
                                 "text": "NCIA Kwangju",

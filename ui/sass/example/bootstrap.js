@@ -24,9 +24,11 @@ Ext.Loader.addClassPathMappings({
   "ExtThemeNeptune.tab.Tab": "../../ext/ext-theme-neptune.js",
   "ExtThemeNeptune.toolbar.Paging": "../../ext/ext-theme-neptune.js",
   "ExtThemeNeptune.toolbar.Toolbar": "../../ext/ext-theme-neptune.js",
+  "GLOBAL": "../../app/controller/GlobalController.js",
   "GlobalData": "../../app/controller/GlobalController.js",
   "dashboardConstants": "../../app/controller/DashboardController.js",
   "spider": "../../app",
+  "treeConstants": "../../app/controller/VmHostTreeController.js",
   "vmConstants": "../../app/controller/VmManagementController.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
@@ -863,16 +865,17 @@ Ext.ClassManager.addNameAlternateMappings({
   "ExtThemeNeptune.tab.Tab": [],
   "ExtThemeNeptune.toolbar.Paging": [],
   "ExtThemeNeptune.toolbar.Toolbar": [],
+  "GLOBAL": [],
   "GlobalData": [],
   "dashboardConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
-  "spider.controller.FooterController": [],
   "spider.controller.GlobalController": [],
   "spider.controller.HeaderController": [],
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
+  "spider.controller.VmHostTreeController": [],
   "spider.controller.VmManagementController": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
@@ -882,18 +885,17 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
   "spider.store.VmHostStore": [],
+  "spider.view.AddVmHostWindow": [],
   "spider.view.AthenaSpider": [],
   "spider.view.DashBoardNodePanel": [],
-  "spider.view.DashBoardSplitPanel": [],
   "spider.view.DashboardPanel": [],
   "spider.view.Main": [],
   "spider.view.MyContainer1": [],
   "spider.view.MyPanel119": [],
-  "spider.view.MyPanel31": [],
-  "spider.view.MyPanel93": [],
-  "spider.view.VMInfoWindow": [],
+  "spider.view.VMHostInfoWindow": [],
   "spider.view.Viewport": [],
   "spider.view.vmMgmtPanel": [],
+  "treeConstants": [],
   "vmConstants": []
 });
 Ext.ClassManager.addNameAliasMappings({
@@ -1898,16 +1900,17 @@ Ext.ClassManager.addNameAliasMappings({
   "ExtThemeNeptune.tab.Tab": [],
   "ExtThemeNeptune.toolbar.Paging": [],
   "ExtThemeNeptune.toolbar.Toolbar": [],
+  "GLOBAL": [],
   "GlobalData": [],
   "dashboardConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
-  "spider.controller.FooterController": [],
   "spider.controller.GlobalController": [],
   "spider.controller.HeaderController": [],
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
+  "spider.controller.VmHostTreeController": [],
   "spider.controller.VmManagementController": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
@@ -1917,12 +1920,12 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
   "spider.store.VmHostStore": [],
+  "spider.view.AddVmHostWindow": [
+    "widget.AddVmHostWindow"
+  ],
   "spider.view.AthenaSpider": [],
   "spider.view.DashBoardNodePanel": [
-    "widget.dashboardnodepanel"
-  ],
-  "spider.view.DashBoardSplitPanel": [
-    "widget.dashboardsplitpanel"
+    "widget.DashBoardNodePanel"
   ],
   "spider.view.DashboardPanel": [
     "widget.dashboardpanel"
@@ -1936,17 +1939,14 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.MyPanel119": [
     "widget.mypanel119"
   ],
-  "spider.view.MyPanel31": [
-    "widget.mypanel31"
-  ],
-  "spider.view.MyPanel93": [],
-  "spider.view.VMInfoWindow": [
-    "widget.VMInfoWindow"
+  "spider.view.VMHostInfoWindow": [
+    "widget.VMHostInfoWindow"
   ],
   "spider.view.Viewport": [],
   "spider.view.vmMgmtPanel": [
     "widget.vmMgmtPanel"
   ],
+  "treeConstants": [],
   "vmConstants": []
 });
 Ext.setVersion("ext-theme-base", "4.2.1");

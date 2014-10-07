@@ -46,9 +46,8 @@
                 "fn": "onTreeStoreLoad",
                 "implHandler": [
                     "Ext.each(records, function (record){",
-                    "    ",
                     "    record.set(\"text\", record.get(\"name\"));",
-                    "    ",
+                    "    record.set(\"expanded\", false);",
                     "});"
                 ],
                 "name": "load",

@@ -168,29 +168,6 @@ Ext.define('spider.view.AthenaSpider', {
                 },
                 {
                     xtype: 'panel',
-                    margins: '5 0 0 0',
-                    region: 'south',
-                    height: 50,
-                    id: 'southPanel',
-                    itemId: 'southPanel',
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
-                    items: [
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            margins: '3 0 0 0',
-                            html: '© 2014 , Open Source Consulting, Inc. All rights reserved.</br>Gangnam Mirae Tower 805, Saimdang-ro 174(Seocho-dong), Seocho-gu, Seoul, Korea</br>+ 82 (2) 516-0711, sales@osci.kr',
-                            id: 'footerLabel',
-                            itemId: 'footerLabel',
-                            style: '{text-align: center;}'
-                        }
-                    ]
-                },
-                {
-                    xtype: 'panel',
                     region: 'west',
                     split: true,
                     id: 'westPanel',
@@ -312,6 +289,9 @@ Ext.define('spider.view.AthenaSpider', {
                                                     items: [
                                                         {
                                                             xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                treeConstants.me.popAddVMHostWindow();
+                                                            },
                                                             text: 'VM  Host 추가'
                                                         }
                                                     ]
@@ -331,17 +311,10 @@ Ext.define('spider.view.AthenaSpider', {
                                                     itemId: 'listMenuPanel',
                                                     style: '{height: 100%; overflow: scroll;}',
                                                     autoScroll: true,
-                                                    store: 'ServerListStore',
                                                     rootVisible: false,
                                                     viewConfig: {
                                                         autoScroll: true,
                                                         preserveScrollOnRefresh: true
-                                                    },
-                                                    listeners: {
-                                                        beforeitemcontextmenu: {
-                                                            fn: me.onListMenuPanelBeforeItemContextMenu,
-                                                            scope: me
-                                                        }
                                                     }
                                                 }
                                             ]
@@ -362,12 +335,12 @@ Ext.define('spider.view.AthenaSpider', {
                         {
                             xtype: 'toolbar',
                             region: 'north',
-                            height: 50,
+                            height: 45,
                             ui: 'footer',
                             items: [
                                 {
                                     xtype: 'button',
-                                    height: 30,
+                                    height: 27,
                                     margin: '5 10 0 10',
                                     width: 120,
                                     iconAlign: 'right',
@@ -375,7 +348,7 @@ Ext.define('spider.view.AthenaSpider', {
                                 },
                                 {
                                     xtype: 'button',
-                                    height: 30,
+                                    height: 27,
                                     margin: '5 0 0 10',
                                     width: 120,
                                     text: 'NCIA Kwangju'
@@ -416,14 +389,6 @@ Ext.define('spider.view.AthenaSpider', {
         });
 
         me.callParent(arguments);
-    },
-
-    onListMenuPanelBeforeItemContextMenu: function(dataview, record, item, index, e, eOpts) {
-
-        var position = e.getXY();
-        e.stopEvent();
-
-        dashboardConstants.contextMenu.showAt(position);
     }
 
 });

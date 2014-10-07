@@ -28,41 +28,6 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     initVmManagement: function() {
-        var me = this;
-
-        this.getUtilzation();
-
-        var vmCycle = Ext.getCmp("vmListCycleBtn").menu;
-        var menuItems = vmCycle.items;
-
-        for(var idx = menuItems.length; idx >= 0; idx--) {
-            menuItems.removeAt(idx);
-        }
-
-        Ext.getStore("HostListStore").load({
-           callback : function(records, options, success) {
-
-                Ext.each(records, function (record, index) {
-
-                    vmCycle.add({
-                        xtype: 'menucheckitem',
-                        code: record.get("no"),
-                        text: record.get("name"),
-                        group : 'vm',
-                        checked : (index == 0 ? true : null)
-                    });
-
-                    if(index == 0) {
-                        Ext.getCmp("vmListCycleBtn").setText(record.get("name"));
-                        me.getInstanceDashboard(record.get("no"));
-                    }
-
-                });
-
-                vmCycle.doLayout();
-
-           }
-        });
 
     },
 
@@ -110,7 +75,7 @@ Ext.define('spider.controller.VmManagementController', {
         var store = Ext.create('Ext.data.Store', {
             fields: ['date', 'cpu', 'memory', 'network']
         });
-
+        /*
         Ext.ComponentManager.unregister(Ext.getCmp('cpuChart'));
         Ext.ComponentManager.unregister(Ext.getCmp('memoryChart'));
         Ext.ComponentManager.unregister(Ext.getCmp('networkChart'));
@@ -118,7 +83,7 @@ Ext.define('spider.controller.VmManagementController', {
         // CPU Chart 생성 후 cpuPanel에 draw 한다.
         var cpuChartItem = Ext.create('Ext.chart.Chart', {
             width: 250,
-            height: 400,
+            height: 170,
             style: 'background:#fff',
             id: 'cpuChart',
             store: store,
@@ -185,7 +150,7 @@ Ext.define('spider.controller.VmManagementController', {
         // Memory Chart 생성 후 memoryPanel에 draw 한다.
         var memoryChartItem = Ext.create('Ext.chart.Chart', {
             width: 250,
-            height: 400,
+            height: 170,
             style: 'background:#fff',
             id: 'memoryChart',
             store: store,
@@ -252,7 +217,7 @@ Ext.define('spider.controller.VmManagementController', {
         // Network Chart 생성 후 networkPanel에 draw 한다.
         var networkChartItem = Ext.create('Ext.chart.Chart', {
             width: 250,
-            height: 400,
+            height: 170,
             style: 'background:#fff',
             id: 'networkChart',
             store: store,
@@ -323,7 +288,7 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.getCmp('cpuChartPanel').add(cpuChartItem);
         Ext.getCmp('memoryChartPanel').add(memoryChartItem);
         Ext.getCmp('networkChartPanel').add(networkChartItem);
-
+        */
         cpuChart = Ext.getCmp('cpuChart');
         memoryChart = Ext.getCmp('memoryChart');
         networkChart = Ext.getCmp('networkChart');

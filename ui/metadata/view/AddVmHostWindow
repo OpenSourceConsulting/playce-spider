@@ -1,0 +1,193 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "AddVmHostWindow",
+        "designer|userClassName": "AddVmHostWindow",
+        "height": 335,
+        "id": null,
+        "itemId": null,
+        "modal": true,
+        "resizable": false,
+        "title": "VM Host 추가",
+        "width": 430
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "9a3188bb-7d5d-4c2a-8d11-dbefc6863d83",
+    "cn": [
+        {
+            "type": "Ext.form.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "bodyPadding": 15,
+                "fieldDefaults": [
+                    "{",
+                    "    msgTarget: 'side',",
+                    "    labelWidth: 120",
+                    "}"
+                ],
+                "header": false,
+                "id": "addVmHostForm",
+                "itemId": "addVmHostForm",
+                "title": "My Form"
+            },
+            "designerId": "9eae46dc-5cfe-44c9-8ba1-946418a140d4",
+            "cn": [
+                {
+                    "type": "Ext.form.field.ComboBox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "센터",
+                        "layout|anchor": "100%"
+                    },
+                    "designerId": "2f280afa-221c-441f-86d7-e5ac594c8d82"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "이름",
+                        "layout|anchor": "100%"
+                    },
+                    "designerId": "66425358-6765-4515-8241-8a8ef0535cbf"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "주소",
+                        "layout|anchor": "100%"
+                    },
+                    "designerId": "7213cac6-a33d-4172-86a2-a29550ed593d"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "SSH ID",
+                        "layout|anchor": "100%"
+                    },
+                    "designerId": "e2211895-1661-4bee-bc4a-760995fa6761"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "SSH PW",
+                        "layout|anchor": "100%"
+                    },
+                    "designerId": "884bfe72-d176-481b-a0df-8ebc696b8ea0"
+                },
+                {
+                    "type": "Ext.form.field.TextArea",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "SSH Private Key",
+                        "layout|anchor": "100%"
+                    },
+                    "designerId": "ee7581be-9db9-4d54-9157-3b8140c01d0d"
+                }
+            ]
+        },
+        {
+            "type": "Ext.toolbar.Toolbar",
+            "reference": {
+                "name": "dockedItems",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|pack": "center",
+                "designer|uiInterfaceName": "footer",
+                "dock": "bottom",
+                "ui": "footer"
+            },
+            "designerId": "b5ea0e19-23e0-4412-91c5-941c90502ae8",
+            "cn": [
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "padding": "3 8 3 8",
+                        "text": "생성"
+                    },
+                    "designerId": "cf927dde-ef85-4d7e-9606-5d5efdba0ba9"
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "padding": "3 8 3 8",
+                        "text": "취소"
+                    },
+                    "designerId": "fd9acfa9-c9ab-4c9d-992e-fa22d36343bf",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "GLOBAL.me.closeWindow(button);"
+                                ]
+                            },
+                            "designerId": "3cbe4ecd-3431-42b1-a02a-8a0c0a6af475"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

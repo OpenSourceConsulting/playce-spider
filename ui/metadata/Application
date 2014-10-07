@@ -8,11 +8,11 @@
     "userConfig": {
         "controllers": [
             "HeaderController",
-            "FooterController",
             "GlobalController",
             "MenuController",
             "DashboardController",
-            "VmManagementController"
+            "VmManagementController",
+            "VmHostTreeController"
         ],
         "models": [
             "HostListData",
@@ -32,13 +32,12 @@
         ],
         "views": [
             "AthenaSpider",
-            "MyPanel31",
             "MyContainer1",
-            "MyPanel93",
-            "DashBoardNodePanel",
-            "VMInfoWindow",
+            "VMHostInfoWindow",
             "vmMgmtPanel",
-            "MyPanel119"
+            "MyPanel119",
+            "DashBoardNodePanel",
+            "AddVmHostWindow"
         ]
     },
     "designerId": "application"

@@ -224,6 +224,9 @@ Ext.define('spider.controller.MenuController', {
             listMenuPanel.collapseAll();
         });
 
+        this.renderServerTree();
+
+
         //this.renderDashboard();
         /*
 
@@ -234,7 +237,6 @@ Ext.define('spider.controller.MenuController', {
 
         */
 
-        clearInterval(GlobalData.intervalId4);
         Ext.Ajax.request({
             url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
             disableCaching : true,
@@ -256,40 +258,85 @@ Ext.define('spider.controller.MenuController', {
                 //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
 
                 Ext.getStore('SampleStore').loadData(chartList, false);
+            }
+        });
 
+    },
 
-                GlobalData.intervalId4 = setInterval(function() {
+    renderServerTree: function() {
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/vmhost/_all',
+            disableCaching : true,
+            success: function(response){
+
+                var hostDatas = Ext.decode(response.responseText);
+
+                if(hostDatas != null) {
+
+                    var vmDatas = null;
 
                     Ext.Ajax.request({
-                        url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
+                        url: GLOBAL.apiUrlPrefix + 'mon/vm/_all',
                         disableCaching : true,
-                        success: function(response){
+                        success: function(vmResponse){
 
-                            var columnData = Ext.decode(response.responseText);
-                            var data = columnData[0];
+                            vmDatas = Ext.decode(vmResponse.responseText);
 
-                            // Get the quality field from record
-                            // Update chart with data
-                            var chartList = [];
-                            Ext.each(data.datapoints, function (chartData) {
-                                var chartCol = {};
-                                chartCol.test = chartData.value;
-                                chartCol.cate = chartData.date;
-                                chartList.push(chartCol);
+                            Ext.each(hostDatas, function(host, index) {
+
+                                host.text = host.name;
+                                host.icon = 'resources/images/icons/server.png';
+                                if(index == 0) {
+                                    host.expanded = true;
+                                }
+
+                                var vmList = [];
+                                Ext.each(vmDatas, function(vm) {
+
+                                    if(host._id == vm.vmhost) {
+
+                                        vm.text = vm.name;
+                                        vm.icon = 'resources/images/icons/host.png';
+                                        vm.leaf = true;
+                                        vmList.push(vm);
+                                    }
+                                });
+
+                                if(vmList.length > 0) {
+
+                                    host.leaf = false;
+                                    host.children = vmList;
+
+                                } else {
+
+                                    host.leaf = true;
+
+                                }
+
                             });
 
-                            //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+                            var treeStore = Ext.create('Ext.data.TreeStore', {
+                                    storeId: 'spider.model.VmHostModel',
+                                    root: {
+                                        expanded: true,
+                                        text: 'Server List',
+                                        icon : '',
+                                        children: hostDatas
+                                    }
+                                });
 
-                            Ext.getStore('SampleStore').loadData(chartList, false);
+                            Ext.getCmp("listMenuPanel").bindStore(treeStore);
+
+                            dashboardConstants.me.renderDashboard();
 
                         }
                     });
-
-                }, 5000);
-
+                }
 
             }
         });
+
 
     },
 
@@ -310,64 +357,6 @@ Ext.define('spider.controller.MenuController', {
         var currentOutbounds = ['12.13 kbps','8.45 kbps','3.14 kbps','54.34 kbps','5.23 kbps','2.34 kbps','1.81 kbps','23.12 kbps'];
         var averageOutbounds = ['23.12 kbps','12.13 kbps','8.45 kbps','3.14 kbps','54.34 kbps','5.23 kbps','2.34 kbps','1.81 kbps'];
         var peakOutbounds = ['1.81 kbps','23.12 kbps','12.13 kbps','8.45 kbps','3.14 kbps','54.34 kbps','5.23 kbps','2.34 kbps'];
-
-        /*
-        var serverNames = [['NFV Guest 11','NFV Guest 12','NFV Guest 13','NFV Guest 14'],
-                           ['NFV Guest 21','NFV Guest 22','NFV Guest 23','NFV Guest 24'],
-                           ['NFV Guest 31','NFV Guest 32','NFV Guest 33','NFV Guest 34'],
-                           ['NFV Guest 41','NFV Guest 42','NFV Guest 43','NFV Guest 44'],
-                           ['NFV Guest 51','NFV Guest 52','NFV Guest 53','NFV Guest 54'],
-                           ['NFV Guest 61','NFV Guest 62','NFV Guest 63','NFV Guest 64'],
-                           ['NFV Guest 71','NFV Guest 72','NFV Guest 73','NFV Guest 74'],
-                           ['NFV Guest 81','NFV Guest 82','NFV Guest 83','NFV Guest 84']];
-
-        var cpuStats =    [['01','02','03','04'],
-                           ['05','01','02','03'],
-                           ['04','05','01','02'],
-                           ['03','04','05','01'],
-                           ['02','03','04','05'],
-                           ['01','02','03','04'],
-                           ['05','01','02','03'],
-                           ['04','05','01','02']];
-
-        var memoryStats = [['03','04','05','01'],
-                           ['02','03','04','05'],
-                           ['01','02','03','04'],
-                           ['01','02','03','04'],
-                           ['05','01','02','03'],
-                           ['04','05','01','02'],
-                           ['05','01','02','03'],
-                           ['04','05','01','02']];
-
-        */
-        /*
-        var serverNames = [['NFV Guest 11','NFV Guest 12','NFV Guest 13'],
-                           ['NFV Guest 21','NFV Guest 22','NFV Guest 23','NFV Guest 24'],
-                           ['NFV Guest 31','NFV Guest 32','NFV Guest 33'],
-                           ['NFV Guest 41','NFV Guest 42','NFV Guest 43','NFV Guest 44'],
-                           ['NFV Guest 51','NFV Guest 52','NFV Guest 53'],
-                           ['NFV Guest 61','NFV Guest 62','NFV Guest 63','NFV Guest 64'],
-                           ['NFV Guest 71','NFV Guest 72','NFV Guest 73'],
-                           ['NFV Guest 81','NFV Guest 82','NFV Guest 83','NFV Guest 84','NFV Guest 85']];
-
-        var cpuStats =    [['01','02','03'],
-                           ['05','01','02','03'],
-                           ['04','05','01'],
-                           ['03','04','05','01'],
-                           ['02','03','04'],
-                           ['01','02','03','04'],
-                           ['05','01','02'],
-                           ['04','05','01','02','03']];
-
-        var memoryStats = [['03','04','05'],
-                           ['02','03','04','05'],
-                           ['01','02','03'],
-                           ['01','02','03','04'],
-                           ['05','01','02'],
-                           ['04','05','01','02'],
-                           ['05','01','02'],
-                           ['04','05','01','02','03']];
-        */
 
         var serverNames = [['NFV Guest 11','NFV Guest 12','NFV Guest 13','NFV Guest 14'],
                            ['NFV Guest 21','NFV Guest 22','NFV Guest 23','NFV Guest 24'],
@@ -429,266 +418,6 @@ Ext.define('spider.controller.MenuController', {
                 dashboardPanels[1].add(dashboardFieldSets[i]);
             }
         }
-
-        /*
-        for (var i = 0; i < titles.length; i++) {
-            var panels = [];
-
-            panels.push(
-                Ext.create('Ext.panel.Panel', {
-                    flex: 1,
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
-                    items: [
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b></b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b></b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b>Current</b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b>Average</b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b>Peak</b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        }
-                    ]
-                })
-            );
-            panels.push(
-                Ext.create('Ext.panel.Panel', {
-                    flex: 1,
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
-                    items: [
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b></b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b>Inbound</b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: currentInbounds[i]
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: averageInbounds[i]
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: peakInbounds[i]
-                        }
-                    ]
-                })
-            );
-            panels.push(
-                Ext.create('Ext.panel.Panel', {
-                    flex: 1,
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
-                    items: [
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b></b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b>Outbound</b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: currentOutbounds[i]
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: averageOutbounds[i]
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: peakOutbounds[i]
-                        }
-                    ]
-                })
-            );
-            panels.push(
-                Ext.create('Ext.panel.Panel', {
-                    width: 50
-                })
-            );
-            panels.push(
-                Ext.create('Ext.panel.Panel', {
-                    flex: 1,
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
-                    items: [
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b></b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: serverNames[i][0]
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: serverNames[i][1]
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: serverNames[i][2]
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                            text: serverNames[i][3]
-                        }
-                    ]
-                })
-            );
-            panels.push(
-                Ext.create('Ext.panel.Panel', {
-                    flex: 1,
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
-                    items: [
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b>CPU</b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + cpuStats[i][0] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + cpuStats[i][1] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + cpuStats[i][2] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + cpuStats[i][3] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        }
-                    ]
-                })
-            );
-            panels.push(
-                Ext.create('Ext.panel.Panel', {
-                    flex: 1,
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
-                    items: [
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><b>Memory</b></center>',
-                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + memoryStats[i][0] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + memoryStats[i][1] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + memoryStats[i][2] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        },
-                        {
-                            xtype: 'label',
-                            flex: 1,
-                            html: '<center><img src="resources/images/icons/status_' + memoryStats[i][3] + '.png" width="36" height="36" border="0"></center>',
-                            style: '{text-align: center;}'
-                        }
-                    ]
-                })
-            );
-
-            dashboardFieldSets[i].add(panels);
-        }
-        */
 
         for (var i = 0; i < titles.length; i++) {
             var panels = [];

@@ -36,7 +36,7 @@
                 "store": "SampleStore",
                 "width": null
             },
-            "designerId": "465106f9-d576-49c9-aa13-f2ca796cb464",
+            "designerId": "5b978def-4454-426f-a257-283464ead059",
             "isBuiltIn": true,
             "iconCls": "icon-line-chart",
             "autoName": "LineChart",

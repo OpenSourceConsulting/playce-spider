@@ -46,9 +46,8 @@ Ext.define('spider.store.VmHostStore', {
 
     onTreeStoreLoad: function(treestore, node, records, successful, eOpts) {
         Ext.each(records, function (record){
-
             record.set("text", record.get("name"));
-
+            record.set("expanded", false);
         });
     }
 

@@ -18,27 +18,24 @@ Ext.define('spider.view.vmMgmtPanel', {
     alias: 'widget.vmMgmtPanel',
 
     requires: [
+        'Ext.toolbar.Toolbar',
+        'Ext.form.field.Display',
+        'Ext.tab.Panel',
+        'Ext.tab.Tab',
         'Ext.chart.Chart',
         'Ext.chart.axis.Time',
         'Ext.chart.series.Line',
-        'Ext.tab.Panel',
-        'Ext.tab.Tab',
-        'Ext.form.FieldSet',
         'Ext.form.Label',
-        'Ext.ProgressBar',
+        'Ext.form.FieldSet',
+        'Ext.form.Panel',
         'Ext.grid.Panel',
-        'Ext.toolbar.Toolbar',
         'Ext.grid.column.Column',
         'Ext.form.field.TextArea',
         'Ext.grid.plugin.CellEditing',
         'Ext.form.field.ComboBox',
         'Ext.form.field.Checkbox',
         'Ext.toolbar.Spacer',
-        'Ext.form.Panel',
-        'Ext.form.CheckboxGroup',
-        'Ext.button.Cycle',
-        'Ext.menu.Menu',
-        'Ext.menu.CheckItem'
+        'Ext.form.CheckboxGroup'
     ],
 
     id: 'managementPanel',
@@ -49,1142 +46,1515 @@ Ext.define('spider.view.vmMgmtPanel', {
         var me = this;
 
         Ext.applyIf(me, {
+            dockedItems: [
+                {
+                    xtype: 'toolbar',
+                    dock: 'top',
+                    margin: '5 0 0 0',
+                    style: 'font-weight:bold;',
+                    items: [
+                        {
+                            xtype: 'displayfield',
+                            margin: '0 20 0 0',
+                            style: '',
+                            fieldLabel: 'VM Host ',
+                            labelStyle: 'font-weight: bold;',
+                            labelWidth: 60,
+                            value: 'KVMHost #1',
+                            fieldStyle: 'font-weight: bold;'
+                        },
+                        {
+                            xtype: 'displayfield',
+                            margin: '0 20 0 0',
+                            fieldLabel: 'VM Name ',
+                            labelStyle: 'font-weight: bold;',
+                            labelWidth: 70,
+                            value: 'Vyatta #1',
+                            fieldStyle: 'font-weight: bold;'
+                        },
+                        {
+                            xtype: 'displayfield',
+                            margin: '0 30 0 0',
+                            fieldLabel: '상태 ',
+                            labelStyle: 'font-weight: bold;',
+                            labelWidth: 40,
+                            value: 'RUNNING',
+                            fieldStyle: 'font-weight: bold;'
+                        },
+                        {
+                            xtype: 'button',
+                            padding: '3 8 3 8',
+                            text: '시작'
+                        },
+                        {
+                            xtype: 'button',
+                            padding: '3 8 3 8',
+                            text: '종료'
+                        }
+                    ]
+                }
+            ],
             items: [
                 {
-                    xtype: 'panel',
-                    flex: 1,
-                    region: 'north',
-                    split: true,
-                    id: 'hostMgmtSouthPanel',
-                    itemId: 'hostMgmtSouthPanel',
-                    collapsible: true,
-                    header: false,
-                    title: 'Average Utilization',
-                    titleCollapse: false,
-                    layout: {
-                        type: 'vbox',
-                        align: 'stretch'
-                    },
+                    xtype: 'tabpanel',
+                    region: 'center',
+                    id: 'networkInstanceTabPanel',
+                    itemId: 'networkInstanceTabPanel',
+                    padding: '5 0 0 1',
+                    style: 'background:#ffffff;',
+                    bodyStyle: 'background:#ffffff;',
+                    activeTab: 0,
+                    plain: true,
                     items: [
                         {
                             xtype: 'panel',
-                            flex: 1,
-                            height: 150,
-                            id: 'utilizationPanel',
-                            itemId: 'utilizationPanel',
-                            margin: '5 0 0 0',
-                            layout: {
-                                type: 'hbox',
-                                align: 'stretch'
-                            },
+                            overflowY: 'auto',
+                            bodyStyle: '',
+                            title: 'Instance Dashboard',
                             items: [
                                 {
                                     xtype: 'panel',
-                                    flex: 1,
-                                    id: 'cpuChartPanel',
-                                    itemId: 'cpuChartPanel',
-                                    layout: 'fit',
-                                    items: [
-                                        {
-                                            xtype: 'chart',
-                                            height: 250,
-                                            id: 'cpuChart',
-                                            itemId: 'cpuChart',
-                                            style: 'background:#fff',
-                                            width: 400,
-                                            shadow: true,
-                                            animate: true,
-                                            store: 'ChartDataStore',
-                                            axes: [
-                                                {
-                                                    type: 'Numeric',
-                                                    fields: [
-                                                        'cpu'
-                                                    ],
-                                                    grid: {
-                                                        odd: {
-                                                            fill: '#dedede',
-                                                            stroke: '#ddd',
-                                                            'stroke-width': 0.5
-                                                        }
-                                                    },
-                                                    maximum: 100,
-                                                    minimum: 0,
-                                                    position: 'left'
-                                                },
-                                                {
-                                                    type: 'Time',
-                                                    fields: [
-                                                        'date'
-                                                    ],
-                                                    label: {
-                                                        rotate: {
-                                                            degrees: 315
-                                                        }
-                                                    },
-                                                    grid: true,
-                                                    position: 'bottom',
-                                                    title: 'CPU',
-                                                    dateFormat: 'H:i:s',
-                                                    step: [
-                                                        's',
-                                                        1
-                                                    ]
-                                                }
-                                            ],
-                                            series: [
-                                                {
-                                                    type: 'line',
-                                                    axis: [
-                                                        'left',
-                                                        'bottom'
-                                                    ],
-                                                    xField: 'date',
-                                                    yField: 'cpu',
-                                                    fill: true,
-                                                    markerConfig: {
-                                                        radius: 3,
-                                                        size: 3
-                                                    },
-                                                    smooth: true
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    flex: 1,
-                                    id: 'memoryChartPanel',
-                                    itemId: 'memoryChartPanel',
-                                    layout: 'fit',
-                                    items: [
-                                        {
-                                            xtype: 'chart',
-                                            height: 250,
-                                            id: 'memoryChart',
-                                            itemId: 'memoryChart',
-                                            width: 400,
-                                            animate: true,
-                                            insetPadding: 20,
-                                            store: 'ChartDataStore',
-                                            axes: [
-                                                {
-                                                    type: 'Numeric',
-                                                    fields: [
-                                                        'memory'
-                                                    ],
-                                                    grid: {
-                                                        odd: {
-                                                            fill: '#dedede',
-                                                            stroke: '#ddd',
-                                                            'stroke-width': 0.5
-                                                        }
-                                                    },
-                                                    maximum: 100,
-                                                    minimum: 0,
-                                                    position: 'left'
-                                                },
-                                                {
-                                                    type: 'Time',
-                                                    fields: [
-                                                        'date'
-                                                    ],
-                                                    label: {
-                                                        rotate: {
-                                                            degrees: 315
-                                                        }
-                                                    },
-                                                    grid: true,
-                                                    position: 'bottom',
-                                                    title: 'Memory',
-                                                    dateFormat: 'H:i:s',
-                                                    step: [
-                                                        's',
-                                                        1
-                                                    ]
-                                                }
-                                            ],
-                                            series: [
-                                                {
-                                                    type: 'line',
-                                                    axis: [
-                                                        'left',
-                                                        'bottom'
-                                                    ],
-                                                    xField: 'date',
-                                                    yField: 'memory',
-                                                    markerConfig: {
-                                                        radius: 3,
-                                                        size: 3
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    flex: 1,
-                                    id: 'networkChartPanel',
-                                    itemId: 'networkChartPanel',
-                                    layout: 'fit',
-                                    items: [
-                                        {
-                                            xtype: 'chart',
-                                            height: 250,
-                                            id: 'networkChart',
-                                            itemId: 'networkChart',
-                                            width: 400,
-                                            animate: true,
-                                            insetPadding: 20,
-                                            store: 'ChartDataStore',
-                                            axes: [
-                                                {
-                                                    type: 'Numeric',
-                                                    fields: [
-                                                        'network'
-                                                    ],
-                                                    grid: {
-                                                        odd: {
-                                                            fill: '#dedede',
-                                                            stroke: '#ddd',
-                                                            'stroke-width': 0.5
-                                                        }
-                                                    },
-                                                    maximum: 100,
-                                                    minimum: 0,
-                                                    position: 'left'
-                                                },
-                                                {
-                                                    type: 'Time',
-                                                    fields: [
-                                                        'date'
-                                                    ],
-                                                    label: {
-                                                        rotate: {
-                                                            degrees: 315
-                                                        }
-                                                    },
-                                                    grid: true,
-                                                    position: 'bottom',
-                                                    title: 'Network',
-                                                    dateFormat: 'H:i:s',
-                                                    step: [
-                                                        's',
-                                                        1
-                                                    ]
-                                                }
-                                            ],
-                                            series: [
-                                                {
-                                                    type: 'line',
-                                                    axis: [
-                                                        'left',
-                                                        'bottom'
-                                                    ],
-                                                    xField: 'date',
-                                                    yField: 'network',
-                                                    markerConfig: {
-                                                        radius: 3,
-                                                        size: 3
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    xtype: 'panel',
-                    flex: 2.3,
-                    region: 'center',
-                    id: 'networkInstncePanel',
-                    itemId: 'networkInstncePanel',
-                    layout: 'border',
-                    items: [
-                        {
-                            xtype: 'tabpanel',
-                            region: 'center',
-                            id: 'networkInstanceTabPanel',
-                            itemId: 'networkInstanceTabPanel',
-                            padding: '5 0 0 0',
-                            style: '"background:#ffffff;"',
-                            activeTab: 0,
-                            plain: true,
-                            items: [
-                                {
-                                    xtype: 'panel',
-                                    autoScroll: true,
-                                    title: 'Instance Dashboard',
+                                    id: 'instanceDetailPanel',
+                                    itemId: 'instanceDetailPanel',
+                                    padding: '0 15 0 0',
                                     items: [
                                         {
                                             xtype: 'panel',
-                                            id: 'instanceDetailPanel',
-                                            itemId: 'instanceDetailPanel',
+                                            height: 200,
+                                            id: 'utilizationPanel',
+                                            itemId: 'utilizationPanel',
+                                            margin: '5 0 0 0',
+                                            layout: 'border',
                                             items: [
                                                 {
                                                     xtype: 'panel',
-                                                    id: 'instanceDashboardPanel',
-                                                    itemId: 'instanceDashboardPanel',
-                                                    margin: '4 4 4 4',
+                                                    flex: 1,
+                                                    region: 'west',
+                                                    id: 'cpuChartPanel',
+                                                    itemId: 'cpuChartPanel',
+                                                    width: 150,
                                                     layout: {
                                                         type: 'vbox',
                                                         align: 'stretch'
                                                     },
                                                     items: [
                                                         {
-                                                            xtype: 'panel',
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'stretch'
-                                                            },
-                                                            items: [
+                                                            xtype: 'chart',
+                                                            height: 170,
+                                                            id: 'cpuChart',
+                                                            itemId: 'cpuChart',
+                                                            margin: '10 5 0 5',
+                                                            style: 'background:#fff',
+                                                            width: 400,
+                                                            shadow: true,
+                                                            animate: true,
+                                                            insetPadding: 5,
+                                                            store: 'ChartDataStore',
+                                                            axes: [
                                                                 {
-                                                                    xtype: 'panel',
-                                                                    width: 450,
-                                                                    collapsible: false,
-                                                                    items: [
-                                                                        {
-                                                                            xtype: 'fieldset',
-                                                                            margin: '0 4 0 0',
-                                                                            collapsible: true,
-                                                                            title: 'Resource Usage',
-                                                                            layout: {
-                                                                                type: 'vbox',
-                                                                                align: 'stretch'
-                                                                            },
-                                                                            items: [
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 30,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'CPU : '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'progressbar',
-                                                                                            flex: 5,
-                                                                                            id: 'cpuBar',
-                                                                                            itemId: 'cpuBar',
-                                                                                            animate: true,
-                                                                                            text: 'N/A'
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 30,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'Memory : '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'progressbar',
-                                                                                            flex: 5,
-                                                                                            id: 'memoryBar',
-                                                                                            itemId: 'memoryBar',
-                                                                                            animate: true,
-                                                                                            text: 'N/A'
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 30,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'Disk :  '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'progressbar',
-                                                                                            flex: 5,
-                                                                                            id: 'diskBar',
-                                                                                            itemId: 'diskBar',
-                                                                                            animate: true,
-                                                                                            text: 'N/A'
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            xtype: 'fieldset',
-                                                                            margin: '0 4 0 0',
-                                                                            collapsible: true,
-                                                                            title: 'System Information',
-                                                                            layout: {
-                                                                                type: 'vbox',
-                                                                                align: 'stretch'
-                                                                            },
-                                                                            items: [
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 25,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 2,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'Domain Name : '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 6,
-                                                                                            id: 'domainNameLabel',
-                                                                                            itemId: 'domainNameLabel'
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 25,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 2,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'DNS Servers : '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 6,
-                                                                                            id: 'dnsServersLabel',
-                                                                                            itemId: 'dnsServersLabel'
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 25,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 2,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'Boot via : '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 6,
-                                                                                            id: 'bootViaLabel',
-                                                                                            itemId: 'bootViaLabel'
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 25,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 2,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'Images : '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 6,
-                                                                                            id: 'imagesLabel',
-                                                                                            itemId: 'imagesLabel'
-                                                                                        }
-                                                                                    ]
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    height: 25,
-                                                                                    layout: {
-                                                                                        type: 'hbox',
-                                                                                        align: 'middle'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 2,
-                                                                                            margins: '0 5 0 0',
-                                                                                            style: '{text-align:right;font-weight:bold;}',
-                                                                                            text: 'Entitlement : '
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 6,
-                                                                                            id: 'entitlementLabel',
-                                                                                            itemId: 'entitlementLabel'
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
+                                                                    type: 'Numeric',
+                                                                    fields: [
+                                                                        'cpu'
+                                                                    ],
+                                                                    grid: {
+                                                                        odd: {
+                                                                            fill: '#dedede',
+                                                                            stroke: '#ddd',
+                                                                            'stroke-width': 0.5
                                                                         }
-                                                                    ]
+                                                                    },
+                                                                    maximum: 100,
+                                                                    minimum: 0,
+                                                                    position: 'left'
                                                                 },
                                                                 {
-                                                                    xtype: 'panel',
-                                                                    flex: 1,
-                                                                    collapsible: false,
-                                                                    items: [
-                                                                        {
-                                                                            xtype: 'fieldset',
-                                                                            collapsible: true,
-                                                                            title: 'Interfaces',
-                                                                            items: [
-                                                                                {
-                                                                                    xtype: 'gridpanel',
-                                                                                    height: 235,
-                                                                                    id: 'interfacesGridPanel',
-                                                                                    itemId: 'interfacesGridPanel',
-                                                                                    maxHeight: 235,
-                                                                                    style: 'vertical-align:middle !important;',
-                                                                                    autoScroll: true,
-                                                                                    bodyBorder: true,
-                                                                                    columnLines: true,
-                                                                                    emptyText: 'No data found.',
-                                                                                    forceFit: true,
-                                                                                    dockedItems: [
-                                                                                        {
-                                                                                            xtype: 'toolbar',
-                                                                                            dock: 'top',
-                                                                                            vertical: true
-                                                                                        }
-                                                                                    ],
-                                                                                    columns: [
-                                                                                        {
-                                                                                            xtype: 'gridcolumn',
-                                                                                            align: 'right',
-                                                                                            dataIndex: 'name',
-                                                                                            text: 'Name',
-                                                                                            flex: 1
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'gridcolumn',
-                                                                                            dataIndex: 'description',
-                                                                                            text: 'Description',
-                                                                                            flex: 3,
-                                                                                            editor: {
-                                                                                                xtype: 'textareafield',
-                                                                                                readOnly: true
-                                                                                            }
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'gridcolumn',
-                                                                                            dataIndex: 'ip',
-                                                                                            text: 'IP Address',
-                                                                                            flex: 2
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'gridcolumn',
-                                                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-                                                                                                var values = (value + "").split(",");
-
-                                                                                                var result = "";
-                                                                                                var on = "<img src='resources/images/icons/bullet_green.png'><br/>";
-                                                                                                var off = "<img src='resources/images/icons/bullet_red.png'><br/>";
-
-                                                                                                if (values[0] === "on") {
-                                                                                                    result += on;
-                                                                                                } else if(values[0] === "off") {
-                                                                                                    result += off;
-                                                                                                } else {
-                                                                                                    result += "<br/>";
-                                                                                                }
-
-                                                                                                if (values[1] === '') {
-                                                                                                    result += "&nbsp;";
-                                                                                                } else {
-                                                                                                    result += values[1];
-                                                                                                }
-
-                                                                                                return result;
-                                                                                            },
-                                                                                            align: 'center',
-                                                                                            dataIndex: 'status',
-                                                                                            text: 'Status',
-                                                                                            flex: 1
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'gridcolumn',
-                                                                                            align: 'right',
-                                                                                            dataIndex: 'in',
-                                                                                            text: 'In',
-                                                                                            flex: 1
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'gridcolumn',
-                                                                                            align: 'right',
-                                                                                            dataIndex: 'out',
-                                                                                            text: 'Out',
-                                                                                            flex: 1
-                                                                                        }
-                                                                                    ],
-                                                                                    plugins: [
-                                                                                        Ext.create('Ext.grid.plugin.CellEditing', {
-
-                                                                                        })
-                                                                                    ]
-                                                                                }
-                                                                            ]
+                                                                    type: 'Time',
+                                                                    fields: [
+                                                                        'date'
+                                                                    ],
+                                                                    label: {
+                                                                        rotate: {
+                                                                            degrees: 315
                                                                         }
+                                                                    },
+                                                                    grid: true,
+                                                                    position: 'bottom',
+                                                                    dateFormat: 'H:i:s',
+                                                                    step: [
+                                                                        's',
+                                                                        1
                                                                     ]
+                                                                }
+                                                            ],
+                                                            series: [
+                                                                {
+                                                                    type: 'line',
+                                                                    axis: [
+                                                                        'left',
+                                                                        'bottom'
+                                                                    ],
+                                                                    xField: 'date',
+                                                                    yField: 'cpu',
+                                                                    fill: true,
+                                                                    markerConfig: {
+                                                                        radius: 3,
+                                                                        size: 3
+                                                                    },
+                                                                    smooth: true
                                                                 }
                                                             ]
                                                         },
                                                         {
+                                                            xtype: 'label',
+                                                            height: 25,
+                                                            style: '{font-weight:bold;text-align: center;}',
+                                                            text: 'AVG CPU Utilization'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    flex: 1,
+                                                    region: 'center',
+                                                    id: 'memoryChartPanel',
+                                                    itemId: 'memoryChartPanel',
+                                                    layout: {
+                                                        type: 'vbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'chart',
+                                                            height: 170,
+                                                            id: 'memoryChart',
+                                                            itemId: 'memoryChart',
+                                                            margin: '10 5 0 5',
+                                                            width: 400,
+                                                            animate: true,
+                                                            insetPadding: 5,
+                                                            store: 'ChartDataStore',
+                                                            axes: [
+                                                                {
+                                                                    type: 'Numeric',
+                                                                    fields: [
+                                                                        'memory'
+                                                                    ],
+                                                                    grid: {
+                                                                        odd: {
+                                                                            fill: '#dedede',
+                                                                            stroke: '#ddd',
+                                                                            'stroke-width': 0.5
+                                                                        }
+                                                                    },
+                                                                    maximum: 100,
+                                                                    minimum: 0,
+                                                                    position: 'left'
+                                                                },
+                                                                {
+                                                                    type: 'Time',
+                                                                    fields: [
+                                                                        'date'
+                                                                    ],
+                                                                    label: {
+                                                                        rotate: {
+                                                                            degrees: 315
+                                                                        }
+                                                                    },
+                                                                    grid: true,
+                                                                    position: 'bottom',
+                                                                    dateFormat: 'H:i:s',
+                                                                    step: [
+                                                                        's',
+                                                                        1
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            series: [
+                                                                {
+                                                                    type: 'line',
+                                                                    axis: [
+                                                                        'left',
+                                                                        'bottom'
+                                                                    ],
+                                                                    xField: 'date',
+                                                                    yField: 'memory',
+                                                                    markerConfig: {
+                                                                        radius: 3,
+                                                                        size: 3
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            height: 25,
+                                                            style: '{font-weight:bold;text-align: center;}',
+                                                            text: 'AVG Memory Utilization'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    flex: 1,
+                                                    region: 'east',
+                                                    id: 'networkChartPanel',
+                                                    itemId: 'networkChartPanel',
+                                                    width: 150,
+                                                    layout: {
+                                                        type: 'vbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'chart',
+                                                            height: 170,
+                                                            id: 'networkChart',
+                                                            itemId: 'networkChart',
+                                                            margin: '10 5 0 5',
+                                                            width: 400,
+                                                            animate: true,
+                                                            insetPadding: 5,
+                                                            store: 'ChartDataStore',
+                                                            axes: [
+                                                                {
+                                                                    type: 'Numeric',
+                                                                    fields: [
+                                                                        'network'
+                                                                    ],
+                                                                    grid: {
+                                                                        odd: {
+                                                                            fill: '#dedede',
+                                                                            stroke: '#ddd',
+                                                                            'stroke-width': 0.5
+                                                                        }
+                                                                    },
+                                                                    maximum: 100,
+                                                                    minimum: 0,
+                                                                    position: 'left'
+                                                                },
+                                                                {
+                                                                    type: 'Time',
+                                                                    fields: [
+                                                                        'date'
+                                                                    ],
+                                                                    label: {
+                                                                        rotate: {
+                                                                            degrees: 315
+                                                                        }
+                                                                    },
+                                                                    grid: true,
+                                                                    position: 'bottom',
+                                                                    dateFormat: 'H:i:s',
+                                                                    step: [
+                                                                        's',
+                                                                        1
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            series: [
+                                                                {
+                                                                    type: 'line',
+                                                                    axis: [
+                                                                        'left',
+                                                                        'bottom'
+                                                                    ],
+                                                                    xField: 'date',
+                                                                    yField: 'network',
+                                                                    markerConfig: {
+                                                                        radius: 3,
+                                                                        size: 3
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            height: 25,
+                                                            style: '{font-weight:bold;text-align: center;}',
+                                                            text: 'AVG Nework Utilization'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'panel',
+                                            id: 'instanceDashboardPanel',
+                                            itemId: 'instanceDashboardPanel',
+                                            margin: '4 4 4 4',
+                                            layout: {
+                                                type: 'vbox',
+                                                align: 'stretch'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'panel',
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
                                                             xtype: 'panel',
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'stretch'
-                                                            },
+                                                            width: 450,
+                                                            collapsible: false,
                                                             items: [
                                                                 {
-                                                                    xtype: 'panel',
-                                                                    flex: 2,
-                                                                    layout: {
-                                                                        type: 'vbox',
-                                                                        align: 'center'
-                                                                    },
-                                                                    items: [
-                                                                        {
-                                                                            xtype: 'panel',
-                                                                            flex: 1
-                                                                        },
-                                                                        {
-                                                                            xtype: 'label',
-                                                                            html: '<center><h1>Network Realtime</h1></center>'
-                                                                        },
-                                                                        {
-                                                                            xtype: 'combobox',
-                                                                            id: 'interfacesCombo',
-                                                                            itemId: 'interfacesCombo',
-                                                                            width: 110,
-                                                                            fieldLabel: 'NIC ',
-                                                                            labelWidth: 40,
-                                                                            displayField: 'name'
-                                                                        },
-                                                                        {
-                                                                            xtype: 'combobox',
-                                                                            id: 'interfacesCombo1',
-                                                                            itemId: 'interfacesCombo1',
-                                                                            width: 110,
-                                                                            fieldLabel: '시간 ',
-                                                                            labelWidth: 40,
-                                                                            displayField: 'name'
-                                                                        },
-                                                                        {
-                                                                            xtype: 'panel',
-                                                                            flex: 1
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    xtype: 'panel',
-                                                                    flex: 5,
-                                                                    height: 250,
-                                                                    id: 'ifChartPanel',
-                                                                    itemId: 'ifChartPanel',
-                                                                    autoScroll: true,
-                                                                    layout: 'fit',
-                                                                    items: [
-                                                                        {
-                                                                            xtype: 'chart',
-                                                                            height: 250,
-                                                                            id: 'interfaceChart',
-                                                                            itemId: 'interfaceChart',
-                                                                            width: 400,
-                                                                            animate: true,
-                                                                            insetPadding: 20,
-                                                                            store: 'ChartDataStore',
-                                                                            axes: [
-                                                                                {
-                                                                                    type: 'Numeric',
-                                                                                    fields: [
-                                                                                        'cur_in',
-                                                                                        'cur_out'
-                                                                                    ],
-                                                                                    grid: {
-                                                                                        odd: {
-                                                                                            fill: '#dedede',
-                                                                                            stroke: '#ddd',
-                                                                                            'stroke-width': 0.5
-                                                                                        }
-                                                                                    },
-                                                                                    title: 'Usage (kbps)',
-                                                                                    maximum: 100,
-                                                                                    minimum: 0,
-                                                                                    position: 'left'
-                                                                                },
-                                                                                {
-                                                                                    type: 'Time',
-                                                                                    fields: [
-                                                                                        'date'
-                                                                                    ],
-                                                                                    label: {
-                                                                                        rotate: {
-                                                                                            degrees: 315
-                                                                                        }
-                                                                                    },
-                                                                                    grid: true,
-                                                                                    position: 'bottom',
-                                                                                    dateFormat: 'H:i:s',
-                                                                                    step: [
-                                                                                        's',
-                                                                                        1
-                                                                                    ]
-                                                                                }
-                                                                            ],
-                                                                            series: [
-                                                                                {
-                                                                                    type: 'line',
-                                                                                    axis: [
-                                                                                        'left',
-                                                                                        'bottom'
-                                                                                    ],
-                                                                                    xField: 'date',
-                                                                                    yField: 'cur_in',
-                                                                                    markerConfig: {
-                                                                                        radius: 3,
-                                                                                        size: 3
-                                                                                    }
-                                                                                },
-                                                                                {
-                                                                                    type: 'line',
-                                                                                    axis: [
-                                                                                        'left',
-                                                                                        'bottom'
-                                                                                    ],
-                                                                                    xField: 'date',
-                                                                                    yField: 'cur_out',
-                                                                                    markerConfig: {
-                                                                                        radius: 3,
-                                                                                        size: 3
-                                                                                    }
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    xtype: 'panel',
-                                                                    flex: 2,
+                                                                    xtype: 'fieldset',
+                                                                    margin: '0 4 0 0',
+                                                                    collapsible: true,
+                                                                    title: 'VM 상세정보',
                                                                     layout: {
                                                                         type: 'vbox',
                                                                         align: 'stretch'
                                                                     },
                                                                     items: [
                                                                         {
-                                                                            xtype: 'panel',
-                                                                            flex: 1
-                                                                        },
-                                                                        {
-                                                                            xtype: 'panel',
-                                                                            height: 130,
-                                                                            layout: {
-                                                                                type: 'hbox',
-                                                                                align: 'stretch'
+                                                                            xtype: 'form',
+                                                                            flex: 1,
+                                                                            margin: 1,
+                                                                            bodyPadding: 10,
+                                                                            header: false,
+                                                                            title: 'My Form',
+                                                                            fieldDefaults: {
+                                                                                readOnly: true,
+                                                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                                                labelWidth: 80,
+                                                                                labelSeparator: ' :'
                                                                             },
                                                                             items: [
                                                                                 {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    layout: {
-                                                                                        type: 'vbox',
-                                                                                        align: 'stretch'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            html: '<center><b>Current</b></center>',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            html: '<center><b>Average</b></center>',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            html: '<center><b>Peak</b></center>',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                                                                                        }
-                                                                                    ]
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: 'VM 이름'
                                                                                 },
                                                                                 {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    layout: {
-                                                                                        type: 'vbox',
-                                                                                        align: 'stretch'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            html: '<center><b>Inbound</b></center>',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            id: 'curInLabel',
-                                                                                            itemId: 'curInLabel',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                                                            text: 'N/A'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            id: 'avgInLabel',
-                                                                                            itemId: 'avgInLabel',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                                                            text: 'N/A'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            id: 'peakInLabel',
-                                                                                            itemId: 'peakInLabel',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                                                            text: 'N/A'
-                                                                                        }
-                                                                                    ]
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: 'Hostname'
                                                                                 },
                                                                                 {
-                                                                                    xtype: 'panel',
-                                                                                    flex: 1,
-                                                                                    layout: {
-                                                                                        type: 'vbox',
-                                                                                        align: 'stretch'
-                                                                                    },
-                                                                                    items: [
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            html: '<center><b>Outbound</b></center>',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            id: 'curOutLabel',
-                                                                                            itemId: 'curOutLabel',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                                                            text: 'N/A'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            id: 'avgOutLabel',
-                                                                                            itemId: 'avgOutLabel',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                                                            text: 'N/A'
-                                                                                        },
-                                                                                        {
-                                                                                            xtype: 'label',
-                                                                                            flex: 1,
-                                                                                            id: 'peakOutLabel',
-                                                                                            itemId: 'peakOutLabel',
-                                                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                                                            text: 'N/A'
-                                                                                        }
-                                                                                    ]
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: '아키텍처'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: '인터페이스'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: '커널'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: 'VM Type'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: 'NFV'
                                                                                 }
                                                                             ]
-                                                                        },
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'panel',
+                                                            flex: 1,
+                                                            collapsible: false,
+                                                            items: [
+                                                                {
+                                                                    xtype: 'fieldset',
+                                                                    collapsible: true,
+                                                                    title: 'Interfaces',
+                                                                    items: [
                                                                         {
-                                                                            xtype: 'panel',
-                                                                            flex: 1
+                                                                            xtype: 'gridpanel',
+                                                                            height: 225,
+                                                                            id: 'interfacesGridPanel',
+                                                                            itemId: 'interfacesGridPanel',
+                                                                            maxHeight: 225,
+                                                                            style: 'vertical-align:middle !important;',
+                                                                            autoScroll: true,
+                                                                            bodyBorder: true,
+                                                                            columnLines: true,
+                                                                            emptyText: 'No data found.',
+                                                                            forceFit: true,
+                                                                            dockedItems: [
+                                                                                {
+                                                                                    xtype: 'toolbar',
+                                                                                    dock: 'top',
+                                                                                    vertical: true
+                                                                                }
+                                                                            ],
+                                                                            columns: [
+                                                                                {
+                                                                                    xtype: 'gridcolumn',
+                                                                                    align: 'right',
+                                                                                    dataIndex: 'name',
+                                                                                    text: 'Name',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'gridcolumn',
+                                                                                    align: 'right',
+                                                                                    dataIndex: 'name',
+                                                                                    text: 'Type',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'gridcolumn',
+                                                                                    dataIndex: 'description',
+                                                                                    text: 'Source',
+                                                                                    flex: 3,
+                                                                                    editor: {
+                                                                                        xtype: 'textareafield',
+                                                                                        readOnly: true
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'gridcolumn',
+                                                                                    dataIndex: 'ip',
+                                                                                    text: 'IP Address',
+                                                                                    flex: 2
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'gridcolumn',
+                                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                                        var values = (value + "").split(",");
+
+                                                                                        var result = "";
+                                                                                        var on = "<img src='resources/images/icons/bullet_green.png'><br/>";
+                                                                                        var off = "<img src='resources/images/icons/bullet_red.png'><br/>";
+
+                                                                                        if (values[0] === "on") {
+                                                                                            result += on;
+                                                                                        } else if(values[0] === "off") {
+                                                                                            result += off;
+                                                                                        } else {
+                                                                                            result += "<br/>";
+                                                                                        }
+
+                                                                                        if (values[1] === '') {
+                                                                                            result += "&nbsp;";
+                                                                                        } else {
+                                                                                            result += values[1];
+                                                                                        }
+
+                                                                                        return result;
+                                                                                    },
+                                                                                    align: 'center',
+                                                                                    dataIndex: 'status',
+                                                                                    text: 'Status',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'gridcolumn',
+                                                                                    align: 'right',
+                                                                                    dataIndex: 'in',
+                                                                                    text: 'In',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'gridcolumn',
+                                                                                    align: 'right',
+                                                                                    dataIndex: 'out',
+                                                                                    text: 'Out',
+                                                                                    flex: 1
+                                                                                }
+                                                                            ],
+                                                                            plugins: [
+                                                                                Ext.create('Ext.grid.plugin.CellEditing', {
+
+                                                                                })
+                                                                            ]
                                                                         }
                                                                     ]
                                                                 }
                                                             ]
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'panel',
+                                                            flex: 1,
+                                                            layout: {
+                                                                type: 'vbox',
+                                                                align: 'center'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'panel',
+                                                                    flex: 1
+                                                                },
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    id: 'interfacesCombo',
+                                                                    itemId: 'interfacesCombo',
+                                                                    width: 110,
+                                                                    fieldLabel: 'NIC ',
+                                                                    labelWidth: 40,
+                                                                    displayField: 'name'
+                                                                },
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    id: 'interfacesCombo1',
+                                                                    itemId: 'interfacesCombo1',
+                                                                    width: 110,
+                                                                    fieldLabel: '시간 ',
+                                                                    labelWidth: 40,
+                                                                    displayField: 'name'
+                                                                },
+                                                                {
+                                                                    xtype: 'panel',
+                                                                    flex: 1
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'panel',
+                                                            flex: 6,
+                                                            height: 230,
+                                                            id: 'ifChartPanel',
+                                                            itemId: 'ifChartPanel',
+                                                            autoScroll: true,
+                                                            layout: 'fit',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'chart',
+                                                                    height: 250,
+                                                                    id: 'interfaceChart',
+                                                                    itemId: 'interfaceChart',
+                                                                    width: 400,
+                                                                    animate: true,
+                                                                    insetPadding: 20,
+                                                                    store: 'ChartDataStore',
+                                                                    axes: [
+                                                                        {
+                                                                            type: 'Numeric',
+                                                                            fields: [
+                                                                                'cur_in',
+                                                                                'cur_out'
+                                                                            ],
+                                                                            grid: {
+                                                                                odd: {
+                                                                                    fill: '#dedede',
+                                                                                    stroke: '#ddd',
+                                                                                    'stroke-width': 0.5
+                                                                                }
+                                                                            },
+                                                                            title: 'Usage (kbps)',
+                                                                            maximum: 100,
+                                                                            minimum: 0,
+                                                                            position: 'left'
+                                                                        },
+                                                                        {
+                                                                            type: 'Time',
+                                                                            fields: [
+                                                                                'date'
+                                                                            ],
+                                                                            label: {
+                                                                                rotate: {
+                                                                                    degrees: 315
+                                                                                }
+                                                                            },
+                                                                            grid: true,
+                                                                            position: 'bottom',
+                                                                            dateFormat: 'H:i:s',
+                                                                            step: [
+                                                                                's',
+                                                                                1
+                                                                            ]
+                                                                        }
+                                                                    ],
+                                                                    series: [
+                                                                        {
+                                                                            type: 'line',
+                                                                            axis: [
+                                                                                'left',
+                                                                                'bottom'
+                                                                            ],
+                                                                            xField: 'date',
+                                                                            yField: 'cur_in',
+                                                                            markerConfig: {
+                                                                                radius: 3,
+                                                                                size: 3
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            type: 'line',
+                                                                            axis: [
+                                                                                'left',
+                                                                                'bottom'
+                                                                            ],
+                                                                            xField: 'date',
+                                                                            yField: 'cur_out',
+                                                                            markerConfig: {
+                                                                                radius: 3,
+                                                                                size: 3
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'panel',
+                                                            flex: 2,
+                                                            layout: {
+                                                                type: 'vbox',
+                                                                align: 'stretch'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'panel',
+                                                                    flex: 1
+                                                                },
+                                                                {
+                                                                    xtype: 'panel',
+                                                                    height: 130,
+                                                                    layout: {
+                                                                        type: 'hbox',
+                                                                        align: 'stretch'
+                                                                    },
+                                                                    items: [
+                                                                        {
+                                                                            xtype: 'panel',
+                                                                            flex: 1,
+                                                                            layout: {
+                                                                                type: 'vbox',
+                                                                                align: 'stretch'
+                                                                            },
+                                                                            items: [
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    html: '<center><b>Current</b></center>',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    html: '<center><b>Average</b></center>',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    html: '<center><b>Peak</b></center>',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            xtype: 'panel',
+                                                                            flex: 1,
+                                                                            layout: {
+                                                                                type: 'vbox',
+                                                                                align: 'stretch'
+                                                                            },
+                                                                            items: [
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    html: '<center><b>Inbound</b></center>',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    id: 'curInLabel',
+                                                                                    itemId: 'curInLabel',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                                                    text: 'N/A'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    id: 'avgInLabel',
+                                                                                    itemId: 'avgInLabel',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                                                    text: 'N/A'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    id: 'peakInLabel',
+                                                                                    itemId: 'peakInLabel',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                                                    text: 'N/A'
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            xtype: 'panel',
+                                                                            flex: 1,
+                                                                            layout: {
+                                                                                type: 'vbox',
+                                                                                align: 'stretch'
+                                                                            },
+                                                                            items: [
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    html: '<center><b>Outbound</b></center>',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    id: 'curOutLabel',
+                                                                                    itemId: 'curOutLabel',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                                                    text: 'N/A'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    id: 'avgOutLabel',
+                                                                                    itemId: 'avgOutLabel',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                                                    text: 'N/A'
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'label',
+                                                                                    flex: 1,
+                                                                                    id: 'peakOutLabel',
+                                                                                    itemId: 'peakOutLabel',
+                                                                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                                                    text: 'N/A'
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    xtype: 'panel',
+                                                                    flex: 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }
                                     ]
-                                },
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            autoScroll: true,
+                            title: 'NIC',
+                            items: [
                                 {
                                     xtype: 'panel',
-                                    autoScroll: true,
-                                    title: 'NIC',
-                                    items: [
+                                    header: false,
+                                    title: 'My Panel',
+                                    dockedItems: [
                                         {
-                                            xtype: 'panel',
-                                            header: false,
-                                            title: 'My Panel',
-                                            dockedItems: [
-                                                {
-                                                    xtype: 'toolbar',
-                                                    dock: 'top',
-                                                    height: 40,
-                                                    ui: 'footer',
-                                                    items: [
-                                                        {
-                                                            xtype: 'combobox',
-                                                            margin: '0 0 0 10',
-                                                            width: 110,
-                                                            fieldLabel: 'NIC ',
-                                                            labelWidth: 40
-                                                        },
-                                                        {
-                                                            xtype: 'checkboxfield',
-                                                            margin: '0 10 0 10',
-                                                            boxLabel: 'DHCP'
-                                                        },
-                                                        {
-                                                            xtype: 'checkboxfield',
-                                                            boxLabel: '활성화'
-                                                        },
-                                                        {
-                                                            xtype: 'tbspacer',
-                                                            flex: 1
-                                                        },
-                                                        {
-                                                            xtype: 'button',
-                                                            margin: '0 20 0 0',
-                                                            text: '신규생성'
-                                                        }
-                                                    ]
-                                                }
-                                            ],
+                                            xtype: 'toolbar',
+                                            dock: 'top',
+                                            height: 40,
+                                            ui: 'footer',
                                             items: [
                                                 {
-                                                    xtype: 'form',
-                                                    bodyPadding: 10,
-                                                    header: false,
-                                                    title: 'My Form',
-                                                    fieldDefaults: {
-                                                        msgTarget: 'side',
-                                                        margin: '0 10'
+                                                    xtype: 'combobox',
+                                                    margin: '0 0 0 10',
+                                                    width: 110,
+                                                    fieldLabel: 'NIC',
+                                                    labelWidth: 40
+                                                },
+                                                {
+                                                    xtype: 'checkboxfield',
+                                                    margin: '0 10 0 10',
+                                                    boxLabel: 'DHCP'
+                                                },
+                                                {
+                                                    xtype: 'checkboxfield',
+                                                    boxLabel: '활성화'
+                                                },
+                                                {
+                                                    xtype: 'tbspacer',
+                                                    flex: 1
+                                                },
+                                                {
+                                                    xtype: 'button',
+                                                    margin: '0 20 0 0',
+                                                    text: '신규생성'
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    items: [
+                                        {
+                                            xtype: 'form',
+                                            autoScroll: true,
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 0 0',
+                                                labelWidth: 80
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
                                                     },
                                                     items: [
                                                         {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
+                                                            xtype: 'checkboxgroup',
+                                                            flex: 1,
+                                                            margin: '0 0 0 20',
+                                                            width: 321,
                                                             items: [
                                                                 {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'IP 주소'
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth1'
                                                                 },
                                                                 {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Subnet'
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth2'
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth3'
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth4'
                                                                 }
                                                             ]
                                                         },
                                                         {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
+                                                            xtype: 'tbspacer',
+                                                            flex: 2
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'IP 주소'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Subnet'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Gateway'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'IP V6 주소'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'combobox',
+                                                            flex: 1,
+                                                            fieldLabel: 'Duplex'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'MAC ID'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'combobox',
+                                                            flex: 1,
+                                                            fieldLabel: 'Speed'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'MTU'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'textareafield',
+                                                    anchor: '100%',
+                                                    margin: '5 20 5 0',
+                                                    fieldLabel: 'Config ',
+                                                    rows: 8
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            autoScroll: true,
+                            title: 'Bonding',
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel',
+                                    dockedItems: [
+                                        {
+                                            xtype: 'toolbar',
+                                            dock: 'top',
+                                            height: 40,
+                                            ui: 'footer',
+                                            items: [
+                                                {
+                                                    xtype: 'combobox',
+                                                    margin: '0 0 0 10',
+                                                    width: 110,
+                                                    fieldLabel: 'NIC ',
+                                                    labelWidth: 40
+                                                },
+                                                {
+                                                    xtype: 'checkboxfield',
+                                                    margin: '0 10 0 10',
+                                                    boxLabel: 'DHCP'
+                                                },
+                                                {
+                                                    xtype: 'checkboxfield',
+                                                    boxLabel: '활성화'
+                                                },
+                                                {
+                                                    xtype: 'tbspacer',
+                                                    flex: 1
+                                                },
+                                                {
+                                                    xtype: 'button',
+                                                    margin: '0 20 0 0',
+                                                    text: '신규생성'
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    items: [
+                                        {
+                                            xtype: 'form',
+                                            autoScroll: true,
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 0 0',
+                                                labelWidth: 80
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'checkboxgroup',
+                                                            flex: 1,
+                                                            margin: '0 0 0 20',
+                                                            width: 321,
                                                             items: [
                                                                 {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Gateway'
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth1'
                                                                 },
                                                                 {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'IP V6 주소'
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth2'
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth3'
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'eth4'
                                                                 }
                                                             ]
                                                         },
                                                         {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
+                                                            xtype: 'tbspacer',
+                                                            flex: 2
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'IP 주소'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Subnet'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Gateway'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'IP V6 주소'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'combobox',
+                                                            flex: 1,
+                                                            fieldLabel: 'Duplex'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'MAC ID'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'combobox',
+                                                            flex: 1,
+                                                            fieldLabel: 'Speed'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'MTU'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'textareafield',
+                                                    anchor: '100%',
+                                                    margin: '5 20 5 0',
+                                                    fieldLabel: 'Config ',
+                                                    rows: 8
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            title: 'Routing',
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel',
+                                    items: [
+                                        {
+                                            xtype: 'label',
+                                            text: 'Rounting'
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            title: 'NAT',
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel',
+                                    dockedItems: [
+                                        {
+                                            xtype: 'toolbar',
+                                            dock: 'top',
+                                            height: 40,
+                                            margin: '0 0 20 0',
+                                            ui: 'footer',
+                                            items: [
+                                                {
+                                                    xtype: 'combobox',
+                                                    margin: '0 0 0 10',
+                                                    width: 110,
+                                                    fieldLabel: 'Rule',
+                                                    labelWidth: 40
+                                                },
+                                                {
+                                                    xtype: 'tbspacer',
+                                                    flex: 1
+                                                },
+                                                {
+                                                    xtype: 'button',
+                                                    margin: '0 20 0 0',
+                                                    text: '신규생성'
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    items: [
+                                        {
+                                            xtype: 'form',
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 10 0',
+                                                labelWidth: 110
+                                            },
+                                            layout: {
+                                                type: 'hbox',
+                                                align: 'stretch'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'fieldset',
+                                                    flex: 1,
+                                                    margins: '5',
+                                                    padding: '5 10 20 10',
+                                                    collapsible: true,
+                                                    title: 'Source',
+                                                    items: [
+                                                        {
+                                                            xtype: 'checkboxgroup',
+                                                            margin: '5 0 0 10',
                                                             items: [
                                                                 {
-                                                                    xtype: 'combobox',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Duplex'
+                                                                    xtype: 'checkboxfield',
+                                                                    boxLabel: 'Disable'
                                                                 },
                                                                 {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'MAC ID'
+                                                                    xtype: 'checkboxfield',
+                                                                    boxLabel: 'Exclude'
                                                                 }
                                                             ]
                                                         },
                                                         {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'combobox',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Speed'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'MTU'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'textareafield',
+                                                            xtype: 'combobox',
                                                             anchor: '100%',
-                                                            margin: '5 20 5 20',
-                                                            fieldLabel: 'Config ',
-                                                            labelAlign: 'top',
-                                                            rows: 8
+                                                            fieldLabel: 'Outbound NIC'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Inbound NIC'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: '주소'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Translation'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: '프로토콜'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldset',
+                                                    flex: 1,
+                                                    margins: '5',
+                                                    padding: '5 10 20 10',
+                                                    collapsible: true,
+                                                    title: 'Destination',
+                                                    items: [
+                                                        {
+                                                            xtype: 'checkboxgroup',
+                                                            margin: '5 0 0 10',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    boxLabel: 'Disable'
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    boxLabel: 'Exclude'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Outbound NIC'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Inbound NIC'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: '주소'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Translation'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: '프로토콜'
                                                         }
                                                     ]
                                                 }
                                             ]
                                         }
                                     ]
-                                },
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            title: 'DHCP(Service)',
+                            items: [
                                 {
                                     xtype: 'panel',
-                                    autoScroll: true,
-                                    title: 'Bonding',
+                                    header: false,
+                                    title: 'My Panel',
                                     items: [
                                         {
-                                            xtype: 'panel',
+                                            xtype: 'form',
+                                            autoScroll: true,
+                                            bodyPadding: 10,
                                             header: false,
-                                            title: 'My Panel',
-                                            dockedItems: [
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 0 0',
+                                                labelWidth: 140
+                                            },
+                                            items: [
                                                 {
-                                                    xtype: 'toolbar',
-                                                    dock: 'top',
-                                                    height: 40,
-                                                    ui: 'footer',
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 20,
+                                                    margin: '5 0 0 0',
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
                                                     items: [
                                                         {
-                                                            xtype: 'combobox',
-                                                            margin: '0 0 0 10',
-                                                            width: 110,
-                                                            fieldLabel: 'NIC ',
-                                                            labelWidth: 40
-                                                        },
-                                                        {
-                                                            xtype: 'checkboxfield',
-                                                            margin: '0 10 0 10',
-                                                            boxLabel: 'DHCP'
-                                                        },
-                                                        {
-                                                            xtype: 'checkboxfield',
-                                                            boxLabel: '활성화'
+                                                            xtype: 'checkboxgroup',
+                                                            flex: 1,
+                                                            margin: '0 0 0 20',
+                                                            width: 321,
+                                                            items: [
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'Disable'
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    margin: 0,
+                                                                    boxLabel: 'Dynamic DNS Update'
+                                                                }
+                                                            ]
                                                         },
                                                         {
                                                             xtype: 'tbspacer',
-                                                            flex: 1
-                                                        },
-                                                        {
-                                                            xtype: 'button',
-                                                            margin: '0 20 0 0',
-                                                            text: '신규생성'
+                                                            flex: 2
                                                         }
                                                     ]
-                                                }
-                                            ],
-                                            items: [
+                                                },
                                                 {
-                                                    xtype: 'form',
-                                                    autoScroll: true,
-                                                    bodyPadding: 10,
-                                                    header: false,
-                                                    title: 'My Form',
-                                                    fieldDefaults: {
-                                                        msgTarget: 'side',
-                                                        margin: '0 10'
-                                                    },
+                                                    xtype: 'textareafield',
+                                                    anchor: '100%',
+                                                    margin: '5 20 5 20',
+                                                    fieldLabel: 'global-parameters',
+                                                    labelAlign: 'top',
+                                                    labelStyle: ' ',
+                                                    labelWidth: 130,
+                                                    rows: 8
+                                                },
+                                                {
+                                                    xtype: 'fieldset',
+                                                    margin: '10 20 10 20',
+                                                    padding: 0,
+                                                    title: '',
                                                     items: [
+                                                        {
+                                                            xtype: 'toolbar',
+                                                            height: 40,
+                                                            ui: 'footer',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    margin: '0 0 0 10',
+                                                                    width: 200,
+                                                                    fieldLabel: 'Shared Network',
+                                                                    labelStyle: ' ',
+                                                                    labelWidth: 110
+                                                                },
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                },
+                                                                {
+                                                                    xtype: 'button',
+                                                                    margin: '0 20 0 0',
+                                                                    text: '신규생성'
+                                                                }
+                                                            ]
+                                                        },
                                                         {
                                                             xtype: 'fieldcontainer',
                                                             flex: '1',
                                                             height: 35,
+                                                            margin: '5 0 5 30',
                                                             fieldLabel: 'Label',
                                                             hideLabel: true,
                                                             layout: {
@@ -1195,27 +1565,18 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                 {
                                                                     xtype: 'checkboxgroup',
                                                                     flex: 1,
+                                                                    margin: '0 0 0 20',
                                                                     width: 321,
                                                                     items: [
                                                                         {
                                                                             xtype: 'checkboxfield',
                                                                             margin: 0,
-                                                                            boxLabel: 'eth1'
+                                                                            boxLabel: 'Authoritative'
                                                                         },
                                                                         {
                                                                             xtype: 'checkboxfield',
                                                                             margin: 0,
-                                                                            boxLabel: 'eth2'
-                                                                        },
-                                                                        {
-                                                                            xtype: 'checkboxfield',
-                                                                            margin: 0,
-                                                                            boxLabel: 'eth3'
-                                                                        },
-                                                                        {
-                                                                            xtype: 'checkboxfield',
-                                                                            margin: 0,
-                                                                            boxLabel: 'eth4'
+                                                                            boxLabel: 'Disable'
                                                                         }
                                                                     ]
                                                                 },
@@ -1239,12 +1600,12 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
-                                                                    fieldLabel: 'IP 주소'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
+                                                                    margin: '0 20 0 0',
                                                                     fieldLabel: 'Subnet'
+                                                                },
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
                                                                 }
                                                             ]
                                                         },
@@ -1262,35 +1623,12 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
-                                                                    fieldLabel: 'Gateway'
+                                                                    fieldLabel: 'Start IP'
                                                                 },
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
-                                                                    fieldLabel: 'IP V6 주소'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'combobox',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Duplex'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'MAC ID'
+                                                                    fieldLabel: 'Stop IP'
                                                                 }
                                                             ]
                                                         },
@@ -1308,152 +1646,421 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                 {
                                                                     xtype: 'combobox',
                                                                     flex: 1,
-                                                                    fieldLabel: 'Speed'
+                                                                    fieldLabel: 'DNS Server'
                                                                 },
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
-                                                                    fieldLabel: 'MTU'
+                                                                    fieldLabel: 'Domain Name'
                                                                 }
                                                             ]
                                                         },
                                                         {
-                                                            xtype: 'textareafield',
-                                                            anchor: '100%',
-                                                            margin: '5 20 5 20',
-                                                            fieldLabel: 'Config ',
-                                                            labelAlign: 'top',
-                                                            rows: 8
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Static Mapping IP'
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Static Mapping MAC'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 160,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textareafield',
+                                                                    flex: 1,
+                                                                    margin: '5 10 5 0',
+                                                                    fieldLabel: 'Static IP',
+                                                                    rows: 8
+                                                                },
+                                                                {
+                                                                    xtype: 'button',
+                                                                    flex: 1,
+                                                                    maxWidth: 50,
+                                                                    width: 50,
+                                                                    text: '추가'
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 }
                                             ]
                                         }
                                     ]
-                                },
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            title: 'DNS(Service)',
+                            items: [
                                 {
                                     xtype: 'panel',
-                                    title: 'Routing',
+                                    header: false,
+                                    title: 'My Panel',
                                     items: [
                                         {
-                                            xtype: 'panel',
+                                            xtype: 'form',
+                                            autoScroll: true,
+                                            bodyPadding: 10,
                                             header: false,
-                                            title: 'My Panel',
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 10 0',
+                                                labelWidth: 100
+                                            },
+                                            layout: {
+                                                type: 'hbox',
+                                                align: 'stretch'
+                                            },
                                             items: [
                                                 {
-                                                    xtype: 'label',
-                                                    text: 'Rounting'
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    title: 'NAT',
-                                    items: [
-                                        {
-                                            xtype: 'panel',
-                                            header: false,
-                                            title: 'My Panel',
-                                            items: [
+                                                    xtype: 'fieldset',
+                                                    flex: 1,
+                                                    margin: '20 10 10 10',
+                                                    padding: '20 10 20 5',
+                                                    collapsible: true,
+                                                    title: 'DNS Service',
+                                                    items: [
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'NIC'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Service'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'hostname'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'login'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Server'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'password'
+                                                        }
+                                                    ]
+                                                },
                                                 {
-                                                    xtype: 'label',
-                                                    text: 'NAT'
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    title: 'Service',
-                                    items: [
-                                        {
-                                            xtype: 'panel',
-                                            header: false,
-                                            title: 'My Panel',
-                                            items: [
-                                                {
-                                                    xtype: 'label',
-                                                    text: 'Service'
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    title: 'Security',
-                                    items: [
-                                        {
-                                            xtype: 'panel',
-                                            header: false,
-                                            title: 'My Panel',
-                                            items: [
-                                                {
-                                                    xtype: 'label',
-                                                    text: 'Security'
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    title: 'Firewall',
-                                    items: [
-                                        {
-                                            xtype: 'panel',
-                                            header: false,
-                                            title: 'My Panel',
-                                            items: [
-                                                {
-                                                    xtype: 'label',
-                                                    text: 'Firewall'
+                                                    xtype: 'fieldset',
+                                                    flex: 1,
+                                                    margin: '20 10 10 10',
+                                                    padding: '20 10 20 5',
+                                                    collapsible: true,
+                                                    title: 'DNS Forwarding',
+                                                    items: [
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Listen-on NIC'
+                                                        },
+                                                        {
+                                                            xtype: 'combobox',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'DHCP NIC'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Name Server'
+                                                        },
+                                                        {
+                                                            xtype: 'checkboxfield',
+                                                            anchor: '100%',
+                                                            margin: '20 0 0 10',
+                                                            style: 'color:#666;',
+                                                            fieldLabel: '',
+                                                            boxLabel: 'System Forwarding'
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }
                                     ]
                                 }
                             ]
-                        }
-                    ],
-                    dockedItems: [
+                        },
                         {
-                            xtype: 'toolbar',
-                            dock: 'top',
+                            xtype: 'panel',
+                            title: 'HTTPS/SSH(Service)',
                             items: [
                                 {
-                                    xtype: 'label',
-                                    text: 'VM :'
-                                },
-                                {
-                                    xtype: 'cycle',
-                                    id: 'vmListCycleBtn',
-                                    itemId: 'vmListCycleBtn',
-                                    width: 210,
-                                    menu: {
-                                        xtype: 'menu',
-                                        id: 'vmItemList',
-                                        itemId: 'vmItemList',
-                                        width: 200,
-                                        items: [
-                                            {
-                                                xtype: 'menucheckitem',
-                                                id: 'vm1',
-                                                itemId: 'vm1',
-                                                text: 'kj-h-nfv-host-01.ncia.go.kr',
-                                                group: 'vm'
-                                            }
-                                        ]
-                                    },
-                                    listeners: {
-                                        click: {
-                                            fn: me.onVmListCycleBtnClick,
-                                            scope: me
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel',
+                                    items: [
+                                        {
+                                            xtype: 'form',
+                                            autoScroll: true,
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 0 0',
+                                                labelWidth: 40
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    margin: '20 0 0 0',
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'checkboxfield',
+                                                            flex: 1,
+                                                            margin: '0 0 0 20',
+                                                            style: 'color:#666;',
+                                                            boxLabel: 'HTTPS Enabled'
+                                                        },
+                                                        {
+                                                            xtype: 'checkboxfield',
+                                                            flex: 1,
+                                                            style: 'color:#666;',
+                                                            boxLabel: 'HTTPS Redirect'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'checkboxfield',
+                                                            flex: 1,
+                                                            margin: '0 0 0 20',
+                                                            style: 'color:#666;',
+                                                            boxLabel: 'SSH Enabled'
+                                                        },
+                                                        {
+                                                            xtype: 'checkboxfield',
+                                                            flex: 1,
+                                                            style: 'color:#666;',
+                                                            boxLabel: 'Allow Root'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 45,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            margin: '30 50 0 0',
+                                                            fieldLabel: 'Port',
+                                                            labelWidth: 50
+                                                        },
+                                                        {
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
-                                    }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            title: 'System(Service)',
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel',
+                                    items: [
+                                        {
+                                            xtype: 'form',
+                                            autoScroll: true,
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 0 0',
+                                                labelWidth: 100
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    margin: '20 10 0 0',
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Hostname'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'level(Admin)'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Username'
+                                                        },
+                                                        {
+                                                            xtype: 'textfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'password'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'textareafield',
+                                                    anchor: '100%',
+                                                    margin: '15 20 15 0',
+                                                    fieldLabel: 'ssh public key',
+                                                    rows: 8
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 35,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'combobox',
+                                                            flex: 1,
+                                                            fieldLabel: 'Timezone'
+                                                        },
+                                                        {
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            title: 'Security',
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel',
+                                    items: [
+                                        {
+                                            xtype: 'label',
+                                            text: 'Security'
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            title: 'Firewall',
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel',
+                                    items: [
+                                        {
+                                            xtype: 'label',
+                                            text: 'Firewall'
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -1463,10 +2070,6 @@ Ext.define('spider.view.vmMgmtPanel', {
         });
 
         me.callParent(arguments);
-    },
-
-    onVmListCycleBtnClick: function(button, e, eOpts) {
-        return false;
     }
 
 });

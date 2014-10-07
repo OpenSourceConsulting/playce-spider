@@ -23,16 +23,29 @@
                 ],
                 "fn": "init",
                 "implHandler": [
+                    "var global = this;",
+                    "",
                     "var intervalId1, intervalId2, intervalId3, intervalId4;",
                     "var chartDataStore = Ext.getStore('chartDataStore');",
                     "var cpuChart = Ext.getCmp('cpuChart');",
                     "var memoryChart = Ext.getCmp('memoryChart');",
                     "var networkChart = Ext.getCmp('networkChart');",
                     "",
+                    "//CROS 설정",
+                    "Ext.data.Connection.prototype.useDefaultXhrHeader = false;",
+                    "",
                     "// Global variables를 정의하는 구문으로 GlobalData.urlPrefix, GlobalData.serverSize 등으로 어디에서든 접근이 가능하다.",
+                    "Ext.define('GLOBAL', {",
+                    "    singleton: true,",
+                    "    me: global,",
+                    "    ",
+                    "    apiUrlPrefix : \"http://192.168.0.3:5001/\",",
+                    "    graphiteUrlPrefix : \"\"",
+                    "});",
+                    "",
                     "Ext.define('GlobalData', {",
                     "    singleton: true,",
-                    "",
+                    "    ",
                     "    intervalId1: intervalId1,",
                     "    intervalId2: intervalId2,",
                     "    intervalId3: intervalId3,",
@@ -45,6 +58,37 @@
                 ]
             },
             "designerId": "b2561776-47a6-4a27-a6a2-e0418d1f0581"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "button",
+                    "msg"
+                ],
+                "fn": "closeWindow",
+                "implHandler": [
+                    "var closeMsg = \"작업을 취소하시겠습니까?\";",
+                    "if(msg) {",
+                    "    closeMsg = msg;",
+                    "}",
+                    "",
+                    "Ext.MessageBox.confirm('Confirm', closeMsg, function(btn){",
+                    "",
+                    "    if(btn == \"yes\"){",
+                    "        button.up(\"window\").close();",
+                    "    }",
+                    "",
+                    "});",
+                    ""
+                ]
+            },
+            "designerId": "9eddd5f3-e107-4a09-84f2-13ca26b01f88"
         }
     ]
 }

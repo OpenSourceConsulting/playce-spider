@@ -6,16 +6,16 @@
     },
     "codeClass": null,
     "userConfig": {
-        "designer|userAlias": "dashboardnodepanel",
+        "designer|userAlias": "DashBoardNodePanel",
         "designer|userClassName": "DashBoardNodePanel",
         "header": false,
-        "height": 214,
-        "id": null,
-        "itemId": null,
+        "height": 180,
+        "id": "DashBoardNodePanel",
+        "itemId": "DashBoardNodePanel",
         "title": "My Panel",
         "width": null
     },
-    "designerId": "098ba88a-b3b4-4ffd-b7d8-26f8a214935d",
+    "designerId": "19b98fcc-f7b4-4bc5-8838-1c6ce85ca7b8",
     "cn": [
         {
             "type": "Ext.form.FieldSet",
@@ -26,11 +26,12 @@
             "codeClass": null,
             "userConfig": {
                 "container|align": "stretch",
+                "height": 173,
                 "layout": "hbox",
                 "margin": 5,
                 "title": ""
             },
-            "designerId": "4b1e2d62-e275-4642-bb9e-e9c04d80d457",
+            "designerId": "9ed6bdf0-9dfb-4b30-91fa-a932d150e472",
             "cn": [
                 {
                     "type": "Ext.panel.Panel",
@@ -41,12 +42,13 @@
                     "codeClass": null,
                     "userConfig": {
                         "container|align": "stretch",
+                        "itemId": "vmHostChartPanel",
                         "layout": "vbox",
                         "layout|flex": 3,
                         "title": null,
                         "width": null
                     },
-                    "designerId": "55755900-03df-4028-85a7-132928f671e4",
+                    "designerId": "bcc8e23a-b544-496a-bf1b-0762db841e77",
                     "cn": [
                         {
                             "type": "Ext.toolbar.Toolbar",
@@ -56,49 +58,13 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "container|align": null,
                                 "dock": "top",
-                                "layout|flex": 1
+                                "layout|flex": 1,
+                                "margin": "5 5 2 5"
                             },
-                            "designerId": "d4efd7eb-f897-4fb5-bbbf-e20d6b05930d",
+                            "designerId": "b005c0f3-8ec3-4e13-85db-8249312567b8",
                             "cn": [
-                                {
-                                    "type": "Ext.button.Button",
-                                    "reference": {
-                                        "name": "items",
-                                        "type": "array"
-                                    },
-                                    "codeClass": null,
-                                    "userConfig": {
-                                        "height": 30,
-                                        "layout|flex": 5,
-                                        "margin": null,
-                                        "text": "VM Host #1",
-                                        "width": null
-                                    },
-                                    "designerId": "15740bf8-4d6f-42f8-87d7-ccee2c13aa3e",
-                                    "cn": [
-                                        {
-                                            "type": "basiceventbinding",
-                                            "reference": {
-                                                "name": "listeners",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "fn": "onButtonClick",
-                                                "implHandler": [
-                                                    "var infoWindow = Ext.create(\"widget.VMInfoWindow\");",
-                                                    "",
-                                                    "infoWindow.show();",
-                                                    ""
-                                                ],
-                                                "name": "click",
-                                                "scope": "me"
-                                            },
-                                            "designerId": "8530874d-1f5b-4e23-bda5-09bea8549e07"
-                                        }
-                                    ]
-                                },
                                 {
                                     "type": "Ext.form.Label",
                                     "reference": {
@@ -108,14 +74,38 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "itemId": "VmHostStat",
                                         "layout|flex": null,
+                                        "minHeight": 36,
+                                        "minWidth": null,
                                         "style": "{text-align: center;}",
-                                        "text": null
+                                        "text": null,
+                                        "width": 36
                                     },
                                     "configAlternates": {
                                         "style": "string"
                                     },
-                                    "designerId": "f80ebe14-4807-4add-b854-93d31e3e0337"
+                                    "designerId": "6e91136a-1646-40a1-924d-46e4ae597727"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "",
+                                        "itemId": "VmHostName",
+                                        "layout|flex": null,
+                                        "margin": "0 10 0 0",
+                                        "style": "{text-align: center;font-size : 18px;font-weight: bold;}",
+                                        "text": "VM Host1"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "2e775c81-8b26-4f62-ba9f-e4bdb059c56d"
                                 }
                             ]
                         },
@@ -127,43 +117,53 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "animCollapse": false,
-                                "cls": "dashboard-graph-panel",
-                                "collapsed": false,
-                                "collapsible": false,
-                                "dock": null,
-                                "header": false,
-                                "height": 45,
-                                "html": null,
-                                "itemId": "mypanel95",
+                                "container|align": "middle",
+                                "height": 28,
+                                "layout": "hbox",
                                 "layout|flex": 1,
-                                "split": null,
-                                "title": "Graphite",
-                                "titleCollapse": false,
-                                "width": null
+                                "title": null
                             },
-                            "configAlternates": {
-                                "split": "boolean",
-                                "html": "string"
-                            },
-                            "designerId": "ec73b63c-8987-478d-9cb7-479b8f6c213b",
-                            "customConfigs": [
-                                {
-                                    "group": "(Custom Properties)",
-                                    "name": "split",
-                                    "type": "string"
-                                }
-                            ],
+                            "designerId": "4d350ca2-929c-4c88-858a-3faca872d813",
                             "cn": [
                                 {
-                                    "type": "linkedinstance",
+                                    "type": "Ext.form.Label",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "designerId": "3ebf35e3-02c3-472e-ab03-80db1deea7ba",
-                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
+                                    "userConfig": {
+                                        "layout|flex": null,
+                                        "layout|margins": "0 5 0 0",
+                                        "style": "{text-align:right;font-weight:bold;}",
+                                        "text": "CPU : ",
+                                        "width": 70
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "bc802f4d-12fd-421c-8480-c11a29f79357"
+                                },
+                                {
+                                    "type": "Ext.ProgressBar",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "animate": true,
+                                        "height": null,
+                                        "id": null,
+                                        "itemId": "cpuBar",
+                                        "layout|flex": 5,
+                                        "style": null,
+                                        "text": "N/A"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "7480d311-592c-4058-8a54-d998db461d96"
                                 }
                             ]
                         },
@@ -175,42 +175,54 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "animCollapse": false,
-                                "cls": "dashboard-graph-panel",
-                                "collapsed": false,
-                                "collapsible": false,
-                                "dock": null,
-                                "header": false,
-                                "height": 45,
-                                "itemId": "mypanel98",
+                                "container|align": "middle",
+                                "height": 28,
+                                "layout": "hbox",
                                 "layout|flex": 1,
-                                "split": null,
-                                "title": "Graphite",
-                                "titleCollapse": false,
-                                "width": null
+                                "title": null
                             },
-                            "configAlternates": {
-                                "split": "boolean",
-                                "html": "string"
-                            },
-                            "designerId": "10988fd2-b02a-4a4a-86bd-051d7f2bf8ab",
-                            "customConfigs": [
-                                {
-                                    "group": "(Custom Properties)",
-                                    "name": "split",
-                                    "type": "string"
-                                }
-                            ],
+                            "designerId": "1b5c6f3b-0c4e-4fd2-8e0e-1b222683d9ce",
                             "cn": [
                                 {
-                                    "type": "linkedinstance",
+                                    "type": "Ext.form.Label",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "designerId": "eda4c4d4-e6e8-4200-a6aa-accf1e5930c3",
-                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
+                                    "userConfig": {
+                                        "layout|flex": null,
+                                        "layout|margins": "0 5 0 0",
+                                        "style": "{text-align:right;font-weight:bold;}",
+                                        "text": "Memory : ",
+                                        "width": 70
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "a5ca0f1b-1a9b-4ea7-bc9d-ff054e3f9e6c"
+                                },
+                                {
+                                    "type": "Ext.ProgressBar",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "animate": true,
+                                        "height": null,
+                                        "id": null,
+                                        "itemId": "memoryBar",
+                                        "layout|flex": 5,
+                                        "maxHeight": null,
+                                        "style": null,
+                                        "text": "N/A"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "ad89ddf4-8b0f-4255-9454-014557c4d881"
                                 }
                             ]
                         },
@@ -222,42 +234,105 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "animCollapse": false,
-                                "cls": "dashboard-graph-panel",
-                                "collapsed": false,
-                                "collapsible": false,
-                                "dock": null,
-                                "header": false,
-                                "height": 45,
-                                "itemId": "mypanel99",
+                                "container|align": "middle",
+                                "height": 28,
+                                "layout": "hbox",
                                 "layout|flex": 1,
-                                "split": null,
-                                "title": "Graphite",
-                                "titleCollapse": false,
-                                "width": null
+                                "margin": 0,
+                                "title": null
                             },
-                            "configAlternates": {
-                                "split": "boolean",
-                                "html": "string"
-                            },
-                            "designerId": "99dcbb39-05b0-44e4-9751-d7b6e6bf308b",
-                            "customConfigs": [
-                                {
-                                    "group": "(Custom Properties)",
-                                    "name": "split",
-                                    "type": "string"
-                                }
-                            ],
+                            "designerId": "d7fd0cf8-0733-446b-9cc6-81ade2f07c97",
                             "cn": [
                                 {
-                                    "type": "linkedinstance",
+                                    "type": "Ext.form.Label",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "designerId": "42f73e0e-33dd-4859-bc3f-0602be225b93",
-                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
+                                    "userConfig": {
+                                        "layout|flex": null,
+                                        "layout|margins": "0 5 0 0",
+                                        "style": "{text-align:right;font-weight:bold;}",
+                                        "text": "Disk :  ",
+                                        "width": 70
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "6b776c94-83f0-4a64-b7ef-022c893cb740"
+                                },
+                                {
+                                    "type": "Ext.ProgressBar",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "animate": true,
+                                        "height": null,
+                                        "id": null,
+                                        "itemId": "diskBar",
+                                        "layout|flex": 5,
+                                        "text": "N/A"
+                                    },
+                                    "designerId": "3af48df8-fbfd-49e1-ad0d-60e3b5a91f1e"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.panel.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "container|align": "middle",
+                                "height": 28,
+                                "layout": "hbox",
+                                "layout|flex": 1,
+                                "margin": "0 0 5 0",
+                                "title": null
+                            },
+                            "designerId": "d9c7a7da-6d52-4993-9e73-ec673e6ca990",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": null,
+                                        "layout|margins": "0 5 0 0",
+                                        "style": "{text-align:right;font-weight:bold;}",
+                                        "text": "Network :",
+                                        "width": 70
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "b1399b1a-31a1-4ef1-9805-d5019f35a86f"
+                                },
+                                {
+                                    "type": "Ext.ProgressBar",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "animate": true,
+                                        "height": null,
+                                        "id": null,
+                                        "itemId": "diskBar",
+                                        "layout|flex": 5,
+                                        "text": "N/A"
+                                    },
+                                    "designerId": "7b287575-8118-43a0-94c5-1c609eede1d0"
                                 }
                             ]
                         }
@@ -272,102 +347,13 @@
                     "codeClass": null,
                     "userConfig": {
                         "container|align": "stretch",
-                        "layout": "vbox",
-                        "layout|flex": null,
-                        "margin": "0 20 0 0",
-                        "title": null,
-                        "width": 50
-                    },
-                    "designerId": "6ad21127-72a1-463c-9dad-6385cc897c77",
-                    "cn": [
-                        {
-                            "type": "Ext.form.Label",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "layout|flex": 1,
-                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": null
-                            },
-                            "configAlternates": {
-                                "style": "string"
-                            },
-                            "designerId": "0eef220f-6795-4cde-a3c1-c80c5f2669ea"
-                        },
-                        {
-                            "type": "Ext.form.Label",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
-                                "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
-                            },
-                            "configAlternates": {
-                                "style": "string"
-                            },
-                            "designerId": "c83fd38e-52c1-41bc-a3b2-f40820d8ac0d"
-                        },
-                        {
-                            "type": "Ext.form.Label",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
-                                "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
-                            },
-                            "configAlternates": {
-                                "style": "string"
-                            },
-                            "designerId": "2f5dd0b6-9e40-4270-8acc-328edfda80fe"
-                        },
-                        {
-                            "type": "Ext.form.Label",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
-                                "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
-                            },
-                            "configAlternates": {
-                                "style": "string"
-                            },
-                            "designerId": "8e57f2e0-e319-4a7c-8bdb-bc40fc015933"
-                        }
-                    ]
-                },
-                {
-                    "type": "Ext.panel.Panel",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "container|align": "stretch",
+                        "itemId": "vmNamePanel",
                         "layout": "vbox",
                         "layout|flex": 1,
                         "title": null,
                         "width": null
                     },
-                    "designerId": "1a7b1d06-202d-450a-8611-92c57124d427",
+                    "designerId": "4727f324-8465-4e77-a04b-e7d007458ff2",
                     "cn": [
                         {
                             "type": "Ext.form.Label",
@@ -378,13 +364,14 @@
                             "codeClass": null,
                             "userConfig": {
                                 "layout|flex": 1,
+                                "margin": "5 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                 "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "c6394081-2203-4814-ad30-b5ba24eb82a9"
+                            "designerId": "5a4f7cd3-ed29-4984-9d13-036cf73da1ce"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -401,7 +388,7 @@
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "b52ead32-02c9-43b2-9c18-98bb1190b6ca"
+                            "designerId": "e8c47e74-ac10-43c9-88a2-fcc1a2c8d467"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -418,7 +405,7 @@
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "0dbc5a5c-1d5b-4ce1-8b7e-660c5bd062b2"
+                            "designerId": "d7fd50a1-221a-4ca3-8d4e-4bab8349ba98"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -435,7 +422,7 @@
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "f5290c8a-90ec-4a5f-81fd-2568ba983d88"
+                            "designerId": "f284fc64-8aa4-41db-8ce9-9266891b2329"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -446,13 +433,14 @@
                             "codeClass": null,
                             "userConfig": {
                                 "layout|flex": 1,
+                                "margin": "0 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                 "text": "NFV1-4"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "3765f9c1-9f36-4d87-8387-6f13297f4c6e"
+                            "designerId": "d6819fae-6d6b-4751-adc9-be57222d3307"
                         }
                     ]
                 },
@@ -465,12 +453,13 @@
                     "codeClass": null,
                     "userConfig": {
                         "container|align": "stretch",
+                        "itemId": "vmCpuPanel",
                         "layout": "vbox",
                         "layout|flex": 1,
                         "title": null,
                         "width": null
                     },
-                    "designerId": "9eea572f-f812-4669-ab69-28a5c565cf15",
+                    "designerId": "13c39ee6-5533-4557-ab14-7fbc9ea53612",
                     "cn": [
                         {
                             "type": "Ext.form.Label",
@@ -484,14 +473,14 @@
                                 "html": "<center><b>CPU</b></center>",
                                 "layout|flex": 1,
                                 "layout|margins": null,
-                                "margin": null,
+                                "margin": "5 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;}",
                                 "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "d3d4f3e6-cbb5-4b16-bc58-e619bad676db"
+                            "designerId": "618358c3-a0f5-4175-a89f-1d43d4f23453"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -501,15 +490,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "428613d7-dea1-4db8-a308-f5b12ee401e7"
+                            "designerId": "81e43c08-aafd-4962-8889-434d4f65fd42"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -519,15 +508,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "25%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "f2c101ef-3dd6-41ba-9ae3-aa68f9c6d3bd"
+                            "designerId": "13e9bc8e-9bca-4aa5-8af1-3c9007040a6b"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -537,15 +526,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "19%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "dcd9087e-fffc-4864-9a96-888d34b246fa"
+                            "designerId": "e8c2312a-6975-4359-894c-5cfc4945a899"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -555,15 +544,16 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "html": "<center><img src=\"resources/images/icons/status_04.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "margin": "0 0 5 0",
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "20%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "a6daedfc-28aa-498e-9995-7e32afa673b7"
+                            "designerId": "82623bd7-d9b7-4eef-8b2d-ac3eba12ca47"
                         }
                     ]
                 },
@@ -576,12 +566,13 @@
                     "codeClass": null,
                     "userConfig": {
                         "container|align": "stretch",
+                        "itemId": "vmMemPanel",
                         "layout": "vbox",
                         "layout|flex": 1,
                         "title": null,
                         "width": null
                     },
-                    "designerId": "dc3c1084-2422-42b6-ae30-d749534ca720",
+                    "designerId": "d97c9953-2350-4477-baf6-7e8808de794f",
                     "cn": [
                         {
                             "type": "Ext.form.Label",
@@ -594,13 +585,14 @@
                                 "height": null,
                                 "html": "<center><b>Mem</b></center>",
                                 "layout|flex": 1,
+                                "margin": "5 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;}",
                                 "text": ""
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "77524d6a-ea05-4b70-bb88-5c94913c329b"
+                            "designerId": "0f2fb363-4f2b-4a8b-9faa-eeeda2ae7099"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -610,16 +602,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_05.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "3bf01318-7502-4cd5-be8b-b64d83e809f1"
+                            "designerId": "4719615e-3c3f-410e-bf2a-341d5d49d7ff"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -629,16 +620,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_04.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "06739ca7-4161-424d-a804-0183f77c2931"
+                            "designerId": "a4142427-5217-4521-bf15-ffa4e290f390"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -648,16 +638,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "940119e5-5db7-42d8-82a9-309e96e0937d"
+                            "designerId": "3f6119c6-3b99-4912-a880-e29b57d2ed31"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -667,16 +656,16 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "margin": "0 0 5 0",
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "e3f202ef-17f9-4fbc-aaa7-5d3a14972f11"
+                            "designerId": "de42b2dc-b4cf-4053-8b54-1636651a2f04"
                         }
                     ]
                 },
@@ -689,12 +678,13 @@
                     "codeClass": null,
                     "userConfig": {
                         "container|align": "stretch",
+                        "itemId": "vmNetPanel",
                         "layout": "vbox",
                         "layout|flex": 1,
                         "title": null,
                         "width": null
                     },
-                    "designerId": "e91d6d20-dcf7-4d15-a194-59a452bd70f0",
+                    "designerId": "f58f3e5b-fb51-4cf8-afef-e7d9208ad55b",
                     "cn": [
                         {
                             "type": "Ext.form.Label",
@@ -707,13 +697,14 @@
                                 "height": null,
                                 "html": "<center><b>Net</b></center>",
                                 "layout|flex": 1,
+                                "margin": "5 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;}",
                                 "text": ""
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "67e1c88b-11f3-41fa-bd9e-9d57d9fdd086"
+                            "designerId": "689b9cd8-4bf7-4972-805c-330afb43a1db"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -723,16 +714,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_05.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "3a006704-62b4-463e-b8e1-9402090aab92"
+                            "designerId": "3beb0149-61a2-4b25-9dc6-9a84b34ac87a"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -742,16 +732,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_04.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "34c53eef-b083-4f78-bf2a-ca8a3b203ef1"
+                            "designerId": "dcc04511-87bd-430e-af16-4a61fb73cc9e"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -761,16 +750,15 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_03.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "47213c7b-214d-4491-9cbb-9d4287950cb7"
+                            "designerId": "d3bc98ed-3400-4545-b676-e6c6c61fc50d"
                         },
                         {
                             "type": "Ext.form.Label",
@@ -780,16 +768,16 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 36,
-                                "html": "<center><img src=\"resources/images/icons/status_02.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                "html": null,
                                 "layout|flex": 1,
-                                "style": "{text-align: center;}",
-                                "text": null
+                                "margin": "0 0 5 0",
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": "50%"
                             },
                             "configAlternates": {
                                 "style": "string"
                             },
-                            "designerId": "2e90636c-070e-436e-9d6f-ecace2279955"
+                            "designerId": "75e39f52-7a4c-4a38-97f1-30690051b927"
                         }
                     ]
                 }

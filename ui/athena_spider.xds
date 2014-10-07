@@ -36,15 +36,13 @@
     "viewOrderMap": {
         "view": [
             "948ddada-3391-4646-a025-1c11823f32b3",
-            "9b739b4c-68bd-4169-979c-379be47117e4",
             "39eb896a-2ca4-4a41-adc4-0cc0fbcbaf8c",
-            "5151a217-0174-4c4c-a7d0-69123eeec3fc",
             "0f66f808-6d0a-416c-8073-fe7069aa4d3a",
-            "4eb80fef-a2f0-48ac-99f6-54852805210d",
-            "098ba88a-b3b4-4ffd-b7d8-26f8a214935d",
+            "19b98fcc-f7b4-4bc5-8838-1c6ce85ca7b8",
             "2eac4b05-cc3e-4ef4-b24a-5a9386b57012",
             "02d4a011-77dc-4bc5-bd31-0a40017c7ee9",
-            "a6502197-2cf9-4d57-8687-8602e0299260"
+            "a6502197-2cf9-4d57-8687-8602e0299260",
+            "9a3188bb-7d5d-4c2a-8d11-dbefc6863d83"
         ],
         "store": [
             "8c7d1916-bb60-4648-b2c3-c766c7cccf3d",
@@ -55,12 +53,12 @@
         ],
         "controller": [
             "d6fa6c36-6f0b-4f72-a6f0-b4f3f97e5031",
-            "7418fc00-6d0e-4fe7-8adc-f26b67ba3d82",
             "df715fd1-d322-4ab9-ac90-81ef58b29e21",
             "c34b50b2-314d-45d8-8b91-b2a4bf025973",
             "1a1e5142-8285-4926-8418-239c3b9677df",
             "849baa9a-7294-4073-85e9-d35a2b5cdc0f",
-            "402db966-e25d-4c82-a994-7e075a6bfb20"
+            "402db966-e25d-4c82-a994-7e075a6bfb20",
+            "3283cfec-d919-4cd8-bb52-ac024c98ec9c"
         ],
         "model": [
             "4a5c8737-78ce-4a8b-b21c-d4c4f41c6d7c",

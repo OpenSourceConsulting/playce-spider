@@ -15,18 +15,19 @@
 
 Ext.define('spider.view.DashBoardNodePanel', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.dashboardnodepanel',
+    alias: 'widget.DashBoardNodePanel',
 
     requires: [
-        'spider.view.MyPanel119',
         'Ext.form.FieldSet',
         'Ext.panel.Panel',
         'Ext.toolbar.Toolbar',
-        'Ext.button.Button',
-        'Ext.form.Label'
+        'Ext.form.Label',
+        'Ext.ProgressBar'
     ],
 
-    height: 214,
+    height: 180,
+    id: 'DashBoardNodePanel',
+    itemId: 'DashBoardNodePanel',
     header: false,
     title: 'My Panel',
 
@@ -37,6 +38,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
             items: [
                 {
                     xtype: 'fieldset',
+                    height: 173,
                     margin: 5,
                     title: '',
                     layout: {
@@ -47,6 +49,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                         {
                             xtype: 'panel',
                             flex: 3,
+                            itemId: 'vmHostChartPanel',
                             layout: {
                                 type: 'vbox',
                                 align: 'stretch'
@@ -56,23 +59,23 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     xtype: 'toolbar',
                                     flex: 1,
                                     dock: 'top',
+                                    margin: '5 5 2 5',
                                     items: [
-                                        {
-                                            xtype: 'button',
-                                            flex: 5,
-                                            height: 30,
-                                            text: 'VM Host #1',
-                                            listeners: {
-                                                click: {
-                                                    fn: me.onButtonClick,
-                                                    scope: me
-                                                }
-                                            }
-                                        },
                                         {
                                             xtype: 'label',
                                             html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
-                                            style: '{text-align: center;}'
+                                            itemId: 'VmHostStat',
+                                            minHeight: 36,
+                                            style: '{text-align: center;}',
+                                            width: 36
+                                        },
+                                        {
+                                            xtype: 'label',
+                                            html: '',
+                                            itemId: 'VmHostName',
+                                            margin: '0 10 0 0',
+                                            style: '{text-align: center;font-size : 18px;font-weight: bold;}',
+                                            text: 'VM Host1'
                                         }
                                     ]
                                 }
@@ -81,96 +84,111 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'panel',
                                     flex: 1,
-                                    cls: 'dashboard-graph-panel',
-                                    height: 45,
-                                    itemId: 'mypanel95',
-                                    animCollapse: false,
-                                    collapsed: false,
-                                    collapsible: false,
-                                    header: false,
-                                    title: 'Graphite',
-                                    titleCollapse: false,
+                                    height: 28,
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'middle'
+                                    },
                                     items: [
                                         {
-                                            xtype: 'mypanel119'
+                                            xtype: 'label',
+                                            margins: '0 5 0 0',
+                                            style: '{text-align:right;font-weight:bold;}',
+                                            width: 70,
+                                            text: 'CPU : '
+                                        },
+                                        {
+                                            xtype: 'progressbar',
+                                            flex: 5,
+                                            itemId: 'cpuBar',
+                                            animate: true,
+                                            text: 'N/A'
                                         }
                                     ]
                                 },
                                 {
                                     xtype: 'panel',
                                     flex: 1,
-                                    cls: 'dashboard-graph-panel',
-                                    height: 45,
-                                    itemId: 'mypanel98',
-                                    animCollapse: false,
-                                    collapsed: false,
-                                    collapsible: false,
-                                    header: false,
-                                    title: 'Graphite',
-                                    titleCollapse: false,
+                                    height: 28,
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'middle'
+                                    },
                                     items: [
                                         {
-                                            xtype: 'mypanel119'
+                                            xtype: 'label',
+                                            margins: '0 5 0 0',
+                                            style: '{text-align:right;font-weight:bold;}',
+                                            width: 70,
+                                            text: 'Memory : '
+                                        },
+                                        {
+                                            xtype: 'progressbar',
+                                            flex: 5,
+                                            itemId: 'memoryBar',
+                                            animate: true,
+                                            text: 'N/A'
                                         }
                                     ]
                                 },
                                 {
                                     xtype: 'panel',
                                     flex: 1,
-                                    cls: 'dashboard-graph-panel',
-                                    height: 45,
-                                    itemId: 'mypanel99',
-                                    animCollapse: false,
-                                    collapsed: false,
-                                    collapsible: false,
-                                    header: false,
-                                    title: 'Graphite',
-                                    titleCollapse: false,
+                                    height: 28,
+                                    margin: 0,
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'middle'
+                                    },
                                     items: [
                                         {
-                                            xtype: 'mypanel119'
+                                            xtype: 'label',
+                                            margins: '0 5 0 0',
+                                            style: '{text-align:right;font-weight:bold;}',
+                                            width: 70,
+                                            text: 'Disk :  '
+                                        },
+                                        {
+                                            xtype: 'progressbar',
+                                            flex: 5,
+                                            itemId: 'diskBar',
+                                            animate: true,
+                                            text: 'N/A'
                                         }
                                     ]
-                                }
-                            ]
-                        },
-                        {
-                            xtype: 'panel',
-                            margin: '0 20 0 0',
-                            width: 50,
-                            layout: {
-                                type: 'vbox',
-                                align: 'stretch'
-                            },
-                            items: [
-                                {
-                                    xtype: 'label',
-                                    flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
-                                    xtype: 'label',
+                                    xtype: 'panel',
                                     flex: 1,
-                                    html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
-                                },
-                                {
-                                    xtype: 'label',
-                                    flex: 1,
-                                    html: '<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
-                                },
-                                {
-                                    xtype: 'label',
-                                    flex: 1,
-                                    html: '<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    height: 28,
+                                    margin: '0 0 5 0',
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'middle'
+                                    },
+                                    items: [
+                                        {
+                                            xtype: 'label',
+                                            margins: '0 5 0 0',
+                                            style: '{text-align:right;font-weight:bold;}',
+                                            width: 70,
+                                            text: 'Network :'
+                                        },
+                                        {
+                                            xtype: 'progressbar',
+                                            flex: 5,
+                                            itemId: 'diskBar',
+                                            animate: true,
+                                            text: 'N/A'
+                                        }
+                                    ]
                                 }
                             ]
                         },
                         {
                             xtype: 'panel',
                             flex: 1,
+                            itemId: 'vmNamePanel',
                             layout: {
                                 type: 'vbox',
                                 align: 'stretch'
@@ -179,6 +197,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'label',
                                     flex: 1,
+                                    margin: '5 0 5 0',
                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
@@ -202,6 +221,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'label',
                                     flex: 1,
+                                    margin: '0 0 5 0',
                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                     text: 'NFV1-4'
                                 }
@@ -210,6 +230,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                         {
                             xtype: 'panel',
                             flex: 1,
+                            itemId: 'vmCpuPanel',
                             layout: {
                                 type: 'vbox',
                                 align: 'stretch'
@@ -219,37 +240,40 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     xtype: 'label',
                                     flex: 1,
                                     html: '<center><b>CPU</b></center>',
+                                    margin: '5 0 5 0',
                                     style: '{display:inline-block;padding-top:10px;height: 36px;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    html: '<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '25%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    html: '<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '19%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    html: '<center><img src="resources/images/icons/status_04.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    margin: '0 0 5 0',
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '20%'
                                 }
                             ]
                         },
                         {
                             xtype: 'panel',
                             flex: 1,
+                            itemId: 'vmMemPanel',
                             layout: {
                                 type: 'vbox',
                                 align: 'stretch'
@@ -259,42 +283,41 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     xtype: 'label',
                                     flex: 1,
                                     html: '<center><b>Mem</b></center>',
+                                    margin: '5 0 5 0',
                                     style: '{display:inline-block;padding-top:10px;height: 36px;}',
                                     text: ''
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_05.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_04.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    margin: '0 0 5 0',
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 }
                             ]
                         },
                         {
                             xtype: 'panel',
                             flex: 1,
+                            itemId: 'vmNetPanel',
                             layout: {
                                 type: 'vbox',
                                 align: 'stretch'
@@ -304,36 +327,34 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     xtype: 'label',
                                     flex: 1,
                                     html: '<center><b>Net</b></center>',
+                                    margin: '5 0 5 0',
                                     style: '{display:inline-block;padding-top:10px;height: 36px;}',
                                     text: ''
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_05.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_04.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    height: 36,
-                                    html: '<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>',
-                                    style: '{text-align: center;}'
+                                    margin: '0 0 5 0',
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: '50%'
                                 }
                             ]
                         }
@@ -343,13 +364,6 @@ Ext.define('spider.view.DashBoardNodePanel', {
         });
 
         me.callParent(arguments);
-    },
-
-    onButtonClick: function(button, e, eOpts) {
-        var infoWindow = Ext.create("widget.VMInfoWindow");
-
-        infoWindow.show();
-
     }
 
 });
