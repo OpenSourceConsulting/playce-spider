@@ -122,6 +122,7 @@ def vm_register():
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
+			jsonData['vmhostname'] = vmhost['name']
 			found = True
 	
 	if found:
