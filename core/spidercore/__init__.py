@@ -5,8 +5,7 @@ import json
 from flask_cors import CORS
 
 app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, headers='Content-Type', methods=['HEAD', 'OPTIONS', 'POST', 'GET', 'DELETE', 'PUT'])
 
 mainDir = os.path.dirname(os.path.abspath(__file__))
 
