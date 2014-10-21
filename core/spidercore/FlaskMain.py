@@ -10,6 +10,8 @@ from spidercore import *
 from FlaskGraphite import *
 from FlaskMainNFV import *
 from FabricUtilKVM import *
+from FlaskMainKVM import *
+from FabricUtilKVM2 import *
 
 @app.route("/shutdown", methods=['GET'])
 def vmhost_shutdown():
