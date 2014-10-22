@@ -102,15 +102,11 @@ def vm_reg_init():
 		for vm in vms:
 			if domain == vm['vmname']:
 				return "DUP"
-		id = str(uuid.uuid4())
-		jsonData['_id'] = id
-		vms.append(jsonData)
-		write_repository('vms', vms)
 
 		# 	Seeking which interface can be communicated via management network
 		for ifeth in ifs:
-			if 'ipaddr' in ifeth:
-				ipAddr = ifeth['ipaddr']
+			if 'ipaddr' in ifs[ifeth]:
+				ipAddr = ifs[ifeth]['ipaddr']
 				if pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
 					break
 		else:
@@ -120,6 +116,13 @@ def vm_reg_init():
 		#	SSH Account should be one for newly created VM
 		
 		initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], id)
+
+		#	Add new VM info to repository
+		
+		id = str(uuid.uuid4())
+		jsonData['_id'] = id
+		vms.append(jsonData)
+		write_repository('vms', vms)
 
 		return "OK"
 	else:
