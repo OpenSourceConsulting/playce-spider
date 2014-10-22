@@ -34,7 +34,7 @@ def vm_reg_init():
 				ifs[ethName] = {'macaddr': macAddr}
 				macaddrs.append(macAddr)
 			else:
-				ifs[ethName] = 'loopback'
+				ifs['loopback'] = {}
 		elif 'inet addr' in sl:
 			ipAddr = sl.split()[1][5:]
 # 			print ipAddr
