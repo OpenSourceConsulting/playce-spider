@@ -119,7 +119,7 @@ def vm_reg_init():
 		#	Assign the unique VM is to NFV CollectD's hostname via Fabric
 		#	SSH Account should be one for newly created VM
 		
-		initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], vmhostId)
+		initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], id)
 
 		return "OK"
 	else:

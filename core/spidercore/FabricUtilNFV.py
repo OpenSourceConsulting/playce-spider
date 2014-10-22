@@ -191,14 +191,18 @@ def getServices(addr, sshid, sshpw):
 	results = execute(show_service_with_configure, hosts=[addr])
 	return results[addr]
 
-def assignIdToCollectD(vmhostId):
+def assignIdToCollectD(vmId):
+	#	Uncomment Hostname and assign vmhostId as Hostname to /etc/collectd/collectd.conf
+	#	@@FIXME: Fabric itself has an interface(api) to handle remote file directly like sed !!
 	f = open(mainDir + './sed.txt', 'w')
 	commands = [
 			'cd /etc/collectd\n'
-			'sed -e "s/#Hostname\s\\".*\\"/Hostname \\"aaa-bbb\\"/" collectd.conf > c.conf'
+			'sed -e "s/#Hostname\s\\".*\\"/Hostname \\"' + vmId +'\\"/" collectd.conf > c.conf\n'
+			'cat c.conf | grep Hostname'
 			]
 	f.write("; ".join(commands))
 	f.close()
+	#	Remote sciprt will be stored in "~/.spider" directory
 	run('mkdir .spider')
 	with cd('~/.spider'):
 		put(open(mainDir + './sed.txt'), 'sed.sh', mode=0755)
@@ -208,33 +212,14 @@ def assignIdToCollectD(vmhostId):
 	for line in lines:
 		print "LINE: " + line
 
-	import pprint
-	results = elementList.parseString(result)
-	pprint.pprint( results.asList() )
-	
-	services =[]
-	for svc in results.asList():
-		print svc
-		service = {'service': svc[0]}
-		
-		for attr in svc[1]:
-			if len(attr) > 2:
-				service[attr[0]] = [attr[1], attr[2]]
-			elif len(attr) > 1:
-				service[attr[0]] = attr[1]
-			else:
-				service[attr[0]] = True
-		
-		services.append(service)
-	
-	return services
+	return
 
-def initVM(addr, sshid, sshpw, vmhostId):
+def initVM(addr, sshid, sshpw, id):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
-	results = execute(assignIdToCollectD, hosts=[addr], vmhostId = vmhostId)
-	return results[addr]
+	results = execute(assignIdToCollectD, hosts=[addr], vmId = id)
+	return
 
 def pingVM_task():
 	try:
