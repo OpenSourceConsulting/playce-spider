@@ -218,12 +218,13 @@ def initVM(addr, sshid, sshpw, id):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(assignIdToCollectD, hosts=[addr], vmId = id)
 	return
 
 def pingVM_task():
 	try:
-		succeeded = run('ls').succeeded and sudo('id').succeeded
+		succeeded = run('ls', pty=False, quiet=True).succeeded and sudo('id', pty=False, quiet=True).succeeded
 	except Exception, e:
 		succeeded = False
 	return succeeded
@@ -232,6 +233,7 @@ def pingVM(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(pingVM_task, hosts=[addr])
 	return results[addr]
 
