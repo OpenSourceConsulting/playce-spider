@@ -97,6 +97,8 @@ def vm_reg_init():
 		    "sshpw": "vyos",
 		    "interfaces": ifs
 		}
+		id = str(uuid.uuid4())
+		jsonData['_id'] = id
 		
 		vms = read_repository("vms")
 		for vm in vms:
@@ -119,8 +121,6 @@ def vm_reg_init():
 
 		#	Add new VM info to repository
 		
-		id = str(uuid.uuid4())
-		jsonData['_id'] = id
 		vms.append(jsonData)
 		write_repository('vms', vms)
 
