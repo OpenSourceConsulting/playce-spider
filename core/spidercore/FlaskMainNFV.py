@@ -26,17 +26,22 @@ def vm_reg_init():
 	ethName = None
 	for line in ifconfig.split('\n'):
 		sl = line.strip()
-		if 'Link' in sl and 'Ethernet' in sl and 'HWaddr' in sl:
-			ethName = sl.split()[0]
-			macAddr = sl.split()[4]
-# 			print ethName, macAddr
-			ifs[ethName] = {'macaddr': macAddr}
-			macaddrs.append(macAddr)
+		if 'Link' in sl:
+			if 'Ethernet' in sl and 'HWaddr' in sl:
+				ethName = sl.split()[0]
+				macAddr = sl.split()[4]
+#	 			print ethName, macAddr
+				ifs[ethName] = {'macaddr': macAddr}
+				macaddrs.append(macAddr)
+			else:
+				ifs[ethName] = 'loopback'
 		elif 'inet addr' in sl:
 			ipAddr = sl.split()[1][5:]
 # 			print ipAddr
-			if 'ipaddr' not in ifs[ethName]:
-				ifs[ethName]['ipaddr'] = ipAddr
+			ifs[ethName]['ipaddr'] = ipAddr
+
+	if 'loopback' in ifs:
+		del ifs['loopback']
 	
 	for line in route.split('\n'):
 		words = line.strip().split()
