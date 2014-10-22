@@ -26,7 +26,7 @@ def vm_clone():
 	name = jsonData['newname']
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
@@ -35,11 +35,11 @@ def vm_clone():
 			found = True
 	
 	if found:
-		vms = read_repository("vms2")
+		vms = read_repository("vms")
 		id = str(uuid.uuid4())
 		jsonData['_id'] = id
 		vms.append(jsonData)
-		write_repository('vms2', vms)
+		write_repository('vms', vms)
 		return json.dumps({'_id': id})
 	else:
 		return 'VM Host(' + vmHostId + ') was not found', 404
@@ -52,7 +52,7 @@ def vm_template_list(vmHostId=None):
 		return "No unique id for VM", 404
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
@@ -78,7 +78,7 @@ def vm_state(vmHostId=None, name=None):
 
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
@@ -102,7 +102,7 @@ def vm_info(vmHostId=None, name=None):
 		return "No unique id for VM", 404
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
@@ -127,7 +127,7 @@ def vm_start(vmHostId=None, name=None):
 		return "No unique id for VM", 404
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
@@ -154,7 +154,7 @@ def vm_shutdown(vmHostId=None, name=None):
 		return "No unique id for VM", 404
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
@@ -180,7 +180,7 @@ def vm_define(vmHostId=None, name=None):
 		return "No unique id for VM", 404
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
