@@ -69,7 +69,7 @@ def show_interfaces_with_configure():
 			]
 	f.write("; ".join(commands))
 	f.close()
-	with cd('/home/vyatta/test/scripts'):
+	with cd('~/test/scripts'):
 		put(open(mainDir + './cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + './commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
@@ -109,7 +109,7 @@ def show_nat_with_configure():
 			]
 	f.write("; ".join(commands))
 	f.close()
-	with cd('/home/vyatta/test/scripts'):
+	with cd('~/test/scripts'):
 		put(open(mainDir + './cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + './commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
@@ -154,7 +154,7 @@ def show_service_with_configure():
 			]
 	f.write("; ".join(commands))
 	f.close()
-	with cd('/home/vyatta/test/scripts'):
+	with cd('~/test/scripts'):
 		put(open(mainDir + './cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + './commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
@@ -189,6 +189,65 @@ def getServices(addr, sshid, sshpw):
 	env.password = sshpw
 	env.shell = '/bin/vbash -ic'
 	results = execute(show_service_with_configure, hosts=[addr])
+	return results[addr]
+
+def assignIdToCollectD(vmhostId):
+	f = open(mainDir + './sed.txt', 'w')
+	commands = [
+			'cd /etc/collectd\n'
+			'sed -e "s/#Hostname\s\\".*\\"/Hostname \\"aaa-bbb\\"/" collectd.conf > c.conf'
+			]
+	f.write("; ".join(commands))
+	f.close()
+	run('mkdir .spider')
+	with cd('~/.spider'):
+		put(open(mainDir + './sed.txt'), 'sed.sh', mode=0755)
+		result = sudo('./sed.sh', pty=False, quiet=True)
+
+	lines = result.split('\n')
+	for line in lines:
+		print "LINE: " + line
+
+	import pprint
+	results = elementList.parseString(result)
+	pprint.pprint( results.asList() )
+	
+	services =[]
+	for svc in results.asList():
+		print svc
+		service = {'service': svc[0]}
+		
+		for attr in svc[1]:
+			if len(attr) > 2:
+				service[attr[0]] = [attr[1], attr[2]]
+			elif len(attr) > 1:
+				service[attr[0]] = attr[1]
+			else:
+				service[attr[0]] = True
+		
+		services.append(service)
+	
+	return services
+
+def initVM(addr, sshid, sshpw, vmhostId):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	results = execute(assignIdToCollectD, hosts=[addr], vmhostId = vmhostId)
+	return results[addr]
+
+def pingVM_task():
+	try:
+		succeeded = run('ls').succeeded and sudo('id').succeeded
+	except Exception, e:
+		succeeded = False
+	return succeeded
+
+def pingVM(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	results = execute(pingVM_task, hosts=[addr])
 	return results[addr]
 
 

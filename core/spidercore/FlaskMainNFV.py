@@ -7,7 +7,8 @@ from flask import Flask, request, Response
 import json
 import uuid
 from spidercore import *
-from spidercore.FabricUtilKVM import getAllMacAddrs
+from spidercore.FabricUtilKVM import *
+from spidercore.FabricUtilNFV import *
 
 @app.route("/vmreg", methods=['POST'])
 def vm_reg_init():
@@ -17,6 +18,8 @@ def vm_reg_init():
 	route = sections[2]
 	vbash = sections[3]
 	uname = sections[4]
+	
+	# Parsing request data from a NFV VM that is trying to regster itself
 	
 	ifs = {}
 	macaddrs = []
@@ -103,6 +106,20 @@ def vm_reg_init():
 		jsonData['_id'] = id
 		vms.append(jsonData)
 		write_repository('vms', vms)
+
+		# 	Seeking which interface can be communicated via management network
+		for ifeth in ifs:
+			if 'ipaddr' in ifeth:
+				ipAddr = ifeth['ipaddr']
+				if pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
+					break
+		else:
+			return "FAIL"
+	
+		#	Assign the unique VM is to NFV CollectD's hostname via Fabric
+		#	SSH Account should be one for newly created VM
+		
+		initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], vmhostId)
 
 		return "OK"
 	else:
