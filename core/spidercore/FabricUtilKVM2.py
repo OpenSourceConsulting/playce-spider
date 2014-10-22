@@ -11,7 +11,6 @@ import json
 import paramiko, time
 import select
 from spidercore import *
-from multiprocessing.pool import AsyncResult
 
 
 
