@@ -1,3 +1,4 @@
 /vms.new.json
 /vmhosts.new.json
 /test.json
+*.pyc
