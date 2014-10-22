@@ -196,12 +196,14 @@ Ext.define('spider.view.AthenaSpider', {
                                 {
                                     xtype: 'combobox',
                                     dock: 'top',
+                                    id: 'lnbLocationCombo',
+                                    itemId: 'lnbLocationCombo',
                                     fieldLabel: 'Locations',
                                     labelWidth: 60,
-                                    value: 'NCIA Daejeon',
+                                    value: '대전',
                                     store: [
-                                        'NCIA Daejeon',
-                                        'NCIA Kwangju'
+                                        '대전',
+                                        '광주'
                                     ]
                                 }
                             ]
@@ -290,7 +292,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                         {
                                                             xtype: 'button',
                                                             handler: function(button, e) {
-                                                                treeConstants.me.popAddVMHostWindow();
+                                                                vmHostConstants.me.popAddVMHostWindow();
                                                             },
                                                             text: 'VM  Host 추가'
                                                         }
@@ -307,12 +309,15 @@ Ext.define('spider.view.AthenaSpider', {
                                             items: [
                                                 {
                                                     xtype: 'treepanel',
+                                                    nodeId: ' ',
                                                     id: 'listMenuPanel',
                                                     itemId: 'listMenuPanel',
-                                                    style: '{height: 100%; overflow: scroll;}',
-                                                    autoScroll: true,
+                                                    style: '{height: 100%;}',
+                                                    overflowY: 'auto',
+                                                    autoDestroy: false,
                                                     rootVisible: false,
                                                     viewConfig: {
+                                                        padding: '0 15 0 0',
                                                         autoScroll: true,
                                                         preserveScrollOnRefresh: true
                                                     }

@@ -32,6 +32,9 @@ Ext.define('spider.controller.DashboardController', {
 
         dashboardPanel.setLoading(true);
 
+        Ext.getCmp("DashBoardLeftPanel").removeAll();
+        Ext.getCmp("DashBoardRightPanel").removeAll();
+
         Ext.each(Ext.getCmp("listMenuPanel").store.getRootNode().childNodes, function(record, idx){
 
             var nodePanel = Ext.getCmp("DashBoardNodePanel").cloneConfig({itemId : "DashBoardNodePanel"+idx});
@@ -51,9 +54,8 @@ Ext.define('spider.controller.DashboardController', {
 
             nodePanel.show();
             nodePanel.body.on('click', function(e) {
-                treeConstants.me.popVMHostInfoWindow();
+                vmHostConstants.me.popVMHostInfoWindow(record);
             });
-
 
         });
 

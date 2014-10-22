@@ -465,7 +465,12 @@
                 "designer|targetType": "Ext.tab.Panel",
                 "fn": "onNetworkInstanceTabPanelTabChange",
                 "implHandler": [
-                    "clearInterval(GlobalData.intervalId2);",
+                    "//if(newCard.title)",
+                    "",
+                    "",
+                    "if(oldCard.title == \"\") {",
+                    "    clearInterval(GlobalData.intervalId2);",
+                    "}",
                     ""
                 ],
                 "name": "tabchange",

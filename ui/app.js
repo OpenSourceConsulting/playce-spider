@@ -43,7 +43,8 @@ Ext.application({
         'vmMgmtPanel',
         'MyPanel119',
         'DashBoardNodePanel',
-        'AddVmHostWindow'
+        'AddVmHostWindow',
+        'AddVmWindow'
     ],
     controllers: [
         'HeaderController',
@@ -51,7 +52,7 @@ Ext.application({
         'MenuController',
         'DashboardController',
         'VmManagementController',
-        'VmHostTreeController'
+        'VmHostController'
     ],
     name: 'spider',
 

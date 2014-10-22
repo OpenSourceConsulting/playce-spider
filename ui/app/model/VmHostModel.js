@@ -22,7 +22,7 @@ Ext.define('spider.model.VmHostModel', {
 
     fields: [
         {
-            name: '_id'
+            name: 'id'
         },
         {
             name: 'name'

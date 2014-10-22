@@ -19,15 +19,16 @@ Ext.define('spider.view.VMHostInfoWindow', {
 
     requires: [
         'spider.view.MyPanel119',
-        'Ext.panel.Panel',
         'Ext.toolbar.Toolbar',
         'Ext.form.Label',
         'Ext.form.FieldSet',
+        'Ext.form.Panel',
+        'Ext.form.field.Display',
         'Ext.button.Button'
     ],
 
-    height: 531,
-    width: 600,
+    height: 500,
+    width: 620,
     resizable: false,
     title: 'VM Host Info',
     modal: true,
@@ -45,7 +46,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                     items: [
                         {
                             xtype: 'panel',
-                            columnWidth: 0.6,
+                            columnWidth: 0.65,
                             header: false,
                             title: 'My Panel',
                             items: [
@@ -113,15 +114,63 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                 },
                                 {
                                     xtype: 'fieldset',
-                                    height: 242,
-                                    margin: '10 10 0 15',
-                                    title: 'VM Host 상세정보'
+                                    height: 190,
+                                    margin: '10 20 0 15',
+                                    title: 'VM Host 상세정보',
+                                    items: [
+                                        {
+                                            xtype: 'form',
+                                            id: 'viewVmHostForm',
+                                            itemId: 'viewVmHostForm',
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                readOnly: true,
+                                                labelStyle: 'color:#666;font-weight: bold;',
+                                                labelWidth: 70,
+                                                labelSeparator: ' :'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'displayfield',
+                                                    anchor: '100%',
+                                                    fieldLabel: '센터',
+                                                    name: 'location'
+                                                },
+                                                {
+                                                    xtype: 'displayfield',
+                                                    anchor: '100%',
+                                                    fieldLabel: '이름',
+                                                    name: 'name'
+                                                },
+                                                {
+                                                    xtype: 'displayfield',
+                                                    anchor: '100%',
+                                                    fieldLabel: '주소',
+                                                    name: 'addr'
+                                                },
+                                                {
+                                                    xtype: 'displayfield',
+                                                    anchor: '100%',
+                                                    fieldLabel: 'SSH ID',
+                                                    name: 'sshid'
+                                                },
+                                                {
+                                                    xtype: 'displayfield',
+                                                    anchor: '100%',
+                                                    fieldLabel: 'SSH PW',
+                                                    name: 'sshpw'
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             ]
                         },
                         {
                             xtype: 'panel',
-                            columnWidth: 0.4,
+                            columnWidth: 0.35,
                             autoScroll: true,
                             header: false,
                             title: 'My Panel',
@@ -358,6 +407,9 @@ Ext.define('spider.view.VMHostInfoWindow', {
                     items: [
                         {
                             xtype: 'button',
+                            handler: function(button, e) {
+                                vmHostConstants.me.popAddVmWindow();
+                            },
                             margin: '0 5 0 5',
                             text: 'VM  생성'
                         },

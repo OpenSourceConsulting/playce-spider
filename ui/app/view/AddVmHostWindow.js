@@ -51,32 +51,43 @@ Ext.define('spider.view.AddVmHostWindow', {
                         {
                             xtype: 'combobox',
                             anchor: '100%',
-                            fieldLabel: '센터'
+                            fieldLabel: '센터',
+                            name: 'location',
+                            editable: false,
+                            store: [
+                                '대전',
+                                '광주'
+                            ]
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
-                            fieldLabel: '이름'
+                            fieldLabel: '이름',
+                            name: 'name'
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
-                            fieldLabel: '주소'
+                            fieldLabel: '주소',
+                            name: 'addr'
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
-                            fieldLabel: 'SSH ID'
+                            fieldLabel: 'SSH ID',
+                            name: 'sshid'
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
-                            fieldLabel: 'SSH PW'
+                            fieldLabel: 'SSH PW',
+                            name: 'sshpw'
                         },
                         {
                             xtype: 'textareafield',
                             anchor: '100%',
-                            fieldLabel: 'SSH Private Key'
+                            fieldLabel: 'SSH Private Key',
+                            name: 'sshprivatekey'
                         }
                     ]
                 }
@@ -93,6 +104,9 @@ Ext.define('spider.view.AddVmHostWindow', {
                     items: [
                         {
                             xtype: 'button',
+                            handler: function(button, e) {
+                                vmHostConstants.me.createVMHost(button);
+                            },
                             padding: '3 8 3 8',
                             text: '생성'
                         },

@@ -1,0 +1,232 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "AddVmWindow",
+        "designer|userClassName": "AddVmWindow",
+        "height": 280,
+        "id": null,
+        "itemId": null,
+        "modal": true,
+        "resizable": false,
+        "title": "VM 추가",
+        "width": 430
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "8dd7a0b3-78b3-407e-9074-e3eaa9e97d56",
+    "cn": [
+        {
+            "type": "Ext.form.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "bodyPadding": 15,
+                "fieldDefaults": [
+                    "{",
+                    "    msgTarget: 'side',",
+                    "    labelWidth: 120",
+                    "}"
+                ],
+                "header": false,
+                "id": "addVmForm",
+                "itemId": "addVmForm",
+                "title": "My Form"
+            },
+            "designerId": "492d214c-be87-4c8e-b325-6be067c0c96a",
+            "cn": [
+                {
+                    "type": "Ext.form.field.Display",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "VM Host",
+                        "layout|anchor": "100%",
+                        "name": "vmhost",
+                        "value": null
+                    },
+                    "designerId": "4c3ce168-287f-417f-961e-479fab2a7066"
+                },
+                {
+                    "type": "Ext.form.field.ComboBox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "editable": false,
+                        "fieldLabel": "타입",
+                        "layout|anchor": "100%",
+                        "name": "type",
+                        "store": [
+                            "[",
+                            "    \"대전\",",
+                            "    \"광주\"",
+                            "]"
+                        ]
+                    },
+                    "configAlternates": {
+                        "store": "array"
+                    },
+                    "designerId": "a5513960-da56-4f25-a7e6-e56c1dd8e722"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "이름",
+                        "layout|anchor": "100%",
+                        "name": "name"
+                    },
+                    "designerId": "e14578bb-e17a-4d10-9c08-8d3c493cddb8"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "Host Name",
+                        "layout|anchor": "100%",
+                        "name": "hostname"
+                    },
+                    "designerId": "98b93f39-4c48-4e3c-8cd1-1e0a06cdb858"
+                },
+                {
+                    "type": "Ext.form.field.ComboBox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "editable": false,
+                        "fieldLabel": "VM Type",
+                        "layout|anchor": "100%",
+                        "name": "vmtype"
+                    },
+                    "designerId": "fd5c105d-622b-491c-94f7-9a48b3fe7acf"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "Vendor",
+                        "layout|anchor": "100%",
+                        "name": "vendor"
+                    },
+                    "designerId": "b4a35118-f319-41a9-ab20-a4bf4df27153"
+                }
+            ]
+        },
+        {
+            "type": "Ext.toolbar.Toolbar",
+            "reference": {
+                "name": "dockedItems",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|pack": "center",
+                "designer|uiInterfaceName": "footer",
+                "dock": "bottom",
+                "ui": "footer"
+            },
+            "designerId": "54c027dc-74d5-4463-8ac9-688722fc959a",
+            "cn": [
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "padding": "3 8 3 8",
+                        "text": "생성"
+                    },
+                    "designerId": "640cc44b-5f3e-46dc-bffd-b89454838fbd",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "vmHostConstants.me.createVM(button);"
+                                ]
+                            },
+                            "designerId": "1e44ca59-5c04-4631-93aa-0ff5256188ba"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "padding": "3 8 3 8",
+                        "text": "취소"
+                    },
+                    "designerId": "291e2be5-55ff-45cb-9526-4cce6d2c059e",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "GLOBAL.me.closeWindow(button);"
+                                ]
+                            },
+                            "designerId": "051899ae-03ea-4180-a075-6d0a38ac90a0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

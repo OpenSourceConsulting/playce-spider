@@ -8,11 +8,11 @@
     "userConfig": {
         "designer|userAlias": "VMHostInfoWindow",
         "designer|userClassName": "VMHostInfoWindow",
-        "height": 531,
+        "height": 500,
         "modal": true,
         "resizable": false,
         "title": "VM Host Info",
-        "width": 600
+        "width": 620
     },
     "configAlternates": {
         "resizable": "boolean"
@@ -42,7 +42,7 @@
                     "codeClass": null,
                     "userConfig": {
                         "header": false,
-                        "layout|columnWidth": 0.6,
+                        "layout|columnWidth": 0.65,
                         "title": "My Panel"
                     },
                     "designerId": "89acdda3-526a-4cf6-afb9-6387a3817ba5",
@@ -191,11 +191,114 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "height": 242,
-                                "margin": "10 10 0 15",
+                                "height": 190,
+                                "margin": "10 20 0 15",
                                 "title": "VM Host 상세정보"
                             },
-                            "designerId": "feea30b5-b8bd-4367-a7e7-7f528ede2aac"
+                            "designerId": "feea30b5-b8bd-4367-a7e7-7f528ede2aac",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.Panel",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "bodyPadding": 10,
+                                        "fieldDefaults": [
+                                            "{",
+                                            "    readOnly: true,",
+                                            "    labelStyle: 'color:#666;font-weight: bold;',",
+                                            "    labelWidth : 70,",
+                                            "    labelSeparator: ' :'",
+                                            "}"
+                                        ],
+                                        "header": false,
+                                        "id": "viewVmHostForm",
+                                        "itemId": "viewVmHostForm",
+                                        "margin": null,
+                                        "padding": null,
+                                        "title": "My Form"
+                                    },
+                                    "designerId": "3bf6c90e-1dec-4e06-b67b-2bc2677800d9",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.form.field.Display",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "센터",
+                                                "layout|anchor": "100%",
+                                                "name": "location"
+                                            },
+                                            "configAlternates": {
+                                                "store": "array"
+                                            },
+                                            "designerId": "1f3e43f0-ba31-48c0-93d1-5f95ae998863"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Display",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "이름",
+                                                "layout|anchor": "100%",
+                                                "name": "name"
+                                            },
+                                            "designerId": "0b6ef005-927f-404e-8c0d-98159688f344"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Display",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "주소",
+                                                "layout|anchor": "100%",
+                                                "name": "addr"
+                                            },
+                                            "designerId": "da12673b-1369-48bf-95e7-5da8c3d4abe0"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Display",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "SSH ID",
+                                                "layout|anchor": "100%",
+                                                "name": "sshid"
+                                            },
+                                            "designerId": "d706f74d-2fc5-4b01-971f-cc93c77fe1b9"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Display",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "SSH PW",
+                                                "layout|anchor": "100%",
+                                                "name": "sshpw"
+                                            },
+                                            "designerId": "eea1ef7c-82b2-4bd2-a73d-7203a287ddef"
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 },
@@ -211,7 +314,7 @@
                         "container|align": "stretch",
                         "header": false,
                         "layout": "hbox",
-                        "layout|columnWidth": 0.4,
+                        "layout|columnWidth": 0.35,
                         "title": "My Panel"
                     },
                     "designerId": "a3ea50bc-0811-4814-9f3b-222c9b5d677b",
@@ -812,7 +915,28 @@
                         "margin": "0 5 0 5",
                         "text": "VM  생성"
                     },
-                    "designerId": "45ec2a49-53bf-487b-870f-cc337ef50294"
+                    "designerId": "45ec2a49-53bf-487b-870f-cc337ef50294",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "vmHostConstants.me.popAddVmWindow();"
+                                ]
+                            },
+                            "designerId": "7b165e26-d619-4997-9231-c20e1912403b"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.button.Button",

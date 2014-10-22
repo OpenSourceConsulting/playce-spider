@@ -27,9 +27,10 @@ Ext.Loader.addClassPathMappings({
   "GLOBAL": "../../app/controller/GlobalController.js",
   "GlobalData": "../../app/controller/GlobalController.js",
   "dashboardConstants": "../../app/controller/DashboardController.js",
+  "menuConstants": "../../app/controller/MenuController.js",
   "spider": "../../app",
-  "treeConstants": "../../app/controller/VmHostTreeController.js",
-  "vmConstants": "../../app/controller/VmManagementController.js"
+  "vmConstants": "../../app/controller/VmManagementController.js",
+  "vmHostConstants": "../../app/controller/VmHostController.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -868,6 +869,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GLOBAL": [],
   "GlobalData": [],
   "dashboardConstants": [],
+  "menuConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
   "spider.controller.GlobalController": [],
@@ -875,7 +877,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
-  "spider.controller.VmHostTreeController": [],
+  "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
@@ -886,6 +888,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.ServerListStore": [],
   "spider.store.VmHostStore": [],
   "spider.view.AddVmHostWindow": [],
+  "spider.view.AddVmWindow": [],
   "spider.view.AthenaSpider": [],
   "spider.view.DashBoardNodePanel": [],
   "spider.view.DashboardPanel": [],
@@ -895,8 +898,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.view.VMHostInfoWindow": [],
   "spider.view.Viewport": [],
   "spider.view.vmMgmtPanel": [],
-  "treeConstants": [],
-  "vmConstants": []
+  "vmConstants": [],
+  "vmHostConstants": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1903,6 +1906,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GLOBAL": [],
   "GlobalData": [],
   "dashboardConstants": [],
+  "menuConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
   "spider.controller.GlobalController": [],
@@ -1910,7 +1914,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
-  "spider.controller.VmHostTreeController": [],
+  "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
@@ -1922,6 +1926,9 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmHostStore": [],
   "spider.view.AddVmHostWindow": [
     "widget.AddVmHostWindow"
+  ],
+  "spider.view.AddVmWindow": [
+    "widget.AddVmWindow"
   ],
   "spider.view.AthenaSpider": [],
   "spider.view.DashBoardNodePanel": [
@@ -1946,8 +1953,8 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.vmMgmtPanel": [
     "widget.vmMgmtPanel"
   ],
-  "treeConstants": [],
-  "vmConstants": []
+  "vmConstants": [],
+  "vmHostConstants": []
 });
 Ext.setVersion("ext-theme-base", "4.2.1");
 Ext.setVersion("ext-theme-neptune", "4.2.1");
