@@ -68,7 +68,7 @@
                     "    cpuChart: cpuChart,",
                     "    memoryChart: memoryChart,",
                     "    networkChart: networkChart",
-                    "}); "
+                    "});"
                 ]
             },
             "designerId": "b2561776-47a6-4a27-a6a2-e0418d1f0581"

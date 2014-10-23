@@ -654,6 +654,51 @@
                                             ]
                                         }
                                     ]
+                                },
+                                {
+                                    "type": "Ext.tree.Panel",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "header": false,
+                                        "height": 250,
+                                        "hidden": true,
+                                        "hideHeaders": true,
+                                        "title": "My Tree Grid Panel",
+                                        "width": 400
+                                    },
+                                    "designerId": "ecc706d7-1af7-469a-b569-229d92fc8582",
+                                    "isBuiltIn": true,
+                                    "iconCls": "icon-treegridpanel",
+                                    "autoName": "TreeGrid",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.tree.View",
+                                            "reference": {
+                                                "name": "viewConfig",
+                                                "type": "object"
+                                            },
+                                            "codeClass": null,
+                                            "designerId": "a90b5ec5-0106-457c-aa4f-35322d639eca"
+                                        },
+                                        {
+                                            "type": "Ext.tree.Column",
+                                            "reference": {
+                                                "name": "columns",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "dataIndex": "text",
+                                                "flex": 1,
+                                                "text": "Nodes"
+                                            },
+                                            "designerId": "828b32bc-fd01-47e7-8956-3acfe1ea8db6"
+                                        }
+                                    ]
                                 }
                             ]
                         }

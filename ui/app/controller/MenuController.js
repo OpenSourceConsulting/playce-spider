@@ -248,14 +248,14 @@ Ext.define('spider.controller.MenuController', {
                 if(hostDatas != null) {
 
                     var vmDatas = null;
-        /*
+
                     Ext.Ajax.request({
                         url: GLOBAL.apiUrlPrefix + 'mon/vm/_all',
                         disableCaching : true,
                         success: function(vmResponse){
 
                             vmDatas = Ext.decode(vmResponse.responseText);
-        */
+
                             Ext.each(hostDatas, function(host, index) {
 
                                 host.id = host._id;
@@ -306,8 +306,8 @@ Ext.define('spider.controller.MenuController', {
 
                             dashboardConstants.me.renderDashboard();
 
-        /*                }
-                    });*/
+                        }
+                    });
                 }
 
             }
