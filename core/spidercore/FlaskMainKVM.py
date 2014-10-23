@@ -40,8 +40,10 @@ def vm_clone():
 		jsonData['_id'] = id
 		jsonData['vmhost'] = vmhostId
 		jsonData['templateName'] = template
+		jsonData['vmname'] = name
 		del jsonData['vmhostId']
 		del jsonData['tname']
+		del jsonData['name']
 		jsonData['interim'] = True
 		vms.append(jsonData)
 		write_repository('vms', vms)
