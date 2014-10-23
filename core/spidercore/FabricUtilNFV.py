@@ -223,7 +223,7 @@ def renameHostname(hostname):
 	f = open(mainDir + '/commands.txt', 'w')
 	commands = [
 			"$SET system host-name %s" % hostname,
-			'$COMMIT'
+			'$COMMIT',
 			'$SAVE'
 			]
 	f.write("\n".join(commands))
