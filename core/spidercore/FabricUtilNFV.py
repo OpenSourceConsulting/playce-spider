@@ -241,7 +241,9 @@ def initVM(addr, sshid, sshpw, id, hostname):
 	env.password = sshpw
 	env.shell = '/bin/bash -l -c'
 	results = execute(assignIdToCollectD, hosts=[addr], vmId = id)
-	renameHostname(hostname)
+
+	env.shell = '/bin/vbash -ic'
+	results = execute(renameHostname, hosts=[addr], hostname = hostname)
 	return
 
 def pingVM_task():
