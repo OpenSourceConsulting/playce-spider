@@ -216,12 +216,32 @@ def assignIdToCollectD(vmId):
 
 	return
 
-def initVM(addr, sshid, sshpw, id):
+def renameHostname(hostname):
+	f = open(mainDir + '/commands.txt', 'w')
+	commands = [
+			"$SET system host-name %s\n" % hostname,
+			'$COMMIT\n'
+			'$SAVE\n'
+			]
+	f.write("; ".join(commands))
+	f.close()
+	with cd('~/test/scripts'):
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		result = run('./cli.sh', pty=False)
+	lines = result.split('\n')
+	for line in lines:
+		print "LINE: " + line
+
+	return
+
+def initVM(addr, sshid, sshpw, id, hostname):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
 	env.shell = '/bin/bash -l -c'
 	results = execute(assignIdToCollectD, hosts=[addr], vmId = id)
+	renameHostname(hostname)
 	return
 
 def pingVM_task():

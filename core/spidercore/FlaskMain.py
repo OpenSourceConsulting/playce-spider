@@ -35,9 +35,6 @@ def vmhost_create():
 	token = str(uuid.uuid4())
 	jsonData['_id'] = token;
 	
-	vms = getDomainList(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
-	jsonData['vms'] = vms
-	
 	results = getAllInfo(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
 	jsonData['info'] = results['info']
 	jsonData['version'] = results['version']

@@ -89,27 +89,33 @@ def vm_reg_init():
 					break
 	
 	if vmhostId != None:
-		jsonData = {
-		    "vmhost": vmhostId,
-		    "vyatta": isVyatta,
-		    "hostname": hostname,
-		    "vmname": domain,
-		    "kernel": kernel,
-		    "arch": arch,
-		    "ostype": ostype,
-		    "vmtype": "kvm",
-		    "sshid": "vyos",
-		    "sshpw": "vyos",
-		    "interfaces": ifs
-		}
-		id = str(uuid.uuid4())
-		jsonData['_id'] = id
-		
 		vms = read_repository("vms")
-		for vm in vms:
+		for i in range(0, len(vms)):
+			vm = vms[i]
 			if domain == vm['vmname']:
-				return "DUP"
-
+				if 'interim' in vm and vm['interim']:
+					jsonData = {
+						"_id": vm['_id'],
+					    "vmhost": vmhostId,
+					    "vyatta": isVyatta,
+					    "vmname": domain,
+					    "kernel": kernel,
+					    "arch": arch,
+					    "ostype": ostype,
+					    "vmtype": "kvm",
+					    "sshid": "vyos",
+					    "sshpw": "vyos",
+					    "interfaces": ifs,
+					    "templateName": vm['templateName'],
+					    "vendor": vm['vendor'],
+					    "vmhostName": vm['vmhostName'],
+					    "vmtype": vm['vmtype']
+					}
+					vms[i] = jsonData
+					break
+				else:
+					return "DUP"
+		
 		# 	Seeking which interface can be communicated via management network
 		for ifeth in ifs:
 			if 'ipaddr' in ifs[ifeth]:
@@ -130,7 +136,6 @@ def vm_reg_init():
 
 		#	Add new VM info to repository
 		
-		vms.append(jsonData)
 		write_repository('vms', vms)
 
 		return "OK"
