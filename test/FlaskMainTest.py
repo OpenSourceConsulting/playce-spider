@@ -52,7 +52,7 @@ class FlaskMainTestCase(unittest.TestCase):
 		jsonData = {
 		    "vmhost": vmHostId,
 		    "type":"nfv",
-		    "name": "kvm001",
+		    "vmname": "kvm001",
 		    "hostname": "vyatta",
 		    "addr": "vyatta",
 		    "sshid": "vyatta",
