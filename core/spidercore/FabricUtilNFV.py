@@ -222,11 +222,11 @@ def assignIdToCollectD(vmId):
 def renameHostname(hostname):
 	f = open(mainDir + '/commands.txt', 'w')
 	commands = [
-			"$SET system host-name %s\n" % hostname,
-			'$COMMIT\n'
-			'$SAVE\n'
+			"$SET system host-name %s" % hostname,
+			'$COMMIT'
+			'$SAVE'
 			]
-	f.write("; ".join(commands))
+	f.write("\n".join(commands))
 	f.close()
 	run('mkdir -p .spider')
 	with cd('.spider'):
@@ -239,7 +239,7 @@ def renameHostname(hostname):
 
 	return
 
-def initVM(addr, sshid, sshpw, id, hostname):
+def initVM(addr, sshid, sshpw, id, vmhostName):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
@@ -247,7 +247,7 @@ def initVM(addr, sshid, sshpw, id, hostname):
 	results = execute(assignIdToCollectD, hosts=[addr], vmId = id)
 
 	env.shell = '/bin/vbash -ic'
-	results = execute(renameHostname, hosts=[addr], hostname = hostname)
+	results = execute(renameHostname, hosts=[addr], hostname = vmhostName)
 	return
 
 def pingVM_task():
