@@ -46,6 +46,8 @@ Ext.define('spider.controller.DashboardController', {
             nodePanel.down('#memoryBar');
             nodePanel.down('#diskBar');
             /*
+            Ext.getCmp('cpuBar').updateProgress(data.usage.cpu.percentage / 100, data.usage.cpu.percentage + "%");
+
             var children = nodePanel.down('#vmNamePanel').items.items;
             Ext.each(children, function (child, idx) {
                 if(idx > 0)

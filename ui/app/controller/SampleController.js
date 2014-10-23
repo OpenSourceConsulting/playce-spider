@@ -50,10 +50,10 @@ Ext.define('spider.controller.SampleController', {
 
         //imgCmp.setWidth(cmpWidth);
         //imgCmp.setHeight(cmpHeight);
-
+        /*
         imgCmp.setSrc('http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes'
                 + '&width='+cmpWidth + '&height=' + (cmpHeight+35));
-
+        */
     },
 
     init: function(application) {

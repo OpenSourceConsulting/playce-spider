@@ -31,6 +31,7 @@ Ext.define('spider.view.AthenaSpider', {
         'Ext.toolbar.Spacer',
         'Ext.tree.Panel',
         'Ext.tree.View',
+        'Ext.tree.Column',
         'Ext.layout.container.*',
         'Ext.ux.GMapPanel',
         'Ext.util.Point',
@@ -326,6 +327,26 @@ Ext.define('spider.view.AthenaSpider', {
                                                         autoScroll: true,
                                                         preserveScrollOnRefresh: true
                                                     }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'treepanel',
+                                            height: 250,
+                                            hidden: true,
+                                            width: 400,
+                                            header: false,
+                                            title: 'My Tree Grid Panel',
+                                            hideHeaders: true,
+                                            viewConfig: {
+
+                                            },
+                                            columns: [
+                                                {
+                                                    xtype: 'treecolumn',
+                                                    dataIndex: 'text',
+                                                    text: 'Nodes',
+                                                    flex: 1
                                                 }
                                             ]
                                         }
