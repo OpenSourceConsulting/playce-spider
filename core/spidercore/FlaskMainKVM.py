@@ -30,7 +30,7 @@ def vm_clone():
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmhostId:
-			jsonData['vmhostname'] = vmhost['name']
+			jsonData['vmhostName'] = vmhost['name']
 			vms = getDomcloneParamiko(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], template, name)
 			found = True
 	
@@ -38,6 +38,11 @@ def vm_clone():
 		vms = read_repository("vms")
 		id = str(uuid.uuid4())
 		jsonData['_id'] = id
+		jsonData['vmhost'] = vmhostId
+		jsonData['templateName'] = template
+		del jsonData['vmhostId']
+		del jsonData['tname']
+		jsonData['interim'] = True
 		vms.append(jsonData)
 		write_repository('vms', vms)
 		return json.dumps({'_id': id})

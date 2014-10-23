@@ -220,11 +220,11 @@ def mon_vmbyhost(id=None):
 		results = []
 		for vm in vms:
 			print vm['vmhost']
-			if vmhostName == vm['vmhost']:
+			if id == vm['vmhost']:
 				if request.args.get('detail', 'false').lower() in ['true', 'yes']:
 					results.append(vm)
 				else:
-					results.append({'_id': vm['_id'], 'name': vm['name'], 'vmhost': vm['vmhost']})
+					results.append({'_id': vm['_id'], 'name': vm['vmname'], 'vmhost': vm['vmhost']})
 					
 		return json.dumps(results)
 	else:
