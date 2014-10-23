@@ -129,7 +129,7 @@ def vm_reg_init():
 		#	SSH Account should be one for newly created VM
 		
 		try:
-			initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], id)
+			initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], id, jsonData['vmhostName'])
 		except Exception, e:
 			print e
 			return "FAIL"
