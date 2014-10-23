@@ -18,9 +18,12 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|params": [
+                    "vmId"
+                ],
                 "fn": "initVmManagement",
                 "implHandler": [
-                    ""
+                    "vmConstants.selectVmId = vmId;"
                 ]
             },
             "designerId": "d896c668-1bab-45ea-b033-e33d3668bee0"
@@ -40,11 +43,15 @@
                 "implHandler": [
                     "var vmMgmt = this;",
                     "",
-                    "//Dashboard Menu Constants",
+                    "//VM Menu Constants",
                     "Ext.define('vmConstants', {",
                     "    singleton: true,",
                     "    me : vmMgmt,",
+                    "    ",
+                    "    selectVmId : null,",
+                    "    ",
                     "    vmCombo : null",
+                    "    ",
                     "});"
                 ]
             },

@@ -53,6 +53,7 @@ Ext.define('spider.view.AddVmHostWindow', {
                             anchor: '100%',
                             fieldLabel: '센터',
                             name: 'location',
+                            allowBlank: false,
                             editable: false,
                             store: [
                                 '대전',
@@ -63,25 +64,29 @@ Ext.define('spider.view.AddVmHostWindow', {
                             xtype: 'textfield',
                             anchor: '100%',
                             fieldLabel: '이름',
-                            name: 'name'
+                            name: 'name',
+                            allowBlank: false
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
                             fieldLabel: '주소',
-                            name: 'addr'
+                            name: 'addr',
+                            allowBlank: false
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
                             fieldLabel: 'SSH ID',
-                            name: 'sshid'
+                            name: 'sshid',
+                            allowBlank: false
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
                             fieldLabel: 'SSH PW',
-                            name: 'sshpw'
+                            name: 'sshpw',
+                            allowBlank: false
                         },
                         {
                             xtype: 'textareafield',

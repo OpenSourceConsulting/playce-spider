@@ -34,26 +34,6 @@
                     "designerId": "beb70459-bad5-40a8-a1dd-cf3dd1a80e1f"
                 }
             ]
-        },
-        {
-            "type": "basiceventbinding",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onTreeStoreLoad",
-                "implHandler": [
-                    "Ext.each(records, function (record){",
-                    "    record.set(\"text\", record.get(\"name\"));",
-                    "    record.set(\"expanded\", false);",
-                    "});"
-                ],
-                "name": "load",
-                "scope": "me"
-            },
-            "designerId": "2c9119d4-d88c-4ec2-ad86-bed2f329af8d"
         }
     ]
 }

@@ -128,6 +128,19 @@
             "designerId": "2735abb2-b38b-4d5d-9a5f-4a99fbec130a"
         },
         {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "mytool",
+                "selector": "#mytool"
+            },
+            "designerId": "a7f6d587-c42e-4c60-8af1-553374bd6b19"
+        },
+        {
             "type": "fixedfunction",
             "reference": {
                 "name": "items",
@@ -165,7 +178,7 @@
                     "",
                     "",
                     "*/",
-                    "",
+                    "/*",
                     "Ext.Ajax.request({",
                     "    url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',",
                     "    disableCaching : true,",
@@ -189,7 +202,7 @@
                     "        Ext.getStore('SampleStore').loadData(chartList, false);",
                     "    }",
                     "});",
-                    ""
+                    "*/"
                 ]
             },
             "designerId": "3ab9c6dd-78c4-43d7-8c59-10ac1379e55c"
@@ -233,7 +246,6 @@
                     "clearInterval(GlobalData.intervalId1);",
                     "clearInterval(GlobalData.intervalId2);",
                     "clearInterval(GlobalData.intervalId3);",
-                    "",
                     ""
                 ],
                 "name": "click",
@@ -256,35 +268,7 @@
                     "/**",
                     " * NFV Management 메뉴 버튼 클릭 시 수행되는 function",
                     " */",
-                    "var centerContainer = this.getCenterContainer(),",
-                    "    dashboardBtn = this.getDashboardBtn(),",
-                    "    managementBtn = this.getManagementBtn(),",
-                    "    monitoringBtn = this.getMonitoringBtn(),",
-                    "    mainViewBtn = this.getMainViewBtn(),",
-                    "    menuPanel = this.getMenuPanel();",
-                    "",
-                    "// 현재 선택된 item이 managementPanel일 경우 무시한다.",
-                    "if (centerContainer.layout.getActiveItem().itemId === \"managementPanel\") {",
-                    "    managementBtn.toggle(true);",
-                    "    return;",
-                    "}",
-                    "",
-                    "managementBtn.toggle(true);",
-                    "dashboardBtn.toggle(false);",
-                    "monitoringBtn.toggle(false);",
-                    "mainViewBtn.toggle(false);",
-                    "",
-                    "Ext.getCmp('monitoringBtn').toggle(false);",
-                    "",
-                    "centerContainer.layout.setActiveItem(1);",
-                    "",
-                    "vmConstants.me.initVmManagement();",
-                    "//Ext.getCmp('hostMgmtBtn').fireEvent('click');",
-                    "//Ext.getCmp('utilizationBtn').fireEvent('click');",
-                    "",
-                    "//if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {",
-                    "//    Ext.getCmp('hostGridPanel').selModel.select(0);",
-                    "//}"
+                    "this.viewManagementMenu();"
                 ],
                 "name": "click",
                 "scope": "me"
@@ -325,6 +309,7 @@
                     "                        host.id = host._id;",
                     "                        host.text = host.name;",
                     "                        host.icon = 'resources/images/icons/server.png';",
+                    "                        host.type = 'host';",
                     "                        if(index == 0) {",
                     "                            host.expanded = true;",
                     "                        }",
@@ -334,7 +319,7 @@
                     "",
                     "                            if(host._id == vm.vmhost) {",
                     "",
-                    "                                vm.id = host._id;",
+                    "                                vm.id = vm._id;",
                     "                                vm.text = vm.name;",
                     "                                vm.icon = 'resources/images/icons/host.png';",
                     "                                vm.leaf = true;",
@@ -811,6 +796,82 @@
                 ]
             },
             "designerId": "94e92669-d94f-4bc6-8adb-42d433cc9168"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#mytool",
+                "designer|targetType": "Ext.panel.Tool",
+                "fn": "onMytoolClick",
+                "implHandler": [
+                    "this.renderServerTree();"
+                ],
+                "name": "click",
+                "scope": "me"
+            },
+            "designerId": "116a21f7-754b-43fe-a3b1-bc6b3636870b"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "vmId"
+                ],
+                "fn": "viewManagementMenu",
+                "implHandler": [
+                    "/**",
+                    " * NFV Management 메뉴 버튼 클릭 시 수행되는 function",
+                    " */",
+                    "var centerContainer = this.getCenterContainer(),",
+                    "    dashboardBtn = this.getDashboardBtn(),",
+                    "    managementBtn = this.getManagementBtn(),",
+                    "    monitoringBtn = this.getMonitoringBtn(),",
+                    "    mainViewBtn = this.getMainViewBtn(),",
+                    "    menuPanel = this.getMenuPanel();",
+                    "",
+                    "// 현재 선택된 item이 managementPanel일 경우 무시한다.",
+                    "if (centerContainer.layout.getActiveItem().itemId !== \"managementPanel\") {",
+                    "",
+                    "    managementBtn.toggle(true);",
+                    "    dashboardBtn.toggle(false);",
+                    "    monitoringBtn.toggle(false);",
+                    "    mainViewBtn.toggle(false);",
+                    "    ",
+                    "    Ext.getCmp('monitoringBtn').toggle(false);",
+                    "    ",
+                    "    centerContainer.layout.setActiveItem(1);",
+                    "    ",
+                    "    vmConstants.me.initVmManagement(vmId);",
+                    "    ",
+                    "    //Ext.getCmp('hostMgmtBtn').fireEvent('click');",
+                    "    //Ext.getCmp('utilizationBtn').fireEvent('click');",
+                    "    ",
+                    "    //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {",
+                    "    //    Ext.getCmp('hostGridPanel').selModel.select(0);",
+                    "    //}",
+                    "} else {",
+                    "    ",
+                    "    managementBtn.toggle(true);",
+                    "    ",
+                    "    if(vmId !== vmConstants.selectVmId) {        ",
+                    "        vmConstants.me.initVmManagement(vmId);",
+                    "    }",
+                    "    ",
+                    "}",
+                    ""
+                ]
+            },
+            "designerId": "1c859520-00c7-486b-a74e-ba5245a70748"
         }
     ]
 }

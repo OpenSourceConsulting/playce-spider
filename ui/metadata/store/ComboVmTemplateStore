@@ -1,0 +1,58 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "ComboVmTemplateStore",
+        "model": "VmTemplateModel",
+        "storeId": "ComboVmTemplateStore"
+    },
+    "designerId": "43332f4f-56e2-48f4-a371-6ca14d758440",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.Ajax",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "vm/templatelist"
+            },
+            "designerId": "2f7b159f-2135-42e6-8da0-598b736f26e8",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "c859f798-3399-47c4-8edf-62b31db140aa"
+                },
+                {
+                    "type": "processcfgfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "config"
+                        ],
+                        "fn": "processMyAjaxProxy1",
+                        "implHandler": [
+                            "config.actionMethods = {read: \"GET\"};",
+                            "return config;"
+                        ]
+                    },
+                    "designerId": "4490c703-e56e-4db2-8d97-b317217c31cb"
+                }
+            ]
+        }
+    ]
+}

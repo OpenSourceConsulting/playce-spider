@@ -74,8 +74,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                             html: '',
                                             itemId: 'VmHostName',
                                             margin: '0 10 0 0',
-                                            style: '{text-align: center;font-size : 18px;font-weight: bold;}',
-                                            text: 'VM Host1'
+                                            style: '{text-align: center;font-size : 18px;font-weight: bold;}'
                                         }
                                     ]
                                 }
@@ -177,7 +176,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                         {
                                             xtype: 'progressbar',
                                             flex: 5,
-                                            itemId: 'diskBar',
+                                            itemId: 'networkBar',
                                             animate: true,
                                             text: 'N/A'
                                         }
@@ -203,27 +202,23 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: 'NFV1-1'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: 'NFV1-2'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: 'NFV1-3'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
                                     margin: '0 0 5 0',
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: 'NFV1-4'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 }
                             ]
                         },
@@ -246,27 +241,23 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '25%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '19%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
                                     margin: '0 0 5 0',
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '20%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 }
                             ]
                         },
@@ -290,27 +281,23 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
                                     margin: '0 0 5 0',
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 }
                             ]
                         },
@@ -334,27 +321,23 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
                                     margin: '0 0 5 0',
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                    text: '50%'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
                                 }
                             ]
                         }

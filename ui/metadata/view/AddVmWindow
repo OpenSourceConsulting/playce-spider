@@ -53,10 +53,25 @@
                     "userConfig": {
                         "fieldLabel": "VM Host",
                         "layout|anchor": "100%",
-                        "name": "vmhost",
+                        "name": "vmhostName",
                         "value": null
                     },
                     "designerId": "4c3ce168-287f-417f-961e-479fab2a7066"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "이름",
+                        "layout|anchor": "100%",
+                        "name": "name"
+                    },
+                    "designerId": "e14578bb-e17a-4d10-9c08-8d3c493cddb8"
                 },
                 {
                     "type": "Ext.form.field.ComboBox",
@@ -66,19 +81,14 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "allowBlank": false,
+                        "displayField": "name",
                         "editable": false,
-                        "fieldLabel": "타입",
+                        "fieldLabel": "Template",
                         "layout|anchor": "100%",
-                        "name": "type",
-                        "store": [
-                            "[",
-                            "    \"대전\",",
-                            "    \"광주\"",
-                            "]"
-                        ]
-                    },
-                    "configAlternates": {
-                        "store": "array"
+                        "name": "tname",
+                        "store": "ComboVmTemplateStore",
+                        "valueField": "name"
                     },
                     "designerId": "a5513960-da56-4f25-a7e6-e56c1dd8e722"
                 },
@@ -90,20 +100,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "fieldLabel": "이름",
-                        "layout|anchor": "100%",
-                        "name": "name"
-                    },
-                    "designerId": "e14578bb-e17a-4d10-9c08-8d3c493cddb8"
-                },
-                {
-                    "type": "Ext.form.field.Text",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
+                        "allowBlank": false,
                         "fieldLabel": "Host Name",
                         "layout|anchor": "100%",
                         "name": "hostname"
@@ -121,7 +118,16 @@
                         "editable": false,
                         "fieldLabel": "VM Type",
                         "layout|anchor": "100%",
-                        "name": "vmtype"
+                        "name": "vmtype",
+                        "store": [
+                            "[",
+                            "    [\"nfv\",\"NFV VM\"],",
+                            "    [\"vm\",\"일반 VM\"]",
+                            "]"
+                        ]
+                    },
+                    "configAlternates": {
+                        "store": "array"
                     },
                     "designerId": "fd5c105d-622b-491c-94f7-9a48b3fe7acf"
                 },
@@ -138,6 +144,20 @@
                         "name": "vendor"
                     },
                     "designerId": "b4a35118-f319-41a9-ab20-a4bf4df27153"
+                },
+                {
+                    "type": "Ext.form.field.Hidden",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "Label",
+                        "layout|anchor": "100%",
+                        "name": "vmhostId"
+                    },
+                    "designerId": "c4b34a83-f0e8-452e-b06f-3a701f575aa1"
                 }
             ]
         },

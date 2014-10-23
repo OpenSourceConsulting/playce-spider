@@ -34,21 +34,7 @@ Ext.define('spider.store.VmHostStore', {
                 reader: {
                     type: 'json'
                 }
-            },
-            listeners: {
-                load: {
-                    fn: me.onTreeStoreLoad,
-                    scope: me
-                }
             }
         }, cfg)]);
-    },
-
-    onTreeStoreLoad: function(treestore, node, records, successful, eOpts) {
-        Ext.each(records, function (record){
-            record.set("text", record.get("name"));
-            record.set("expanded", false);
-        });
     }
-
 });

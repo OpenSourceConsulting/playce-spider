@@ -51,6 +51,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "allowBlank": false,
                         "editable": false,
                         "fieldLabel": "센터",
                         "layout|anchor": "100%",
@@ -75,6 +76,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "allowBlank": false,
                         "fieldLabel": "이름",
                         "layout|anchor": "100%",
                         "name": "name"
@@ -89,6 +91,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "allowBlank": false,
                         "fieldLabel": "주소",
                         "layout|anchor": "100%",
                         "name": "addr"
@@ -103,6 +106,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "allowBlank": false,
                         "fieldLabel": "SSH ID",
                         "layout|anchor": "100%",
                         "name": "sshid"
@@ -117,6 +121,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "allowBlank": false,
                         "fieldLabel": "SSH PW",
                         "layout|anchor": "100%",
                         "name": "sshpw"

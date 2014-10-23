@@ -32,18 +32,22 @@ Ext.define('spider.controller.VmManagementController', {
 
     },
 
-    initVmManagement: function() {
-
+    initVmManagement: function(vmId) {
+        vmConstants.selectVmId = vmId;
     },
 
     init: function(application) {
                 var vmMgmt = this;
 
-                //Dashboard Menu Constants
+                //VM Menu Constants
                 Ext.define('vmConstants', {
                     singleton: true,
                     me : vmMgmt,
+
+                    selectVmId : null,
+
                     vmCombo : null
+
                 });
 
         this.control({

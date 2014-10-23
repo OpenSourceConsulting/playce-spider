@@ -100,7 +100,7 @@
                                         "layout|flex": null,
                                         "margin": "0 10 0 0",
                                         "style": "{text-align: center;font-size : 18px;font-weight: bold;}",
-                                        "text": "VM Host1"
+                                        "text": null
                                     },
                                     "configAlternates": {
                                         "style": "string"
@@ -328,7 +328,7 @@
                                         "animate": true,
                                         "height": null,
                                         "id": null,
-                                        "itemId": "diskBar",
+                                        "itemId": "networkBar",
                                         "layout|flex": 5,
                                         "text": "N/A"
                                     },
@@ -383,7 +383,7 @@
                             "userConfig": {
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "NFV1-1"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -400,7 +400,7 @@
                             "userConfig": {
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "NFV1-2"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -417,7 +417,7 @@
                             "userConfig": {
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "NFV1-3"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -435,7 +435,7 @@
                                 "layout|flex": 1,
                                 "margin": "0 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "NFV1-4"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -493,7 +493,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -511,7 +511,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "25%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -529,7 +529,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "19%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -548,7 +548,7 @@
                                 "layout|flex": 1,
                                 "margin": "0 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "20%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -605,7 +605,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -623,7 +623,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -641,7 +641,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -660,7 +660,7 @@
                                 "layout|flex": 1,
                                 "margin": "0 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -717,7 +717,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -735,7 +735,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -753,7 +753,7 @@
                                 "html": null,
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -772,7 +772,7 @@
                                 "layout|flex": 1,
                                 "margin": "0 0 5 0",
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": "50%"
+                                "text": null
                             },
                             "configAlternates": {
                                 "style": "string"

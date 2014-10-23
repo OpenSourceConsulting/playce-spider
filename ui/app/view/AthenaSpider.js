@@ -172,6 +172,7 @@ Ext.define('spider.view.AthenaSpider', {
                     split: true,
                     id: 'westPanel',
                     itemId: 'westPanel',
+                    minWidth: 200,
                     width: 200,
                     collapsible: true,
                     title: 'Server List',
@@ -182,6 +183,7 @@ Ext.define('spider.view.AthenaSpider', {
                     tools: [
                         {
                             xtype: 'tool',
+                            itemId: 'mytool',
                             type: 'refresh'
                         }
                     ],
@@ -201,6 +203,7 @@ Ext.define('spider.view.AthenaSpider', {
                                     fieldLabel: 'Locations',
                                     labelWidth: 60,
                                     value: '대전',
+                                    editable: false,
                                     store: [
                                         '대전',
                                         '광주'
@@ -247,6 +250,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                             id: 'expandImg',
                                                             itemId: 'expandImg',
                                                             margin: '5 0 0 0',
+                                                            style: 'cursor: pointer;',
                                                             src: 'resources/images/icons/expand-all.png'
                                                         }
                                                     ]
@@ -275,6 +279,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                             id: 'collapseImg',
                                                             itemId: 'collapseImg',
                                                             margin: '5 0 0 0',
+                                                            style: 'cursor: pointer;',
                                                             src: 'resources/images/icons/collapse-all.png'
                                                         }
                                                     ]

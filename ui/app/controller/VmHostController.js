@@ -25,7 +25,11 @@ Ext.define('spider.controller.VmHostController', {
     },
 
     onListMenuPanelItemClick: function(dataview, record, item, index, e, eOpts) {
-        this.popVMHostInfoWindow(record);
+        if(record.get("icon").indexOf("server.png") >= 0) {
+            this.popVMHostInfoWindow(record);
+        } else {
+            Ext.getCmp('managementBtn').fireEvent('click');
+        }
     },
 
     init: function(application) {
@@ -71,7 +75,8 @@ Ext.define('spider.controller.VmHostController', {
                     singleton: true,
                     me : vmHostTree,
 
-                    contextMenu: vmHostContextMenu
+                    contextMenu: vmHostContextMenu,
+                    selectRecord : null
                 });
 
         this.control({
@@ -91,6 +96,8 @@ Ext.define('spider.controller.VmHostController', {
 
     popVMHostInfoWindow: function(record) {
         //VM Host Info 팝업 호출
+        vmHostConstants.selectRecord = record;
+
         var popWindow = Ext.create("widget.VMHostInfoWindow");
         popWindow.show();
 
@@ -110,7 +117,6 @@ Ext.define('spider.controller.VmHostController', {
                 var data = Ext.JSON.decode(response.responseText);
                 if(data.length > 0) {
                     viewVmHostForm.getForm().setValues(data[0]);
-                    viewVmHostForm.getForm().setValue(Ext.getCmp("lnbLocationCombo").getValue());
                 }
             }
         });
@@ -240,9 +246,16 @@ Ext.define('spider.controller.VmHostController', {
 
     popAddVmWindow: function() {
         //VM 생성 팝업 호출
-
         var popWindow = Ext.create("widget.AddVmWindow");
         popWindow.show();
+
+        Ext.getCmp("addVmForm").getForm().findField("vmhostId").setValue(vmHostConstants.selectRecord.get("id"));
+        Ext.getCmp("addVmForm").getForm().findField("vmhostName").setValue(vmHostConstants.selectRecord.get("text"));
+
+        var comboStore = Ext.getStore("ComboVmTemplateStore");
+        comboStore.load({
+            url : GLOBAL.apiUrlPrefix + 'vm/templatelist/' + vmHostConstants.selectRecord.get("id")
+        });
     },
 
     createVM: function(button) {
@@ -253,23 +266,26 @@ Ext.define('spider.controller.VmHostController', {
             var sendData = addVmForm.getForm().getFieldValues();
 
              Ext.Ajax.request({
-                 url: GLOBAL.apiUrlPrefix + "vm",
+                 url: GLOBAL.apiUrlPrefix + "vm/clone",
                  method: "POST",
                  headers : {
-                     //"Content-Type" : "application/json",
-                     //"Access-Control-Allow-Origin" : "*"
+                     "Content-Type" : "application/json"
                  },
-                 params : sendData,
                  waitMsg: 'Saving Data...',
-                 //jsonData: sendData,
+                 jsonData: sendData,
                  success: function (response) {
-                     alert('aaaa');
 
+                    alert(response.responseText + ' 등록이 완료되었습니다.');
+
+                    menuConstants.me.renderServerTree();
+                    addVmForm.up('window').close();
+
+        /*
                     var responseData = Ext.JSON.decode(response.responseText);
                      alert(responseData);
 
                      if(responseData.success) {
-        /*
+
                         Ext.Msg.alert('Success', responseData.msg);
 
                         Ext.getCmp('almUserGrid').getStore().reload({
@@ -291,75 +307,24 @@ Ext.define('spider.controller.VmHostController', {
 
                             }
                         });
-        */
+
                         addVmHostForm.up('window').close();
 
                      } else {
 
-                        Ext.Msg.alert('Failure', responseData.msg);
+                        Ext.Msg.alert('Failure', response.responseText);
 
                      }
+                     */
+
                 },
                 failure: function (response) {
-                    //var msg = Ext.JSON.decode(response.responseText).msg;
-
-                    //Ext.Msg.alert('Failure', msg);
+                    Ext.Msg.alert('Failure', response.responseText);
                 }
              });
 
         }
-        /*
-        addVmHostForm.getForm().submit({
-            clientValidation: true,
-            url: GLOBAL.apiUrlPrefix + "vmhost",
-            method : "POST",
-            useDefaultXhrHeader: false,
-            params: {
-                newStatus: 'delivered'
-            },
-            waitMsg: 'Saving Data...',
-            success: function(form, action) {
 
-                alert(Ext.decode(action.result));
-                (Ext.Msg.alert('Success', action.result.msg);
-
-                Ext.getCmp('hypervisorGrid').getStore().load({
-
-                    callback:function(records, operation, success){
-
-                        if(hypervisorId) {
-
-                            Ext.each(records, function(record) {
-
-                                if(record.get("hypervisorId") == hypervisorId) {
-                                    Ext.getCmp('hypervisorGrid').getSelectionModel().select(record,true,false);
-
-                                    RHEVMConstants.selectRow = record;
-                                    RHEVMConstants.me.selectHypervisorGrid();
-                                }
-                            });
-                        }
-                    }
-
-                });
-
-                button.up('window').close();
-            },
-            failure: function(form, action) {
-                switch (action.failureType) {
-                    case Ext.form.action.Action.CLIENT_INVALID:
-                    Ext.Msg.alert('Failure', '유효하지 않은 입력값이 존재합니다.');
-                    break;
-                    case Ext.form.action.Action.CONNECT_FAILURE:
-                    Ext.Msg.alert('Failure', 'Server communication failed');
-                    break;
-                    case Ext.form.action.Action.SERVER_INVALID:
-                    Ext.Msg.alert('Failure', action.result.msg);
-                }
-            }
-        });
-
-        */
     }
 
 });

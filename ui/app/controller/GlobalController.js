@@ -28,6 +28,18 @@ Ext.define('spider.controller.GlobalController', {
         //CROS 설정
         Ext.data.Connection.prototype.useDefaultXhrHeader = false;
 
+        //Form Required 설정
+        Ext.define('spider.form.field.Base', {
+
+            override : 'Ext.form.field.Base',
+
+            msgTarget: 'side',
+            afterLabelTextTpl: [
+                '<tpl if="allowBlank===false"><span style="color:red;font-weight:bold" data-qtip="Required">*</span></tpl>'
+            ]
+
+        });
+
         // Global variables를 정의하는 구문으로 GlobalData.urlPrefix, GlobalData.serverSize 등으로 어디에서든 접근이 가능하다.
         Ext.define('GLOBAL', {
             singleton: true,

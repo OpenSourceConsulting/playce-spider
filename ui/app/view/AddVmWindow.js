@@ -21,6 +21,7 @@ Ext.define('spider.view.AddVmWindow', {
         'Ext.form.Panel',
         'Ext.form.field.Display',
         'Ext.form.field.ComboBox',
+        'Ext.form.field.Hidden',
         'Ext.toolbar.Toolbar',
         'Ext.button.Button'
     ],
@@ -52,43 +53,61 @@ Ext.define('spider.view.AddVmWindow', {
                             xtype: 'displayfield',
                             anchor: '100%',
                             fieldLabel: 'VM Host',
-                            name: 'vmhost'
-                        },
-                        {
-                            xtype: 'combobox',
-                            anchor: '100%',
-                            fieldLabel: '타입',
-                            name: 'type',
-                            editable: false,
-                            store: [
-                                '대전',
-                                '광주'
-                            ]
+                            name: 'vmhostName'
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
                             fieldLabel: '이름',
-                            name: 'name'
+                            name: 'name',
+                            allowBlank: false
+                        },
+                        {
+                            xtype: 'combobox',
+                            anchor: '100%',
+                            fieldLabel: 'Template',
+                            name: 'tname',
+                            allowBlank: false,
+                            editable: false,
+                            displayField: 'name',
+                            store: 'ComboVmTemplateStore',
+                            valueField: 'name'
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
                             fieldLabel: 'Host Name',
-                            name: 'hostname'
+                            name: 'hostname',
+                            allowBlank: false
                         },
                         {
                             xtype: 'combobox',
                             anchor: '100%',
                             fieldLabel: 'VM Type',
                             name: 'vmtype',
-                            editable: false
+                            editable: false,
+                            store: [
+                                [
+                                    'nfv',
+                                    'NFV VM'
+                                ],
+                                [
+                                    'vm',
+                                    '일반 VM'
+                                ]
+                            ]
                         },
                         {
                             xtype: 'textfield',
                             anchor: '100%',
                             fieldLabel: 'Vendor',
                             name: 'vendor'
+                        },
+                        {
+                            xtype: 'hiddenfield',
+                            anchor: '100%',
+                            fieldLabel: 'Label',
+                            name: 'vmhostId'
                         }
                     ]
                 }

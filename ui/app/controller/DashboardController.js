@@ -45,6 +45,17 @@ Ext.define('spider.controller.DashboardController', {
             nodePanel.down('#cpuBar');
             nodePanel.down('#memoryBar');
             nodePanel.down('#diskBar');
+            /*
+            var children = nodePanel.down('#vmNamePanel').items.items;
+            Ext.each(children, function (child, idx) {
+                if(idx > 0)
+                    child.setText("");
+            });
+
+            nodePanel.down('#vmCpuPanel');
+            nodePanel.down('#vmMemPanel');
+            nodePanel.down('#vmNetPanel');
+            */
 
             if(idx%2 === 0) {
                 Ext.getCmp("DashBoardLeftPanel").add(nodePanel);

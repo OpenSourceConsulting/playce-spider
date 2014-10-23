@@ -276,6 +276,7 @@
                 "layout": "vbox",
                 "layout|region": "west",
                 "layout|split": true,
+                "minWidth": 200,
                 "title": "Server List",
                 "width": 200
             },
@@ -289,6 +290,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "itemId": "mytool",
                         "type": "refresh"
                     },
                     "designerId": "8d1e13c6-f19f-4f5e-987b-13395ae0396a"
@@ -320,6 +322,7 @@
                             "codeClass": null,
                             "userConfig": {
                                 "dock": "top",
+                                "editable": false,
                                 "fieldLabel": "Locations",
                                 "id": "lnbLocationCombo",
                                 "itemId": "lnbLocationCombo",
@@ -404,8 +407,12 @@
                                                 "id": "btnPanel1",
                                                 "itemId": "btnPanel1",
                                                 "layout|flex": null,
+                                                "style": null,
                                                 "title": null,
                                                 "width": 23
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
                                             },
                                             "designerId": "654edd30-f8e3-43ec-9691-b4c8732554b0",
                                             "cn": [
@@ -422,7 +429,7 @@
                                                         "itemId": "expandImg",
                                                         "margin": "5 0 0 0",
                                                         "src": "resources/images/icons/expand-all.png",
-                                                        "style": null
+                                                        "style": "cursor: pointer;"
                                                     },
                                                     "configAlternates": {
                                                         "style": "string"
@@ -493,7 +500,7 @@
                                                         "itemId": "collapseImg",
                                                         "margin": "5 0 0 0",
                                                         "src": "resources/images/icons/collapse-all.png",
-                                                        "style": null,
+                                                        "style": "cursor: pointer;",
                                                         "width": null
                                                     },
                                                     "configAlternates": {
@@ -601,7 +608,8 @@
                                                 "rootVisible": false,
                                                 "store": null,
                                                 "style": "{height: 100%;}",
-                                                "title": null
+                                                "title": null,
+                                                "type": null
                                             },
                                             "configAlternates": {
                                                 "style": "string"
@@ -611,6 +619,11 @@
                                                 {
                                                     "group": "(Custom Properties)",
                                                     "name": "nodeId",
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "type",
                                                     "type": "string"
                                                 }
                                             ],
@@ -626,9 +639,17 @@
                                                         "autoScroll": true,
                                                         "data": null,
                                                         "padding": "0 15 0 0",
-                                                        "preserveScrollOnRefresh": true
+                                                        "preserveScrollOnRefresh": true,
+                                                        "type": null
                                                     },
-                                                    "designerId": "d4e73b0a-6c6d-49eb-b522-b867ab4e4292"
+                                                    "designerId": "d4e73b0a-6c6d-49eb-b522-b867ab4e4292",
+                                                    "customConfigs": [
+                                                        {
+                                                            "group": "(Custom Properties)",
+                                                            "name": "type",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }

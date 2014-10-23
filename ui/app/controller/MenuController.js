@@ -52,6 +52,10 @@ Ext.define('spider.controller.MenuController', {
         {
             ref: 'mainViewBtn',
             selector: '#mainViewBtn'
+        },
+        {
+            ref: 'mytool',
+            selector: '#mytool'
         }
     ],
 
@@ -84,42 +88,13 @@ Ext.define('spider.controller.MenuController', {
         clearInterval(GlobalData.intervalId2);
         clearInterval(GlobalData.intervalId3);
 
-
     },
 
     managementClick: function(button, e, eOpts) {
         /**
          * NFV Management 메뉴 버튼 클릭 시 수행되는 function
          */
-        var centerContainer = this.getCenterContainer(),
-            dashboardBtn = this.getDashboardBtn(),
-            managementBtn = this.getManagementBtn(),
-            monitoringBtn = this.getMonitoringBtn(),
-            mainViewBtn = this.getMainViewBtn(),
-            menuPanel = this.getMenuPanel();
-
-        // 현재 선택된 item이 managementPanel일 경우 무시한다.
-        if (centerContainer.layout.getActiveItem().itemId === "managementPanel") {
-            managementBtn.toggle(true);
-            return;
-        }
-
-        managementBtn.toggle(true);
-        dashboardBtn.toggle(false);
-        monitoringBtn.toggle(false);
-        mainViewBtn.toggle(false);
-
-        Ext.getCmp('monitoringBtn').toggle(false);
-
-        centerContainer.layout.setActiveItem(1);
-
-        vmConstants.me.initVmManagement();
-        //Ext.getCmp('hostMgmtBtn').fireEvent('click');
-        //Ext.getCmp('utilizationBtn').fireEvent('click');
-
-        //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {
-        //    Ext.getCmp('hostGridPanel').selModel.select(0);
-        //}
+        this.viewManagementMenu();
     },
 
     onMonitoringBtnClick: function(button, e, eOpts) {
@@ -201,6 +176,10 @@ Ext.define('spider.controller.MenuController', {
         clearInterval(GlobalData.intervalId3);
     },
 
+    onMytoolClick: function(tool, e, eOpts) {
+        this.renderServerTree();
+    },
+
     onLaunch: function() {
         var listMenuPanel = this.getListMenuPanel();
 
@@ -230,7 +209,7 @@ Ext.define('spider.controller.MenuController', {
 
 
         */
-
+        /*
         Ext.Ajax.request({
             url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
             disableCaching : true,
@@ -254,7 +233,7 @@ Ext.define('spider.controller.MenuController', {
                 Ext.getStore('SampleStore').loadData(chartList, false);
             }
         });
-
+        */
     },
 
     renderServerTree: function() {
@@ -282,6 +261,7 @@ Ext.define('spider.controller.MenuController', {
                                 host.id = host._id;
                                 host.text = host.name;
                                 host.icon = 'resources/images/icons/server.png';
+                                host.type = 'host';
                                 if(index == 0) {
                                     host.expanded = true;
                                 }
@@ -291,7 +271,7 @@ Ext.define('spider.controller.MenuController', {
 
                                     if(host._id == vm.vmhost) {
 
-                                        vm.id = host._id;
+                                        vm.id = vm._id;
                                         vm.text = vm.name;
                                         vm.icon = 'resources/images/icons/host.png';
                                         vm.leaf = true;
@@ -644,8 +624,54 @@ Ext.define('spider.controller.MenuController', {
             },
             "#mainViewBtn": {
                 click: this.onMainViewBtnClick
+            },
+            "#mytool": {
+                click: this.onMytoolClick
             }
         });
+    },
+
+    viewManagementMenu: function(vmId) {
+        /**
+         * NFV Management 메뉴 버튼 클릭 시 수행되는 function
+         */
+        var centerContainer = this.getCenterContainer(),
+            dashboardBtn = this.getDashboardBtn(),
+            managementBtn = this.getManagementBtn(),
+            monitoringBtn = this.getMonitoringBtn(),
+            mainViewBtn = this.getMainViewBtn(),
+            menuPanel = this.getMenuPanel();
+
+        // 현재 선택된 item이 managementPanel일 경우 무시한다.
+        if (centerContainer.layout.getActiveItem().itemId !== "managementPanel") {
+
+            managementBtn.toggle(true);
+            dashboardBtn.toggle(false);
+            monitoringBtn.toggle(false);
+            mainViewBtn.toggle(false);
+
+            Ext.getCmp('monitoringBtn').toggle(false);
+
+            centerContainer.layout.setActiveItem(1);
+
+            vmConstants.me.initVmManagement(vmId);
+
+            //Ext.getCmp('hostMgmtBtn').fireEvent('click');
+            //Ext.getCmp('utilizationBtn').fireEvent('click');
+
+            //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {
+            //    Ext.getCmp('hostGridPanel').selModel.select(0);
+            //}
+        } else {
+
+            managementBtn.toggle(true);
+
+            if(vmId !== vmConstants.selectVmId) {
+                vmConstants.me.initVmManagement(vmId);
+            }
+
+        }
+
     }
 
 });

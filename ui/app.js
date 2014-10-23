@@ -27,14 +27,16 @@ Ext.application({
     models: [
         'HostListData',
         'SampleModel',
-        'VmHostModel'
+        'VmHostModel',
+        'VmTemplateModel'
     ],
     stores: [
         'ServerListStore',
         'HostListStore',
         'ChartDataStore',
         'SampleStore',
-        'VmHostStore'
+        'VmHostStore',
+        'ComboVmTemplateStore'
     ],
     views: [
         'AthenaSpider',
