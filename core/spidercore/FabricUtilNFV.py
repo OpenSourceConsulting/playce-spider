@@ -203,7 +203,7 @@ def assignIdToCollectD(vmId):
 	f.write("; ".join(commands))
 	f.close()
 	#	Remote sciprt will be stored in "~/.spider" directory
-	run('mkdir .spider')
+	run('mkdir -p .spider')
 	with cd('~/.spider'):
 		put(open(mainDir + '/sed.txt'), 'sed.sh', mode=0755)
 		result = sudo('./sed.sh', pty=False, quiet=True)
