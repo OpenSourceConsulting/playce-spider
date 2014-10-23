@@ -42,39 +42,39 @@ class FlaskMainTestCase(unittest.TestCase):
 		print "POST /vmhost"
 		print json.dumps(results.json(), indent=4)
 
-	def testRegisterVM(self):
-		headers = {'content-type': 'application/json'}
-		
-		results = requests.get('http://localhost:5001/vmhostbyname/' + self.name, headers=headers)
-		print "GET /vmhostbyname %d" % results.status_code
-		vmHostId = results.json()['_id']
-			
-		jsonData = {
-		    "vmhost": vmHostId,
-		    "type":"nfv",
-		    "vmname": "kvm001",
-		    "hostname": "vyatta",
-		    "addr": "vyatta",
-		    "sshid": "vyatta",
-		    "sshpw": "vyatta",
-		    "vmtype": "kvm",
-		    "vendor": "vyatta",
-		    "interfaces": [
-		        {
-		            "nic": "eth2",
-		            "addr": "192.168.56.13"
-		        }
-			]
-		}
-	
-		results = requests.post('http://localhost:5001/vm', data=json.dumps(jsonData), headers=headers)
-		id = results.json()['_id']
-		
-		print "POST /vm"
-		print json.dumps(results.json(), indent=4)
-		
-		requests.delete('http://localhost:5001/vm/' + id)
-		
+# 	def testRegisterVM(self):
+# 		headers = {'content-type': 'application/json'}
+# 		
+# 		results = requests.get('http://localhost:5001/vmhostbyname/' + self.name, headers=headers)
+# 		print "GET /vmhostbyname %d" % results.status_code
+# 		vmHostId = results.json()['_id']
+# 			
+# 		jsonData = {
+# 		    "vmhost": vmHostId,
+# 		    "type":"nfv",
+# 		    "vmname": "kvm001",
+# 		    "hostname": "vyatta",
+# 		    "addr": "vyatta",
+# 		    "sshid": "vyatta",
+# 		    "sshpw": "vyatta",
+# 		    "vmtype": "kvm",
+# 		    "vendor": "vyatta",
+# 		    "interfaces": [
+# 		        {
+# 		            "nic": "eth2",
+# 		            "addr": "192.168.56.13"
+# 		        }
+# 			]
+# 		}
+# 	
+# 		results = requests.post('http://localhost:5001/vm', data=json.dumps(jsonData), headers=headers)
+# 		id = results.json()['_id']
+# 		
+# 		print "POST /vm"
+# 		print json.dumps(results.json(), indent=4)
+# 		
+# 		requests.delete('http://localhost:5001/vm/' + id)
+# 		
 	def testGetAllVMHost(self):
 		results = requests.get('http://localhost:5001/mon/vmhost/_all')
 		if results.status_code == 200:
