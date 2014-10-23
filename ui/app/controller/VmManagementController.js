@@ -23,7 +23,12 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     onNetworkInstanceTabPanelTabChange: function(tabPanel, newCard, oldCard, eOpts) {
-        clearInterval(GlobalData.intervalId2);
+        //if(newCard.title)
+
+
+        if(oldCard.title == "") {
+            clearInterval(GlobalData.intervalId2);
+        }
 
     },
 

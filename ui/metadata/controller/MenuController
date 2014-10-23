@@ -312,16 +312,17 @@
                     "        if(hostDatas != null) {",
                     "",
                     "            var vmDatas = null;",
-                    "",
+                    "/*",
                     "            Ext.Ajax.request({",
                     "                url: GLOBAL.apiUrlPrefix + 'mon/vm/_all',",
                     "                disableCaching : true,",
                     "                success: function(vmResponse){",
                     "",
                     "                    vmDatas = Ext.decode(vmResponse.responseText);",
-                    "",
+                    "*/",
                     "                    Ext.each(hostDatas, function(host, index) {",
                     "",
+                    "                        host.id = host._id;",
                     "                        host.text = host.name;",
                     "                        host.icon = 'resources/images/icons/server.png';",
                     "                        if(index == 0) {",
@@ -333,6 +334,7 @@
                     "",
                     "                            if(host._id == vm.vmhost) {",
                     "",
+                    "                                vm.id = host._id;",
                     "                                vm.text = vm.name;",
                     "                                vm.icon = 'resources/images/icons/host.png';",
                     "                                vm.leaf = true;",
@@ -367,8 +369,8 @@
                     "",
                     "                    dashboardConstants.me.renderDashboard();",
                     "",
-                    "                }",
-                    "            });",
+                    "/*                }",
+                    "            });*/",
                     "        }",
                     "",
                     "    }",
@@ -700,12 +702,6 @@
                     "    mainViewBtn = this.getMainViewBtn(),",
                     "    menuPanel = this.getMenuPanel();",
                     "",
-                    "// 현재 선택된 item이 dashboardPanel일 경우 무시한다.",
-                    "if (centerContainer.layout.getActiveItem().itemId === \"samplePanel\") {",
-                    "    button.toggle(true);",
-                    "    return;",
-                    "}",
-                    "",
                     "dashboardBtn.toggle(false);",
                     "managementBtn.toggle(false);",
                     "mainViewBtn.toggle(false);",
@@ -791,6 +787,30 @@
                 "scope": "me"
             },
             "designerId": "105907ea-48c8-4a10-bcd9-43102f287fb7"
+        },
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "application"
+                ],
+                "fn": "init",
+                "implHandler": [
+                    "var menu = this;",
+                    "",
+                    "//Dashboard Menu Constants",
+                    "Ext.define('menuConstants', {",
+                    "    singleton: true,",
+                    "    me : menu",
+                    "});"
+                ]
+            },
+            "designerId": "94e92669-d94f-4bc6-8adb-42d433cc9168"
         }
     ]
 }

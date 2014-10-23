@@ -51,8 +51,19 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "editable": false,
                         "fieldLabel": "센터",
-                        "layout|anchor": "100%"
+                        "layout|anchor": "100%",
+                        "name": "location",
+                        "store": [
+                            "[",
+                            "    \"대전\",",
+                            "    \"광주\"",
+                            "]"
+                        ]
+                    },
+                    "configAlternates": {
+                        "store": "array"
                     },
                     "designerId": "2f280afa-221c-441f-86d7-e5ac594c8d82"
                 },
@@ -65,7 +76,8 @@
                     "codeClass": null,
                     "userConfig": {
                         "fieldLabel": "이름",
-                        "layout|anchor": "100%"
+                        "layout|anchor": "100%",
+                        "name": "name"
                     },
                     "designerId": "66425358-6765-4515-8241-8a8ef0535cbf"
                 },
@@ -78,7 +90,8 @@
                     "codeClass": null,
                     "userConfig": {
                         "fieldLabel": "주소",
-                        "layout|anchor": "100%"
+                        "layout|anchor": "100%",
+                        "name": "addr"
                     },
                     "designerId": "7213cac6-a33d-4172-86a2-a29550ed593d"
                 },
@@ -91,7 +104,8 @@
                     "codeClass": null,
                     "userConfig": {
                         "fieldLabel": "SSH ID",
-                        "layout|anchor": "100%"
+                        "layout|anchor": "100%",
+                        "name": "sshid"
                     },
                     "designerId": "e2211895-1661-4bee-bc4a-760995fa6761"
                 },
@@ -104,7 +118,8 @@
                     "codeClass": null,
                     "userConfig": {
                         "fieldLabel": "SSH PW",
-                        "layout|anchor": "100%"
+                        "layout|anchor": "100%",
+                        "name": "sshpw"
                     },
                     "designerId": "884bfe72-d176-481b-a0df-8ebc696b8ea0"
                 },
@@ -117,7 +132,8 @@
                     "codeClass": null,
                     "userConfig": {
                         "fieldLabel": "SSH Private Key",
-                        "layout|anchor": "100%"
+                        "layout|anchor": "100%",
+                        "name": "sshprivatekey"
                     },
                     "designerId": "ee7581be-9db9-4d54-9157-3b8140c01d0d"
                 }
@@ -150,7 +166,28 @@
                         "padding": "3 8 3 8",
                         "text": "생성"
                     },
-                    "designerId": "cf927dde-ef85-4d7e-9606-5d5efdba0ba9"
+                    "designerId": "cf927dde-ef85-4d7e-9606-5d5efdba0ba9",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "vmHostConstants.me.createVMHost(button);"
+                                ]
+                            },
+                            "designerId": "1b63f6e7-967c-4631-8430-d8aad31ef27f"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.button.Button",

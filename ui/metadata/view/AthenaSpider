@@ -321,12 +321,14 @@
                             "userConfig": {
                                 "dock": "top",
                                 "fieldLabel": "Locations",
+                                "id": "lnbLocationCombo",
+                                "itemId": "lnbLocationCombo",
                                 "labelWidth": 60,
                                 "store": [
-                                    "['NCIA Daejeon', 'NCIA Kwangju']"
+                                    "['대전', '광주']"
                                 ],
                                 "tabIndex": null,
-                                "value": "NCIA Daejeon"
+                                "value": "대전"
                             },
                             "configAlternates": {
                                 "store": "array",
@@ -553,7 +555,7 @@
                                                                 ],
                                                                 "fn": "handler",
                                                                 "implHandler": [
-                                                                    "treeConstants.me.popAddVMHostWindow();"
+                                                                    "vmHostConstants.me.popAddVMHostWindow();"
                                                                 ]
                                                             },
                                                             "designerId": "c0a63fb5-30df-4405-aa84-8f4b65c26cb9"
@@ -588,20 +590,30 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "autoScroll": true,
+                                                "autoDestroy": false,
                                                 "data": null,
                                                 "height": null,
                                                 "id": "listMenuPanel",
                                                 "itemId": "listMenuPanel",
+                                                "nodeId": " ",
+                                                "overflowY": "auto",
+                                                "padding": null,
                                                 "rootVisible": false,
                                                 "store": null,
-                                                "style": "{height: 100%; overflow: scroll;}",
+                                                "style": "{height: 100%;}",
                                                 "title": null
                                             },
                                             "configAlternates": {
                                                 "style": "string"
                                             },
                                             "designerId": "81b30edc-41fd-4729-91b8-0ea2d570f414",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "nodeId",
+                                                    "type": "string"
+                                                }
+                                            ],
                                             "cn": [
                                                 {
                                                     "type": "Ext.tree.View",
@@ -613,6 +625,7 @@
                                                     "userConfig": {
                                                         "autoScroll": true,
                                                         "data": null,
+                                                        "padding": "0 15 0 0",
                                                         "preserveScrollOnRefresh": true
                                                     },
                                                     "designerId": "d4e73b0a-6c6d-49eb-b522-b867ab4e4292"

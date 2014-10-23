@@ -45,6 +45,7 @@ def vm_clone():
 		return 'VM Host(' + vmhostId + ') was not found', 404
 	
 
+
 @app.route("/vm/templatelist/<vmhostId>", methods=['GET'])
 def vm_template_list(vmhostId=None):
 

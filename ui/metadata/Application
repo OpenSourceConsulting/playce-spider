@@ -12,7 +12,7 @@
             "MenuController",
             "DashboardController",
             "VmManagementController",
-            "VmHostTreeController"
+            "VmHostController"
         ],
         "models": [
             "HostListData",
@@ -37,7 +37,8 @@
             "vmMgmtPanel",
             "MyPanel119",
             "DashBoardNodePanel",
-            "AddVmHostWindow"
+            "AddVmHostWindow",
+            "AddVmWindow"
         ]
     },
     "designerId": "application"

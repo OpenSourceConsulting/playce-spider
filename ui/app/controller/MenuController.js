@@ -134,12 +134,6 @@ Ext.define('spider.controller.MenuController', {
             mainViewBtn = this.getMainViewBtn(),
             menuPanel = this.getMenuPanel();
 
-        // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
-        if (centerContainer.layout.getActiveItem().itemId === "samplePanel") {
-            button.toggle(true);
-            return;
-        }
-
         dashboardBtn.toggle(false);
         managementBtn.toggle(false);
         mainViewBtn.toggle(false);
@@ -275,16 +269,17 @@ Ext.define('spider.controller.MenuController', {
                 if(hostDatas != null) {
 
                     var vmDatas = null;
-
+        /*
                     Ext.Ajax.request({
                         url: GLOBAL.apiUrlPrefix + 'mon/vm/_all',
                         disableCaching : true,
                         success: function(vmResponse){
 
                             vmDatas = Ext.decode(vmResponse.responseText);
-
+        */
                             Ext.each(hostDatas, function(host, index) {
 
+                                host.id = host._id;
                                 host.text = host.name;
                                 host.icon = 'resources/images/icons/server.png';
                                 if(index == 0) {
@@ -296,6 +291,7 @@ Ext.define('spider.controller.MenuController', {
 
                                     if(host._id == vm.vmhost) {
 
+                                        vm.id = host._id;
                                         vm.text = vm.name;
                                         vm.icon = 'resources/images/icons/host.png';
                                         vm.leaf = true;
@@ -330,8 +326,8 @@ Ext.define('spider.controller.MenuController', {
 
                             dashboardConstants.me.renderDashboard();
 
-                        }
-                    });
+        /*                }
+                    });*/
                 }
 
             }
@@ -628,6 +624,14 @@ Ext.define('spider.controller.MenuController', {
     },
 
     init: function(application) {
+                var menu = this;
+
+                //Dashboard Menu Constants
+                Ext.define('menuConstants', {
+                    singleton: true,
+                    me : menu
+                });
+
         this.control({
             "#dashboardBtn": {
                 click: this.dashboardClick
