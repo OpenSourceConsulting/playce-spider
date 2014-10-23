@@ -53,6 +53,27 @@ def vm_clone():
 		return 'VM Host(' + vmhostId + ') was not found', 404
 	
 
+@app.route("/vm/<id>", methods=['DELETE'])
+def vm_delete(id = None):
+	if id == None:
+		return "No unique id for VM", 404
+
+	vms = read_repository("vms")
+	newVms = []
+	found = False
+	for vm in vms:
+		if id == vm['_id']:
+			found = True
+		else:
+			newVms.append(vm)
+
+	if found:
+		write_repository("vms", newVms)
+		return json.dumps({'_id': id})
+	else:
+		return "No unique id for VM", 404
+
+
 
 @app.route("/vm/templatelist/<vmhostId>", methods=['GET'])
 def vm_template_list(vmhostId=None):

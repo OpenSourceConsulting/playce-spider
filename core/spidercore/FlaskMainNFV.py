@@ -143,53 +143,6 @@ def vm_reg_init():
 	else:
 		return "FAIL"
 
-@app.route("/vm", methods=['POST'])
-def vm_register():
-	data = request.data
-# 	print 'Data: ' + data
-	jsonData = request.json
-# 	print 'JSON: ' + json.dumps(jsonData)
-	vmHostId = jsonData['vmhost']
-	name = jsonData['name']
-	
-# 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts")
-	found = False
-	for vmhost in vmhosts:
-		if vmhost['_id'] == vmHostId:
-			jsonData['vmhostname'] = vmhost['name']
-			found = True
-	
-	if found:
-		vms = read_repository("vms")
-		id = str(uuid.uuid4())
-		jsonData['_id'] = id
-		vms.append(jsonData)
-		write_repository('vms', vms)
-		return json.dumps({'_id': id})
-	else:
-		return 'VM Host(' + vmHostId + ') was not found', 404
-
-@app.route("/vm/<id>", methods=['DELETE'])
-def vm_delete(id = None):
-	if id == None:
-		return "No unique id for VM", 404
-
-	vms = read_repository("vms")
-	newVms = []
-	found = False
-	for vm in vms:
-		if id == vm['_id']:
-			found = True
-		else:
-			newVms.append(vm)
-
-	if found:
-		write_repository("vms", newVms)
-		return json.dumps({'_id': id})
-	else:
-		return "No unique id for VM", 404
-
 #	Monitoring API
 
 @app.route("/mon/vm/<id>", methods=['GET'])
