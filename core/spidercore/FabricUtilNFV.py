@@ -61,7 +61,7 @@ def show_interfaces():
 				print parsed
 
 def show_interfaces_with_configure():
-	f = open(mainDir + './commands.txt', 'w')
+	f = open(mainDir + '/commands.txt', 'w')
 	commands = [
 # 			'$SET interfaces loopback lo address 127.0.0.5/24',
 # 			'$COMMIT',
@@ -70,8 +70,8 @@ def show_interfaces_with_configure():
 	f.write("; ".join(commands))
 	f.close()
 	with cd('~/test/scripts'):
-		put(open(mainDir + './cli.txt'), 'cli.sh', mode=0755)
-		put(open(mainDir + './commands.txt'), 'commands.sh', mode=0755)
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
 	lines = result.split('\n')
 	for line in lines:
@@ -101,7 +101,7 @@ def getInterfaces(addr, sshid, sshpw):
 	return results[addr]
 
 def show_nat_with_configure():
-	f = open(mainDir + './commands.txt', 'w')
+	f = open(mainDir + '/commands.txt', 'w')
 	commands = [
 # 			'$SET interfaces loopback lo address 127.0.0.5/24',
 # 			'$COMMIT',
@@ -110,8 +110,8 @@ def show_nat_with_configure():
 	f.write("; ".join(commands))
 	f.close()
 	with cd('~/test/scripts'):
-		put(open(mainDir + './cli.txt'), 'cli.sh', mode=0755)
-		put(open(mainDir + './commands.txt'), 'commands.sh', mode=0755)
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
 	lines = result.split('\n')
 	for line in lines:
@@ -146,7 +146,7 @@ def getNATs(addr, sshid, sshpw):
 	return results[addr]
 
 def show_service_with_configure():
-	f = open(mainDir + './commands.txt', 'w')
+	f = open(mainDir + '/commands.txt', 'w')
 	commands = [
 # 			'$SET interfaces loopback lo address 127.0.0.5/24',
 # 			'$COMMIT',
@@ -155,8 +155,8 @@ def show_service_with_configure():
 	f.write("; ".join(commands))
 	f.close()
 	with cd('~/test/scripts'):
-		put(open(mainDir + './cli.txt'), 'cli.sh', mode=0755)
-		put(open(mainDir + './commands.txt'), 'commands.sh', mode=0755)
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
 	lines = result.split('\n')
 	for line in lines:
@@ -194,18 +194,20 @@ def getServices(addr, sshid, sshpw):
 def assignIdToCollectD(vmId):
 	#	Uncomment Hostname and assign vmhostId as Hostname to /etc/collectd/collectd.conf
 	#	@@FIXME: Fabric itself has an interface(api) to handle remote file directly like sed !!
-	f = open(mainDir + './sed.txt', 'w')
+	f = open(mainDir + '/sed.txt', 'w')
 	commands = [
 			'cd /etc/collectd\n'
 			'sed -e "s/#Hostname\s\\".*\\"/Hostname \\"' + vmId +'\\"/" collectd.conf > c.conf\n'
-			'cat c.conf | grep Hostname'
+			'cat c.conf | grep Hostname\n'
+			'cp c.conf collectd.conf\n'
+			'service collectd restart'
 			]
 	f.write("; ".join(commands))
 	f.close()
 	#	Remote sciprt will be stored in "~/.spider" directory
-	run('mkdir .spider')
-	with cd('~/.spider'):
-		put(open(mainDir + './sed.txt'), 'sed.sh', mode=0755)
+	run('mkdir -p .spider')
+	with cd('.spider'):
+		put(open(mainDir + '/sed.txt'), 'sed.sh', mode=0755)
 		result = sudo('./sed.sh', pty=False, quiet=True)
 
 	lines = result.split('\n')
@@ -218,12 +220,13 @@ def initVM(addr, sshid, sshpw, id):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(assignIdToCollectD, hosts=[addr], vmId = id)
 	return
 
 def pingVM_task():
 	try:
-		succeeded = run('ls').succeeded and sudo('id').succeeded
+		succeeded = run('ls', pty=False, quiet=True).succeeded and sudo('id', pty=False, quiet=True).succeeded
 	except Exception, e:
 		succeeded = False
 	return succeeded
@@ -232,6 +235,7 @@ def pingVM(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(pingVM_task, hosts=[addr])
 	return results[addr]
 

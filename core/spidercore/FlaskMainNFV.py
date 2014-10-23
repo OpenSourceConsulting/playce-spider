@@ -29,14 +29,19 @@ def vm_reg_init():
 		if 'Link' in sl and 'Ethernet' in sl and 'HWaddr' in sl:
 			ethName = sl.split()[0]
 			macAddr = sl.split()[4]
-# 			print ethName, macAddr
+#	 			print ethName, macAddr
 			ifs[ethName] = {'macaddr': macAddr}
 			macaddrs.append(macAddr)
+		elif 'Link' in sl and 'Loopback' in sl:
+				ethName = 'loopback'
+				ifs['loopback'] = {}
 		elif 'inet addr' in sl:
 			ipAddr = sl.split()[1][5:]
 # 			print ipAddr
-			if 'ipaddr' not in ifs[ethName]:
-				ifs[ethName]['ipaddr'] = ipAddr
+			ifs[ethName]['ipaddr'] = ipAddr
+
+	if 'loopback' in ifs:
+		del ifs['loopback']
 	
 	for line in route.split('\n'):
 		words = line.strip().split()
@@ -97,20 +102,18 @@ def vm_reg_init():
 		    "sshpw": "vyos",
 		    "interfaces": ifs
 		}
+		id = str(uuid.uuid4())
+		jsonData['_id'] = id
 		
 		vms = read_repository("vms")
 		for vm in vms:
 			if domain == vm['vmname']:
 				return "DUP"
-		id = str(uuid.uuid4())
-		jsonData['_id'] = id
-		vms.append(jsonData)
-		write_repository('vms', vms)
 
 		# 	Seeking which interface can be communicated via management network
 		for ifeth in ifs:
-			if 'ipaddr' in ifeth:
-				ipAddr = ifeth['ipaddr']
+			if 'ipaddr' in ifs[ifeth]:
+				ipAddr = ifs[ifeth]['ipaddr']
 				if pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
 					break
 		else:
@@ -119,7 +122,16 @@ def vm_reg_init():
 		#	Assign the unique VM is to NFV CollectD's hostname via Fabric
 		#	SSH Account should be one for newly created VM
 		
-		initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], id)
+		try:
+			initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], id)
+		except Exception, e:
+			print e
+			return "FAIL"
+
+		#	Add new VM info to repository
+		
+		vms.append(jsonData)
+		write_repository('vms', vms)
 
 		return "OK"
 	else:
