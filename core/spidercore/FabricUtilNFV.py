@@ -69,7 +69,8 @@ def show_interfaces_with_configure():
 			]
 	f.write("; ".join(commands))
 	f.close()
-	with cd('~/test/scripts'):
+	run('mkdir -p .spider')
+	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
@@ -109,7 +110,8 @@ def show_nat_with_configure():
 			]
 	f.write("; ".join(commands))
 	f.close()
-	with cd('~/test/scripts'):
+	run('mkdir -p .spider')
+	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
@@ -154,7 +156,8 @@ def show_service_with_configure():
 			]
 	f.write("; ".join(commands))
 	f.close()
-	with cd('~/test/scripts'):
+	run('mkdir -p .spider')
+	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
@@ -225,7 +228,8 @@ def renameHostname(hostname):
 			]
 	f.write("; ".join(commands))
 	f.close()
-	with cd('~/test/scripts'):
+	run('mkdir -p .spider')
+	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
