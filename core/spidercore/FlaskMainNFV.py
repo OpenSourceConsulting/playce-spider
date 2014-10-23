@@ -26,14 +26,14 @@ def vm_reg_init():
 	ethName = None
 	for line in ifconfig.split('\n'):
 		sl = line.strip()
-		if 'Link' in sl:
-			if 'Ethernet' in sl and 'HWaddr' in sl:
-				ethName = sl.split()[0]
-				macAddr = sl.split()[4]
+		if 'Link' in sl and 'Ethernet' in sl and 'HWaddr' in sl:
+			ethName = sl.split()[0]
+			macAddr = sl.split()[4]
 #	 			print ethName, macAddr
-				ifs[ethName] = {'macaddr': macAddr}
-				macaddrs.append(macAddr)
-			else:
+			ifs[ethName] = {'macaddr': macAddr}
+			macaddrs.append(macAddr)
+		elif 'Link' in sl and 'Loopback' in sl:
+				ethName = sl.split()[0]
 				ifs['loopback'] = {}
 		elif 'inet addr' in sl:
 			ipAddr = sl.split()[1][5:]
