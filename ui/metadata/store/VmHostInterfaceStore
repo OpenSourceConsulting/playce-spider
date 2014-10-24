@@ -1,0 +1,51 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmHostInterfaceStore",
+        "storeId": "VmHostInterfaceStore"
+    },
+    "designerId": "7daec1f2-cb5e-4728-88b6-1eca37679670",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "macaddr"
+            },
+            "designerId": "b9298789-812d-4963-81ca-cd9d89641583"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "name"
+            },
+            "designerId": "4daf546b-fd2d-4a03-bbf3-2afab8c837e2"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "state"
+            },
+            "designerId": "eb2de8fd-6600-4dea-a78e-86fbab092118"
+        }
+    ]
+}

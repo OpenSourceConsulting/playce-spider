@@ -23,12 +23,17 @@ Ext.define('spider.view.VMHostInfoWindow', {
         'Ext.form.Label',
         'Ext.form.FieldSet',
         'Ext.form.Panel',
+        'Ext.form.FieldContainer',
         'Ext.form.field.Display',
+        'Ext.grid.Panel',
+        'Ext.grid.column.Column',
+        'Ext.grid.View',
         'Ext.button.Button'
     ],
 
-    height: 500,
-    width: 620,
+    height: 630,
+    width: 750,
+    overflowY: 'auto',
     resizable: false,
     title: 'VM Host Info',
     modal: true,
@@ -40,138 +45,12 @@ Ext.define('spider.view.VMHostInfoWindow', {
             items: [
                 {
                     xtype: 'panel',
-                    layout: 'column',
+                    margin: '0 10 0 0',
                     header: false,
                     title: 'My Panel',
                     items: [
                         {
                             xtype: 'panel',
-                            columnWidth: 0.65,
-                            header: false,
-                            title: 'My Panel',
-                            items: [
-                                {
-                                    xtype: 'panel',
-                                    header: false,
-                                    title: 'My Panel',
-                                    layout: {
-                                        type: 'hbox',
-                                        align: 'stretch'
-                                    },
-                                    items: [
-                                        {
-                                            xtype: 'panel',
-                                            flex: 3,
-                                            layout: {
-                                                type: 'vbox',
-                                                align: 'stretch'
-                                            },
-                                            dockedItems: [
-                                                {
-                                                    xtype: 'toolbar',
-                                                    flex: 1,
-                                                    dock: 'top',
-                                                    margin: '5 5 2 5',
-                                                    items: [
-                                                        {
-                                                            xtype: 'label',
-                                                            html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
-                                                            itemId: 'VmHostStat',
-                                                            minHeight: 36,
-                                                            style: '{text-align: center;}',
-                                                            width: 36
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            html: '',
-                                                            itemId: 'VmHostName',
-                                                            margin: '0 10 0 0',
-                                                            style: '{text-align: center;font-size : 18px;font-weight: bold;}',
-                                                            text: 'VM Host1'
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            items: [
-                                                {
-                                                    xtype: 'mypanel119',
-                                                    margin: '2 15 0 10',
-                                                    flex: 1
-                                                },
-                                                {
-                                                    xtype: 'mypanel119',
-                                                    margin: '2 15 0 10',
-                                                    flex: 1
-                                                },
-                                                {
-                                                    xtype: 'mypanel119',
-                                                    margin: '2 15 0 10',
-                                                    flex: 1
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'fieldset',
-                                    height: 190,
-                                    margin: '10 20 0 15',
-                                    title: 'VM Host 상세정보',
-                                    items: [
-                                        {
-                                            xtype: 'form',
-                                            id: 'viewVmHostForm',
-                                            itemId: 'viewVmHostForm',
-                                            bodyPadding: 10,
-                                            header: false,
-                                            title: 'My Form',
-                                            fieldDefaults: {
-                                                readOnly: true,
-                                                labelStyle: 'color:#666;font-weight: bold;',
-                                                labelWidth: 70,
-                                                labelSeparator: ' :'
-                                            },
-                                            items: [
-                                                {
-                                                    xtype: 'displayfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: '센터',
-                                                    name: 'location'
-                                                },
-                                                {
-                                                    xtype: 'displayfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: '이름',
-                                                    name: 'name'
-                                                },
-                                                {
-                                                    xtype: 'displayfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: '주소',
-                                                    name: 'addr'
-                                                },
-                                                {
-                                                    xtype: 'displayfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'SSH ID',
-                                                    name: 'sshid'
-                                                },
-                                                {
-                                                    xtype: 'displayfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'SSH PW',
-                                                    name: 'sshpw'
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            xtype: 'panel',
-                            columnWidth: 0.35,
-                            autoScroll: true,
                             header: false,
                             title: 'My Panel',
                             layout: {
@@ -181,212 +60,524 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             items: [
                                 {
                                     xtype: 'panel',
-                                    flex: 1,
-                                    margin: '10 0 0 0',
+                                    flex: 5,
+                                    height: 200,
                                     layout: {
                                         type: 'vbox',
                                         align: 'stretch'
                                     },
+                                    dockedItems: [
+                                        {
+                                            xtype: 'toolbar',
+                                            flex: 1,
+                                            dock: 'top',
+                                            margin: '5 5 2 5',
+                                            items: [
+                                                {
+                                                    xtype: 'label',
+                                                    html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
+                                                    itemId: 'VmHostStat',
+                                                    minHeight: 36,
+                                                    style: '{text-align: center;}',
+                                                    width: 36
+                                                },
+                                                {
+                                                    xtype: 'label',
+                                                    html: '',
+                                                    itemId: 'VmHostName',
+                                                    margin: '0 10 0 0',
+                                                    style: '{text-align: center;font-size : 18px;font-weight: bold;}',
+                                                    text: 'VM Host1'
+                                                }
+                                            ]
+                                        }
+                                    ],
                                     items: [
                                         {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                            xtype: 'mypanel119',
+                                            margin: '2 15 0 10',
+                                            flex: 1
                                         },
                                         {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: 'NFV1-1'
+                                            xtype: 'mypanel119',
+                                            margin: '2 15 0 10',
+                                            flex: 1
                                         },
                                         {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: 'NFV1-2'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: 'NFV1-3'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: 'NFV1-4'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: 'NFV1-5'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: 'NFV1-6'
+                                            xtype: 'mypanel119',
+                                            margin: '2 15 0 10',
+                                            flex: 1
                                         }
                                     ]
                                 },
                                 {
-                                    xtype: 'panel',
-                                    flex: 1,
-                                    margin: '10 0 0 0',
-                                    layout: {
-                                        type: 'vbox',
-                                        align: 'stretch'
-                                    },
+                                    xtype: 'fieldset',
+                                    flex: 2.7,
+                                    margin: '10 20 0 0',
+                                    padding: '3 0 3 3',
+                                    title: '',
                                     items: [
                                         {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            html: '<center><b>CPU</b></center>',
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '50%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '20%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '23%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '17%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '80%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '10%'
+                                            xtype: 'panel',
+                                            height: 190,
+                                            overflowY: 'auto',
+                                            header: false,
+                                            title: 'My Panel',
+                                            layout: {
+                                                type: 'hbox',
+                                                align: 'middle'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'panel',
+                                                    flex: 1.7,
+                                                    margin: '10 0 0 0',
+                                                    layout: {
+                                                        type: 'vbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'label',
+                                                            height: 35,
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            height: 35,
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: 'NFV1-1'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: 'NFV1-2'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: 'NFV1-3'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: 'NFV1-4'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: 'NFV1-5'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: 'NFV1-6'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    flex: 1,
+                                                    margin: '10 0 0 0',
+                                                    layout: {
+                                                        type: 'vbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'label',
+                                                            html: '<center><b>CPU</b></center>',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            height: 35,
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    flex: 1,
+                                                    margin: '10 0 0 0',
+                                                    layout: {
+                                                        type: 'vbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'label',
+                                                            html: '<center><b>Mem</b></center>',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            height: 35,
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    flex: 1,
+                                                    margin: '0 15 0 0',
+                                                    layout: {
+                                                        type: 'vbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'label',
+                                                            html: '<center><b>Net</b></center>',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            height: 35,
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        },
+                                                        {
+                                                            xtype: 'label',
+                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                                            text: '20%'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
-                                },
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    xtype: 'panel',
+                    header: false,
+                    title: 'My Panel',
+                    items: [
+                        {
+                            xtype: 'fieldset',
+                            cls: 'vmhostinfo-fieldset',
+                            frame: false,
+                            margin: '15 30 15 15',
+                            style: '',
+                            title: 'VM Host 상세정보',
+                            items: [
                                 {
-                                    xtype: 'panel',
-                                    flex: 1,
-                                    margin: '10 0 0 0',
-                                    layout: {
-                                        type: 'vbox',
-                                        align: 'stretch'
+                                    xtype: 'form',
+                                    id: 'viewVmHostForm',
+                                    itemId: 'viewVmHostForm',
+                                    padding: '0 10 0 0',
+                                    bodyPadding: 10,
+                                    header: false,
+                                    title: 'My Form',
+                                    fieldDefaults: {
+                                        readOnly: true,
+                                        labelStyle: 'font-weight: bold;',
+                                        labelWidth: 70,
+                                        labelSeparator: ' :'
                                     },
                                     items: [
                                         {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            html: '<center><b>Mem</b></center>',
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                            xtype: 'fieldcontainer',
+                                            flex: '1',
+                                            height: 30,
+                                            fieldLabel: 'Label',
+                                            hideLabel: true,
+                                            layout: {
+                                                type: 'hbox',
+                                                align: 'middle'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'displayfield',
+                                                    flex: 1,
+                                                    fieldLabel: '이름',
+                                                    name: 'name'
+                                                },
+                                                {
+                                                    xtype: 'displayfield',
+                                                    flex: 1,
+                                                    fieldLabel: '센터',
+                                                    name: 'location'
+                                                }
+                                            ]
                                         },
                                         {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '10%'
+                                            xtype: 'fieldset',
+                                            fieldDefaults: {
+                                                readOnly: true,
+                                                labelStyle: 'color:#666;font-weight: bold;',
+                                                labelWidth: 100,
+                                                labelSeparator: ' :'
+                                            },
+                                            collapsible: true,
+                                            title: '하드웨어 정보',
+                                            items: [
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 30,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'IP 주소',
+                                                            name: 'addr'
+                                                        },
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Host Name',
+                                                            name: 'hostname'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 30,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'CPU',
+                                                            name: 'cpuModel'
+                                                        },
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'CPU 개수',
+                                                            name: 'cpus'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 30,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'CPU 소켓',
+                                                            name: 'cpuSocket'
+                                                        },
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: '소켓 당 Core/Core 당 Thread',
+                                                            labelWidth: 190,
+                                                            name: 'cpuCore'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 30,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Memory',
+                                                            name: 'memSize'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldset',
+                                                    padding: 0,
+                                                    title: '',
+                                                    items: [
+                                                        {
+                                                            xtype: 'gridpanel',
+                                                            height: 120,
+                                                            margin: 0,
+                                                            overflowY: 'auto',
+                                                            header: false,
+                                                            title: 'My Grid Panel',
+                                                            forceFit: true,
+                                                            store: 'VmHostInterfaceStore',
+                                                            columns: [
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    dataIndex: 'macaddr',
+                                                                    text: 'Mac Address',
+                                                                    flex: 2
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    dataIndex: 'name',
+                                                                    text: 'Name',
+                                                                    flex: 1
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    dataIndex: 'state',
+                                                                    text: 'Status',
+                                                                    flex: 1
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         },
                                         {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '20%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '23%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '17%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '80%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '10%'
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    flex: 1,
-                                    margin: '10 0 0 0',
-                                    layout: {
-                                        type: 'vbox',
-                                        align: 'stretch'
-                                    },
-                                    items: [
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            html: '<center><b>Net</b></center>',
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;}'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '10%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '20%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '23%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '17%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '80%'
-                                        },
-                                        {
-                                            xtype: 'label',
-                                            flex: 1,
-                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                            text: '10%'
+                                            xtype: 'fieldset',
+                                            fieldDefaults: {
+                                                readOnly: true,
+                                                labelStyle: 'color:#666;font-weight: bold;',
+                                                labelWidth: 100,
+                                                labelSeparator: ' :'
+                                            },
+                                            collapsible: true,
+                                            title: 'VM 정보',
+                                            items: [
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 30,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Hypervisor',
+                                                            name: 'hypervisor'
+                                                        },
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'API',
+                                                            name: 'vmApi'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    flex: '1',
+                                                    height: 30,
+                                                    fieldLabel: 'Label',
+                                                    hideLabel: true,
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'middle'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            flex: 1,
+                                                            fieldLabel: 'Library',
+                                                            name: 'useLib'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
                                 }

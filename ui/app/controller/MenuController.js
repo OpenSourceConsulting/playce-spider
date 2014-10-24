@@ -261,7 +261,8 @@ Ext.define('spider.controller.MenuController', {
                                 host.id = host._id;
                                 host.text = host.name;
                                 host.icon = 'resources/images/icons/server.png';
-                                host.type = 'host';
+                                host.type = 'vmhost';
+
                                 if(index == 0) {
                                     host.expanded = true;
                                 }
@@ -274,7 +275,9 @@ Ext.define('spider.controller.MenuController', {
                                         vm.id = vm._id;
                                         vm.text = vm.name;
                                         vm.icon = 'resources/images/icons/host.png';
+                                        vm.type = 'vm';
                                         vm.leaf = true;
+
                                         vmList.push(vm);
                                     }
                                 });
@@ -293,11 +296,12 @@ Ext.define('spider.controller.MenuController', {
                             });
 
                             var treeStore = Ext.create('Ext.data.TreeStore', {
-                                    storeId: 'spider.model.VmHostModel',
+                                    model: 'spider.model.VmHostModel',
                                     root: {
                                         expanded: true,
                                         text: 'Server List',
                                         icon : '',
+                                        type : 'root',
                                         children: hostDatas
                                     }
                                 });

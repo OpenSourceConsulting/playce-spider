@@ -17,15 +17,18 @@ Ext.define('spider.controller.VmHostController', {
     extend: 'Ext.app.Controller',
 
     onListMenuPanelBeforeItemContextMenu: function(dataview, record, item, index, e, eOpts) {
+        if(record.get("type") === 'vm') {
 
-        var position = e.getXY();
-        e.stopEvent();
+            var position = e.getXY();
+            e.stopEvent();
 
-        vmHostConstants.contextMenu.showAt(position);
+            vmHostConstants.contextMenu.showAt(position);
+
+        }
     },
 
     onListMenuPanelItemClick: function(dataview, record, item, index, e, eOpts) {
-        if(record.get("icon").indexOf("server.png") >= 0) {
+        if(record.get("type") === 'vmhost') {
             this.popVMHostInfoWindow(record);
         } else {
             Ext.getCmp('managementBtn').fireEvent('click');
@@ -96,6 +99,7 @@ Ext.define('spider.controller.VmHostController', {
 
     popVMHostInfoWindow: function(record) {
         //VM Host Info 팝업 호출
+
         vmHostConstants.selectRecord = record;
 
         var popWindow = Ext.create("widget.VMHostInfoWindow");
@@ -114,9 +118,61 @@ Ext.define('spider.controller.VmHostController', {
             disableCaching : true,
             waitMsg: 'Loading...',
             success: function(response){
+
                 var data = Ext.JSON.decode(response.responseText);
+
                 if(data.length > 0) {
-                    viewVmHostForm.getForm().setValues(data[0]);
+
+                    var hostData = data[0];
+                    var form = viewVmHostForm.getForm();
+
+                    form.setValues(data[0]);
+
+                    //하드웨어 정보
+                    var coreSocket = "0";
+                    var coreThread = "0";
+                    Ext.each(hostData.info, function(cpu){
+
+                        if(cpu.name === "CPU model")
+                            form.findField("cpuModel").setValue(cpu.value);
+
+                        else if(cpu.name === "CPU(s)")
+                            form.findField("cpus").setValue(cpu.value);
+
+                        else if(cpu.name === "CPU socket(s)")
+                            form.findField("cpuSocket").setValue(cpu.value);
+
+                        else if(cpu.name === "Core(s) per socket")
+                            coreSocket = cpu.value;
+
+                        else if(cpu.name === "Thread(s) per core")
+                            coreThread = cpu.value;
+
+                        else if(cpu.name === "Memory size")
+                            form.findField("memSize").setValue(cpu.value);
+
+                    });
+
+                    form.findField("cpuCore").setValue(coreSocket + "/" + coreThread);
+
+                    //Interface 정보
+                    Ext.getStore("VmHostInterfaceStore").loadData(hostData.interfaces, false);
+
+                    //VM정보
+                    Ext.each(hostData.version, function(vm){
+
+                        if(vm.name === "Running hypervisor")
+                            form.findField("hypervisor").setValue(vm.value);
+
+                        else if(vm.name === "Using API")
+                            form.findField("vmApi").setValue(vm.value);
+
+                        else if(vm.name === "Using library")
+                            form.findField("useLib").setValue(vm.value);
+
+                    });
+
+
                 }
             }
         });

@@ -1,3 +1,7 @@
 #interfacesGridPanel-body .x-grid-td {
    vertical-align: middle;
 }
+
+.vmhostinfo-fieldset legend {
+	font-weight: bold;
+}

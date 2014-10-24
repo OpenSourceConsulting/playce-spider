@@ -597,36 +597,20 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "autoDestroy": false,
-                                                "data": null,
-                                                "height": null,
+                                                "header": false,
+                                                "height": 250,
+                                                "hideHeaders": true,
                                                 "id": "listMenuPanel",
                                                 "itemId": "listMenuPanel",
-                                                "nodeId": " ",
-                                                "overflowY": "auto",
-                                                "padding": null,
                                                 "rootVisible": false,
-                                                "store": null,
-                                                "style": "{height: 100%;}",
-                                                "title": null,
-                                                "type": null
+                                                "store": "MyTreeStore",
+                                                "title": "My Tree Grid Panel",
+                                                "width": 400
                                             },
-                                            "configAlternates": {
-                                                "style": "string"
-                                            },
-                                            "designerId": "81b30edc-41fd-4729-91b8-0ea2d570f414",
-                                            "customConfigs": [
-                                                {
-                                                    "group": "(Custom Properties)",
-                                                    "name": "nodeId",
-                                                    "type": "string"
-                                                },
-                                                {
-                                                    "group": "(Custom Properties)",
-                                                    "name": "type",
-                                                    "type": "string"
-                                                }
-                                            ],
+                                            "designerId": "9b164ebc-910d-4a3b-b573-15b5ab036e8d",
+                                            "isBuiltIn": true,
+                                            "iconCls": "icon-treegridpanel",
+                                            "autoName": "TreeGrid",
                                             "cn": [
                                                 {
                                                     "type": "Ext.tree.View",
@@ -635,68 +619,23 @@
                                                         "type": "object"
                                                     },
                                                     "codeClass": null,
-                                                    "userConfig": {
-                                                        "autoScroll": true,
-                                                        "data": null,
-                                                        "padding": "0 15 0 0",
-                                                        "preserveScrollOnRefresh": true,
-                                                        "type": null
+                                                    "designerId": "4020763c-1f21-4d72-ac37-a9c6ebbe07a8"
+                                                },
+                                                {
+                                                    "type": "Ext.tree.Column",
+                                                    "reference": {
+                                                        "name": "columns",
+                                                        "type": "array"
                                                     },
-                                                    "designerId": "d4e73b0a-6c6d-49eb-b522-b867ab4e4292",
-                                                    "customConfigs": [
-                                                        {
-                                                            "group": "(Custom Properties)",
-                                                            "name": "type",
-                                                            "type": "string"
-                                                        }
-                                                    ]
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "dataIndex": "text",
+                                                        "flex": 1,
+                                                        "text": "Nodes"
+                                                    },
+                                                    "designerId": "ff3bbda7-8f3f-4cd4-a80f-0ae29ceb5565"
                                                 }
                                             ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "Ext.tree.Panel",
-                                    "reference": {
-                                        "name": "items",
-                                        "type": "array"
-                                    },
-                                    "codeClass": null,
-                                    "userConfig": {
-                                        "header": false,
-                                        "height": 250,
-                                        "hidden": true,
-                                        "hideHeaders": true,
-                                        "title": "My Tree Grid Panel",
-                                        "width": 400
-                                    },
-                                    "designerId": "ecc706d7-1af7-469a-b569-229d92fc8582",
-                                    "isBuiltIn": true,
-                                    "iconCls": "icon-treegridpanel",
-                                    "autoName": "TreeGrid",
-                                    "cn": [
-                                        {
-                                            "type": "Ext.tree.View",
-                                            "reference": {
-                                                "name": "viewConfig",
-                                                "type": "object"
-                                            },
-                                            "codeClass": null,
-                                            "designerId": "a90b5ec5-0106-457c-aa4f-35322d639eca"
-                                        },
-                                        {
-                                            "type": "Ext.tree.Column",
-                                            "reference": {
-                                                "name": "columns",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "dataIndex": "text",
-                                                "flex": 1,
-                                                "text": "Nodes"
-                                            },
-                                            "designerId": "828b32bc-fd01-47e7-8956-3acfe1ea8db6"
                                         }
                                     ]
                                 }

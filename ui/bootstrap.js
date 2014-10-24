@@ -888,9 +888,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
   "spider.store.HostListStore": [],
+  "spider.store.MyTreeStore": [],
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
-  "spider.store.VmHostStore": [],
+  "spider.store.VmHostInterfaceStore": [],
   "spider.view.AddVmHostWindow": [],
   "spider.view.AddVmWindow": [],
   "spider.view.AthenaSpider": [],
@@ -1928,9 +1929,10 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
   "spider.store.HostListStore": [],
+  "spider.store.MyTreeStore": [],
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
-  "spider.store.VmHostStore": [],
+  "spider.store.VmHostInterfaceStore": [],
   "spider.view.AddVmHostWindow": [
     "widget.AddVmHostWindow"
   ],

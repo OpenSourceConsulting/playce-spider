@@ -315,38 +315,26 @@ Ext.define('spider.view.AthenaSpider', {
                                             items: [
                                                 {
                                                     xtype: 'treepanel',
-                                                    nodeId: ' ',
+                                                    height: 250,
                                                     id: 'listMenuPanel',
                                                     itemId: 'listMenuPanel',
-                                                    style: '{height: 100%;}',
-                                                    overflowY: 'auto',
-                                                    autoDestroy: false,
+                                                    width: 400,
+                                                    header: false,
+                                                    title: 'My Tree Grid Panel',
+                                                    hideHeaders: true,
+                                                    store: 'MyTreeStore',
                                                     rootVisible: false,
                                                     viewConfig: {
-                                                        padding: '0 15 0 0',
-                                                        autoScroll: true,
-                                                        preserveScrollOnRefresh: true
-                                                    }
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            xtype: 'treepanel',
-                                            height: 250,
-                                            hidden: true,
-                                            width: 400,
-                                            header: false,
-                                            title: 'My Tree Grid Panel',
-                                            hideHeaders: true,
-                                            viewConfig: {
 
-                                            },
-                                            columns: [
-                                                {
-                                                    xtype: 'treecolumn',
-                                                    dataIndex: 'text',
-                                                    text: 'Nodes',
-                                                    flex: 1
+                                                    },
+                                                    columns: [
+                                                        {
+                                                            xtype: 'treecolumn',
+                                                            dataIndex: 'text',
+                                                            text: 'Nodes',
+                                                            flex: 1
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }

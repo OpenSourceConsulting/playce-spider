@@ -35,8 +35,9 @@ Ext.application({
         'HostListStore',
         'ChartDataStore',
         'SampleStore',
-        'VmHostStore',
-        'ComboVmTemplateStore'
+        'MyTreeStore',
+        'ComboVmTemplateStore',
+        'VmHostInterfaceStore'
     ],
     views: [
         'AthenaSpider',
