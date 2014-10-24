@@ -34,6 +34,11 @@ def vm_clone():
 			vms = getDomcloneParamiko(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], template, name)
 			found = True
 	
+	vms = read_repository("vms")
+	for vm in vms:
+		if name == vm['vmname'] and vmhostId == vm['vmhost']:
+			return "Provided name is not unique", 409
+	
 	if found:
 		vms = read_repository("vms")
 		id = str(uuid.uuid4())
