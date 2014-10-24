@@ -278,7 +278,7 @@ Ext.define('spider.controller.MenuController', {
                                         vm.type = 'vm';
                                         vm.leaf = true;
 
-                                        if(vm.interim !== true) {
+                                        if(vm.interim === true) {
                                             vm.cls = "node-red";
                                         }
 

@@ -26,9 +26,9 @@ Ext.define('spider.view.AthenaSpider', {
         'Ext.form.Label',
         'Ext.toolbar.Separator',
         'Ext.button.Button',
+        'Ext.toolbar.Spacer',
         'Ext.panel.Tool',
         'Ext.form.field.ComboBox',
-        'Ext.toolbar.Spacer',
         'Ext.tree.Panel',
         'Ext.tree.View',
         'Ext.tree.Column',
@@ -51,7 +51,7 @@ Ext.define('spider.view.AthenaSpider', {
                     xtype: 'panel',
                     margins: '0 0 5 0',
                     region: 'north',
-                    height: 60,
+                    height: 80,
                     id: 'northPanel',
                     itemId: 'northPanel',
                     layout: {
@@ -69,10 +69,11 @@ Ext.define('spider.view.AthenaSpider', {
                             items: [
                                 {
                                     xtype: 'image',
-                                    height: 54,
+                                    height: 60,
                                     id: 'logoImg',
                                     itemId: 'logoImg',
-                                    width: 147,
+                                    margin: '10 15 10 15',
+                                    width: 160,
                                     src: 'resources/images/logo/osc-logo.png'
                                 }
                             ]
@@ -112,7 +113,8 @@ Ext.define('spider.view.AthenaSpider', {
                                             xtype: 'label',
                                             html: '<a href="javascript:">Logout</a>',
                                             id: 'logoutLabel',
-                                            itemId: 'logoutLabel'
+                                            itemId: 'logoutLabel',
+                                            margin: '0 15 0 0'
                                         }
                                     ]
                                 }
@@ -120,14 +122,20 @@ Ext.define('spider.view.AthenaSpider', {
                             items: [
                                 {
                                     xtype: 'panel',
-                                    margins: '0 0 0 5',
+                                    margins: '10 0 0 5',
                                     id: 'mainBtnPanel',
                                     itemId: 'mainBtnPanel',
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'stretch'
+                                    },
                                     items: [
                                         {
                                             xtype: 'button',
+                                            height: 35,
                                             id: 'dashboardBtn',
                                             itemId: 'dashboardBtn',
+                                            margin: '7 0 0 0',
                                             enableToggle: true,
                                             icon: 'resources/images/icons/monitor.png',
                                             pressed: true,
@@ -138,6 +146,7 @@ Ext.define('spider.view.AthenaSpider', {
                                             xtype: 'button',
                                             id: 'managementBtn',
                                             itemId: 'managementBtn',
+                                            margin: '7 0 0 0',
                                             enableToggle: true,
                                             icon: 'resources/images/icons/management.png',
                                             scale: 'medium',
@@ -147,6 +156,7 @@ Ext.define('spider.view.AthenaSpider', {
                                             xtype: 'button',
                                             id: 'monitoringBtn',
                                             itemId: 'monitoringBtn',
+                                            margin: '7 0 0 0',
                                             enableToggle: true,
                                             icon: 'resources/images/icons/chart_line.png',
                                             scale: 'medium',
@@ -156,10 +166,32 @@ Ext.define('spider.view.AthenaSpider', {
                                             xtype: 'button',
                                             id: 'mainViewBtn',
                                             itemId: 'mainViewBtn',
+                                            margin: '7 0 0 0',
                                             enableToggle: true,
                                             icon: 'resources/images/icons/server_link.png',
                                             scale: 'medium',
                                             text: 'Main View'
+                                        },
+                                        {
+                                            xtype: 'tbspacer',
+                                            flex: 1
+                                        },
+                                        {
+                                            xtype: 'label',
+                                            html: '',
+                                            itemId: 'VmHostName1',
+                                            margin: '5 0 0 0',
+                                            style: '{text-align: center;font-size : 18px;font-weight: bold;letter-spacing:10px;}',
+                                            text: '대전'
+                                        },
+                                        {
+                                            xtype: 'label',
+                                            html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
+                                            itemId: 'VmHostStat1',
+                                            margin: '0 25 5 0',
+                                            minHeight: 36,
+                                            style: '{text-align: center;}',
+                                            width: 36
                                         }
                                     ]
                                 }
@@ -351,29 +383,6 @@ Ext.define('spider.view.AthenaSpider', {
                     itemId: 'centerContainer',
                     layout: 'border',
                     items: [
-                        {
-                            xtype: 'toolbar',
-                            region: 'north',
-                            height: 45,
-                            ui: 'footer',
-                            items: [
-                                {
-                                    xtype: 'button',
-                                    height: 27,
-                                    margin: '5 10 0 10',
-                                    width: 120,
-                                    iconAlign: 'right',
-                                    text: 'NCIA Daejeon'
-                                },
-                                {
-                                    xtype: 'button',
-                                    height: 27,
-                                    margin: '5 0 0 10',
-                                    width: 120,
-                                    text: 'NCIA Kwangju'
-                                }
-                            ]
-                        },
                         {
                             xtype: 'panel',
                             region: 'center',

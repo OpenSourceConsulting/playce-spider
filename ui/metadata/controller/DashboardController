@@ -80,7 +80,7 @@
                     "    Ext.each(record.get(\"children\"), function(cRecord, cIdx) {",
                     "        vms[cIdx+1].setText(cRecord.text);",
                     "    });",
-                    "    ",
+                    "",
                     "    //node add",
                     "    if(idx%2 === 0) {",
                     "        Ext.getCmp(\"DashBoardLeftPanel\").add(nodePanel);",

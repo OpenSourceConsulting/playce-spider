@@ -29,7 +29,7 @@
             "codeClass": null,
             "userConfig": {
                 "container|align": "stretch",
-                "height": 60,
+                "height": 80,
                 "id": "northPanel",
                 "itemId": "northPanel",
                 "layout": "hbox",
@@ -66,11 +66,12 @@
                             "codeClass": null,
                             "userConfig": {
                                 "dock": null,
-                                "height": 54,
+                                "height": 60,
                                 "id": "logoImg",
                                 "itemId": "logoImg",
+                                "margin": "10 15 10 15",
                                 "src": "resources/images/logo/osc-logo.png",
-                                "width": 147
+                                "width": 160
                             },
                             "designerId": "9724100a-31b7-4504-9415-e8fc58ad7410"
                         }
@@ -159,6 +160,7 @@
                                         "id": "logoutLabel",
                                         "itemId": "logoutLabel",
                                         "layout|flex": null,
+                                        "margin": "0 15 0 0",
                                         "text": null
                                     },
                                     "designerId": "558f0427-bbb3-459f-b137-1b9a3fe8c5b8"
@@ -173,11 +175,13 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "container|align": "stretch",
                                 "height": null,
                                 "id": "mainBtnPanel",
                                 "itemId": "mainBtnPanel",
+                                "layout": "hbox",
                                 "layout|flex": null,
-                                "layout|margins": "0 0 0 5",
+                                "layout|margins": "10 0 0 5",
                                 "style": null,
                                 "title": null
                             },
@@ -195,9 +199,11 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "enableToggle": true,
+                                        "height": 35,
                                         "icon": "resources/images/icons/monitor.png",
                                         "id": "dashboardBtn",
                                         "itemId": "dashboardBtn",
+                                        "margin": "7 0 0 0",
                                         "pressed": true,
                                         "scale": "medium",
                                         "text": "Dashboard"
@@ -216,6 +222,7 @@
                                         "icon": "resources/images/icons/management.png",
                                         "id": "managementBtn",
                                         "itemId": "managementBtn",
+                                        "margin": "7 0 0 0",
                                         "scale": "medium",
                                         "text": "VM Management"
                                     },
@@ -233,6 +240,7 @@
                                         "icon": "resources/images/icons/chart_line.png",
                                         "id": "monitoringBtn",
                                         "itemId": "monitoringBtn",
+                                        "margin": "7 0 0 0",
                                         "scale": "medium",
                                         "text": "Monitoring"
                                     },
@@ -250,10 +258,66 @@
                                         "icon": "resources/images/icons/server_link.png",
                                         "id": "mainViewBtn",
                                         "itemId": "mainViewBtn",
+                                        "margin": "7 0 0 0",
                                         "scale": "medium",
                                         "text": "Main View"
                                     },
                                     "designerId": "72b3dad8-9ce8-4bdb-93bc-66dd29e98755"
+                                },
+                                {
+                                    "type": "Ext.toolbar.Spacer",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 1
+                                    },
+                                    "designerId": "b8527710-3e8b-4690-96a7-636dc01baf9d"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "",
+                                        "itemId": "VmHostName1",
+                                        "layout|flex": null,
+                                        "margin": "5 0 0 0",
+                                        "style": "{text-align: center;font-size : 18px;font-weight: bold;letter-spacing:10px;}",
+                                        "text": "대전"
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "b5e4be3c-548b-4f1d-809c-fd97b0e323bc"
+                                },
+                                {
+                                    "type": "Ext.form.Label",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
+                                        "itemId": "VmHostStat1",
+                                        "layout|flex": null,
+                                        "margin": "0 25 5 0",
+                                        "minHeight": 36,
+                                        "minWidth": null,
+                                        "style": "{text-align: center;}",
+                                        "text": null,
+                                        "width": 36
+                                    },
+                                    "configAlternates": {
+                                        "style": "string"
+                                    },
+                                    "designerId": "d9de52fa-bbe2-43d4-a460-cd64fdd4dd9d"
                                 }
                             ]
                         }
@@ -660,58 +724,6 @@
             },
             "designerId": "ffd173ec-012f-40e3-8d24-d42ca1aac685",
             "cn": [
-                {
-                    "type": "Ext.toolbar.Toolbar",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "designer|uiInterfaceName": "footer",
-                        "height": 45,
-                        "layout|region": "north",
-                        "ui": "footer"
-                    },
-                    "designerId": "63f4cc72-9a61-45c5-ad48-ec42c100cce1",
-                    "cn": [
-                        {
-                            "type": "Ext.button.Button",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "height": 27,
-                                "icon": null,
-                                "iconAlign": "right",
-                                "layout|flex": null,
-                                "margin": "5 10 0 10",
-                                "overflowText": null,
-                                "text": "NCIA Daejeon",
-                                "width": 120
-                            },
-                            "designerId": "09767ca3-d12a-4c48-9d61-68bc9c705da3"
-                        },
-                        {
-                            "type": "Ext.button.Button",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "height": 27,
-                                "layout|flex": null,
-                                "margin": "5 0 0 10",
-                                "text": "NCIA Kwangju",
-                                "width": 120
-                            },
-                            "designerId": "287c3a61-75a6-4cea-b271-e29ef6085337"
-                        }
-                    ]
-                },
                 {
                     "type": "Ext.panel.Panel",
                     "reference": {

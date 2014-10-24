@@ -31,7 +31,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
         'Ext.button.Button'
     ],
 
-    height: 660,
+    height: 705,
     width: 750,
     overflowY: 'auto',
     title: 'VM Host Info',
@@ -60,7 +60,6 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                 {
                                     xtype: 'panel',
                                     flex: 2,
-                                    height: 200,
                                     layout: {
                                         type: 'vbox',
                                         align: 'stretch'
@@ -118,7 +117,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                     items: [
                                         {
                                             xtype: 'panel',
-                                            height: 190,
+                                            height: 180,
                                             overflowY: 'auto',
                                             header: false,
                                             title: 'My Panel',
@@ -334,14 +333,15 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             frame: false,
                             margin: '15 30 15 15',
                             style: '',
-                            title: 'VM Host 상세정보',
+                            title: '',
                             items: [
                                 {
                                     xtype: 'form',
                                     id: 'viewVmHostForm',
                                     itemId: 'viewVmHostForm',
+                                    margin: '5 0 0 0',
                                     padding: '0 10 0 0',
-                                    bodyPadding: 10,
+                                    bodyPadding: '0 10 0 10',
                                     header: false,
                                     title: 'My Form',
                                     fieldDefaults: {
@@ -355,6 +355,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                             xtype: 'fieldcontainer',
                                             flex: '1',
                                             height: 30,
+                                            margin: 0,
                                             fieldLabel: 'Label',
                                             hideLabel: true,
                                             layout: {
@@ -390,7 +391,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                 {
                                                     xtype: 'fieldcontainer',
                                                     flex: '1',
-                                                    height: 30,
+                                                    height: 28,
+                                                    margin: 0,
                                                     fieldLabel: 'Label',
                                                     hideLabel: true,
                                                     layout: {
@@ -415,7 +417,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                 {
                                                     xtype: 'fieldcontainer',
                                                     flex: '1',
-                                                    height: 30,
+                                                    height: 28,
+                                                    margin: 0,
                                                     fieldLabel: 'Label',
                                                     hideLabel: true,
                                                     layout: {
@@ -440,7 +443,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                 {
                                                     xtype: 'fieldcontainer',
                                                     flex: '1',
-                                                    height: 30,
+                                                    height: 28,
+                                                    margin: 0,
                                                     fieldLabel: 'Label',
                                                     hideLabel: true,
                                                     layout: {
@@ -466,7 +470,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                 {
                                                     xtype: 'fieldcontainer',
                                                     flex: '1',
-                                                    height: 30,
+                                                    height: 28,
+                                                    margin: 0,
                                                     fieldLabel: 'Label',
                                                     hideLabel: true,
                                                     layout: {
@@ -535,7 +540,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                 {
                                                     xtype: 'fieldcontainer',
                                                     flex: '1',
-                                                    height: 30,
+                                                    height: 28,
+                                                    margin: 0,
                                                     fieldLabel: 'Label',
                                                     hideLabel: true,
                                                     layout: {
@@ -560,7 +566,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                 {
                                                     xtype: 'fieldcontainer',
                                                     flex: '1',
-                                                    height: 30,
+                                                    height: 28,
+                                                    margin: 0,
                                                     fieldLabel: 'Label',
                                                     hideLabel: true,
                                                     layout: {

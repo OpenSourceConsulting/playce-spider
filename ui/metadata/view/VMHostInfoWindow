@@ -8,7 +8,7 @@
     "userConfig": {
         "designer|userAlias": "VMHostInfoWindow",
         "designer|userClassName": "VMHostInfoWindow",
-        "height": 660,
+        "height": 705,
         "modal": true,
         "overflowY": "auto",
         "title": "VM Host Info",
@@ -57,7 +57,7 @@
                             "codeClass": null,
                             "userConfig": {
                                 "container|align": "stretch",
-                                "height": 200,
+                                "height": null,
                                 "layout": "vbox",
                                 "layout|flex": 2,
                                 "title": null,
@@ -194,7 +194,7 @@
                                     "userConfig": {
                                         "container|align": "middle",
                                         "header": false,
-                                        "height": 190,
+                                        "height": 180,
                                         "layout": "hbox",
                                         "overflowY": "auto",
                                         "padding": null,
@@ -809,7 +809,7 @@
                         "margin": "15 30 15 15",
                         "overflowY": null,
                         "style": "",
-                        "title": "VM Host 상세정보"
+                        "title": ""
                     },
                     "configAlternates": {
                         "style": "string"
@@ -824,7 +824,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "bodyPadding": 10,
+                                "bodyPadding": "0 10 0 10",
                                 "fieldDefaults": [
                                     "{",
                                     "    readOnly: true,",
@@ -836,7 +836,7 @@
                                 "header": false,
                                 "id": "viewVmHostForm",
                                 "itemId": "viewVmHostForm",
-                                "margin": null,
+                                "margin": "5 0 0 0",
                                 "padding": "0 10 0 0",
                                 "title": "My Form"
                             },
@@ -856,7 +856,7 @@
                                         "height": 30,
                                         "hideLabel": true,
                                         "layout": "hbox",
-                                        "margin": null
+                                        "margin": 0
                                     },
                                     "designerId": "32f1f2c2-9360-4cf7-bb70-d503b0ba36e0",
                                     "customConfigs": [
@@ -932,10 +932,10 @@
                                                 "container|align": "middle",
                                                 "fieldLabel": "Label",
                                                 "flex": "1",
-                                                "height": 30,
+                                                "height": 28,
                                                 "hideLabel": true,
                                                 "layout": "hbox",
-                                                "margin": null
+                                                "margin": 0
                                             },
                                             "designerId": "79f6bb5c-6760-4305-a219-13198b81ba26",
                                             "customConfigs": [
@@ -990,10 +990,10 @@
                                                 "container|align": "middle",
                                                 "fieldLabel": "Label",
                                                 "flex": "1",
-                                                "height": 30,
+                                                "height": 28,
                                                 "hideLabel": true,
                                                 "layout": "hbox",
-                                                "margin": null
+                                                "margin": 0
                                             },
                                             "designerId": "26210445-ed63-40bb-bd55-43d67bd8ed90",
                                             "customConfigs": [
@@ -1048,10 +1048,10 @@
                                                 "container|align": "middle",
                                                 "fieldLabel": "Label",
                                                 "flex": "1",
-                                                "height": 30,
+                                                "height": 28,
                                                 "hideLabel": true,
                                                 "layout": "hbox",
-                                                "margin": null
+                                                "margin": 0
                                             },
                                             "designerId": "6ab1a66a-ce3c-4de9-9c14-04bdb2de53b0",
                                             "customConfigs": [
@@ -1108,10 +1108,10 @@
                                                 "container|align": "middle",
                                                 "fieldLabel": "Label",
                                                 "flex": "1",
-                                                "height": 30,
+                                                "height": 28,
                                                 "hideLabel": true,
                                                 "layout": "hbox",
-                                                "margin": null
+                                                "margin": 0
                                             },
                                             "designerId": "b86a4b57-8ee4-4b3e-bc8d-1cd0d5d44f0f",
                                             "customConfigs": [
@@ -1258,10 +1258,10 @@
                                                 "container|align": "middle",
                                                 "fieldLabel": "Label",
                                                 "flex": "1",
-                                                "height": 30,
+                                                "height": 28,
                                                 "hideLabel": true,
                                                 "layout": "hbox",
-                                                "margin": null
+                                                "margin": 0
                                             },
                                             "designerId": "a2e84432-619c-440d-9873-e72706602080",
                                             "customConfigs": [
@@ -1316,10 +1316,10 @@
                                                 "container|align": "middle",
                                                 "fieldLabel": "Label",
                                                 "flex": "1",
-                                                "height": 30,
+                                                "height": 28,
                                                 "hideLabel": true,
                                                 "layout": "hbox",
-                                                "margin": null
+                                                "margin": 0
                                             },
                                             "designerId": "5c25a27e-fc2b-4306-9435-bfa00db1de98",
                                             "customConfigs": [
