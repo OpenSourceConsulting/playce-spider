@@ -172,7 +172,7 @@ def vm_start(vmhostId=None, name=None):
 			found = True
 	
 	if found:
-		return json.dumps(vms)
+		return json.dumps(vms) , 200
 	else:
 		return 'VM Host(' + vmhostId + ') was not found', 404	
 
@@ -199,7 +199,7 @@ def vm_shutdown(vmhostId=None, name=None):
 			found = True
 	
 	if found:
-		return json.dumps(vms)
+		return json.dumps(vms) , 200
 	else:
 		return 'VM Host(' + vmhostId + ') was not found', 404	
 

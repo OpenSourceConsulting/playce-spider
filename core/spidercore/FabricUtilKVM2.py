@@ -124,13 +124,15 @@ def domstart(command_):
 	_result = ''
 	results = run('virsh start ' + command_ , pty=True ,quiet=True,  timeout=5 )
 	
+	print results
+	
 	matchStr = "error"
 	
 	_result = re.search(matchStr,results)
 
 	vms = []	
 	if (matchStr != _result.group()):
-		vms.append({'state':''})
+		vms.append({'state':'False'})
 		return vms
 	else:
 	
@@ -161,6 +163,8 @@ def domshutdown(command_):
 
 	results = run('virsh shutdown ' + command_ , pty=True ,quiet=True,  timeout=5 )
 
+	print results
+
 	_result = ''
 	matchStr = "error"
 	
@@ -169,7 +173,7 @@ def domshutdown(command_):
 	vms = []	
 	print _result.group()
 	if (matchStr != _result.group()):
-		vms.append({'state':''})
+		vms.append({'state':results})
 		return vms
 	else:
 	
