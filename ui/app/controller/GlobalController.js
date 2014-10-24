@@ -40,6 +40,23 @@ Ext.define('spider.controller.GlobalController', {
 
         });
 
+        //Ajax Waiting Message 처리
+
+        Ext.Ajax.on('beforerequest', function (conn, opts) {
+            if(opts.waitMsg) {
+                if(opts.waitMsgTarget) {
+                    opts.waitMsgTarget.mask(opts.waitMsg, 'loading');
+                } else {
+                    Ext.getBody().mask(opts.waitMsg, 'loading');
+                }
+
+            }
+        }, Ext.getBody());
+
+        Ext.Ajax.on('requestcomplete', Ext.getBody().unmask, Ext.getBody());
+        Ext.Ajax.on('requestexception', Ext.getBody().unmask, Ext.getBody());
+
+
         // Global variables를 정의하는 구문으로 GlobalData.urlPrefix, GlobalData.serverSize 등으로 어디에서든 접근이 가능하다.
         Ext.define('GLOBAL', {
             singleton: true,

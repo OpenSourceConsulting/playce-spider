@@ -29,15 +29,14 @@ Ext.define('spider.controller.VmHostController', {
                 url: GLOBAL.apiUrlPrefix + 'mon/vm/' + record.get("vmhost") + "/" + record.get("text") + "/status",
                 method : 'GET',
                 disableCaching : true,
-                waitMsg: 'Loading...',
                 success: function(response){
 
                     var data = Ext.JSON.decode(response.responseText);
 
-                    if(data.length === 0 || data[0].state === "Running") {
-                        vmHostConstants.contextMenu.items.items[5].setDisabled(true);
+                    if(data.length === 0 || data[0].state.toLowerCase() === "running") {
+                        vmHostConstants.contextMenu.items.items[6].setDisabled(true);
                     } else {
-                        vmHostConstants.contextMenu.items.items[5].setDisabled(false);
+                        vmHostConstants.contextMenu.items.items[6].setDisabled(false);
                     }
 
                     vmHostConstants.contextMenu.showAt(position);
@@ -45,7 +44,7 @@ Ext.define('spider.controller.VmHostController', {
                 },
                 failure: function (response) {
 
-                    vmHostConstants.contextMenu.items.items[5].setDisabled(true);
+                    vmHostConstants.contextMenu.items.items[6].setDisabled(true);
                     vmHostConstants.contextMenu.showAt(position);
 
                 }
@@ -229,50 +228,18 @@ Ext.define('spider.controller.VmHostController', {
                      "Content-Type" : "application/json"
                  },
                  waitMsg: 'Saving Data...',
+                 waitMsgTarget : addVmHostForm.getEl(),
                  jsonData: sendData,
                  success: function (response) {
 
-                    alert(response.responseText + ' 등록이 완료되었습니다.');
+                     if(response.status == 200) {
 
-                    menuConstants.me.renderServerTree();
-                    addVmHostForm.up('window').close();
+                         Ext.Msg.alert('Success', '등록이 완료되었습니다.');
 
-        /*
-                    var responseData = Ext.JSON.decode(response.responseText);
-                     alert(responseData);
-
-                     if(responseData.success) {
-
-                        Ext.Msg.alert('Success', responseData.msg);
-
-                        Ext.getCmp('almUserGrid').getStore().reload({
-                            callback:function(records, operation, success){
-
-                                if(userId){
-
-                                    Ext.each(records, function(record) {
-
-                                        if(record.get("userId") == userId) {
-                                            Ext.getCmp('almUserGrid').getSelectionModel().select(record,true,false);
-
-                                            almConstants.selectRow = record;
-                                            almConstants.me.selectAlmUserGrid();
-                                        }
-
-                                    });
-                                }
-
-                            }
-                        });
-
-                        addVmHostForm.up('window').close();
-
-                     } else {
-
-                        Ext.Msg.alert('Failure', response.responseText);
+                         menuConstants.me.renderServerTree();
+                         addVmHostForm.up('window').close();
 
                      }
-                     */
 
                 },
                 failure: function (response) {
@@ -282,58 +249,6 @@ Ext.define('spider.controller.VmHostController', {
 
         }
 
-        /*
-        addVmHostForm.getForm().submit({
-            clientValidation: true,
-            url: GLOBAL.apiUrlPrefix + "vmhost",
-            method : "POST",
-            useDefaultXhrHeader: false,
-            params: {
-                newStatus: 'delivered'
-            },
-            waitMsg: 'Saving Data...',
-            success: function(form, action) {
-
-                alert(Ext.decode(action.result));
-                (Ext.Msg.alert('Success', action.result.msg);
-
-                Ext.getCmp('hypervisorGrid').getStore().load({
-
-                    callback:function(records, operation, success){
-
-                        if(hypervisorId) {
-
-                            Ext.each(records, function(record) {
-
-                                if(record.get("hypervisorId") == hypervisorId) {
-                                    Ext.getCmp('hypervisorGrid').getSelectionModel().select(record,true,false);
-
-                                    RHEVMConstants.selectRow = record;
-                                    RHEVMConstants.me.selectHypervisorGrid();
-                                }
-                            });
-                        }
-                    }
-
-                });
-
-                button.up('window').close();
-            },
-            failure: function(form, action) {
-                switch (action.failureType) {
-                    case Ext.form.action.Action.CLIENT_INVALID:
-                    Ext.Msg.alert('Failure', '유효하지 않은 입력값이 존재합니다.');
-                    break;
-                    case Ext.form.action.Action.CONNECT_FAILURE:
-                    Ext.Msg.alert('Failure', 'Server communication failed');
-                    break;
-                    case Ext.form.action.Action.SERVER_INVALID:
-                    Ext.Msg.alert('Failure', action.result.msg);
-                }
-            }
-        });
-
-        */
     },
 
     popAddVmWindow: function() {
@@ -357,63 +272,31 @@ Ext.define('spider.controller.VmHostController', {
 
             var sendData = addVmForm.getForm().getFieldValues();
 
-             Ext.Ajax.request({
+            Ext.Ajax.request({
                  url: GLOBAL.apiUrlPrefix + "vm/clone",
                  method: "POST",
                  headers : {
                      "Content-Type" : "application/json"
                  },
                  waitMsg: 'Saving Data...',
+                 waitMsgTarget : addVmForm.getEl(),
                  jsonData: sendData,
                  success: function (response) {
 
-                    alert(response.responseText + ' 등록이 완료되었습니다.');
+                     if(response.status == 200) {
 
-                    menuConstants.me.renderServerTree();
-                    addVmForm.up('window').close();
+                         Ext.Msg.alert('Success', '등록이 완료되었습니다.');
 
-        /*
-                    var responseData = Ext.JSON.decode(response.responseText);
-                     alert(responseData);
-
-                     if(responseData.success) {
-
-                        Ext.Msg.alert('Success', responseData.msg);
-
-                        Ext.getCmp('almUserGrid').getStore().reload({
-                            callback:function(records, operation, success){
-
-                                if(userId){
-
-                                    Ext.each(records, function(record) {
-
-                                        if(record.get("userId") == userId) {
-                                            Ext.getCmp('almUserGrid').getSelectionModel().select(record,true,false);
-
-                                            almConstants.selectRow = record;
-                                            almConstants.me.selectAlmUserGrid();
-                                        }
-
-                                    });
-                                }
-
-                            }
-                        });
-
-                        addVmHostForm.up('window').close();
-
-                     } else {
-
-                        Ext.Msg.alert('Failure', response.responseText);
+                         menuConstants.me.renderServerTree();
+                         addVmForm.up('window').close();
 
                      }
-                     */
 
                 },
                 failure: function (response) {
                     Ext.Msg.alert('Failure', response.responseText);
                 }
-             });
+            });
 
         }
 
@@ -429,12 +312,16 @@ Ext.define('spider.controller.VmHostController', {
                     url: GLOBAL.apiUrlPrefix + "vm/" + vmHostConstants.actionRecord.get("id"),
                     method : "DELETE",
                     disableCaching : true,
-                    waitMsg: 'Delete RHEVM...',
+                    waitMsg: 'Delete VM...',
                     success: function(response){
 
-                        alert(response.responseText + ' 삭제가 완료되었습니다.');
+                        if(response.status == 200) {
 
-                        menuConstants.me.renderServerTree();
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.');
+
+                            menuConstants.me.renderServerTree();
+
+                        }
 
                     }
                 });
