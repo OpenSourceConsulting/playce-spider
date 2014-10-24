@@ -48,7 +48,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                     items: [
                         {
                             xtype: 'panel',
-                            flex: 3,
+                            flex: 4,
                             itemId: 'vmHostChartPanel',
                             layout: {
                                 type: 'vbox',
@@ -186,7 +186,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                         },
                         {
                             xtype: 'panel',
-                            flex: 1,
+                            flex: 2,
                             itemId: 'vmNamePanel',
                             layout: {
                                 type: 'vbox',
@@ -202,12 +202,14 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: ''
                                 },
                                 {
                                     xtype: 'label',
                                     flex: 1,
-                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
+                                    text: ''
                                 },
                                 {
                                     xtype: 'label',

@@ -55,6 +55,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                     items: [
                         {
                             xtype: 'displayfield',
+                            id: 'mgmtVmHostName',
+                            itemId: 'mgmtVmHostName',
                             margin: '0 20 0 0',
                             style: '',
                             fieldLabel: 'VM Host ',
@@ -65,6 +67,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                         },
                         {
                             xtype: 'displayfield',
+                            id: 'mgmtVmName',
+                            itemId: 'mgmtVmName',
                             margin: '0 20 0 0',
                             fieldLabel: 'VM Name ',
                             labelStyle: 'font-weight: bold;',

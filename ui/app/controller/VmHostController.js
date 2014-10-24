@@ -17,13 +17,43 @@ Ext.define('spider.controller.VmHostController', {
     extend: 'Ext.app.Controller',
 
     onListMenuPanelBeforeItemContextMenu: function(dataview, record, item, index, e, eOpts) {
+
         if(record.get("type") === 'vm') {
 
             var position = e.getXY();
             e.stopEvent();
 
-            vmHostConstants.contextMenu.showAt(position);
+            vmHostConstants.actionRecord = record;
 
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + 'mon/vm/' + record.get("vmhost") + "/" + record.get("text") + "/status",
+                method : 'GET',
+                disableCaching : true,
+                waitMsg: 'Loading...',
+                success: function(response){
+
+                    var data = Ext.JSON.decode(response.responseText);
+
+                    if(data.length === 0 || data[0].state === "Running") {
+                        vmHostConstants.contextMenu.items.items[5].setDisabled(true);
+                    } else {
+                        vmHostConstants.contextMenu.items.items[5].setDisabled(false);
+                    }
+
+                    vmHostConstants.contextMenu.showAt(position);
+
+                },
+                failure: function (response) {
+
+                    vmHostConstants.contextMenu.items.items[5].setDisabled(true);
+                    vmHostConstants.contextMenu.showAt(position);
+
+                }
+            });
+
+
+        } else {
+            e.stopEvent();
         }
     },
 
@@ -31,7 +61,7 @@ Ext.define('spider.controller.VmHostController', {
         if(record.get("type") === 'vmhost') {
             this.popVMHostInfoWindow(record);
         } else {
-            Ext.getCmp('managementBtn').fireEvent('click');
+            menuConstants.me.viewManagementMenu(record);
         }
     },
 
@@ -68,6 +98,11 @@ Ext.define('spider.controller.VmHostController', {
                         handler: function() {
                             alert('VM 시작/중단');
                         }
+                    },
+                    { text: 'VM 삭제',
+                        handler: function() {
+                            vmHostTree.deleteVm();
+                        }
                     }
                     ]
 
@@ -79,7 +114,8 @@ Ext.define('spider.controller.VmHostController', {
                     me : vmHostTree,
 
                     contextMenu: vmHostContextMenu,
-                    selectRecord : null
+                    selectRecord : null,
+                    actionRecord : null
                 });
 
         this.control({
@@ -380,6 +416,31 @@ Ext.define('spider.controller.VmHostController', {
              });
 
         }
+
+    },
+
+    deleteVm: function() {
+
+        Ext.MessageBox.confirm('Confirm', 'VM을 삭제 하시겠습니까?', function(btn){
+
+            if(btn == "yes"){
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "vm/" + vmHostConstants.actionRecord.get("id"),
+                    method : "DELETE",
+                    disableCaching : true,
+                    waitMsg: 'Delete RHEVM...',
+                    success: function(response){
+
+                        alert(response.responseText + ' 삭제가 완료되었습니다.');
+
+                        menuConstants.me.renderServerTree();
+
+                    }
+                });
+            }
+
+        });
 
     }
 

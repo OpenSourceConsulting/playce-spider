@@ -4918,6 +4918,11 @@ svg, vml {
   font-size: 0;
 }
 
+/* line 1, ../../../../ext/packages/ext-theme-base/sass/src/form/field/Hidden.scss */
+.x-form-item-hidden {
+  margin: 0;
+}
+
 /* line 1, ../../../../ext/packages/ext-theme-base/sass/src/layout/container/Fit.scss */
 .x-fit-item {
   position: relative;

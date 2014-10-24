@@ -19,11 +19,14 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
-                    "vmId"
+                    "record"
                 ],
                 "fn": "initVmManagement",
                 "implHandler": [
-                    "vmConstants.selectVmId = vmId;"
+                    "vmConstants.selectVmId = record.get(\"id\");",
+                    "",
+                    "Ext.getCmp(\"mgmtVmHostName\").setValue(record.get(\"vmhostName\"));",
+                    "Ext.getCmp(\"mgmtVmName\").setValue(record.get(\"text\"));"
                 ]
             },
             "designerId": "d896c668-1bab-45ea-b033-e33d3668bee0"
@@ -47,11 +50,11 @@
                     "Ext.define('vmConstants', {",
                     "    singleton: true,",
                     "    me : vmMgmt,",
-                    "    ",
+                    "",
                     "    selectVmId : null,",
-                    "    ",
+                    "",
                     "    vmCombo : null",
-                    "    ",
+                    "",
                     "});"
                 ]
             },

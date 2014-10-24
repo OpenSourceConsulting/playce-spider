@@ -31,10 +31,9 @@ Ext.define('spider.view.VMHostInfoWindow', {
         'Ext.button.Button'
     ],
 
-    height: 630,
+    height: 660,
     width: 750,
     overflowY: 'auto',
-    resizable: false,
     title: 'VM Host Info',
     modal: true,
 
@@ -60,7 +59,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             items: [
                                 {
                                     xtype: 'panel',
-                                    flex: 5,
+                                    flex: 2,
                                     height: 200,
                                     layout: {
                                         type: 'vbox',
@@ -112,7 +111,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                 },
                                 {
                                     xtype: 'fieldset',
-                                    flex: 2.7,
+                                    flex: 1.5,
                                     margin: '10 20 0 0',
                                     padding: '3 0 3 3',
                                     title: '',
@@ -130,7 +129,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                             items: [
                                                 {
                                                     xtype: 'panel',
-                                                    flex: 1.7,
+                                                    flex: 2,
                                                     margin: '10 0 0 0',
                                                     layout: {
                                                         type: 'vbox',

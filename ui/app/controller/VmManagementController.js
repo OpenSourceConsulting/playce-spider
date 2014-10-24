@@ -32,8 +32,11 @@ Ext.define('spider.controller.VmManagementController', {
 
     },
 
-    initVmManagement: function(vmId) {
-        vmConstants.selectVmId = vmId;
+    initVmManagement: function(record) {
+        vmConstants.selectVmId = record.get("id");
+
+        Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
+        Ext.getCmp("mgmtVmName").setValue(record.get("text"));
     },
 
     init: function(application) {

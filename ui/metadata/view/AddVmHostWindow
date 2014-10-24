@@ -8,7 +8,7 @@
     "userConfig": {
         "designer|userAlias": "AddVmHostWindow",
         "designer|userClassName": "AddVmHostWindow",
-        "height": 335,
+        "height": 355,
         "id": null,
         "itemId": null,
         "modal": true,
@@ -123,10 +123,28 @@
                     "userConfig": {
                         "allowBlank": false,
                         "fieldLabel": "SSH PW",
+                        "inputType": "password",
                         "layout|anchor": "100%",
                         "name": "sshpw"
                     },
                     "designerId": "884bfe72-d176-481b-a0df-8ebc696b8ea0"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "Confirm SSH PW",
+                        "inputType": "password",
+                        "layout|anchor": "100%",
+                        "name": "confirmpw",
+                        "vtype": "password"
+                    },
+                    "designerId": "fbcd009e-d8e3-420f-a1e9-903a8f7c5f52"
                 },
                 {
                     "type": "Ext.form.field.TextArea",

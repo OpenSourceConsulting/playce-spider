@@ -25,7 +25,7 @@ Ext.define('spider.view.AddVmHostWindow', {
         'Ext.button.Button'
     ],
 
-    height: 335,
+    height: 355,
     width: 430,
     resizable: false,
     title: 'VM Host 추가',
@@ -86,7 +86,17 @@ Ext.define('spider.view.AddVmHostWindow', {
                             anchor: '100%',
                             fieldLabel: 'SSH PW',
                             name: 'sshpw',
+                            inputType: 'password',
                             allowBlank: false
+                        },
+                        {
+                            xtype: 'textfield',
+                            anchor: '100%',
+                            fieldLabel: 'Confirm SSH PW',
+                            name: 'confirmpw',
+                            inputType: 'password',
+                            allowBlank: false,
+                            vtype: 'password'
                         },
                         {
                             xtype: 'textareafield',

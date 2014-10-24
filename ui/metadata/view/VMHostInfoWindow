@@ -8,10 +8,9 @@
     "userConfig": {
         "designer|userAlias": "VMHostInfoWindow",
         "designer|userClassName": "VMHostInfoWindow",
-        "height": 630,
+        "height": 660,
         "modal": true,
         "overflowY": "auto",
-        "resizable": false,
         "title": "VM Host Info",
         "width": 750
     },
@@ -60,7 +59,7 @@
                                 "container|align": "stretch",
                                 "height": 200,
                                 "layout": "vbox",
-                                "layout|flex": 5,
+                                "layout|flex": 2,
                                 "title": null,
                                 "width": null
                             },
@@ -177,7 +176,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "layout|flex": 2.7,
+                                "layout|flex": 1.5,
                                 "layout|margins": null,
                                 "margin": "10 20 0 0",
                                 "padding": "3 0 3 3",
@@ -213,7 +212,7 @@
                                             "userConfig": {
                                                 "container|align": "stretch",
                                                 "layout": "vbox",
-                                                "layout|flex": 1.7,
+                                                "layout|flex": 2,
                                                 "margin": "10 0 0 0",
                                                 "title": null,
                                                 "width": null

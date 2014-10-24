@@ -48,7 +48,6 @@ Ext.define('spider.controller.DashboardController', {
             /*
             Ext.getCmp('cpuBar').updateProgress(data.usage.cpu.percentage / 100, data.usage.cpu.percentage + "%");
 
-            var children = nodePanel.down('#vmNamePanel').items.items;
             Ext.each(children, function (child, idx) {
                 if(idx > 0)
                     child.setText("");
@@ -59,6 +58,13 @@ Ext.define('spider.controller.DashboardController', {
             nodePanel.down('#vmNetPanel');
             */
 
+            //VM 정보
+            var vms = nodePanel.down('#vmNamePanel').items.items;
+            Ext.each(record.get("children"), function(cRecord, cIdx) {
+                vms[cIdx+1].setText(cRecord.text);
+            });
+
+            //node add
             if(idx%2 === 0) {
                 Ext.getCmp("DashBoardLeftPanel").add(nodePanel);
             } else {

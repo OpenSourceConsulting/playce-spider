@@ -44,7 +44,7 @@
                         "container|align": "stretch",
                         "itemId": "vmHostChartPanel",
                         "layout": "vbox",
-                        "layout|flex": 3,
+                        "layout|flex": 4,
                         "title": null,
                         "width": null
                     },
@@ -349,7 +349,7 @@
                         "container|align": "stretch",
                         "itemId": "vmNamePanel",
                         "layout": "vbox",
-                        "layout|flex": 1,
+                        "layout|flex": 2,
                         "title": null,
                         "width": null
                     },
@@ -383,7 +383,7 @@
                             "userConfig": {
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": null
+                                "text": ""
                             },
                             "configAlternates": {
                                 "style": "string"
@@ -400,7 +400,7 @@
                             "userConfig": {
                                 "layout|flex": 1,
                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                "text": null
+                                "text": ""
                             },
                             "configAlternates": {
                                 "style": "string"

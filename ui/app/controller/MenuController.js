@@ -250,7 +250,7 @@ Ext.define('spider.controller.MenuController', {
                     var vmDatas = null;
 
                     Ext.Ajax.request({
-                        url: GLOBAL.apiUrlPrefix + 'mon/vm/_all',
+                        url: GLOBAL.apiUrlPrefix + 'mon/vm/_all?detail=true',
                         disableCaching : true,
                         success: function(vmResponse){
 
@@ -273,10 +273,14 @@ Ext.define('spider.controller.MenuController', {
                                     if(host._id == vm.vmhost) {
 
                                         vm.id = vm._id;
-                                        vm.text = vm.name;
+                                        vm.text = vm.vmname;
                                         vm.icon = 'resources/images/icons/host.png';
                                         vm.type = 'vm';
                                         vm.leaf = true;
+
+                                        if(vm.interim !== true) {
+                                            vm.cls = "node-red";
+                                        }
 
                                         vmList.push(vm);
                                     }
@@ -635,7 +639,7 @@ Ext.define('spider.controller.MenuController', {
         });
     },
 
-    viewManagementMenu: function(vmId) {
+    viewManagementMenu: function(record) {
         /**
          * NFV Management 메뉴 버튼 클릭 시 수행되는 function
          */
@@ -658,7 +662,7 @@ Ext.define('spider.controller.MenuController', {
 
             centerContainer.layout.setActiveItem(1);
 
-            vmConstants.me.initVmManagement(vmId);
+            vmConstants.me.initVmManagement(record);
 
             //Ext.getCmp('hostMgmtBtn').fireEvent('click');
             //Ext.getCmp('utilizationBtn').fireEvent('click');
@@ -670,8 +674,8 @@ Ext.define('spider.controller.MenuController', {
 
             managementBtn.toggle(true);
 
-            if(vmId !== vmConstants.selectVmId) {
-                vmConstants.me.initVmManagement(vmId);
+            if(record.get("id") !== vmConstants.selectVmId) {
+                vmConstants.me.initVmManagement(record);
             }
 
         }

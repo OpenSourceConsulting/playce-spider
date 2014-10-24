@@ -44,6 +44,8 @@
                     "userConfig": {
                         "fieldLabel": "VM Host ",
                         "fieldStyle": "font-weight: bold;",
+                        "id": "mgmtVmHostName",
+                        "itemId": "mgmtVmHostName",
                         "labelStyle": "font-weight: bold;",
                         "labelWidth": 60,
                         "layout|flex": null,
@@ -68,6 +70,8 @@
                     "userConfig": {
                         "fieldLabel": "VM Name ",
                         "fieldStyle": "font-weight: bold;",
+                        "id": "mgmtVmName",
+                        "itemId": "mgmtVmName",
                         "labelStyle": "font-weight: bold;",
                         "labelWidth": 70,
                         "layout|flex": null,

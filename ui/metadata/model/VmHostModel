@@ -93,6 +93,18 @@
                 "name": "text"
             },
             "designerId": "cef51b72-a78a-4b0d-bd60-6306dd29f5c7"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "vmhostName"
+            },
+            "designerId": "3cb127c1-9515-4b02-8bba-a21cdc7452d2"
         }
     ]
 }
