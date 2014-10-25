@@ -190,14 +190,14 @@ def mon_vmbyhost(id=None):
 		return 'Not found', 404
 
 
-@app.route("/mon/vm/<id>/if/<ifid>", methods=['GET'])
+@app.route("/mon/nfv/<id>/if/<ifid>", methods=['GET'])
 def mon_vmif(id=None, ifid=None):
 	if id == None:
 		return "No unique id for VM", 404
 	elif ifid == None:
 		return "No unique ifid for interface", 404
 
-	print "/mon/vm/%s/if/%s" % (id, ifid)
+	print "/mon/nfv/%s/if/%s" % (id, ifid)
 
 	results = {}
 	
@@ -214,14 +214,14 @@ def mon_vmif(id=None, ifid=None):
 	
 	return 'Not found', 404
 	
-@app.route("/mon/vm/<id>/nat/<rule>", methods=['GET'])
+@app.route("/mon/nfv/<id>/nat/<rule>", methods=['GET'])
 def mon_vmnat(id=None, rule=None):
 	if id == None:
 		return "No unique id for VM", 404
 	elif rule == None:
 		return "No unique rule for NAT", 404
 
-	print "/mon/vm/%s/nat/%s" % (id, rule)
+	print "/mon/nfv/%s/nat/%s" % (id, rule)
 
 	results = {}
 	
@@ -238,14 +238,14 @@ def mon_vmnat(id=None, rule=None):
 	
 	return 'Not found', 404
 	
-@app.route("/mon/vm/<id>/service/<svc>", methods=['GET'])
+@app.route("/mon/nfv/<id>/service/<svc>", methods=['GET'])
 def mon_vmservice(id=None, svc=None):
 	if id == None:
 		return "No unique id for VM", 404
 	elif svc == None:
 		return "No unique svc for services", 404
 
-	print "/mon/vm/%s/service/%s" % (id, svc)
+	print "/mon/nfv/%s/service/%s" % (id, svc)
 
 	results = {}
 	
