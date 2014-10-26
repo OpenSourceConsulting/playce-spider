@@ -131,11 +131,8 @@ def domstart(command_):
 	_result = re.search(matchStr,results)
 
 	vms = []	
-	if (matchStr != _result.group()):
-		vms.append({'state':'False'})
-		return vms
-	else:
-	
+
+	if _result:
 		lines = results.split('\n')
 		vms = []
 		for line in lines[:]:
@@ -144,7 +141,13 @@ def domstart(command_):
 			vms.append({words[0] : words[1]})
 				
 		return vms
-	
+
+	else:
+		vms.append({'state':results})
+		return vms
+
+
+
 	
 	
 
@@ -168,15 +171,11 @@ def domshutdown(command_):
 	_result = ''
 	matchStr = "error"
 	
-	_result = re.search(matchStr,results)
-
-	vms = []	
-	print _result.group()
-	if (matchStr != _result.group()):
-		vms.append({'state':results})
-		return vms
-	else:
+	_result = re.search("(" + matchStr + ".*)" , results)
 	
+	vms = []	
+
+	if _result:
 		lines = results.split('\n')
 		vms = []
 		for line in lines[:]:
@@ -185,6 +184,11 @@ def domshutdown(command_):
 			vms.append({words[0] : words[1]})
 				
 		return vms
+
+	else:
+		vms.append({'state':results})
+		return vms
+	
 
 
 def getDomshutdown(addr, sshid, sshpw, name):
