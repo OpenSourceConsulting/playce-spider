@@ -46,16 +46,16 @@ Ext.define('spider.controller.MenuController', {
             selector: '#centerPanel'
         },
         {
-            ref: 'menuPanel',
-            selector: '#menuPanel'
-        },
-        {
             ref: 'mainViewBtn',
             selector: '#mainViewBtn'
         },
         {
             ref: 'mytool',
             selector: '#mytool'
+        },
+        {
+            ref: 'menuPanel',
+            selector: '#menuPanel'
         }
     ],
 
@@ -639,7 +639,7 @@ Ext.define('spider.controller.MenuController', {
         });
     },
 
-    viewManagementMenu: function(record) {
+    viewManagementMenu: function(record, tabIndex) {
         /**
          * NFV Management 메뉴 버튼 클릭 시 수행되는 function
          */
@@ -662,7 +662,30 @@ Ext.define('spider.controller.MenuController', {
 
             centerContainer.layout.setActiveItem(1);
 
-            vmConstants.me.initVmManagement(record);
+            vmConstants.me.initVmManagement(record, tabIndex);
+
+        } else {
+
+            managementBtn.toggle(true);
+
+            var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
+
+            if(record.get("id") !== vmConstants.selectVmId) {
+
+                vmConstants.me.initVmManagement(record, tabIndex);
+
+            } else if(tabIndex == null && vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(0)) {
+
+                vmConstants.me.initVmManagement(record, 0);
+
+            } else if(tabIndex != null && vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(tabIndex)) {
+
+                vmConstants.me.initVmManagement(record, tabIndex);
+            }
+
+        }
+
+
 
             //Ext.getCmp('hostMgmtBtn').fireEvent('click');
             //Ext.getCmp('utilizationBtn').fireEvent('click');
@@ -670,16 +693,6 @@ Ext.define('spider.controller.MenuController', {
             //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {
             //    Ext.getCmp('hostGridPanel').selModel.select(0);
             //}
-        } else {
-
-            managementBtn.toggle(true);
-
-            if(record.get("id") !== vmConstants.selectVmId) {
-                vmConstants.me.initVmManagement(record);
-            }
-
-        }
-
     }
 
 });

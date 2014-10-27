@@ -53,8 +53,29 @@ Ext.define('spider.controller.GlobalController', {
             }
         }, Ext.getBody());
 
-        Ext.Ajax.on('requestcomplete', Ext.getBody().unmask, Ext.getBody());
-        Ext.Ajax.on('requestexception', Ext.getBody().unmask, Ext.getBody());
+        Ext.Ajax.on('requestcomplete', function (conn, resp, opts) {
+
+            if(opts.waitMsg) {
+                if(opts.waitMsgTarget) {
+                    opts.waitMsgTarget.unmask();
+                } else {
+                    Ext.getBody().unmask();
+                }
+            }
+
+        }, Ext.getBody());
+
+        Ext.Ajax.on('requestexception', function (conn, resp, opts) {
+
+            if(opts.waitMsg) {
+                if(opts.waitMsgTarget) {
+                    opts.waitMsgTarget.unmask();
+                } else {
+                    Ext.getBody().unmask();
+                }
+            }
+
+        }, Ext.getBody());
 
 
         // Global variables를 정의하는 구문으로 GlobalData.urlPrefix, GlobalData.serverSize 등으로 어디에서든 접근이 가능하다.

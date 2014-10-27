@@ -28,6 +28,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
         'Ext.grid.Panel',
         'Ext.grid.column.Column',
         'Ext.grid.View',
+        'Ext.toolbar.Spacer',
         'Ext.button.Button'
     ],
 
@@ -597,11 +598,11 @@ Ext.define('spider.view.VMHostInfoWindow', {
                     xtype: 'toolbar',
                     dock: 'bottom',
                     ui: 'footer',
-                    layout: {
-                        type: 'hbox',
-                        pack: 'center'
-                    },
                     items: [
+                        {
+                            xtype: 'tbspacer',
+                            flex: 3
+                        },
                         {
                             xtype: 'button',
                             handler: function(button, e) {
@@ -619,6 +620,19 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             xtype: 'button',
                             margin: '0 10 0 5',
                             text: 'VM  Template'
+                        },
+                        {
+                            xtype: 'tbspacer',
+                            flex: 2
+                        },
+                        {
+                            xtype: 'button',
+                            handler: function(button, e) {
+                                vmHostConstants.me.deleteVmHost(button);
+                            },
+                            margin: '0 30 0 0',
+                            padding: '3 10 3 10',
+                            text: '삭제'
                         }
                     ]
                 }

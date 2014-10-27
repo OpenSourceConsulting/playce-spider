@@ -109,19 +109,6 @@
             },
             "codeClass": null,
             "userConfig": {
-                "ref": "menuPanel",
-                "selector": "#menuPanel"
-            },
-            "designerId": "41375451-12ec-4ef5-97bf-e7b6371b1070"
-        },
-        {
-            "type": "controllerref",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
                 "ref": "mainViewBtn",
                 "selector": "#mainViewBtn"
             },
@@ -782,6 +769,19 @@
             "designerId": "105907ea-48c8-4a10-bcd9-43102f287fb7"
         },
         {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "menuPanel",
+                "selector": "#menuPanel"
+            },
+            "designerId": "41375451-12ec-4ef5-97bf-e7b6371b1070"
+        },
+        {
             "type": "fixedfunction",
             "reference": {
                 "name": "items",
@@ -833,7 +833,8 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
-                    "record"
+                    "record",
+                    "tabIndex"
                 ],
                 "fn": "viewManagementMenu",
                 "implHandler": [
@@ -859,24 +860,37 @@
                     "",
                     "    centerContainer.layout.setActiveItem(1);",
                     "",
-                    "    vmConstants.me.initVmManagement(record);",
+                    "    vmConstants.me.initVmManagement(record, tabIndex);",
+                    "",
+                    "} else {",
+                    "",
+                    "    managementBtn.toggle(true);",
+                    "    ",
+                    "    var vmDetailTab = Ext.getCmp(\"networkInstanceTabPanel\");",
+                    "",
+                    "    if(record.get(\"id\") !== vmConstants.selectVmId) {",
+                    "        ",
+                    "        vmConstants.me.initVmManagement(record, tabIndex);",
+                    "        ",
+                    "    } else if(tabIndex == null && vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(0)) { ",
+                    "        ",
+                    "        vmConstants.me.initVmManagement(record, 0);",
+                    "        ",
+                    "    } else if(tabIndex != null && vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(tabIndex)) {",
+                    "        ",
+                    "        vmConstants.me.initVmManagement(record, tabIndex);",
+                    "    }",
+                    "",
+                    "}",
+                    "",
+                    "",
                     "",
                     "    //Ext.getCmp('hostMgmtBtn').fireEvent('click');",
                     "    //Ext.getCmp('utilizationBtn').fireEvent('click');",
                     "",
                     "    //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {",
                     "    //    Ext.getCmp('hostGridPanel').selModel.select(0);",
-                    "    //}",
-                    "} else {",
-                    "",
-                    "    managementBtn.toggle(true);",
-                    "",
-                    "    if(record.get(\"id\") !== vmConstants.selectVmId) {",
-                    "        vmConstants.me.initVmManagement(record);",
-                    "    }",
-                    "",
-                    "}",
-                    ""
+                    "    //}"
                 ]
             },
             "designerId": "1c859520-00c7-486b-a74e-ba5245a70748"

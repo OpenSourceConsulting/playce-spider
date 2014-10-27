@@ -1362,13 +1362,24 @@
             },
             "codeClass": null,
             "userConfig": {
-                "container|pack": "center",
                 "designer|uiInterfaceName": "footer",
                 "dock": "bottom",
                 "ui": "footer"
             },
             "designerId": "413c2098-80e8-4a4c-bd44-1aa2d73fb434",
             "cn": [
+                {
+                    "type": "Ext.toolbar.Spacer",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": 3
+                    },
+                    "designerId": "f229c28a-ab60-4dc8-a7b0-cea8f2c1576b"
+                },
                 {
                     "type": "Ext.button.Button",
                     "reference": {
@@ -1431,6 +1442,54 @@
                         "text": "VM  Template"
                     },
                     "designerId": "2c9c4807-051f-4f46-ae36-2ff9ef7bcaa9"
+                },
+                {
+                    "type": "Ext.toolbar.Spacer",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": 2
+                    },
+                    "designerId": "f506701b-8d60-4c74-a61f-ce31234311f2"
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "margin": "0 30 0 0",
+                        "padding": "3 10 3 10",
+                        "text": "삭제"
+                    },
+                    "designerId": "666cf5e1-41fd-4e99-a735-d0744dad7071",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "vmHostConstants.me.deleteVmHost(button);"
+                                ]
+                            },
+                            "designerId": "554ac91b-ab29-4091-9df1-343503b57013"
+                        }
+                    ]
                 }
             ]
         }

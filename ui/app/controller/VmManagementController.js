@@ -25,18 +25,28 @@ Ext.define('spider.controller.VmManagementController', {
     onNetworkInstanceTabPanelTabChange: function(tabPanel, newCard, oldCard, eOpts) {
         //if(newCard.title)
 
-
         if(oldCard.title == "") {
             clearInterval(GlobalData.intervalId2);
         }
 
+        //this.changeNetworkInstanceTab()
     },
 
-    initVmManagement: function(record) {
+    initVmManagement: function(record, tabIndex) {
         vmConstants.selectVmId = record.get("id");
 
         Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
         Ext.getCmp("mgmtVmName").setValue(record.get("text"));
+
+        if(tabIndex) {
+
+            Ext.getCmp("networkInstanceTabPanel").setActiveTab(tabIndex);
+
+        } else {
+
+            Ext.getCmp("networkInstanceTabPanel").setActiveTab(0);
+
+        }
     },
 
     init: function(application) {
