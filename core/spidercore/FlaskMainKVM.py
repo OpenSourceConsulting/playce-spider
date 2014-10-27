@@ -5,14 +5,35 @@ Created on 2014. 10. 20.
 '''
 
 
-
-
 from flask import Flask, request, Response
 import json
 import uuid
 from spidercore import *
 from spidercore.FabricUtilKVM2 import *
 
+import logging
+from sqlalchemy.sql.elements import NULL
+
+# create logger with 'sprider_application'
+logger = logging.getLogger('spider_application')
+logger.setLevel(logging.DEBUG)
+
+# create file handler which logs even debug messages
+fh = logging.FileHandler('spider.log')
+fh.setLevel(logging.DEBUG)
+
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.ERROR)
+
+# create formatter and add it to the handlers
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+
+# add the handlers to the logger
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 
 @app.route("/vm/clone", methods=['POST'])
@@ -58,12 +79,44 @@ def vm_clone():
 		return 'VM Host(' + vmhostId + ') was not found', 404
 	
 
-@app.route("/vm/<id>", methods=['DELETE'])
-def vm_delete(id = None):
-	if id == None:
-		return "No unique id for VM", 404
+@app.route("/vm/<name>", methods=['DELETE'])
+def vm_delete(name = None):
+	if name == None:
+		return "No unique name for VM", 404
 
-	vms = read_repository("vms")
+	vmhost = findByVmhost(name)
+	newVms = []
+	
+	
+	if 'No unique' in vmhost:
+		return "No unique name for VM : " + name, 404
+	else:
+		deletevm = getDomstate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], name)
+		delvm_status = deletevm[0]['state']
+
+		found = False
+		if 'running' in delvm_status:
+			return "["+name+"] is already running", 409
+			
+		else:
+
+			deletevm = getDomremove(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], name)
+			print deletevm
+					
+			found = False			
+			readvms = read_repository("vms")
+			for vm in readvms:
+				if name == vm['vmname']:
+					found = True
+				else:
+					newVms.append(vm)
+
+
+			#write_repository("vms", newVms)
+			
+			return 'VM (' + name + ') is remove complete', 200
+		
+'''
 	newVms = []
 	found = False
 	for vm in vms:
@@ -74,10 +127,10 @@ def vm_delete(id = None):
 
 	if found:
 		write_repository("vms", newVms)
-		return json.dumps({'_id': id})
+		return json.dumps({'name': name})
 	else:
 		return "No unique id for VM", 404
-
+'''
 
 
 @app.route("/vm/templatelist/<vmhostId>", methods=['GET'])
@@ -228,5 +281,37 @@ def vm_define(vmhostId=None, name=None):
 		return json.dumps(vms)
 	else:
 		return 'VM Host(' + vmhostId + ') was not found', 404	
+
+
+
+
+
+
+def findByVmhost(vmname):
+
+	if vmname == None:
+		return "No unique id for VM"
+
+# 	Finding a VM Host designated in the JSON request
+	vms = read_repository("vms")
+	found = False
+	vmhostId = None
+	vmhost = None
+	
+	for vm in vms:
+		if vm['vmname'] == vmname:
+			found = True
+			vmhostId = vm['vmhost']
+
+	if found:
+		vmhosts = read_repository("vmhosts")
+		for tmpvmhost in vmhosts:
+			if tmpvmhost['_id'] == vmhostId:
+				vmhost = tmpvmhost
+				break
+		return vmhost
+	else:
+		return "No unique id for VM"
+
 
 

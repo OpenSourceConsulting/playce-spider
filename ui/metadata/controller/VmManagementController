@@ -19,14 +19,25 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
-                    "record"
+                    "record",
+                    "tabIndex"
                 ],
                 "fn": "initVmManagement",
                 "implHandler": [
                     "vmConstants.selectVmId = record.get(\"id\");",
                     "",
                     "Ext.getCmp(\"mgmtVmHostName\").setValue(record.get(\"vmhostName\"));",
-                    "Ext.getCmp(\"mgmtVmName\").setValue(record.get(\"text\"));"
+                    "Ext.getCmp(\"mgmtVmName\").setValue(record.get(\"text\"));",
+                    "",
+                    "if(tabIndex) {",
+                    "    ",
+                    "    Ext.getCmp(\"networkInstanceTabPanel\").setActiveTab(tabIndex);",
+                    "    ",
+                    "} else {",
+                    "    ",
+                    "    Ext.getCmp(\"networkInstanceTabPanel\").setActiveTab(0);",
+                    "    ",
+                    "}"
                 ]
             },
             "designerId": "d896c668-1bab-45ea-b033-e33d3668bee0"
@@ -477,11 +488,11 @@
                 "implHandler": [
                     "//if(newCard.title)",
                     "",
-                    "",
                     "if(oldCard.title == \"\") {",
                     "    clearInterval(GlobalData.intervalId2);",
                     "}",
-                    ""
+                    "",
+                    "//this.changeNetworkInstanceTab()"
                 ],
                 "name": "tabchange",
                 "scope": "me"

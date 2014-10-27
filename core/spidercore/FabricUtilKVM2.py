@@ -69,18 +69,14 @@ def getTemplatelist(addr, sshid, sshpw):
 def dominfo(command_):
 	
 	results = run('virsh dominfo ' + command_ , pty=True ,quiet=True,  timeout=5 )
-	vms = []
-	
+	vminfo = []
+
 	for line in results.split('\n'):
 		line = line.strip()
-		tmp_vms = []
-		for tmpLine in line.split(':'):
-			tmpLine = tmpLine.strip()
-			tmp_vms.append(tmpLine)
-		
-		vms.append(json.dumps(tmp_vms, separators=(':',',')))
-	
-	return vms
+		key, value = line.split(':')
+		vminfo.append({key.lower().strip():value.strip()})
+
+	return vminfo
 
 def getDominfo(addr, sshid, sshpw, name):
 	env.hosts = [ addr ]
@@ -89,8 +85,6 @@ def getDominfo(addr, sshid, sshpw, name):
 	results = execute(dominfo, name, hosts=[addr])
 	
 	return results[addr]
-
-
 
 
 
@@ -332,20 +326,24 @@ def domremove(command_):
 	return vms
 
 
-def getDomremove(addr, sshid, sshpw, newvm):
+def getDomremove(addr, sshid, sshpw, delvm):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
 
-	
-	results = execute(domshutdown, newvm , hosts=[addr])
+	'''
+	try:
+	     results = execute(domshutdown, newvm , hosts=[addr])
+	     
+	except IOError, e:
+	     print e
+	print results
+	'''
+	results = execute(domundefine, delvm , hosts=[addr])
 	print results
 	
-	results = execute(domundefine, newvm , hosts=[addr])
+	results = execute(domremove, delvm , hosts=[addr])
 	print results
-	
-	results = execute(domremove, newvm , hosts=[addr])
-	print results	
 	
 	return results[addr]
 
@@ -399,7 +397,7 @@ def getAllInfo(addr, sshid, sshpw):
 if __name__ == "__main__":
 
 
-	jsonData = {'vmhost':'cdf685a2-0530-4d03-87b0-0db4471fb1d6','name':'test04'}
+	jsonData = {'vmhost':'e851525e-be30-4914-92ec-00ab5be7de26','name':'spidervm3'}
 	vmHostId = jsonData['vmhost']
 	name = jsonData['name']
 
@@ -409,7 +407,7 @@ if __name__ == "__main__":
 
 
 # 	Finding a VM Host designated in the JSON request
-	vmhosts = read_repository("vmhosts244")
+	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmHostId:
@@ -422,12 +420,12 @@ if __name__ == "__main__":
 			
 
 			############   Template List All
-#			vms = getTemplatelist(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
-#			print vms					
+			#vms = getTemplatelist(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
+			#print vms					
 			
 			############   Domain info
-			#vms = getDominfo(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'],name)
-			#print vms			
+			vms = getDominfo(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'],name)
+			print vms			
 
 
 			############   Domain state
@@ -451,8 +449,8 @@ if __name__ == "__main__":
 #			print vms
 
 			############   Domain clone
-			vms = getDomcloneParamiko(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], template, newvm)
-			print vms
+#			vms = getDomcloneParamiko(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], template, newvm)
+#			print vms
 
 			############   Domain remove
 #			vms = getDomremove(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], newvm)

@@ -34,9 +34,9 @@ Ext.define('spider.controller.VmHostController', {
                     var data = Ext.JSON.decode(response.responseText);
 
                     if(data.length === 0 || data[0].state.toLowerCase() === "running") {
-                        vmHostConstants.contextMenu.items.items[6].setDisabled(true);
+                        vmHostConstants.contextMenu.items.items[13].setDisabled(true);
                     } else {
-                        vmHostConstants.contextMenu.items.items[6].setDisabled(false);
+                        vmHostConstants.contextMenu.items.items[13].setDisabled(false);
                     }
 
                     vmHostConstants.contextMenu.showAt(position);
@@ -44,7 +44,7 @@ Ext.define('spider.controller.VmHostController', {
                 },
                 failure: function (response) {
 
-                    vmHostConstants.contextMenu.items.items[6].setDisabled(true);
+                    vmHostConstants.contextMenu.items.items[13].setDisabled(true);
                     vmHostConstants.contextMenu.showAt(position);
 
                 }
@@ -72,30 +72,65 @@ Ext.define('spider.controller.VmHostController', {
                     [
                     { text: 'NIC 관리',
                         handler: function() {
-                            alert('NIC 관리');
+                            vmHostTree.viewVmDetail(1);
                         }
                     },
-                    { text: '라우팅',
+                    { text: 'Bonding',
                         handler: function() {
-                            alert('라우팅');
+                            vmHostTree.viewVmDetail(2);
                         }
                     },
-                    { text: '파이어월',
+                    { text: 'Routing',
                         handler: function() {
-                            alert('파이어월');
+                            vmHostTree.viewVmDetail(3);
                         }
                     },
                     { text: 'NAT 관리',
                         handler: function() {
-                            alert('NAT 관리');
+                            vmHostTree.viewVmDetail(4);
+                        }
+                    },
+                    { text: 'DHCP(Service)',
+                        handler: function() {
+                            vmHostTree.viewVmDetail(5);
+                        }
+                    },
+                    { text: 'DNS(Service)',
+                        handler: function() {
+                            vmHostTree.viewVmDetail(6);
+                        }
+                    },
+                    { text: 'HTTPS/SSH(Service)',
+                        handler: function() {
+                            vmHostTree.viewVmDetail(7);
+                        }
+                    },
+                    { text: 'System(Service)',
+                        handler: function() {
+                            vmHostTree.viewVmDetail(8);
+                        }
+                    },
+                    { text: 'Security',
+                        handler: function() {
+                            vmHostTree.viewVmDetail(9);
+                        }
+                    },
+                    { text: 'Firewall',
+                        handler: function() {
+                            vmHostTree.viewVmDetail(10);
                         }
                     },
                     {
                         xtype: 'menuseparator'
                     },
-                    { text: 'VM 시작/중단',
+                    { text: 'VM 시작',
                         handler: function() {
-                            alert('VM 시작/중단');
+                            vmHostTree.controlVm('start');
+                        }
+                    },
+                    { text: 'VM 정지',
+                        handler: function() {
+                            vmHostTree.controlVm('shutdown');
                         }
                     },
                     { text: 'VM 삭제',
@@ -251,6 +286,36 @@ Ext.define('spider.controller.VmHostController', {
 
     },
 
+    deleteVmHost: function(button) {
+
+        Ext.MessageBox.confirm('Confirm', 'VM Host를 삭제 하시겠습니까?', function(btn){
+
+            if(btn == "yes"){
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "vmhost/" + vmHostConstants.selectRecord.get("id"),
+                    method : "DELETE",
+                    disableCaching : true,
+                    waitMsg: 'Delete VM Host...',
+                    success: function(response){
+
+                        if(response.status == 200) {
+
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.');
+
+                            menuConstants.me.renderServerTree();
+                            button.up('window').close();
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+    },
+
     popAddVmWindow: function() {
         //VM 생성 팝업 호출
         var popWindow = Ext.create("widget.AddVmWindow");
@@ -300,6 +365,47 @@ Ext.define('spider.controller.VmHostController', {
 
         }
 
+    },
+
+    controlVm: function(flag) {
+        var confirmMessage;
+        if(flag == 'start') {
+            confirmMessage = 'VM을 시작 하시겠습니까?';
+        } else {
+            confirmMessage = 'VM을 정지 하시겠습니까?';
+        }
+
+        Ext.MessageBox.confirm('Confirm', confirmMessage, function(btn){
+
+            if(btn == "yes"){
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "vm/" + flag + "/"
+                                  + vmHostConstants.actionRecord.get("vmhost") + "/" + vmHostConstants.actionRecord.get("text"),
+                    disableCaching : true,
+                    waitMsg: flag + ' VM...',
+                    success: function(response){
+
+                        if(response.status == 200) {
+
+                            if(flag == 'start') {
+                                Ext.Msg.alert('Success', 'VM 시작 요청이 완료되었습니다.');
+                            } else {
+                                Ext.Msg.alert('Success', 'VM 중지 요청이 완료되었습니다.');
+                            }
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+    },
+
+    viewVmDetail: function(tabIndex) {
+        menuConstants.me.viewManagementMenu(vmHostConstants.actionRecord, tabIndex);
     },
 
     deleteVm: function() {
