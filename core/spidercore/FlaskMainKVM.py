@@ -12,7 +12,6 @@ from spidercore import *
 from spidercore.FabricUtilKVM2 import *
 
 import logging
-from sqlalchemy.sql.elements import NULL
 
 # create logger with 'sprider_application'
 logger = logging.getLogger('spider_application')
@@ -112,7 +111,7 @@ def vm_delete(name = None):
 					newVms.append(vm)
 
 
-			#write_repository("vms", newVms)
+			write_repository("vms", newVms)
 			
 			return 'VM (' + name + ') is remove complete', 200
 		
