@@ -88,9 +88,9 @@ def vm_delete(id = None):
 	newVms = []
 
 	if 'No unique' in vmhost:
-		return "No unique name for VM : " + existvm['name'] , 404
+		return "No unique name for VM : " + existvm['vmname'] , 404
 	else:
-		deletevm = getDomstate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], existvm['name'])
+		deletevm = getDomstate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], existvm['vmname'])
 		delvm_status = deletevm[0]['state']
 
 		found = False
@@ -98,7 +98,7 @@ def vm_delete(id = None):
 			return "["+id+"] is already running", 409
 		else:
 
-			deletevm = getDomremove(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], existvm['name'])
+			deletevm = getDomremove(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], existvm['vmname'])
 			print deletevm
 					
 			found = False			
