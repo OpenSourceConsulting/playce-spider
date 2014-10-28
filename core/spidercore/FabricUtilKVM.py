@@ -26,6 +26,7 @@ def getDomainList(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(virsh_list_all, hosts=[addr])
 	return results[addr]
 
@@ -63,6 +64,7 @@ def getAllInfo(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(virsh_getAllInfo, hosts=[addr])
 	return results[addr]
 
@@ -90,6 +92,7 @@ def getAllMacAddrs(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(virsh_get_macaddrs_from_all_domains, hosts=[addr])
 	return results[addr]
 
