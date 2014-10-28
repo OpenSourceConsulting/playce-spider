@@ -78,58 +78,41 @@ def vm_clone():
 		return 'VM Host(' + vmhostId + ') was not found', 404
 	
 
-@app.route("/vm/<name>", methods=['DELETE'])
-def vm_delete(name = None):
-	if name == None:
-		return "No unique name for VM", 404
+@app.route("/vm/<id>", methods=['DELETE'])
+def vm_delete(id = None):
+	if id == None:
+		return "No unique id for VM", 404
 
-	vmhost = findByVmhost(name)
+	vmhost = findVmhostById(id)
+	existvm = findVmById(id)
 	newVms = []
-	
-	
+
 	if 'No unique' in vmhost:
-		return "No unique name for VM : " + name, 404
+		return "No unique name for VM : " + existvm['name'] , 404
 	else:
-		deletevm = getDomstate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], name)
+		deletevm = getDomstate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], existvm['name'])
 		delvm_status = deletevm[0]['state']
 
 		found = False
 		if 'running' in delvm_status:
-			return "["+name+"] is already running", 409
-			
+			return "["+id+"] is already running", 409
 		else:
 
-			deletevm = getDomremove(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], name)
+			deletevm = getDomremove(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], existvm['name'])
 			print deletevm
 					
 			found = False			
 			readvms = read_repository("vms")
 			for vm in readvms:
-				if name == vm['vmname']:
+				if id == vm['id']:
 					found = True
 				else:
 					newVms.append(vm)
 
-
 			write_repository("vms", newVms)
 			
-			return 'VM (' + name + ') is remove complete', 200
+			return 'VM (' + id + ') is remove complete', 200
 		
-'''
-	newVms = []
-	found = False
-	for vm in vms:
-		if id == vm['_id']:
-			found = True
-		else:
-			newVms.append(vm)
-
-	if found:
-		write_repository("vms", newVms)
-		return json.dumps({'name': name})
-	else:
-		return "No unique id for VM", 404
-'''
 
 
 @app.route("/vm/templatelist/<vmhostId>", methods=['GET'])
@@ -311,6 +294,61 @@ def findByVmhost(vmname):
 		return vmhost
 	else:
 		return "No unique id for VM"
+
+
+
+
+def findVmhostById(id):
+
+	if id == None:
+		return "No unique id for VM"
+
+# 	Finding a VM Host designated in the JSON request
+	vms = read_repository("vms")
+	found = False
+	vmhostId = None
+	vmhost = None
+	
+	for vm in vms:
+		if vm['_id'] == id:
+			found = True
+			vmhostId = vm['vmhost']
+
+	if found:
+		vmhosts = read_repository("vmhosts")
+		for tmpvmhost in vmhosts:
+			if tmpvmhost['_id'] == vmhostId:
+				vmhost = tmpvmhost
+				break
+		return vmhost
+	else:
+		return "No unique id for VM"
+
+
+def findVmById(id):
+
+	if id == None:
+		return "No unique id for VM"
+
+# 	Finding a VM Host designated in the JSON request
+	vms = read_repository("vms")
+	found = False
+	vmhostId = None
+	vmhost = None
+	retrunvm = None
+
+	found = False	
+	for vm in vms:
+		if vm['_id'] == id:
+			retrunvm = vm
+			found = True
+			break
+
+	if found:
+		return retrunvm
+	else:
+		return "No unique id for VM"
+
 
 
 
