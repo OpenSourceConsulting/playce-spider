@@ -13,34 +13,34 @@ import unittest
 class FlaskMainTestCase(unittest.TestCase):
 	name = 'kvmhost_jerryj'
 	
-	def testCreateVMHost_and_Register(self):
-		headers = {'content-type': 'application/json'}
-		
-		results = requests.get('http://localhost:5001/vmhostbyname/' + self.name, headers=headers)
-		print "GET /vmhostbyname %d" % results.status_code
-		if results.status_code == 200:
-			id = results.json()['_id']
-		
-			print json.dumps(results.json(), indent=4)
-			
-			results = requests.delete('http://localhost:5001/vmhost/' + id, headers = headers)
-			
-			print "DELETE /vmhost"
-			print json.dumps(results.json(), indent=4)
-		
-		jsonData = {
-		    "name": self.name,
-		    'location': '대전',
-		    "addr": "192.168.0.244",
-		    "sshid": "root",
-		    "sshpw": "redhat"
-		}
-		
-		results = requests.post('http://localhost:5001/vmhost', data=json.dumps(jsonData), headers=headers)
-		token = results.json()['token']
-		
-		print "POST /vmhost"
-		print json.dumps(results.json(), indent=4)
+# 	def testCreateVMHost_and_Register(self):
+# 		headers = {'content-type': 'application/json'}
+# 		
+# 		results = requests.get('http://localhost:5001/vmhostbyname/' + self.name, headers=headers)
+# 		print "GET /vmhostbyname %d" % results.status_code
+# 		if results.status_code == 200:
+# 			id = results.json()['_id']
+# 		
+# 			print json.dumps(results.json(), indent=4)
+# 			
+# 			results = requests.delete('http://localhost:5001/vmhost/' + id, headers = headers)
+# 			
+# 			print "DELETE /vmhost"
+# 			print json.dumps(results.json(), indent=4)
+# 		
+# 		jsonData = {
+# 		    "name": self.name,
+# 		    'location': '대전',
+# 		    "addr": "192.168.0.244",
+# 		    "sshid": "root",
+# 		    "sshpw": "redhat"
+# 		}
+# 		
+# 		results = requests.post('http://localhost:5001/vmhost', data=json.dumps(jsonData), headers=headers)
+# 		token = results.json()['token']
+# 		
+# 		print "POST /vmhost"
+# 		print json.dumps(results.json(), indent=4)
 
 # 	def testRegisterVM(self):
 # 		headers = {'content-type': 'application/json'}
