@@ -28,9 +28,6 @@ def vmhost_create():
 # 	print 'JSON: ' + json.dumps(jsonData)
 	name = jsonData['name']
 	vmhosts = read_repository("vmhosts")
-	for vmhost in vmhosts:
-		if name == vmhost['name']:
-			return "Provided name is not unique", 409
 
 	token = str(uuid.uuid4())
 	jsonData['_id'] = token;
@@ -41,6 +38,21 @@ def vmhost_create():
 	jsonData['hostname'] = results['hostname']
 	jsonData['interfaces'] = results['interfaces']
 	
+	newMacs = []
+	for iff in json['interfaces']:
+		newMacs.append(iff['macaddr'])
+	
+	for vmhost in vmhosts:
+		if name == vmhost['name']:
+			return "Provided name is not unique", 409
+		ifs = vmhost['interfaces']
+		macs = []
+		for iff in ifs:
+			macs.append(iff['macaddr'])
+		
+		if set(newMacs) == set(macs):
+			return "Alread registered VM Host", 409
+
 	vmhosts.append(jsonData)
 	write_repository('vmhosts', vmhosts)
 	
