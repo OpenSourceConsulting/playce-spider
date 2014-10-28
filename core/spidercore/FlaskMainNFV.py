@@ -115,7 +115,7 @@ def vm_reg_init():
 					vms[i] = jsonData
 					break
 				else:
-					return "DUP"
+					return "DUP", 409
 		
 		# 	Seeking which interface can be communicated via management network
 		for ifeth in ifs:
@@ -124,7 +124,7 @@ def vm_reg_init():
 				if pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
 					break
 		else:
-			return "FAIL"
+			return "FAIL: ping", 503
 	
 		#	Assign the unique VM is to NFV CollectD's hostname via Fabric
 		#	SSH Account should be one for newly created VM
@@ -134,15 +134,15 @@ def vm_reg_init():
 			initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], vm['_id'], jsonData['hostname'])
 		except Exception, e:
 			print e
-			return "FAIL"
+			return "FAIL: init", 503
 
 		#	Add new VM info to repository
 		
 		write_repository('vms', vms)
 
-		return "OK"
+		return "OK", 200
 	else:
-		return "FAIL"
+		return "FAIL: No VMHost", 404
 
 #	Monitoring API
 
