@@ -104,7 +104,7 @@ def vm_delete(id = None):
 			found = False			
 			readvms = read_repository("vms")
 			for vm in readvms:
-				if id == vm['id']:
+				if id == vm['_id']:
 					found = True
 				else:
 					newVms.append(vm)
