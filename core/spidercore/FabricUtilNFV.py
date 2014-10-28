@@ -10,6 +10,7 @@ import rpyc
 import json
 from spidercore import *
 from pyparsing import *
+from __builtin__ import int
 
 keywords = CaselessKeyword('interfaces') | CaselessKeyword('nat') | CaselessKeyword('service') | CaselessKeyword('system')
 elementList = Forward()
@@ -266,4 +267,44 @@ def pingVM(addr, sshid, sshpw):
 	return results[addr]
 
 
+def updateVmNIC(cmdData):
+
+    f = open(mainDir + '/commands.txt', 'w')
+
+    commands = [
+            "$SET interfaces ethernet %s duplex %s" % (cmdData['ethName'],cmdData['duplex']),
+            "$SET interfaces ethernet %s hw-id %s" % (cmdData['ethName'],cmdData['hw-id']),
+            "$SET interfaces ethernet %s smp_affinity %s" % (cmdData['ethName'],cmdData['smp_affinity']),
+            "$SET interfaces ethernet %s speed %s" % (cmdData['ethName'],cmdData['speed']),
+            '$COMMIT',
+            '$SAVE'
+            ]
+    print commands
+    
+    f.write("\n".join(commands))
+    f.close()
+    run('mkdir -p .spider')
+    with cd('.spider'):
+        put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+        put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+        result = run('./cli.sh', pty=False)
+    lines = result.split('\n')
+    for line in lines:
+        print "LINE: " + line
+
+    return
+
+
+
+
+
+
+def setVmNIC(addr, sshid, sshpw, jsonData):
+    env.hosts = [ addr ]
+    env.user = sshid
+    env.password = sshpw
+
+    env.shell = '/bin/vbash -ic'
+    results = execute(updateVmNIC, hosts=[addr], cmdData = jsonData)
+    return
 

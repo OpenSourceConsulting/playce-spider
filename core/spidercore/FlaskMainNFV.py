@@ -207,13 +207,83 @@ def mon_vmif(id=None, ifid=None):
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
 			from spidercore.FabricUtilNFV import getInterfaces
-			nics = getInterfaces(vm['addr'], vm['sshid'], vm['sshpw'])
+			
+			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
 					results.append(nic)
 			return json.dumps(results)
 	
 	return 'Not found', 404
+
+
+@app.route("/mon/nfv/<id>/iflist", methods=['GET'])
+def mon_vmiflist(id=None):
+	if id == None:
+		return "No unique id for VM", 404
+	
+	print "/mon/nfv/%s/iflist" % (id)
+
+	results = {}
+	
+	
+	vms = read_repository("vms")
+	results = []
+	for vm in vms:
+		if '_id' in vm and id == vm['_id']:
+			from spidercore.FabricUtilNFV import getInterfaces
+			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+			for nic in nics:
+				results.append(nic['ethName'])
+			return json.dumps(results)
+	
+	return 'Not found', 404
+
+
+@app.route("/nfv/<id>/if/<ifid>", methods=['PUT'])
+def mon_vmifupdate(id=None, ifid=None):
+	if id == None:
+		return "No unique id for VM", 404
+	elif ifid == None:
+		return "No unique ifid for interface", 404
+
+	print "/nfv/%s/if/%s" % (id, ifid)
+
+	jsonData = json.loads(request.data)
+
+	nics_results = []
+	update_vms = []
+
+	vms = read_repository("vms")
+	
+	updateResult = False
+	for vm in vms:
+		if '_id' in vm and id == vm['_id']:
+			from spidercore.FabricUtilNFV import getInterfaces
+			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+			for nic in nics:
+				if ifid == nic['ethName']:
+					nics_results.append(jsonData)
+					setVmNIC(vm['mgraddr'], vm['sshid'], vm['sshpw'], jsonData)
+					updateResult = True
+				else:
+					nics_results.append(nic)
+				
+			vm['interfaces'] = nics_results
+			
+		update_vms.append(vm)
+
+
+	if updateResult:
+		write_repository("vms", update_vms)
+		return json.dumps(nics_results)
+	
+	else:
+		return 'Not found', 404
+ 
+
+
+
 	
 @app.route("/mon/nfv/<id>/nat/<rule>", methods=['GET'])
 def mon_vmnat(id=None, rule=None):
@@ -238,6 +308,9 @@ def mon_vmnat(id=None, rule=None):
 			return json.dumps(results)
 	
 	return 'Not found', 404
+
+
+
 	
 @app.route("/mon/nfv/<id>/service/<svc>", methods=['GET'])
 def mon_vmservice(id=None, svc=None):
@@ -262,5 +335,3 @@ def mon_vmservice(id=None, svc=None):
 			return json.dumps(results)
 	
 	return 'Not found', 404
-	
-
