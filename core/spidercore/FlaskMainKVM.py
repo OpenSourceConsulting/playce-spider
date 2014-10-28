@@ -110,6 +110,7 @@ def vm_delete(id = None):
 					newVms.append(vm)
 
 			write_repository("vms", newVms)
+			
 			return 'VM (' + id + ') is remove complete', 200
 		
 
