@@ -39,7 +39,7 @@ def vmhost_create():
 	jsonData['interfaces'] = results['interfaces']
 	
 	newMacs = []
-	for iff in json['interfaces']:
+	for iff in jsonData['interfaces']:
 		newMacs.append(iff['macaddr'])
 	
 	for vmhost in vmhosts:
