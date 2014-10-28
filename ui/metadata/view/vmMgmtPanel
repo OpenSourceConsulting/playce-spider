@@ -269,7 +269,7 @@
                                                         "margin": "10 5 0 5",
                                                         "padding": null,
                                                         "shadow": true,
-                                                        "store": "ChartDataStore",
+                                                        "store": "VmCpuChartStore",
                                                         "style": "background:#fff",
                                                         "width": 400
                                                     },
@@ -425,7 +425,7 @@
                                                         "itemId": "memoryChart",
                                                         "layout|flex": null,
                                                         "margin": "10 5 0 5",
-                                                        "store": "ChartDataStore",
+                                                        "store": "VmMemoryChartStore",
                                                         "width": 400
                                                     },
                                                     "designerId": "324f3efa-2aee-497c-ade8-b5e6ae7c7cea",
@@ -578,7 +578,7 @@
                                                         "itemId": "networkChart",
                                                         "layout|flex": null,
                                                         "margin": "10 5 0 5",
-                                                        "store": "ChartDataStore",
+                                                        "store": "VmNetworkChartStore",
                                                         "width": 400
                                                     },
                                                     "designerId": "0fd2a61e-d2f1-4dfb-9016-5cd9f339edcf",
@@ -773,11 +773,13 @@
                                                                             "{",
                                                                             "    readOnly: true,",
                                                                             "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
-                                                                            "    labelWidth : 80,",
+                                                                            "    labelWidth : 95,",
                                                                             "    labelSeparator: ' :'",
                                                                             "}"
                                                                         ],
                                                                         "header": false,
+                                                                        "id": "viewVmForm",
+                                                                        "itemId": "viewVmForm",
                                                                         "layout|flex": 1,
                                                                         "margin": 1,
                                                                         "title": "My Form"
@@ -794,6 +796,7 @@
                                                                             "userConfig": {
                                                                                 "fieldLabel": "VM 이름",
                                                                                 "layout|anchor": "100%",
+                                                                                "name": "name",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "97db9a0b-78c5-4049-8429-3c28b99a3f1f"
@@ -806,8 +809,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "Hostname",
+                                                                                "fieldLabel": "OS 타입",
                                                                                 "layout|anchor": "100%",
+                                                                                "name": "osType",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "592a6204-f599-44b6-9243-343365bdcd90"
@@ -820,8 +824,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "아키텍처",
+                                                                                "fieldLabel": "상태",
                                                                                 "layout|anchor": "100%",
+                                                                                "name": "state",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "178fdc87-7d09-426f-9ec2-1bfb2449f5e6"
@@ -834,8 +839,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "인터페이스",
+                                                                                "fieldLabel": "Cpu(s)",
                                                                                 "layout|anchor": "100%",
+                                                                                "name": "cpu",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "f54214a3-4c25-4907-af5a-bc773176b607"
@@ -848,8 +854,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "커널",
+                                                                                "fieldLabel": "Cpu Time",
                                                                                 "layout|anchor": "100%",
+                                                                                "name": "cpuTime",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "7ef80e47-7520-4922-93cb-f2c416bb3453"
@@ -862,8 +869,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "VM Type",
+                                                                                "fieldLabel": "Max Memory",
                                                                                 "layout|anchor": "100%",
+                                                                                "name": "maxMemory",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "5a4bea75-b66d-44aa-9187-b497763d8c21"
@@ -876,8 +884,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "NFV",
+                                                                                "fieldLabel": "Used Memory",
                                                                                 "layout|anchor": "100%",
+                                                                                "name": "usedMemory",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "8c4fa2d1-8ccf-4395-be3c-834cbeae4c0b"

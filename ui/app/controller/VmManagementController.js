@@ -24,8 +24,12 @@ Ext.define('spider.controller.VmManagementController', {
 
     onNetworkInstanceTabPanelTabChange: function(tabPanel, newCard, oldCard, eOpts) {
         //if(newCard.title)
+        if(newCard.title === "Instance Dashboard") {
 
-        if(oldCard.title == "") {
+            this.setInstanceDashboard();
+
+        }
+        if(oldCard.title == "Instance Dashboard") {
             clearInterval(GlobalData.intervalId2);
         }
 
@@ -33,18 +37,38 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     initVmManagement: function(record, tabIndex) {
+        if(record == null) {
+
+            Ext.getCmp("mgmtVmHostName").setValue("");
+            Ext.getCmp("mgmtVmName").setValue("");
+
+            Ext.getCmp("networkInstanceTabPanel").setActiveTab(0);
+
+            return;
+        }
+
+        vmConstants.selectRecord = record;
         vmConstants.selectVmId = record.get("id");
 
         Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
         Ext.getCmp("mgmtVmName").setValue(record.get("text"));
 
+        var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
         if(tabIndex) {
 
-            Ext.getCmp("networkInstanceTabPanel").setActiveTab(tabIndex);
+            vmDetailTab.setActiveTab(tabIndex);
 
         } else {
 
-            Ext.getCmp("networkInstanceTabPanel").setActiveTab(0);
+            if(vmDetailTab.getActiveTab() === vmDetailTab.items.getAt(0)) {
+
+                this.setInstanceDashboard();
+
+            } else {
+
+                vmDetailTab.setActiveTab(0);
+
+            }
 
         }
     },
@@ -58,6 +82,7 @@ Ext.define('spider.controller.VmManagementController', {
                     me : vmMgmt,
 
                     selectVmId : null,
+                    selectRecord : null,
 
                     vmCombo : null
 
@@ -622,6 +647,131 @@ Ext.define('spider.controller.VmManagementController', {
 
             ifChartStore.loadData(ifChartData);
         };
+    },
+
+    setInstanceDashboard: function() {
+
+        this.setInstanceDashboardChart();
+
+
+        var viewVmForm = Ext.getCmp("viewVmForm");
+
+        viewVmForm.getForm().reset();
+        viewVmForm.getForm().waitMsgTarget = viewVmForm.getEl();
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/vm/' + vmConstants.selectRecord.get("vmhost") + "/" + vmConstants.selectRecord.get("text"),
+            method : 'GET',
+            disableCaching : true,
+            waitMsg: 'Loading...',
+            success: function(response){
+
+                var data = Ext.JSON.decode(response.responseText);
+
+                if(data.length > 0) {
+
+                    var vmData = data[0];
+                    var form = viewVmForm.getForm();
+
+                    form.setValues(vmData);
+
+                    //form.findField("osType").setValue(vmData.os type);
+
+                }
+            }
+        });
+
+    },
+
+    setInstanceDashboardChart: function() {
+
+        //CPU
+        Ext.Ajax.request({
+            url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414488656.039&target='
+                    + vmConstants.selectRecord.get("id") + '.cpu.0.cpu.user.value&from=-10minutes&format=json',
+            disableCaching : true,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+
+                if(columnData.length > 0) {
+                    var data = columnData[0];
+
+                    // Get the quality field from record
+                    // Update chart with data
+                    var chartList = [];
+                    Ext.each(data.datapoints, function (chartData) {
+                        var chartCol = {};
+                        chartCol.cpu = chartData.value;
+                        chartCol.date = chartData.date;
+                        chartList.push(chartCol);
+                    });
+
+                    //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+
+                    Ext.getStore('VmCpuChartStore').loadData(chartList, false);
+                }
+            }
+        });
+
+        //Memory
+        Ext.Ajax.request({
+            url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414489011.422&target='
+                    + vmConstants.selectRecord.get("id") + '.memory.free.value&from=-10minutes&format=json',
+            disableCaching : true,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+                if(columnData.length > 0) {
+
+                    var data = columnData[0];
+
+                    // Get the quality field from record
+                    // Update chart with data
+                    var chartList = [];
+                    Ext.each(data.datapoints, function (chartData) {
+                        var chartCol = {};
+                        chartCol.memory = chartData.value;
+                        chartCol.date = chartData.date;
+                        chartList.push(chartCol);
+                    });
+
+                    //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+
+                    Ext.getStore('VmMemoryChartStore').loadData(chartList, false);
+                }
+            }
+        });
+
+        //Network
+        Ext.Ajax.request({
+            url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414489467.473&target='
+                    + vmConstants.selectRecord.get("id") + '.interface.if_packets.eth0.tx&from=-10minutes&format=json',
+            disableCaching : true,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+
+                if(columnData.length > 0) {
+
+                    var data = columnData[0];
+
+                    // Get the quality field from record
+                    // Update chart with data
+                    var chartList = [];
+                    Ext.each(data.datapoints, function (chartData) {
+                        var chartCol = {};
+                        chartCol.network = chartData.value;
+                        chartCol.date = chartData.date;
+                        chartList.push(chartCol);
+                    });
+
+                    //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+
+                    Ext.getStore('VmNetworkChartStore').loadData(chartList, false);
+                }
+            }
+        });
     }
 
 });

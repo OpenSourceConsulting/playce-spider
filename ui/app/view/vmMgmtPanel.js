@@ -153,7 +153,7 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                             shadow: true,
                                                             animate: true,
                                                             insetPadding: 5,
-                                                            store: 'ChartDataStore',
+                                                            store: 'VmCpuChartStore',
                                                             axes: [
                                                                 {
                                                                     type: 'Numeric',
@@ -236,7 +236,7 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                             width: 400,
                                                             animate: true,
                                                             insetPadding: 5,
-                                                            store: 'ChartDataStore',
+                                                            store: 'VmMemoryChartStore',
                                                             axes: [
                                                                 {
                                                                     type: 'Numeric',
@@ -318,7 +318,7 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                             width: 400,
                                                             animate: true,
                                                             insetPadding: 5,
-                                                            store: 'ChartDataStore',
+                                                            store: 'VmNetworkChartStore',
                                                             axes: [
                                                                 {
                                                                     type: 'Numeric',
@@ -416,6 +416,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                         {
                                                                             xtype: 'form',
                                                                             flex: 1,
+                                                                            id: 'viewVmForm',
+                                                                            itemId: 'viewVmForm',
                                                                             margin: 1,
                                                                             bodyPadding: 10,
                                                                             header: false,
@@ -423,44 +425,51 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             fieldDefaults: {
                                                                                 readOnly: true,
                                                                                 labelStyle: 'color:#666;font-weight: bold;text-align: right;',
-                                                                                labelWidth: 80,
+                                                                                labelWidth: 95,
                                                                                 labelSeparator: ' :'
                                                                             },
                                                                             items: [
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'VM 이름'
+                                                                                    fieldLabel: 'VM 이름',
+                                                                                    name: 'name'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'Hostname'
+                                                                                    fieldLabel: 'OS 타입',
+                                                                                    name: 'osType'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: '아키텍처'
+                                                                                    fieldLabel: '상태',
+                                                                                    name: 'state'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: '인터페이스'
+                                                                                    fieldLabel: 'Cpu(s)',
+                                                                                    name: 'cpu'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: '커널'
+                                                                                    fieldLabel: 'Cpu Time',
+                                                                                    name: 'cpuTime'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'VM Type'
+                                                                                    fieldLabel: 'Max Memory',
+                                                                                    name: 'maxMemory'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'NFV'
+                                                                                    fieldLabel: 'Used Memory',
+                                                                                    name: 'usedMemory'
                                                                                 }
                                                                             ]
                                                                         }

@@ -1,0 +1,39 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmNetworkChartStore",
+        "storeId": "VmNetworkChartStore"
+    },
+    "designerId": "392a1abd-c818-4c36-aaf6-1b1e32f01081",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "date"
+            },
+            "designerId": "3db62c1c-7031-45ea-be95-de04f3a7f4cd"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "network"
+            },
+            "designerId": "db2cf128-39fc-41d2-b5ed-268a77fc942c"
+        }
+    ]
+}

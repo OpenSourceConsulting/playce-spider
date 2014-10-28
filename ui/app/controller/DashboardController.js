@@ -16,19 +16,37 @@
 Ext.define('spider.controller.DashboardController', {
     extend: 'Ext.app.Controller',
 
+    refs: [
+        {
+            ref: 'centerContainer',
+            selector: '#centerPanel'
+        }
+    ],
+
     init: function(application) {
         var dashBoard = this;
 
         //Dashboard Menu Constants
         Ext.define('dashboardConstants', {
             singleton: true,
-            me : dashBoard
+            me : dashBoard,
+
+            intervalId1 : null
         });
     },
 
     renderDashboard: function() {
+        var centerContainer = this.getCenterContainer();
+
+        if (centerContainer.layout.getActiveItem().itemId !== "DashboardPanel") {
+            return;
+        }
 
         var dashboardPanel = Ext.getCmp("DashboardPanel");
+        var cpu = 20,
+            memory = 30,
+            disk = 10,
+            network = 35;
 
         dashboardPanel.setLoading(true);
 
@@ -42,26 +60,30 @@ Ext.define('spider.controller.DashboardController', {
             nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
             nodePanel.down('#VmHostName').setText(record.get('text'));
 
-            nodePanel.down('#cpuBar');
-            nodePanel.down('#memoryBar');
-            nodePanel.down('#diskBar');
-            /*
-            Ext.getCmp('cpuBar').updateProgress(data.usage.cpu.percentage / 100, data.usage.cpu.percentage + "%");
+            cpu = Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0));
+            memory = Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0));
+            disk = Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0));
+            network = Math.min(100, Math.max(+network + (Math.random() - 0.5) / 2, 0));
 
-            Ext.each(children, function (child, idx) {
-                if(idx > 0)
-                    child.setText("");
-            });
-
-            nodePanel.down('#vmCpuPanel');
-            nodePanel.down('#vmMemPanel');
-            nodePanel.down('#vmNetPanel');
-            */
+            nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
+            nodePanel.down('#memoryBar').updateProgress(memory / 100, memory.toFixed(2) + "%");
+            nodePanel.down('#diskBar').updateProgress(disk / 100, disk.toFixed(2) + "%");
+            nodePanel.down('#networkBar').updateProgress(network / 100, network.toFixed(2) + "%");
 
             //VM 정보
             var vms = nodePanel.down('#vmNamePanel').items.items;
+            var vmCpus = nodePanel.down('#vmCpuPanel').items.items;
+            var vmMemorys = nodePanel.down('#vmMemPanel').items.items;
+            var vmDisks = nodePanel.down('#vmNetPanel').items.items;
+
             Ext.each(record.get("children"), function(cRecord, cIdx) {
-                vms[cIdx+1].setText(cRecord.text);
+
+                if(cIdx < 4) {
+                    vms[cIdx+1].setText(cRecord.text);
+                    vmCpus[cIdx+1].setText(Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0)).toFixed(0) + "%");
+                    vmMemorys[cIdx+1].setText(Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0)).toFixed(0) + "%");
+                    vmDisks[cIdx+1].setText(Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0)).toFixed(0) + "%");
+                }
             });
 
             //node add
@@ -79,6 +101,15 @@ Ext.define('spider.controller.DashboardController', {
         });
 
         dashboardPanel.setLoading(false);
+
+
+
+        // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
+        setTimeout(function() {
+
+            dashboardConstants.me.renderDashboard();
+
+        }, 3000);
 
     }
 

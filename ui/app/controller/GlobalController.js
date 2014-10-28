@@ -84,7 +84,7 @@ Ext.define('spider.controller.GlobalController', {
             me: global,
 
             apiUrlPrefix : "http://192.168.0.130:5001/",
-            graphiteUrlPrefix : ""
+            graphiteUrlPrefix : "http://192.168.0.130:8000/"
 
 
         });

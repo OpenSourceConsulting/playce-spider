@@ -9,6 +9,8 @@
         "designer|userAlias": "VMHostInfoWindow",
         "designer|userClassName": "VMHostInfoWindow",
         "height": 705,
+        "id": "VMHostInfoWindow",
+        "itemId": null,
         "modal": true,
         "overflowY": "auto",
         "title": "VM Host Info",
@@ -28,6 +30,8 @@
             "codeClass": null,
             "userConfig": {
                 "header": false,
+                "id": "popVmHostInfoPanel",
+                "itemId": "popVmHostInfoPanel",
                 "margin": "0 10 0 0",
                 "title": "My Panel"
             },
@@ -125,46 +129,427 @@
                                     ]
                                 },
                                 {
-                                    "type": "linkedinstance",
+                                    "type": "Ext.panel.Panel",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
                                     "userConfig": {
+                                        "collapsed": false,
+                                        "collapsible": false,
+                                        "container|align": "stretch",
+                                        "header": false,
+                                        "height": 45,
+                                        "layout": "hbox",
                                         "layout|flex": 1,
-                                        "margin": "2 15 0 10"
+                                        "title": null
                                     },
-                                    "designerId": "731ce5d8-8aff-4561-9d41-17924710e371",
-                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
+                                    "designerId": "d0e4a59c-7ebe-46f9-addb-a9558d616f17",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.chart.Chart",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "flex": null,
+                                                "height": null,
+                                                "id": null,
+                                                "insetPadding": 5,
+                                                "itemId": "vmHostCpuChart",
+                                                "layout|flex": 1,
+                                                "margin": "0 30 0 10",
+                                                "maxHeight": null,
+                                                "minHeight": null,
+                                                "shadow": false,
+                                                "store": "VmHostChartStore",
+                                                "style": null,
+                                                "width": null
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "879d7d3f-8c33-4b38-90ea-e80d37047abf",
+                                            "isBuiltIn": true,
+                                            "iconCls": "icon-line-chart",
+                                            "autoName": "LineChart",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "flex",
+                                                    "type": "string"
+                                                }
+                                            ],
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.chart.axis.Category",
+                                                    "reference": {
+                                                        "name": "axes",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "dashSize": 0,
+                                                        "drawLabel": null,
+                                                        "fields": [
+                                                            "date"
+                                                        ],
+                                                        "grid": false,
+                                                        "label": [
+                                                            "{",
+                                                            "    renderer: function(v) {",
+                                                            "        return \" \";",
+                                                            "    }",
+                                                            "}"
+                                                        ],
+                                                        "title": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "grid": "boolean"
+                                                    },
+                                                    "designerId": "149cbe35-e701-459e-ae78-3c6b33e3bfdf",
+                                                    "customConfigs": [
+                                                        {
+                                                            "group": "(Custom Properties)",
+                                                            "name": "drawLabel",
+                                                            "type": "string"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "Ext.chart.axis.Numeric",
+                                                    "reference": {
+                                                        "name": "axes",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "dashSize": null,
+                                                        "fields": [
+                                                            "cpu"
+                                                        ],
+                                                        "grid": false,
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "majorTickSteps": 1,
+                                                        "maximum": null,
+                                                        "minimum": null,
+                                                        "minorTickSteps": 1,
+                                                        "title": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "grid": "boolean"
+                                                    },
+                                                    "designerId": "fe239274-5d4c-435b-9f4e-75061409758a"
+                                                },
+                                                {
+                                                    "type": "Ext.chart.series.Line",
+                                                    "reference": {
+                                                        "name": "series",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "showMarkers": false,
+                                                        "smooth": 3,
+                                                        "style": [
+                                                            "{",
+                                                            "    fill: \"#3892d3\",",
+                                                            "    'stroke-width': 1.2,",
+                                                            "    stroke: \"#3892d3\"",
+                                                            "}"
+                                                        ],
+                                                        "xField": "date",
+                                                        "yField": [
+                                                            "cpu"
+                                                        ]
+                                                    },
+                                                    "designerId": "3968ec53-ff1c-41f7-a086-ac6b66f7ba1d"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                                 {
-                                    "type": "linkedinstance",
+                                    "type": "Ext.panel.Panel",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
                                     "userConfig": {
+                                        "collapsed": false,
+                                        "collapsible": false,
+                                        "container|align": "stretch",
+                                        "header": false,
+                                        "height": 45,
+                                        "layout": "hbox",
                                         "layout|flex": 1,
-                                        "margin": "2 15 0 10"
+                                        "title": null
                                     },
-                                    "designerId": "7cdf8870-7b04-43f9-94ec-6ae093591f47",
-                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
+                                    "designerId": "18f94dcb-566b-4a79-8429-80c73a9fed40",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.chart.Chart",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "flex": null,
+                                                "height": null,
+                                                "id": null,
+                                                "insetPadding": 5,
+                                                "itemId": "vmHostMemoryChart",
+                                                "layout|flex": 1,
+                                                "margin": "0 30 0 10",
+                                                "maxHeight": null,
+                                                "minHeight": null,
+                                                "shadow": false,
+                                                "store": "VmHostChartStore",
+                                                "width": null
+                                            },
+                                            "designerId": "aeff0f6f-91a1-4eff-b911-f163e52ac35e",
+                                            "isBuiltIn": true,
+                                            "iconCls": "icon-line-chart",
+                                            "autoName": "LineChart",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "flex",
+                                                    "type": "string"
+                                                }
+                                            ],
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.chart.axis.Category",
+                                                    "reference": {
+                                                        "name": "axes",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "dashSize": 0,
+                                                        "fields": [
+                                                            "date"
+                                                        ],
+                                                        "grid": false,
+                                                        "label": [
+                                                            "{",
+                                                            "    renderer: function(v) {",
+                                                            "        return \" \";",
+                                                            "    }",
+                                                            "}"
+                                                        ],
+                                                        "title": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "grid": "boolean"
+                                                    },
+                                                    "designerId": "16d89e16-7b8d-4431-9150-1ad2560b0f51"
+                                                },
+                                                {
+                                                    "type": "Ext.chart.axis.Numeric",
+                                                    "reference": {
+                                                        "name": "axes",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "dashSize": null,
+                                                        "fields": [
+                                                            "memory"
+                                                        ],
+                                                        "grid": false,
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "majorTickSteps": 1,
+                                                        "maximum": null,
+                                                        "minimum": null,
+                                                        "minorTickSteps": 1,
+                                                        "title": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "grid": "boolean"
+                                                    },
+                                                    "designerId": "7b993bd9-3245-4432-9cd4-97b370600052"
+                                                },
+                                                {
+                                                    "type": "Ext.chart.series.Line",
+                                                    "reference": {
+                                                        "name": "series",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "showMarkers": false,
+                                                        "smooth": 3,
+                                                        "style": [
+                                                            "{",
+                                                            "    fill: \"#3892d3\",",
+                                                            "    'stroke-width': 1.2,",
+                                                            "    stroke: \"#3892d3\"",
+                                                            "}"
+                                                        ],
+                                                        "xField": "date",
+                                                        "yField": [
+                                                            "memory"
+                                                        ]
+                                                    },
+                                                    "designerId": "9267e624-acad-40a0-8a00-2072130892bd"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                                 {
-                                    "type": "linkedinstance",
+                                    "type": "Ext.panel.Panel",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
                                     "userConfig": {
+                                        "collapsed": false,
+                                        "collapsible": false,
+                                        "container|align": "stretch",
+                                        "header": false,
+                                        "height": 45,
+                                        "layout": "hbox",
                                         "layout|flex": 1,
-                                        "margin": "2 15 0 10"
+                                        "title": null
                                     },
-                                    "designerId": "a6fe5429-6c99-4611-b4cd-03b621e52fcc",
-                                    "masterInstanceId": "a6502197-2cf9-4d57-8687-8602e0299260"
+                                    "designerId": "55b5b965-d31c-4ee9-bd6e-450303ea8540",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.chart.Chart",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "flex": null,
+                                                "height": null,
+                                                "id": null,
+                                                "insetPadding": 5,
+                                                "itemId": "vmHostNetworkChart",
+                                                "layout|flex": 1,
+                                                "margin": "0 30 0 10",
+                                                "maxHeight": null,
+                                                "minHeight": null,
+                                                "shadow": false,
+                                                "store": "VmHostChartStore",
+                                                "width": null
+                                            },
+                                            "designerId": "21631177-ffef-4432-b458-ec51dd051ad6",
+                                            "isBuiltIn": true,
+                                            "iconCls": "icon-line-chart",
+                                            "autoName": "LineChart",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "flex",
+                                                    "type": "string"
+                                                }
+                                            ],
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.chart.axis.Category",
+                                                    "reference": {
+                                                        "name": "axes",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "dashSize": 0,
+                                                        "fields": [
+                                                            "date"
+                                                        ],
+                                                        "grid": false,
+                                                        "label": [
+                                                            "{",
+                                                            "    renderer: function(v) {",
+                                                            "        return \" \";",
+                                                            "    }",
+                                                            "}"
+                                                        ],
+                                                        "title": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "grid": "boolean"
+                                                    },
+                                                    "designerId": "6e402d1d-a404-4c44-aba8-85aa13d8c9ed"
+                                                },
+                                                {
+                                                    "type": "Ext.chart.axis.Numeric",
+                                                    "reference": {
+                                                        "name": "axes",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "dashSize": null,
+                                                        "fields": [
+                                                            "network"
+                                                        ],
+                                                        "grid": false,
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "majorTickSteps": 1,
+                                                        "maximum": null,
+                                                        "minimum": null,
+                                                        "minorTickSteps": 1,
+                                                        "title": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "grid": "boolean"
+                                                    },
+                                                    "designerId": "e965b32e-6141-488c-898a-c6fc5c82a932"
+                                                },
+                                                {
+                                                    "type": "Ext.chart.series.Line",
+                                                    "reference": {
+                                                        "name": "series",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "showMarkers": false,
+                                                        "smooth": 3,
+                                                        "style": [
+                                                            "{",
+                                                            "    fill: \"#3892d3\",",
+                                                            "    'stroke-width': 1.2,",
+                                                            "    stroke: \"#3892d3\"",
+                                                            "}"
+                                                        ],
+                                                        "xField": "date",
+                                                        "yField": [
+                                                            "network"
+                                                        ]
+                                                    },
+                                                    "designerId": "20b82984-db40-4e56-9b24-5840217b6457"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -192,7 +577,6 @@
                                     },
                                     "codeClass": null,
                                     "userConfig": {
-                                        "container|align": "middle",
                                         "header": false,
                                         "height": 180,
                                         "layout": "hbox",
@@ -211,9 +595,11 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "container|align": "stretch",
+                                                "dock": null,
+                                                "itemId": "vmNamePanel",
                                                 "layout": "vbox",
                                                 "layout|flex": 2,
-                                                "margin": "10 0 0 0",
+                                                "margin": 0,
                                                 "title": null,
                                                 "width": null
                                             },
@@ -246,100 +632,15 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "height": 35,
+                                                        "hidden": true,
                                                         "layout|flex": null,
                                                         "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "NFV1-1"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "d61f5f7d-89cc-45f4-b3ee-1eb562dc1c75"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "NFV1-2"
+                                                        "text": ""
                                                     },
                                                     "configAlternates": {
                                                         "style": "string"
                                                     },
                                                     "designerId": "5e4fefc7-2f0d-4203-86e5-c74b20fcdaad"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "NFV1-3"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "26f58efe-d684-48f6-b62f-612a2d3bcc16"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "NFV1-4"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "ce7ff9d8-985e-42b4-96b7-6f3e8d187e33"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "NFV1-5"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "a2fc7706-1192-464c-8204-c22c51d43c53"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "NFV1-6"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "dba1b775-e2d1-4d34-8c67-74773a8828eb"
                                                 }
                                             ]
                                         },
@@ -352,9 +653,12 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "container|align": "stretch",
+                                                "dock": null,
+                                                "id": null,
+                                                "itemId": "vmCpuPanel",
                                                 "layout": "vbox",
                                                 "layout|flex": 1,
-                                                "margin": "10 0 0 0",
+                                                "margin": 0,
                                                 "title": null,
                                                 "width": null
                                             },
@@ -390,99 +694,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "height": 35,
+                                                        "hidden": true,
                                                         "layout|flex": null,
                                                         "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
+                                                        "text": ""
                                                     },
                                                     "configAlternates": {
                                                         "style": "string"
                                                     },
                                                     "designerId": "87860a6d-42ef-49ea-a2ae-01f8771520ce"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "67071b05-7f0c-4de7-bb39-84ab3f9e7929"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "a918f3f0-6590-4a7f-ad40-e27365bba7b6"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "45af48ab-725a-4a37-ad2b-7b5a87aa6024"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "c4cf4227-31c5-4c7b-a7ca-8e51dd40b2db"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "0fbeeeb5-0f2e-4b13-9e71-b3c96e4c3f5d"
                                                 }
                                             ]
                                         },
@@ -495,9 +715,10 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "container|align": "stretch",
+                                                "itemId": "vmMemoryPanel",
                                                 "layout": "vbox",
                                                 "layout|flex": 1,
-                                                "margin": "10 0 0 0",
+                                                "margin": 0,
                                                 "title": null,
                                                 "width": null
                                             },
@@ -532,95 +753,10 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "height": 35,
+                                                        "hidden": true,
                                                         "layout|flex": null,
                                                         "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "b8932331-374f-4451-b650-9db684f164d1"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "728d9393-253b-467c-b72a-bf5be5bf06f9"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "9fd4deee-ca09-4218-89da-ab1e5f516435"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "25695a7d-1078-4c45-b1c7-03e23cd34ab3"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "5ee2f579-7b1a-4cba-8db0-22bc3a181d66"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
+                                                        "text": ""
                                                     },
                                                     "configAlternates": {
                                                         "style": "string"
@@ -638,6 +774,7 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "container|align": "stretch",
+                                                "itemId": "vmNetworkPanel",
                                                 "layout": "vbox",
                                                 "layout|flex": 1,
                                                 "margin": "0 15 0 0",
@@ -677,99 +814,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "height": 35,
+                                                        "hidden": true,
                                                         "layout|flex": null,
                                                         "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
+                                                        "text": ""
                                                     },
                                                     "configAlternates": {
                                                         "style": "string"
                                                     },
                                                     "designerId": "51864c17-716c-4f12-9b9d-d0adb427b6b7"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "a8b01b0b-5fa8-40aa-948a-c1ca5fcd00d8"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "f138f226-814c-4433-becb-1a78f82db86f"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "9c24fb4c-ee2b-4636-8057-8cd4764067f5"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "c5908cdf-31da-48cd-b663-1aa1c163279d"
-                                                },
-                                                {
-                                                    "type": "Ext.form.Label",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": null,
-                                                        "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
-                                                        "text": "20%"
-                                                    },
-                                                    "configAlternates": {
-                                                        "style": "string"
-                                                    },
-                                                    "designerId": "5d480d0b-1328-48fa-9da6-54378e0c71fb"
                                                 }
                                             ]
                                         }
