@@ -18,9 +18,12 @@ Ext.define('spider.view.VMHostInfoWindow', {
     alias: 'widget.VMHostInfoWindow',
 
     requires: [
-        'spider.view.MyPanel119',
         'Ext.toolbar.Toolbar',
         'Ext.form.Label',
+        'Ext.chart.Chart',
+        'Ext.chart.axis.Category',
+        'Ext.chart.axis.Numeric',
+        'Ext.chart.series.Line',
         'Ext.form.FieldSet',
         'Ext.form.Panel',
         'Ext.form.FieldContainer',
@@ -33,6 +36,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
     ],
 
     height: 705,
+    id: 'VMHostInfoWindow',
     width: 750,
     overflowY: 'auto',
     title: 'VM Host Info',
@@ -45,6 +49,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
             items: [
                 {
                     xtype: 'panel',
+                    id: 'popVmHostInfoPanel',
+                    itemId: 'popVmHostInfoPanel',
                     margin: '0 10 0 0',
                     header: false,
                     title: 'My Panel',
@@ -93,19 +99,199 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                     ],
                                     items: [
                                         {
-                                            xtype: 'mypanel119',
-                                            margin: '2 15 0 10',
-                                            flex: 1
+                                            xtype: 'panel',
+                                            flex: 1,
+                                            height: 45,
+                                            collapsed: false,
+                                            collapsible: false,
+                                            header: false,
+                                            layout: {
+                                                type: 'hbox',
+                                                align: 'stretch'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'chart',
+                                                    flex: 1,
+                                                    itemId: 'vmHostCpuChart',
+                                                    margin: '0 30 0 10',
+                                                    shadow: false,
+                                                    insetPadding: 5,
+                                                    store: 'VmHostChartStore',
+                                                    axes: [
+                                                        {
+                                                            type: 'Category',
+                                                            fields: [
+                                                                'date'
+                                                            ],
+                                                            label: {
+                                                                renderer: function(v) {
+                                                                    return " ";
+                                                                }
+                                                            },
+                                                            dashSize: 0,
+                                                            grid: false,
+                                                            position: 'bottom'
+                                                        },
+                                                        {
+                                                            type: 'Numeric',
+                                                            fields: [
+                                                                'cpu'
+                                                            ],
+                                                            label: '',
+                                                            grid: false,
+                                                            majorTickSteps: 1,
+                                                            minorTickSteps: 1,
+                                                            position: 'left'
+                                                        }
+                                                    ],
+                                                    series: [
+                                                        {
+                                                            type: 'line',
+                                                            label: '',
+                                                            xField: 'date',
+                                                            yField: 'cpu',
+                                                            showMarkers: false,
+                                                            smooth: 3,
+                                                            style: {
+                                                                fill: '#3892d3',
+                                                                'stroke-width': 1.2,
+                                                                stroke: '#3892d3'
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         },
                                         {
-                                            xtype: 'mypanel119',
-                                            margin: '2 15 0 10',
-                                            flex: 1
+                                            xtype: 'panel',
+                                            flex: 1,
+                                            height: 45,
+                                            collapsed: false,
+                                            collapsible: false,
+                                            header: false,
+                                            layout: {
+                                                type: 'hbox',
+                                                align: 'stretch'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'chart',
+                                                    flex: 1,
+                                                    itemId: 'vmHostMemoryChart',
+                                                    margin: '0 30 0 10',
+                                                    shadow: false,
+                                                    insetPadding: 5,
+                                                    store: 'VmHostChartStore',
+                                                    axes: [
+                                                        {
+                                                            type: 'Category',
+                                                            fields: [
+                                                                'date'
+                                                            ],
+                                                            label: {
+                                                                renderer: function(v) {
+                                                                    return " ";
+                                                                }
+                                                            },
+                                                            dashSize: 0,
+                                                            grid: false,
+                                                            position: 'bottom'
+                                                        },
+                                                        {
+                                                            type: 'Numeric',
+                                                            fields: [
+                                                                'memory'
+                                                            ],
+                                                            label: '',
+                                                            grid: false,
+                                                            majorTickSteps: 1,
+                                                            minorTickSteps: 1,
+                                                            position: 'left'
+                                                        }
+                                                    ],
+                                                    series: [
+                                                        {
+                                                            type: 'line',
+                                                            label: '',
+                                                            xField: 'date',
+                                                            yField: 'memory',
+                                                            showMarkers: false,
+                                                            smooth: 3,
+                                                            style: {
+                                                                fill: '#3892d3',
+                                                                'stroke-width': 1.2,
+                                                                stroke: '#3892d3'
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         },
                                         {
-                                            xtype: 'mypanel119',
-                                            margin: '2 15 0 10',
-                                            flex: 1
+                                            xtype: 'panel',
+                                            flex: 1,
+                                            height: 45,
+                                            collapsed: false,
+                                            collapsible: false,
+                                            header: false,
+                                            layout: {
+                                                type: 'hbox',
+                                                align: 'stretch'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'chart',
+                                                    flex: 1,
+                                                    itemId: 'vmHostNetworkChart',
+                                                    margin: '0 30 0 10',
+                                                    shadow: false,
+                                                    insetPadding: 5,
+                                                    store: 'VmHostChartStore',
+                                                    axes: [
+                                                        {
+                                                            type: 'Category',
+                                                            fields: [
+                                                                'date'
+                                                            ],
+                                                            label: {
+                                                                renderer: function(v) {
+                                                                    return " ";
+                                                                }
+                                                            },
+                                                            dashSize: 0,
+                                                            grid: false,
+                                                            position: 'bottom'
+                                                        },
+                                                        {
+                                                            type: 'Numeric',
+                                                            fields: [
+                                                                'network'
+                                                            ],
+                                                            label: '',
+                                                            grid: false,
+                                                            majorTickSteps: 1,
+                                                            minorTickSteps: 1,
+                                                            position: 'left'
+                                                        }
+                                                    ],
+                                                    series: [
+                                                        {
+                                                            type: 'line',
+                                                            label: '',
+                                                            xField: 'date',
+                                                            yField: 'network',
+                                                            showMarkers: false,
+                                                            smooth: 3,
+                                                            style: {
+                                                                fill: '#3892d3',
+                                                                'stroke-width': 1.2,
+                                                                stroke: '#3892d3'
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
                                 },
@@ -120,17 +306,15 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                             xtype: 'panel',
                                             height: 180,
                                             overflowY: 'auto',
+                                            layout: 'hbox',
                                             header: false,
                                             title: 'My Panel',
-                                            layout: {
-                                                type: 'hbox',
-                                                align: 'middle'
-                                            },
                                             items: [
                                                 {
                                                     xtype: 'panel',
                                                     flex: 2,
-                                                    margin: '10 0 0 0',
+                                                    itemId: 'vmNamePanel',
+                                                    margin: 0,
                                                     layout: {
                                                         type: 'vbox',
                                                         align: 'stretch'
@@ -143,41 +327,17 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         },
                                                         {
                                                             xtype: 'label',
-                                                            height: 35,
+                                                            hidden: true,
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: 'NFV1-1'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: 'NFV1-2'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: 'NFV1-3'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: 'NFV1-4'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: 'NFV1-5'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: 'NFV1-6'
+                                                            text: ''
                                                         }
                                                     ]
                                                 },
                                                 {
                                                     xtype: 'panel',
                                                     flex: 1,
-                                                    margin: '10 0 0 0',
+                                                    itemId: 'vmCpuPanel',
+                                                    margin: 0,
                                                     layout: {
                                                         type: 'vbox',
                                                         align: 'stretch'
@@ -191,40 +351,17 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             xtype: 'label',
                                                             height: 35,
+                                                            hidden: true,
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
+                                                            text: ''
                                                         }
                                                     ]
                                                 },
                                                 {
                                                     xtype: 'panel',
                                                     flex: 1,
-                                                    margin: '10 0 0 0',
+                                                    itemId: 'vmMemoryPanel',
+                                                    margin: 0,
                                                     layout: {
                                                         type: 'vbox',
                                                         align: 'stretch'
@@ -237,40 +374,16 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         },
                                                         {
                                                             xtype: 'label',
-                                                            height: 35,
+                                                            hidden: true,
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
+                                                            text: ''
                                                         }
                                                     ]
                                                 },
                                                 {
                                                     xtype: 'panel',
                                                     flex: 1,
+                                                    itemId: 'vmNetworkPanel',
                                                     margin: '0 15 0 0',
                                                     layout: {
                                                         type: 'vbox',
@@ -285,33 +398,9 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             xtype: 'label',
                                                             height: 35,
+                                                            hidden: true,
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
-                                                        },
-                                                        {
-                                                            xtype: 'label',
-                                                            style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
-                                                            text: '20%'
+                                                            text: ''
                                                         }
                                                     ]
                                                 }
