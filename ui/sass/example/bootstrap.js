@@ -884,6 +884,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
   "spider.model.VmHostModel": [],
+  "spider.model.VmNicModel": [],
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
@@ -896,6 +897,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmHostStore": [],
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
+  "spider.store.VmNicStore": [],
   "spider.view.AddVmHostWindow": [],
   "spider.view.AddVmWindow": [],
   "spider.view.AthenaSpider": [],
@@ -1929,6 +1931,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
   "spider.model.VmHostModel": [],
+  "spider.model.VmNicModel": [],
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
@@ -1941,6 +1944,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmHostStore": [],
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
+  "spider.store.VmNicStore": [],
   "spider.view.AddVmHostWindow": [
     "widget.AddVmHostWindow"
   ],

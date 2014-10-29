@@ -1,0 +1,58 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmNicStore",
+        "model": "VmNicModel",
+        "storeId": "VmNicStore"
+    },
+    "designerId": "a8ac3243-aaec-429a-affa-2b88846e45ec",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.Ajax",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "/"
+            },
+            "designerId": "151c479b-0be9-49ed-9c2c-e1eb44b312a5",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "5cc151fd-abdf-4d3a-bcf3-7d59693e816e"
+                },
+                {
+                    "type": "processcfgfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "config"
+                        ],
+                        "fn": "processMyAjaxProxy1",
+                        "implHandler": [
+                            "config.actionMethods = {read: \"GET\"};",
+                            "return config;"
+                        ]
+                    },
+                    "designerId": "dd135c35-6dd8-4fb2-959a-32a138f7b749"
+                }
+            ]
+        }
+    ]
+}

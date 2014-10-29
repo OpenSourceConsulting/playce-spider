@@ -122,7 +122,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Category',
                                                             fields: [
-                                                                'date'
+                                                                'test'
                                                             ],
                                                             label: {
                                                                 renderer: function(v) {
@@ -187,7 +187,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Category',
                                                             fields: [
-                                                                'date'
+                                                                'test'
                                                             ],
                                                             label: {
                                                                 renderer: function(v) {
@@ -252,7 +252,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Category',
                                                             fields: [
-                                                                'date'
+                                                                'test'
                                                             ],
                                                             label: {
                                                                 renderer: function(v) {

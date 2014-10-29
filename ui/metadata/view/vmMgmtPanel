@@ -51,9 +51,7 @@
                         "layout|flex": null,
                         "margin": "0 20 0 0",
                         "style": "",
-                        "value": [
-                            "\"KVMHost #1\""
-                        ]
+                        "value": null
                     },
                     "configAlternates": {
                         "style": "string"
@@ -77,9 +75,7 @@
                         "layout|flex": null,
                         "margin": "0 20 0 0",
                         "style": null,
-                        "value": [
-                            "\"Vyatta #1\""
-                        ]
+                        "value": null
                     },
                     "configAlternates": {
                         "style": "string"
@@ -96,13 +92,13 @@
                     "userConfig": {
                         "fieldLabel": "상태 ",
                         "fieldStyle": "font-weight: bold;",
+                        "id": "mgmtVmState",
+                        "itemId": "mgmtVmState",
                         "labelStyle": "font-weight: bold;",
                         "labelWidth": 40,
                         "layout|flex": null,
                         "margin": "0 30 0 0",
-                        "value": [
-                            "\"RUNNING\""
-                        ]
+                        "value": null
                     },
                     "designerId": "32e55cdf-82ce-42a0-a377-66e126744a44"
                 },
@@ -315,11 +311,12 @@
                                                             },
                                                             "codeClass": null,
                                                             "userConfig": {
+                                                                "dashSize": 0,
                                                                 "dateFormat": "H:i:s",
                                                                 "fields": [
                                                                     "date"
                                                                 ],
-                                                                "grid": true,
+                                                                "grid": false,
                                                                 "label": [
                                                                     "{",
                                                                     "    rotate: {",
@@ -336,7 +333,7 @@
                                                             "configAlternates": {
                                                                 "grid": "boolean"
                                                             },
-                                                            "designerId": "37e51d5c-6990-4b01-9abd-6a8d864dd1f2"
+                                                            "designerId": "37113555-37b7-48a0-9ab1-bb9562b55f2e"
                                                         },
                                                         {
                                                             "type": "Ext.chart.series.Line",
@@ -357,6 +354,7 @@
                                                                     "     size: 3",
                                                                     "}"
                                                                 ],
+                                                                "showMarkers": false,
                                                                 "smooth": true,
                                                                 "xField": "date",
                                                                 "yField": [
@@ -453,8 +451,8 @@
                                                                     "    }",
                                                                     "}"
                                                                 ],
-                                                                "maximum": 100,
-                                                                "minimum": 0,
+                                                                "maximum": null,
+                                                                "minimum": null,
                                                                 "title": null
                                                             },
                                                             "designerId": "9c7f1f77-e45a-4cb8-ab9a-ddfb651ab44f"
@@ -467,11 +465,12 @@
                                                             },
                                                             "codeClass": null,
                                                             "userConfig": {
+                                                                "dashSize": 0,
                                                                 "dateFormat": "H:i:s",
                                                                 "fields": [
                                                                     "date"
                                                                 ],
-                                                                "grid": true,
+                                                                "grid": false,
                                                                 "label": [
                                                                     "{",
                                                                     "    rotate: {",
@@ -488,7 +487,7 @@
                                                             "configAlternates": {
                                                                 "grid": "boolean"
                                                             },
-                                                            "designerId": "37113555-37b7-48a0-9ab1-bb9562b55f2e"
+                                                            "designerId": "19f2e69b-d191-4aec-b95b-a1311b3011b3"
                                                         },
                                                         {
                                                             "type": "Ext.chart.series.Line",
@@ -509,6 +508,7 @@
                                                                     "     size: 3",
                                                                     "}"
                                                                 ],
+                                                                "showMarkers": false,
                                                                 "xField": "date",
                                                                 "yField": [
                                                                     "memory"
@@ -620,11 +620,12 @@
                                                             },
                                                             "codeClass": null,
                                                             "userConfig": {
+                                                                "dashSize": 0,
                                                                 "dateFormat": "H:i:s",
                                                                 "fields": [
                                                                     "date"
                                                                 ],
-                                                                "grid": true,
+                                                                "grid": false,
                                                                 "label": [
                                                                     "{",
                                                                     "    rotate: {",
@@ -661,6 +662,7 @@
                                                                     "     size: 3",
                                                                     "}"
                                                                 ],
+                                                                "showMarkers": false,
                                                                 "xField": "date",
                                                                 "yField": [
                                                                     "network"
@@ -1805,10 +1807,16 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "displayField": "ethName",
+                                                "editable": false,
                                                 "fieldLabel": "NIC",
+                                                "id": "comboNicName",
+                                                "itemId": "comboNicName",
                                                 "labelWidth": 40,
                                                 "layout|flex": null,
                                                 "margin": "0 0 0 10",
+                                                "store": "VmNicStore",
+                                                "valueField": "ethName",
                                                 "width": 110
                                             },
                                             "designerId": "37695db6-b8ab-4403-8a6c-58dae87717b5"
@@ -1864,7 +1872,8 @@
                                             "userConfig": {
                                                 "layout|flex": null,
                                                 "margin": "0 20 0 0",
-                                                "text": "신규생성"
+                                                "padding": "3 10 3 10",
+                                                "text": "저장"
                                             },
                                             "designerId": "c4232e80-fdd0-47fb-994b-6de733f98b5f"
                                         }
@@ -1890,124 +1899,12 @@
                                             "}"
                                         ],
                                         "header": false,
+                                        "id": "viewNicForm",
+                                        "itemId": "viewNicForm",
                                         "title": "My Form"
                                     },
                                     "designerId": "f40d7b40-d8d7-4ad2-9cfb-5a0e41419316",
                                     "cn": [
-                                        {
-                                            "type": "Ext.form.FieldContainer",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "container|align": "middle",
-                                                "fieldLabel": "Label",
-                                                "flex": "1",
-                                                "height": 35,
-                                                "hideLabel": true,
-                                                "layout": "hbox",
-                                                "margin": null
-                                            },
-                                            "designerId": "e43a5cae-15f6-48cf-8207-116f97eb1870",
-                                            "customConfigs": [
-                                                {
-                                                    "group": "(Custom Properties)",
-                                                    "name": "flex",
-                                                    "type": "string"
-                                                }
-                                            ],
-                                            "cn": [
-                                                {
-                                                    "type": "Ext.form.CheckboxGroup",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "fieldLabel": null,
-                                                        "layout|flex": 1,
-                                                        "margin": "0 0 0 20",
-                                                        "padding": null,
-                                                        "width": 321
-                                                    },
-                                                    "designerId": "54eb4fd3-d0e8-4082-b496-bde4f25ea2a1",
-                                                    "cn": [
-                                                        {
-                                                            "type": "Ext.form.field.Checkbox",
-                                                            "reference": {
-                                                                "name": "items",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "boxLabel": "eth1",
-                                                                "fieldLabel": null,
-                                                                "margin": 0,
-                                                                "padding": null
-                                                            },
-                                                            "designerId": "ba821512-f3a8-4e85-aa30-5687e14ab137"
-                                                        },
-                                                        {
-                                                            "type": "Ext.form.field.Checkbox",
-                                                            "reference": {
-                                                                "name": "items",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "boxLabel": "eth2",
-                                                                "fieldLabel": null,
-                                                                "margin": 0
-                                                            },
-                                                            "designerId": "fd059cc2-a9fc-4906-a03f-8fced70d7d6e"
-                                                        },
-                                                        {
-                                                            "type": "Ext.form.field.Checkbox",
-                                                            "reference": {
-                                                                "name": "items",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "boxLabel": "eth3",
-                                                                "fieldLabel": null,
-                                                                "margin": 0
-                                                            },
-                                                            "designerId": "e0e79cf2-abfd-4c69-b28f-ae9c730b0b9c"
-                                                        },
-                                                        {
-                                                            "type": "Ext.form.field.Checkbox",
-                                                            "reference": {
-                                                                "name": "items",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "boxLabel": "eth4",
-                                                                "fieldLabel": null,
-                                                                "margin": 0
-                                                            },
-                                                            "designerId": "cafd43eb-0dc5-482b-b98b-29bde501dcf0"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "type": "Ext.toolbar.Spacer",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": 2
-                                                    },
-                                                    "designerId": "5bc723fa-40b9-435e-98ef-a9fbd0592c0f"
-                                                }
-                                            ]
-                                        },
                                         {
                                             "type": "Ext.form.FieldContainer",
                                             "reference": {
@@ -2140,7 +2037,7 @@
                                             ],
                                             "cn": [
                                                 {
-                                                    "type": "Ext.form.field.ComboBox",
+                                                    "type": "Ext.form.field.Text",
                                                     "reference": {
                                                         "name": "items",
                                                         "type": "array"
@@ -2148,7 +2045,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "Duplex",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "duplex"
                                                     },
                                                     "designerId": "fc94cfaf-167a-4807-b42b-a4f5cac5d739"
                                                 },
@@ -2193,7 +2091,7 @@
                                             ],
                                             "cn": [
                                                 {
-                                                    "type": "Ext.form.field.ComboBox",
+                                                    "type": "Ext.form.field.Text",
                                                     "reference": {
                                                         "name": "items",
                                                         "type": "array"
@@ -2201,7 +2099,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "Speed",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "speed"
                                                     },
                                                     "designerId": "e40fc7a2-a2c3-4f91-be54-664733f2178c"
                                                 },
