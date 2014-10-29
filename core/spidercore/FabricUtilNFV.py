@@ -74,7 +74,7 @@ def show_interfaces_with_configure():
 	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
-		result = run('./cli.sh', pty=False)
+		result = run('./cli.sh', pty=False, quiet=True)
 	lines = result.split('\n')
 	for line in lines:
 		print "LINE: " + line
@@ -264,6 +264,19 @@ def pingVM(addr, sshid, sshpw):
 	env.password = sshpw
 	env.shell = '/bin/bash -l -c'
 	results = execute(pingVM_task, hosts=[addr])
+	return results[addr]
+
+
+def ifconfig_task():
+	result = run('/sbin/ifconfig -a', pty=False, quiet=True)
+	return result
+
+def getIfConfig(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
+	results = execute(ifconfig_task, hosts=[addr])
 	return results[addr]
 
 
