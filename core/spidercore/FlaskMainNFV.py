@@ -217,6 +217,10 @@ def mon_vmif(id=None, ifid=None):
 	
 	# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
 	# 그래서 json에 같이 병합해서 전송
+	result = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+	lines = result.split('\n')
+	for line in lines:
+ 		print "LINE: " + line
 	
 	return 'Not found', 404
 
