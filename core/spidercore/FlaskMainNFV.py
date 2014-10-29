@@ -220,9 +220,9 @@ def mon_vmif(id=None, ifid=None):
 				 		print "LINE: " + line
 				 		if "inet addr" in line:
 				 			ipAddr = line.split()[1].split(':')[1]
-				 			subnet = line.split()[3].split(':')[1]
+#				 			subnet = line.split()[3].split(':')[1]
 				 			nic['ipaddr'] = ipAddr
-				 			nic['subnet'] = subnet
+# 				 			nic['subnet'] = subnet
 				 			
 	
 					results.append(nic)
