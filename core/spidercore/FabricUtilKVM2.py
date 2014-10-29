@@ -32,6 +32,7 @@ def getDomainList(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(virsh_list_all, hosts=[addr])
 	return results[addr]
 
@@ -59,6 +60,7 @@ def getTemplatelist(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(templatelist, hosts=[addr])
 	return results[addr]
 
@@ -82,6 +84,7 @@ def getDominfo(addr, sshid, sshpw, name):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(dominfo, name, hosts=[addr])
 	
 	return results[addr]
@@ -103,6 +106,7 @@ def getDomstate(addr, sshid, sshpw, name):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(domstate, name, hosts=[addr])
 	
 	return results[addr]
@@ -149,6 +153,7 @@ def getDomstart(addr, sshid, sshpw, name):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(domstart, name, hosts=[addr])
 	
 	return results[addr]
@@ -189,6 +194,7 @@ def getDomshutdown(addr, sshid, sshpw, name):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(domshutdown, name, hosts=[addr])
 	
 	return results[addr]
@@ -212,6 +218,7 @@ def getDomdefine(addr, sshid, sshpw, name):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(domdefine, name, hosts=[addr])
 	
 	return results[addr]
@@ -233,6 +240,7 @@ def getDomundefine(addr, sshid, sshpw, name):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(domundefine, name, hosts=[addr])
 	
 	return results[addr]
@@ -258,6 +266,7 @@ def getDomclone(addr, sshid, sshpw, template, newvm):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	args = []
 	args.append(template)
 	args.append(newvm)
@@ -273,6 +282,7 @@ def getDomcloneParamiko(addr, sshid, sshpw, template, newvm):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	args = []
 	args.append(template)
 	args.append(newvm)
@@ -330,6 +340,7 @@ def getDomremove(addr, sshid, sshpw, delvm):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 
 	'''
 	try:
@@ -388,6 +399,7 @@ def getAllInfo(addr, sshid, sshpw):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
 	results = execute(virsh_getAllInfo, hosts=[addr])
 	return results[addr]
 
