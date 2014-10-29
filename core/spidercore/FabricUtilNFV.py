@@ -267,16 +267,16 @@ def pingVM(addr, sshid, sshpw):
 	return results[addr]
 
 
-def ifconfig_task():
-	result = run('/sbin/ifconfig -a', pty=False, quiet=True)
+def ifconfig_task(nicname):
+	result = run('/sbin/ifconfig -a ' + nicname, pty=False, quiet=True)
 	return result
 
-def getIfConfig(addr, sshid, sshpw):
+def getIfConfig(addr, sshid, sshpw, nicname):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
 	env.shell = '/bin/bash -l -c'
-	results = execute(ifconfig_task, hosts=[addr])
+	results = execute(ifconfig_task, hosts=[addr], nicname)
 	return results[addr]
 
 

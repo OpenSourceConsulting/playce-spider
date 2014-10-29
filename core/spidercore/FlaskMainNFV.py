@@ -212,15 +212,21 @@ def mon_vmif(id=None, ifid=None):
 			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
+					# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
+					# 그래서 json에 같이 병합해서 전송
+					result = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], nic['ethName'])
+					lines = result.split('\n')
+					for line in lines:
+				 		print "LINE: " + line
+				 		if "inet addr" in line:
+				 			ipAddr = line.split()[1].split(':')[1]
+				 			subnet = line.split()[3].split(':')[1]
+				 			nic['ipaddr'] = ipAddr
+				 			nic['subnet'] = subnet
+				 			
+	
 					results.append(nic)
 
-			# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
-			# 그래서 json에 같이 병합해서 전송
-			result = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'])
-			lines = result.split('\n')
-			for line in lines:
-		 		print "LINE: " + line
-	
 			return json.dumps(results)
 	
 	return 'Not found', 404
