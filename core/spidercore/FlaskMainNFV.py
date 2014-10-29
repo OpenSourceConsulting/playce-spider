@@ -214,32 +214,14 @@ def mon_vmif(id=None, ifid=None):
 					results.append(nic)
 			return json.dumps(results)
 	
-	return 'Not found', 404
-
-
-@app.route("/mon/nfv/<id>/iflist", methods=['GET'])
-def mon_vmiflist(id=None):
-	if id == None:
-		return "No unique id for VM", 404
-	
-	print "/mon/nfv/%s/iflist" % (id)
-
-	results = {}
-	
-	
-	vms = read_repository("vms")
-	results = []
-	for vm in vms:
-		if '_id' in vm and id == vm['_id']:
-			from spidercore.FabricUtilNFV import getInterfaces
-			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
-			for nic in nics:
-				results.append(nic['ethName'])
-			return json.dumps(results)
+	# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
+	# 그래서 json에 같이 병합해서 전송
 	
 	return 'Not found', 404
 
 
+# nic 전체에 대한 config 정보를 통째로 받아 update
+# repository 정보도 갱신
 @app.route("/nfv/<id>/if/<ifid>", methods=['PUT'])
 def mon_vmifupdate(id=None, ifid=None):
 	if id == None:
@@ -281,6 +263,31 @@ def mon_vmifupdate(id=None, ifid=None):
 	else:
 		return 'Not found', 404
  
+
+
+
+@app.route("/mon/nfv/<id>/iflist", methods=['GET'])
+def mon_vmiflist(id=None):
+	if id == None:
+		return "No unique id for VM", 404
+	
+	print "/mon/nfv/%s/iflist" % (id)
+
+	results = {}
+	
+	
+	vms = read_repository("vms")
+	results = []
+	for vm in vms:
+		if '_id' in vm and id == vm['_id']:
+			from spidercore.FabricUtilNFV import getInterfaces
+			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+			for nic in nics:
+				results.append(nic['ethName'])
+			return json.dumps(results)
+	
+	return 'Not found', 404
+
 
 
 
