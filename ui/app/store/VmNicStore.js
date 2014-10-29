@@ -34,13 +34,23 @@ Ext.define('spider.store.VmNicStore', {
                 reader: {
                     type: 'json'
                 }
-            })
+            }),
+            listeners: {
+                load: {
+                    fn: me.onJsonstoreLoad,
+                    scope: me
+                }
+            }
         }, cfg)]);
     },
 
     processMyAjaxProxy1: function(config) {
         config.actionMethods = {read: "GET"};
         return config;
+    },
+
+    onJsonstoreLoad: function(store, records, successful, eOpts) {
+        vmConstants.initComboNic = true;
     }
 
 });

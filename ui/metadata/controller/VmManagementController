@@ -102,7 +102,9 @@
                     "    selectVmId : null,",
                     "    selectRecord : null,",
                     "",
-                    "    vmCombo : null",
+                    "    vmCombo : null,",
+                    "    ",
+                    "    initComboNic : false",
                     "",
                     "});"
                 ]
@@ -972,11 +974,11 @@
                     "var comboStore = Ext.getStore(\"VmNicStore\");",
                     "comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get(\"id\") + '/if/_all';",
                     "",
-                    "if(comboStore.getCount() > 0) {",
+                    "if(vmConstants.initComboNic) {",
                     "    comboStore.removeAll();",
                     "    comboStore.load();",
-                    "}",
-                    ""
+                    "    ",
+                    "}"
                 ]
             },
             "designerId": "aa4189d2-e64d-4f1f-b780-3b1ea3f4ad8b"

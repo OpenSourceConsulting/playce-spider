@@ -53,6 +53,23 @@
                     "designerId": "dd135c35-6dd8-4fb2-959a-32a138f7b749"
                 }
             ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onJsonstoreLoad",
+                "implHandler": [
+                    "vmConstants.initComboNic = true;"
+                ],
+                "name": "load",
+                "scope": "me"
+            },
+            "designerId": "b2c41ea6-50e3-4c76-a03d-460a9bedeb8c"
         }
     ]
 }

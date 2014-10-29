@@ -146,7 +146,9 @@ Ext.define('spider.controller.VmManagementController', {
                     selectVmId : null,
                     selectRecord : null,
 
-                    vmCombo : null
+                    vmCombo : null,
+
+                    initComboNic : false
 
                 });
 
@@ -885,11 +887,11 @@ Ext.define('spider.controller.VmManagementController', {
         var comboStore = Ext.getStore("VmNicStore");
         comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all';
 
-        if(comboStore.getCount() > 0) {
+        if(vmConstants.initComboNic) {
             comboStore.removeAll();
             comboStore.load();
-        }
 
+        }
     }
 
 });
