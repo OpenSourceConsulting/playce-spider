@@ -122,11 +122,11 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Category',
                                                             fields: [
-                                                                'test'
+                                                                'date'
                                                             ],
                                                             label: {
                                                                 renderer: function(v) {
-                                                                    return " ";
+                                                                    return "";
                                                                 }
                                                             },
                                                             dashSize: 0,
@@ -187,11 +187,11 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Category',
                                                             fields: [
-                                                                'test'
+                                                                'date'
                                                             ],
                                                             label: {
                                                                 renderer: function(v) {
-                                                                    return " ";
+                                                                    return "";
                                                                 }
                                                             },
                                                             dashSize: 0,
@@ -252,11 +252,11 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Category',
                                                             fields: [
-                                                                'test'
+                                                                'date'
                                                             ],
                                                             label: {
                                                                 renderer: function(v) {
-                                                                    return " ";
+                                                                    return "";
                                                                 }
                                                             },
                                                             dashSize: 0,

@@ -246,6 +246,7 @@ Ext.define('spider.controller.MenuController', {
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'mon/vmhost/_all',
             disableCaching : true,
+            waitMsg: 'Loading...',
             success: function(response){
 
                 var hostDatas = Ext.decode(response.responseText);

@@ -38,6 +38,9 @@ Ext.define('spider.model.VmNicModel', {
         },
         {
             name: 'speed'
+        },
+        {
+            name: 'ipaddr'
         }
     ]
 });

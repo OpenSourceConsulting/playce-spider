@@ -775,7 +775,7 @@
                                                                             "{",
                                                                             "    readOnly: true,",
                                                                             "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
-                                                                            "    labelWidth : 95,",
+                                                                            "    labelWidth : 80,",
                                                                             "    labelSeparator: ' :'",
                                                                             "}"
                                                                         ],
@@ -796,9 +796,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "VM 이름",
+                                                                                "fieldLabel": "플랫폼",
                                                                                 "layout|anchor": "100%",
-                                                                                "name": "name",
+                                                                                "name": "arch",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "97db9a0b-78c5-4049-8429-3c28b99a3f1f"
@@ -811,9 +811,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "OS 타입",
+                                                                                "fieldLabel": "Host Name",
                                                                                 "layout|anchor": "100%",
-                                                                                "name": "osType",
+                                                                                "name": "hostname",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "592a6204-f599-44b6-9243-343365bdcd90"
@@ -826,9 +826,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "상태",
+                                                                                "fieldLabel": "커널",
                                                                                 "layout|anchor": "100%",
-                                                                                "name": "state",
+                                                                                "name": "kernel",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "178fdc87-7d09-426f-9ec2-1bfb2449f5e6"
@@ -841,9 +841,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "Cpu(s)",
+                                                                                "fieldLabel": "관리IP",
                                                                                 "layout|anchor": "100%",
-                                                                                "name": "cpu",
+                                                                                "name": "mgraddr",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "f54214a3-4c25-4907-af5a-bc773176b607"
@@ -856,9 +856,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "Cpu Time",
+                                                                                "fieldLabel": "운영체제",
                                                                                 "layout|anchor": "100%",
-                                                                                "name": "cpuTime",
+                                                                                "name": "ostype",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "7ef80e47-7520-4922-93cb-f2c416bb3453"
@@ -871,9 +871,9 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "Max Memory",
+                                                                                "fieldLabel": "템플릿",
                                                                                 "layout|anchor": "100%",
-                                                                                "name": "maxMemory",
+                                                                                "name": "templateName",
                                                                                 "value": null
                                                                             },
                                                                             "designerId": "5a4bea75-b66d-44aa-9187-b497763d8c21"
@@ -886,12 +886,37 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "fieldLabel": "Used Memory",
+                                                                                "fieldLabel": "NFV",
                                                                                 "layout|anchor": "100%",
-                                                                                "name": "usedMemory",
+                                                                                "name": "vyatta",
                                                                                 "value": null
                                                                             },
-                                                                            "designerId": "8c4fa2d1-8ccf-4395-be3c-834cbeae4c0b"
+                                                                            "designerId": "8c4fa2d1-8ccf-4395-be3c-834cbeae4c0b",
+                                                                            "cn": [
+                                                                                {
+                                                                                    "type": "fixedfunction",
+                                                                                    "reference": {
+                                                                                        "name": "items",
+                                                                                        "type": "array"
+                                                                                    },
+                                                                                    "codeClass": null,
+                                                                                    "userConfig": {
+                                                                                        "designer|params": [
+                                                                                            "value",
+                                                                                            "displayField"
+                                                                                        ],
+                                                                                        "fn": "renderer",
+                                                                                        "implHandler": [
+                                                                                            "if(value == true) {",
+                                                                                            "    return \"예\";",
+                                                                                            "} else {",
+                                                                                            "    return \"아니오\";",
+                                                                                            "}"
+                                                                                        ]
+                                                                                    },
+                                                                                    "designerId": "ae861d84-5d15-430d-bc41-eda1b1f85c8d"
+                                                                                }
+                                                                            ]
                                                                         }
                                                                     ]
                                                                 }
@@ -945,6 +970,7 @@
                                                                         "id": "interfacesGridPanel",
                                                                         "itemId": "interfacesGridPanel",
                                                                         "maxHeight": 225,
+                                                                        "store": "VmInterfaceStore",
                                                                         "style": "vertical-align:middle !important;",
                                                                         "title": null
                                                                     },
@@ -974,7 +1000,7 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "align": "right",
+                                                                                "align": null,
                                                                                 "dataIndex": "name",
                                                                                 "flex": 1,
                                                                                 "text": "Name"
@@ -989,52 +1015,8 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "align": "right",
-                                                                                "dataIndex": "name",
-                                                                                "flex": 1,
-                                                                                "text": "Type"
-                                                                            },
-                                                                            "designerId": "c65a9e8a-25f7-40c1-88ab-e4ab8f212770"
-                                                                        },
-                                                                        {
-                                                                            "type": "Ext.grid.column.Column",
-                                                                            "reference": {
-                                                                                "name": "columns",
-                                                                                "type": "array"
-                                                                            },
-                                                                            "codeClass": null,
-                                                                            "userConfig": {
-                                                                                "dataIndex": "description",
-                                                                                "flex": 3,
-                                                                                "overflowX": null,
-                                                                                "overflowY": null,
-                                                                                "text": "Source"
-                                                                            },
-                                                                            "designerId": "e03c84b4-faa7-4b81-809f-e05844219e8a",
-                                                                            "cn": [
-                                                                                {
-                                                                                    "type": "Ext.form.field.TextArea",
-                                                                                    "reference": {
-                                                                                        "name": "editor",
-                                                                                        "type": "object"
-                                                                                    },
-                                                                                    "codeClass": null,
-                                                                                    "userConfig": {
-                                                                                        "readOnly": true
-                                                                                    },
-                                                                                    "designerId": "4b8b7e18-6403-4423-93e8-7f191ecbf747"
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            "type": "Ext.grid.column.Column",
-                                                                            "reference": {
-                                                                                "name": "columns",
-                                                                                "type": "array"
-                                                                            },
-                                                                            "codeClass": null,
-                                                                            "userConfig": {
-                                                                                "dataIndex": "ip",
+                                                                                "align": null,
+                                                                                "dataIndex": "ipaddr",
                                                                                 "flex": 2,
                                                                                 "text": "IP Address"
                                                                             },
@@ -1048,97 +1030,12 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "align": "center",
-                                                                                "dataIndex": "status",
-                                                                                "flex": 1,
-                                                                                "text": "Status"
+                                                                                "align": null,
+                                                                                "dataIndex": "macaddr",
+                                                                                "flex": 2,
+                                                                                "text": "MAC Address"
                                                                             },
-                                                                            "designerId": "51b6d362-0e00-459d-9b9e-111f6a6d373a",
-                                                                            "cn": [
-                                                                                {
-                                                                                    "type": "fixedfunction",
-                                                                                    "reference": {
-                                                                                        "name": "items",
-                                                                                        "type": "array"
-                                                                                    },
-                                                                                    "codeClass": null,
-                                                                                    "userConfig": {
-                                                                                        "designer|params": [
-                                                                                            "value",
-                                                                                            "metaData",
-                                                                                            "record",
-                                                                                            "rowIndex",
-                                                                                            "colIndex",
-                                                                                            "store",
-                                                                                            "view"
-                                                                                        ],
-                                                                                        "fn": "renderer",
-                                                                                        "implHandler": [
-                                                                                            "var values = (value + \"\").split(\",\");",
-                                                                                            "",
-                                                                                            "var result = \"\";",
-                                                                                            "var on = \"<img src='resources/images/icons/bullet_green.png'><br/>\";",
-                                                                                            "var off = \"<img src='resources/images/icons/bullet_red.png'><br/>\";",
-                                                                                            "",
-                                                                                            "if (values[0] === \"on\") {",
-                                                                                            "    result += on;",
-                                                                                            "} else if(values[0] === \"off\") {",
-                                                                                            "    result += off;",
-                                                                                            "} else {",
-                                                                                            "    result += \"<br/>\";",
-                                                                                            "}",
-                                                                                            "",
-                                                                                            "if (values[1] === '') {",
-                                                                                            "    result += \"&nbsp;\";",
-                                                                                            "} else {",
-                                                                                            "    result += values[1];",
-                                                                                            "}",
-                                                                                            "",
-                                                                                            "return result;"
-                                                                                        ]
-                                                                                    },
-                                                                                    "designerId": "835381fb-19ab-4f40-9356-66b9f4b1d8d4"
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            "type": "Ext.grid.column.Column",
-                                                                            "reference": {
-                                                                                "name": "columns",
-                                                                                "type": "array"
-                                                                            },
-                                                                            "codeClass": null,
-                                                                            "userConfig": {
-                                                                                "align": "right",
-                                                                                "dataIndex": "in",
-                                                                                "flex": 1,
-                                                                                "text": "In"
-                                                                            },
-                                                                            "designerId": "d4c99f27-c9d6-400b-9b78-0008e6668d6b"
-                                                                        },
-                                                                        {
-                                                                            "type": "Ext.grid.column.Column",
-                                                                            "reference": {
-                                                                                "name": "columns",
-                                                                                "type": "array"
-                                                                            },
-                                                                            "codeClass": null,
-                                                                            "userConfig": {
-                                                                                "align": "right",
-                                                                                "dataIndex": "out",
-                                                                                "flex": 1,
-                                                                                "text": "Out"
-                                                                            },
-                                                                            "designerId": "e29c67da-517b-4d20-bc3c-9f1d8f66a316"
-                                                                        },
-                                                                        {
-                                                                            "type": "Ext.grid.plugin.CellEditing",
-                                                                            "reference": {
-                                                                                "name": "plugins",
-                                                                                "type": "array"
-                                                                            },
-                                                                            "codeClass": "Ext.grid.plugin.CellEditing",
-                                                                            "designerId": "8d3df574-e94d-4f72-ba1f-e315f89572f1"
+                                                                            "designerId": "944b97c6-ed4a-4376-9f1c-78fcdbae91c3"
                                                                         }
                                                                     ]
                                                                 }
@@ -1817,7 +1714,7 @@
                                                 "margin": "0 0 0 10",
                                                 "store": "VmNicStore",
                                                 "valueField": "ethName",
-                                                "width": 110
+                                                "width": 150
                                             },
                                             "designerId": "37695db6-b8ab-4403-8a6c-58dae87717b5"
                                         },
@@ -1939,7 +1836,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "IP 주소",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "ipaddr"
                                                     },
                                                     "designerId": "2e9427fb-db23-4c75-bbf2-5917d2953569"
                                                 },
@@ -1952,7 +1850,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "Subnet",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "subnet"
                                                     },
                                                     "designerId": "6f7aef5b-147b-452d-b729-2c02869f0d67"
                                                 }
@@ -1992,7 +1891,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "Gateway",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "gateway"
                                                     },
                                                     "designerId": "2816658d-ce87-41ff-a102-6a68a3eabdb9"
                                                 },
@@ -2005,7 +1905,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "IP V6 주소",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "ipv6addr"
                                                     },
                                                     "designerId": "ab1adbf9-7a0e-4041-a909-dd0be5000dfa"
                                                 }

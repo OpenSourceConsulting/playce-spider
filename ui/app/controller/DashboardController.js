@@ -57,7 +57,7 @@ Ext.define('spider.controller.DashboardController', {
 
             var nodePanel = Ext.getCmp("DashBoardNodePanel").cloneConfig({itemId : "DashBoardNodePanel"+idx});
 
-            nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
+            nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
             nodePanel.down('#VmHostName').setText(record.get('text'));
 
             cpu = Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0));

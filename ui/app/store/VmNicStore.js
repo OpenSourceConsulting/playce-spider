@@ -30,7 +30,7 @@ Ext.define('spider.store.VmNicStore', {
             storeId: 'VmNicStore',
             proxy: me.processMyAjaxProxy1({
                 type: 'ajax',
-                url: '/',
+                url: '/mon/vm',
                 reader: {
                     type: 'json'
                 }

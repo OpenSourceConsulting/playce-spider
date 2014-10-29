@@ -81,6 +81,18 @@
                 "name": "speed"
             },
             "designerId": "075c3703-4892-4cb6-9dc9-b9d2d111573d"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "ipaddr"
+            },
+            "designerId": "a68d806f-d930-4053-b303-a58d00aa78a7"
         }
     ]
 }
