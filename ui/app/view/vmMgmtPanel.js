@@ -30,11 +30,10 @@ Ext.define('spider.view.vmMgmtPanel', {
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.grid.column.Column',
-        'Ext.form.field.TextArea',
-        'Ext.grid.plugin.CellEditing',
         'Ext.form.field.ComboBox',
         'Ext.form.field.Checkbox',
         'Ext.toolbar.Spacer',
+        'Ext.form.field.TextArea',
         'Ext.form.CheckboxGroup'
     ],
 
@@ -428,51 +427,58 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             fieldDefaults: {
                                                                                 readOnly: true,
                                                                                 labelStyle: 'color:#666;font-weight: bold;text-align: right;',
-                                                                                labelWidth: 95,
+                                                                                labelWidth: 80,
                                                                                 labelSeparator: ' :'
                                                                             },
                                                                             items: [
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'VM 이름',
-                                                                                    name: 'name'
+                                                                                    fieldLabel: '플랫폼',
+                                                                                    name: 'arch'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'OS 타입',
-                                                                                    name: 'osType'
+                                                                                    fieldLabel: 'Host Name',
+                                                                                    name: 'hostname'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: '상태',
-                                                                                    name: 'state'
+                                                                                    fieldLabel: '커널',
+                                                                                    name: 'kernel'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'Cpu(s)',
-                                                                                    name: 'cpu'
+                                                                                    fieldLabel: '관리IP',
+                                                                                    name: 'mgraddr'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'Cpu Time',
-                                                                                    name: 'cpuTime'
+                                                                                    fieldLabel: '운영체제',
+                                                                                    name: 'ostype'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'Max Memory',
-                                                                                    name: 'maxMemory'
+                                                                                    fieldLabel: '템플릿',
+                                                                                    name: 'templateName'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'displayfield',
+                                                                                    renderer: function(value, displayField) {
+                                                                                        if(value == true) {
+                                                                                            return "예";
+                                                                                        } else {
+                                                                                            return "아니오";
+                                                                                        }
+                                                                                    },
                                                                                     anchor: '100%',
-                                                                                    fieldLabel: 'Used Memory',
-                                                                                    name: 'usedMemory'
+                                                                                    fieldLabel: 'NFV',
+                                                                                    name: 'vyatta'
                                                                                 }
                                                                             ]
                                                                         }
@@ -502,6 +508,7 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             columnLines: true,
                                                                             emptyText: 'No data found.',
                                                                             forceFit: true,
+                                                                            store: 'VmInterfaceStore',
                                                                             dockedItems: [
                                                                                 {
                                                                                     xtype: 'toolbar',
@@ -512,83 +519,22 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             columns: [
                                                                                 {
                                                                                     xtype: 'gridcolumn',
-                                                                                    align: 'right',
                                                                                     dataIndex: 'name',
                                                                                     text: 'Name',
                                                                                     flex: 1
                                                                                 },
                                                                                 {
                                                                                     xtype: 'gridcolumn',
-                                                                                    align: 'right',
-                                                                                    dataIndex: 'name',
-                                                                                    text: 'Type',
-                                                                                    flex: 1
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'gridcolumn',
-                                                                                    dataIndex: 'description',
-                                                                                    text: 'Source',
-                                                                                    flex: 3,
-                                                                                    editor: {
-                                                                                        xtype: 'textareafield',
-                                                                                        readOnly: true
-                                                                                    }
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'gridcolumn',
-                                                                                    dataIndex: 'ip',
+                                                                                    dataIndex: 'ipaddr',
                                                                                     text: 'IP Address',
                                                                                     flex: 2
                                                                                 },
                                                                                 {
                                                                                     xtype: 'gridcolumn',
-                                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-                                                                                        var values = (value + "").split(",");
-
-                                                                                        var result = "";
-                                                                                        var on = "<img src='resources/images/icons/bullet_green.png'><br/>";
-                                                                                        var off = "<img src='resources/images/icons/bullet_red.png'><br/>";
-
-                                                                                        if (values[0] === "on") {
-                                                                                            result += on;
-                                                                                        } else if(values[0] === "off") {
-                                                                                            result += off;
-                                                                                        } else {
-                                                                                            result += "<br/>";
-                                                                                        }
-
-                                                                                        if (values[1] === '') {
-                                                                                            result += "&nbsp;";
-                                                                                        } else {
-                                                                                            result += values[1];
-                                                                                        }
-
-                                                                                        return result;
-                                                                                    },
-                                                                                    align: 'center',
-                                                                                    dataIndex: 'status',
-                                                                                    text: 'Status',
-                                                                                    flex: 1
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'gridcolumn',
-                                                                                    align: 'right',
-                                                                                    dataIndex: 'in',
-                                                                                    text: 'In',
-                                                                                    flex: 1
-                                                                                },
-                                                                                {
-                                                                                    xtype: 'gridcolumn',
-                                                                                    align: 'right',
-                                                                                    dataIndex: 'out',
-                                                                                    text: 'Out',
-                                                                                    flex: 1
+                                                                                    dataIndex: 'macaddr',
+                                                                                    text: 'MAC Address',
+                                                                                    flex: 2
                                                                                 }
-                                                                            ],
-                                                                            plugins: [
-                                                                                Ext.create('Ext.grid.plugin.CellEditing', {
-
-                                                                                })
                                                                             ]
                                                                         }
                                                                     ]
@@ -896,7 +842,7 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                     id: 'comboNicName',
                                                     itemId: 'comboNicName',
                                                     margin: '0 0 0 10',
-                                                    width: 110,
+                                                    width: 150,
                                                     fieldLabel: 'NIC',
                                                     labelWidth: 40,
                                                     editable: false,
@@ -957,12 +903,14 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'IP 주소'
+                                                            fieldLabel: 'IP 주소',
+                                                            name: 'ipaddr'
                                                         },
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'Subnet'
+                                                            fieldLabel: 'Subnet',
+                                                            name: 'subnet'
                                                         }
                                                     ]
                                                 },
@@ -980,12 +928,14 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'Gateway'
+                                                            fieldLabel: 'Gateway',
+                                                            name: 'gateway'
                                                         },
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'IP V6 주소'
+                                                            fieldLabel: 'IP V6 주소',
+                                                            name: 'ipv6addr'
                                                         }
                                                     ]
                                                 },

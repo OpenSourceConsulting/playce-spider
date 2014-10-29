@@ -1,0 +1,51 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmInterfaceStore",
+        "storeId": "VmInterfaceStore"
+    },
+    "designerId": "b2dd3027-517c-435f-99cb-27a83a9c3f9b",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "name"
+            },
+            "designerId": "12010be8-ddbf-4afc-a0ae-c9a6afbdc655"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "ipaddr"
+            },
+            "designerId": "74e36366-882d-4e25-8174-0021cdf9e118"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "macaddr"
+            },
+            "designerId": "36470f6c-0710-4ff4-be02-0a0f6b7aed43"
+        }
+    ]
+}

@@ -43,7 +43,8 @@ Ext.application({
         'VmCpuChartStore',
         'VmMemoryChartStore',
         'VmNetworkChartStore',
-        'VmNicStore'
+        'VmNicStore',
+        'VmInterfaceStore'
     ],
     views: [
         'AthenaSpider',

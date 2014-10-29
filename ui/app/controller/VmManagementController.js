@@ -56,12 +56,27 @@ Ext.define('spider.controller.VmManagementController', {
 
         } else {
 
+            var form = Ext.getCmp("viewNicForm").getForm();
+            form.reset();
+
+
             var store = field.getStore();
             var record = store.findRecord("ethName", newValue);
 
             Ext.getCmp("viewNicForm").getForm().loadRecord(record);
 
             field.up('toolbar').down('button').show();
+
+            var readOnlyFlag = false;
+            if(record.get("address") == "dhcp") {
+                readOnlyFlag = true;
+            }
+
+            form.findField("ipaddr").setReadOnly(readOnlyFlag);
+            form.findField("subnet").setReadOnly(readOnlyFlag);
+            form.findField("gateway").setReadOnly(readOnlyFlag);
+            form.findField("ipv6addr").setReadOnly(readOnlyFlag);
+
         }
 
     },
@@ -710,10 +725,11 @@ Ext.define('spider.controller.VmManagementController', {
         viewVmForm.getForm().waitMsgTarget = viewVmForm.getEl();
 
         Ext.Ajax.request({
-            url: GLOBAL.apiUrlPrefix + 'mon/vm/' +vmConstants.selectRecord.get("id"),
+            url: GLOBAL.apiUrlPrefix + 'mon/vm/' +vmConstants.selectRecord.get("id") + '?detail=true',
             method : 'GET',
             disableCaching : true,
             waitMsg: 'Loading...',
+            waitMsgTarget : viewVmForm.getEl(),
             success: function(response){
 
                 var data = Ext.JSON.decode(response.responseText);
@@ -724,6 +740,23 @@ Ext.define('spider.controller.VmManagementController', {
                     var form = viewVmForm.getForm();
 
                     form.setValues(vmData);
+
+                    var gridData = [];
+                    var interfaceKey = Object.keys(vmData.interfaces);
+
+                    Ext.each(interfaceKey, function(nic) {
+                        gridData.push({
+                            name : nic,
+                            ipaddr : vmData.interfaces[nic].ipaddr,
+                            macaddr : vmData.interfaces[nic].macaddr
+                        });
+
+                    });
+
+                    gridData.reverse();
+
+                    Ext.getStore("VmInterfaceStore").loadData(gridData, false);
+
 
                 }
             }
@@ -850,10 +883,13 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.getCmp("viewNicForm").getForm().reset();
 
         var comboStore = Ext.getStore("VmNicStore");
-        comboStore.removeAll();
-        comboStore.load({
-            url : GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all'
-        });
+        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all';
+
+        if(comboStore.getCount() > 0) {
+            comboStore.removeAll();
+            comboStore.load();
+        }
+
     }
 
 });
