@@ -11,6 +11,7 @@ import json
 from spidercore import *
 from pyparsing import *
 from __builtin__ import int
+import os
 
 keywords = CaselessKeyword('interfaces') | CaselessKeyword('nat') | CaselessKeyword('service') | CaselessKeyword('system')
 elementList = Forward()
@@ -259,6 +260,7 @@ def pingVM_task():
 	return succeeded
 
 def pingVM(addr, sshid, sshpw):
+	os.system("rm ~/.ssh/known_hosts")
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
