@@ -18,7 +18,8 @@
             "HostListData",
             "SampleModel",
             "VmHostModel",
-            "VmTemplateModel"
+            "VmTemplateModel",
+            "VmNicModel"
         ],
         "name": "spider",
         "requires": [
@@ -35,7 +36,8 @@
             "VmHostChartStore",
             "VmCpuChartStore",
             "VmMemoryChartStore",
-            "VmNetworkChartStore"
+            "VmNetworkChartStore",
+            "VmNicStore"
         ],
         "views": [
             "AthenaSpider",

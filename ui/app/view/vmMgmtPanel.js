@@ -62,7 +62,6 @@ Ext.define('spider.view.vmMgmtPanel', {
                             fieldLabel: 'VM Host ',
                             labelStyle: 'font-weight: bold;',
                             labelWidth: 60,
-                            value: 'KVMHost #1',
                             fieldStyle: 'font-weight: bold;'
                         },
                         {
@@ -73,16 +72,16 @@ Ext.define('spider.view.vmMgmtPanel', {
                             fieldLabel: 'VM Name ',
                             labelStyle: 'font-weight: bold;',
                             labelWidth: 70,
-                            value: 'Vyatta #1',
                             fieldStyle: 'font-weight: bold;'
                         },
                         {
                             xtype: 'displayfield',
+                            id: 'mgmtVmState',
+                            itemId: 'mgmtVmState',
                             margin: '0 30 0 0',
                             fieldLabel: '상태 ',
                             labelStyle: 'font-weight: bold;',
                             labelWidth: 40,
-                            value: 'RUNNING',
                             fieldStyle: 'font-weight: bold;'
                         },
                         {
@@ -181,7 +180,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             degrees: 315
                                                                         }
                                                                     },
-                                                                    grid: true,
+                                                                    dashSize: 0,
+                                                                    grid: false,
                                                                     position: 'bottom',
                                                                     dateFormat: 'H:i:s',
                                                                     step: [
@@ -204,6 +204,7 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                         radius: 3,
                                                                         size: 3
                                                                     },
+                                                                    showMarkers: false,
                                                                     smooth: true
                                                                 }
                                                             ]
@@ -250,8 +251,6 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             'stroke-width': 0.5
                                                                         }
                                                                     },
-                                                                    maximum: 100,
-                                                                    minimum: 0,
                                                                     position: 'left'
                                                                 },
                                                                 {
@@ -264,7 +263,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             degrees: 315
                                                                         }
                                                                     },
-                                                                    grid: true,
+                                                                    dashSize: 0,
+                                                                    grid: false,
                                                                     position: 'bottom',
                                                                     dateFormat: 'H:i:s',
                                                                     step: [
@@ -285,7 +285,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                     markerConfig: {
                                                                         radius: 3,
                                                                         size: 3
-                                                                    }
+                                                                    },
+                                                                    showMarkers: false
                                                                 }
                                                             ]
                                                         },
@@ -346,7 +347,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                             degrees: 315
                                                                         }
                                                                     },
-                                                                    grid: true,
+                                                                    dashSize: 0,
+                                                                    grid: false,
                                                                     position: 'bottom',
                                                                     dateFormat: 'H:i:s',
                                                                     step: [
@@ -367,7 +369,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                     markerConfig: {
                                                                         radius: 3,
                                                                         size: 3
-                                                                    }
+                                                                    },
+                                                                    showMarkers: false
                                                                 }
                                                             ]
                                                         },
@@ -677,7 +680,7 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                                         {
                                                                             type: 'Time',
                                                                             fields: [
-                                                                                'date'
+                                                                                'test'
                                                                             ],
                                                                             label: {
                                                                                 rotate: {
@@ -890,10 +893,16 @@ Ext.define('spider.view.vmMgmtPanel', {
                                             items: [
                                                 {
                                                     xtype: 'combobox',
+                                                    id: 'comboNicName',
+                                                    itemId: 'comboNicName',
                                                     margin: '0 0 0 10',
                                                     width: 110,
                                                     fieldLabel: 'NIC',
-                                                    labelWidth: 40
+                                                    labelWidth: 40,
+                                                    editable: false,
+                                                    displayField: 'ethName',
+                                                    store: 'VmNicStore',
+                                                    valueField: 'ethName'
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
@@ -911,7 +920,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                 {
                                                     xtype: 'button',
                                                     margin: '0 20 0 0',
-                                                    text: '신규생성'
+                                                    padding: '3 10 3 10',
+                                                    text: '저장'
                                                 }
                                             ]
                                         }
@@ -919,6 +929,8 @@ Ext.define('spider.view.vmMgmtPanel', {
                                     items: [
                                         {
                                             xtype: 'form',
+                                            id: 'viewNicForm',
+                                            itemId: 'viewNicForm',
                                             autoScroll: true,
                                             bodyPadding: 10,
                                             header: false,
@@ -931,51 +943,6 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                 labelWidth: 80
                                             },
                                             items: [
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'checkboxgroup',
-                                                            flex: 1,
-                                                            margin: '0 0 0 20',
-                                                            width: 321,
-                                                            items: [
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth1'
-                                                                },
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth2'
-                                                                },
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth3'
-                                                                },
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth4'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'tbspacer',
-                                                            flex: 2
-                                                        }
-                                                    ]
-                                                },
                                                 {
                                                     xtype: 'fieldcontainer',
                                                     flex: '1',
@@ -1034,9 +1001,10 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                     },
                                                     items: [
                                                         {
-                                                            xtype: 'combobox',
+                                                            xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'Duplex'
+                                                            fieldLabel: 'Duplex',
+                                                            name: 'duplex'
                                                         },
                                                         {
                                                             xtype: 'textfield',
@@ -1057,9 +1025,10 @@ Ext.define('spider.view.vmMgmtPanel', {
                                                     },
                                                     items: [
                                                         {
-                                                            xtype: 'combobox',
+                                                            xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'Speed'
+                                                            fieldLabel: 'Speed',
+                                                            name: 'speed'
                                                         },
                                                         {
                                                             xtype: 'textfield',

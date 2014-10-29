@@ -29,7 +29,7 @@
                     "Ext.define('dashboardConstants', {",
                     "    singleton: true,",
                     "    me : dashBoard,",
-                    "    ",
+                    "",
                     "    intervalId1 : null",
                     "});"
                 ]
@@ -116,7 +116,7 @@
                     "",
                     "// Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.",
                     "setTimeout(function() {",
-                    "    ",
+                    "",
                     "    dashboardConstants.me.renderDashboard();",
                     "",
                     "}, 3000);",

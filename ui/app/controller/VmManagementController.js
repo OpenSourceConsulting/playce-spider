@@ -16,6 +16,13 @@
 Ext.define('spider.controller.VmManagementController', {
     extend: 'Ext.app.Controller',
 
+    refs: [
+        {
+            ref: 'centerContainer',
+            selector: '#centerPanel'
+        }
+    ],
+
     onVmListCycleBtnClick: function(item, e, eOpts) {
         Ext.getCmp("vmListCycleBtn").setText(item.text);
 
@@ -28,12 +35,35 @@ Ext.define('spider.controller.VmManagementController', {
 
             this.setInstanceDashboard();
 
+        } else if(newCard.title === "NIC") {
+
+            this.setNic();
         }
+
+
         if(oldCard.title == "Instance Dashboard") {
             clearInterval(GlobalData.intervalId2);
         }
 
         //this.changeNetworkInstanceTab()
+    },
+
+    onComboboxChange: function(field, newValue, oldValue, eOpts) {
+
+        if(newValue === '') {
+
+            field.up('toolbar').down('button').hide();
+
+        } else {
+
+            var store = field.getStore();
+            var record = store.findRecord("ethName", newValue);
+
+            Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+
+            field.up('toolbar').down('button').show();
+        }
+
     },
 
     initVmManagement: function(record, tabIndex) {
@@ -52,6 +82,23 @@ Ext.define('spider.controller.VmManagementController', {
 
         Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
         Ext.getCmp("mgmtVmName").setValue(record.get("text"));
+        Ext.getCmp("mgmtVmState").setValue("");
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/vm/' + record.get("vmhost") + "/" + record.get("text") + "/status",
+            method : 'GET',
+            disableCaching : true,
+            success: function(response){
+
+                var data = Ext.JSON.decode(response.responseText);
+
+                if(data.length > 0) {
+                    Ext.getCmp("mgmtVmState").setValue(data[0].state.toLowerCase());
+
+                }
+
+            }
+        });
 
         var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
         if(tabIndex) {
@@ -94,6 +141,9 @@ Ext.define('spider.controller.VmManagementController', {
             },
             "#networkInstanceTabPanel": {
                 tabchange: this.onNetworkInstanceTabPanelTabChange
+            },
+            "#comboNicName": {
+                change: this.onComboboxChange
             }
         });
     },
@@ -660,7 +710,7 @@ Ext.define('spider.controller.VmManagementController', {
         viewVmForm.getForm().waitMsgTarget = viewVmForm.getEl();
 
         Ext.Ajax.request({
-            url: GLOBAL.apiUrlPrefix + 'mon/vm/' + vmConstants.selectRecord.get("vmhost") + "/" + vmConstants.selectRecord.get("text"),
+            url: GLOBAL.apiUrlPrefix + 'mon/vm/' +vmConstants.selectRecord.get("id"),
             method : 'GET',
             disableCaching : true,
             waitMsg: 'Loading...',
@@ -675,8 +725,6 @@ Ext.define('spider.controller.VmManagementController', {
 
                     form.setValues(vmData);
 
-                    //form.findField("osType").setValue(vmData.os type);
-
                 }
             }
         });
@@ -684,11 +732,20 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setInstanceDashboardChart: function() {
+        var centerContainer = this.getCenterContainer();
+        var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
+
+        if (centerContainer.layout.getActiveItem().itemId !== "managementPanel") {
+            return;
+        } else if(vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(0)) {
+            return;
+        }
+
 
         //CPU
         Ext.Ajax.request({
             url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414488656.039&target='
-                    + vmConstants.selectRecord.get("id") + '.cpu.0.cpu.user.value&from=-10minutes&format=json',
+                    + vmConstants.selectRecord.get("id") + '.cpu.0.cpu.user.value&from=-1minutes&format=json',
             disableCaching : true,
             success: function(response){
 
@@ -700,10 +757,11 @@ Ext.define('spider.controller.VmManagementController', {
                     // Get the quality field from record
                     // Update chart with data
                     var chartList = [];
-                    Ext.each(data.datapoints, function (chartData) {
+                    Ext.each(data.datapoints, function (chartData, aaa) {
                         var chartCol = {};
                         chartCol.cpu = chartData.value;
-                        chartCol.date = chartData.date;
+                        chartCol.date = new Date(chartData.date*1000);
+
                         chartList.push(chartCol);
                     });
 
@@ -717,7 +775,7 @@ Ext.define('spider.controller.VmManagementController', {
         //Memory
         Ext.Ajax.request({
             url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414489011.422&target='
-                    + vmConstants.selectRecord.get("id") + '.memory.free.value&from=-10minutes&format=json',
+                    + vmConstants.selectRecord.get("id") + '.memory.memory.free.value&from=-1minutes&format=json',
             disableCaching : true,
             success: function(response){
 
@@ -732,7 +790,7 @@ Ext.define('spider.controller.VmManagementController', {
                     Ext.each(data.datapoints, function (chartData) {
                         var chartCol = {};
                         chartCol.memory = chartData.value;
-                        chartCol.date = chartData.date;
+                        chartCol.date = new Date(chartData.date*1000);
                         chartList.push(chartCol);
                     });
 
@@ -746,7 +804,7 @@ Ext.define('spider.controller.VmManagementController', {
         //Network
         Ext.Ajax.request({
             url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414489467.473&target='
-                    + vmConstants.selectRecord.get("id") + '.interface.if_packets.eth0.tx&from=-10minutes&format=json',
+                    + vmConstants.selectRecord.get("id") + '.interface.if_packets.eth0.tx&from=-1minutes&format=json',
             disableCaching : true,
             success: function(response){
 
@@ -762,7 +820,7 @@ Ext.define('spider.controller.VmManagementController', {
                     Ext.each(data.datapoints, function (chartData) {
                         var chartCol = {};
                         chartCol.network = chartData.value;
-                        chartCol.date = chartData.date;
+                        chartCol.date = new Date(chartData.date*1000);
                         chartList.push(chartCol);
                     });
 
@@ -771,6 +829,30 @@ Ext.define('spider.controller.VmManagementController', {
                     Ext.getStore('VmNetworkChartStore').loadData(chartList, false);
                 }
             }
+        });
+
+
+
+        // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
+
+        setTimeout(function() {
+
+            vmConstants.me.setInstanceDashboardChart();
+
+        }, 5000);
+
+    },
+
+    setNic: function() {
+        Ext.getCmp("comboNicName").setValue("");
+        Ext.getCmp("comboNicName").up('toolbar').down('button').hide();
+
+        Ext.getCmp("viewNicForm").getForm().reset();
+
+        var comboStore = Ext.getStore("VmNicStore");
+        comboStore.removeAll();
+        comboStore.load({
+            url : GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all'
         });
     }
 

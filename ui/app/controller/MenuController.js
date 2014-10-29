@@ -398,6 +398,7 @@ Ext.define('spider.controller.MenuController', {
                             vmhostName	: record.vmhostName,
                             vmhost 		: record.vmhost
                         });
+
                         vmConstants.me.initVmManagement(vmRecord, tabIndex);
 
                         return false;
@@ -405,6 +406,8 @@ Ext.define('spider.controller.MenuController', {
 
                 });
 
+            } else {
+                vmConstants.me.initVmManagement(record, tabIndex);
             }
 
 

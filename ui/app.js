@@ -28,7 +28,8 @@ Ext.application({
         'HostListData',
         'SampleModel',
         'VmHostModel',
-        'VmTemplateModel'
+        'VmTemplateModel',
+        'VmNicModel'
     ],
     stores: [
         'ServerListStore',
@@ -41,7 +42,8 @@ Ext.application({
         'VmHostChartStore',
         'VmCpuChartStore',
         'VmMemoryChartStore',
-        'VmNetworkChartStore'
+        'VmNetworkChartStore',
+        'VmNicStore'
     ],
     views: [
         'AthenaSpider',
