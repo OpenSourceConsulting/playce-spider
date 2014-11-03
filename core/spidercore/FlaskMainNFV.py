@@ -244,7 +244,7 @@ def mon_vmifupdate(id=None, ifid=None):
 	logger.debug("/nfv/%s/if/%s" % (id, ifid))
 
 	jsonData = json.loads(request.data)
-	print json.dumps(jsonData, indent=4)
+	logger.debug(json.dumps(jsonData, indent=4))
 
 # 	nics_results = []
 # 	update_vms = []
