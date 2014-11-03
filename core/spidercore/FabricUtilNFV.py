@@ -9,38 +9,8 @@ from fabric.tasks import execute
 import rpyc
 import json
 from spidercore import *
-from pyparsing import *
 from __builtin__ import int
 import os
-
-keywords = CaselessKeyword('interfaces') | CaselessKeyword('nat') | CaselessKeyword('service') | CaselessKeyword('system')
-elementList = Forward()
-string = Word( alphanums+'_-:/.+@$' )
-number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) +
-                   Optional( '.' + Word(nums) ) +
-                   Optional( Word('eE',exact=1) + Word(nums+'+-',nums) ) )
-value = string | number | dblQuotedString.setParseAction(removeQuotes)
-unaryItem = Group(value + Suppress(lineEnd()))
-item = Group(string + value + Suppress(lineEnd()))
-element = Forward()
-itemOrElement = item | unaryItem | element
-element << Group(string + Optional(string) + Group(Suppress('{') + ZeroOrMore(itemOrElement) + Suppress('}')))
-elementList = ZeroOrMore(itemOrElement)
-rootKeywords = keywords + Group( Suppress('{') + elementList + Suppress('}'))
-config = OneOrMore(rootKeywords)
-vbash_message = Regex(r"vbash\:.*").setName("vbash message")
-config.ignore(vbash_message)
-
-
-def convertNumbers(s,l,toks):
-	n = toks[0]
-	try:
-		return int(n)
-	except ValueError, ve:
-		return float(n)
-	
-number.setParseAction( convertNumbers )
-
 
 def show_interfaces():
 	result = run('show interfaces', pty=False, quiet=True)
