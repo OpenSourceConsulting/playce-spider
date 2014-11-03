@@ -207,24 +207,14 @@ def mon_vmif(id=None, ifid=None):
 	results = []
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
-			from spidercore.FabricUtilNFV import getInterfaces
-			
 			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
 					# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
 					# 그래서 json에 같이 병합해서 전송
-					result = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], nic['ethName'])
-					lines = result.split('\n')
-					for line in lines:
-				 		print "LINE: " + line
-				 		if "inet addr" in line:
-				 			ipAddr = line.split()[1].split(':')[1]
-#				 			subnet = line.split()[3].split(':')[1]
-				 			nic['ipaddr'] = ipAddr
-# 				 			nic['subnet'] = subnet
-				 			
-	
+					nicinfo = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], nic['ethName'])
+		 			nic['ipaddr'] = nicinfo['ipaddr']
+# 				 	nic['subnet'] = nicinfo['subnet']
 					results.append(nic)
 
 			return json.dumps(results)
@@ -235,7 +225,7 @@ def mon_vmif(id=None, ifid=None):
 # nic 전체에 대한 config 정보를 통째로 받아 update
 # repository 정보도 갱신
 @app.route("/nfv/<id>/if/<ifid>", methods=['PUT'])
-def mon_vmifupdate(id=None, ifid=None):
+def vmifupdate(id=None, ifid=None):
 	if id == None:
 		return "No unique id for VM", 404
 	elif ifid == None:
@@ -246,36 +236,25 @@ def mon_vmifupdate(id=None, ifid=None):
 	jsonData = json.loads(request.data)
 	logger.debug(json.dumps(jsonData, indent=4))
 
-# 	nics_results = []
-# 	update_vms = []
-# 
-# 	vms = read_repository("vms")
-# 	
-# 	updateResult = False
-# 	for vm in vms:
-# 		if '_id' in vm and id == vm['_id']:
-# 			from spidercore.FabricUtilNFV import getInterfaces
-# 			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
-# 			for nic in nics:
-# 				if ifid == nic['ethName']:
-# 					nics_results.append(jsonData)
-# 					setVmNIC(vm['mgraddr'], vm['sshid'], vm['sshpw'], jsonData)
-# 					updateResult = True
-# 				else:
-# 					nics_results.append(nic)
-# 				
-# 			vm['interfaces'] = nics_results
-# 			
-# 		update_vms.append(vm)
-# 
-# 
-# 	if updateResult:
-# 		write_repository("vms", update_vms)
-# 		return json.dumps(nics_results)
-# 	
-# 	else:
-# 		return 'Not found', 404
- 
+	vms = read_repository("vms")
+	for vm in vms:
+		if '_id' in vm and id == vm['_id']:
+			results = update_nic(vm['mgraddr'], vm['sshid'], vm['sshpw'], jsonData)
+			break
+	else:
+		return "VM not found " + id, 404
+	
+	for diff in results:
+		ethName = diff["ethName"]
+		if "hw-id" in diff:
+			vm["interfaces"][ethName]["macaddr"] = diff["hw-id"]
+		elif "address" in diff:
+			if diff["address"] == "dhcp":
+				nicinfo = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], ethName)
+				vm["interfaces"][ethName]["ipaddr"] = nicinfo['ipaddr']
+			else:
+				vm["interfaces"][ethName]["ipaddr"] = diff["address"]
+	
 	return "OK", 200
 
 

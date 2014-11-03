@@ -240,8 +240,17 @@ def pingVM(addr, sshid, sshpw):
 
 
 def ifconfig_task(nicname):
+	nicinfo = {}
 	result = run('/sbin/ifconfig -a ' + nicname, pty=False, quiet=True)
-	return result
+	lines = result.split('\n')
+	for line in lines:
+ 		print "LINE: " + line
+ 		if "inet addr" in line:
+ 			ipAddr = line.split()[1].split(':')[1]
+#			subnet = line.split()[3].split(':')[1]
+ 			nicinfo['ipaddr'] = ipAddr
+# 			nic['subnet'] = subnet
+	return nicinfo
 
 def getIfConfig(addr, sshid, sshpw, nicname):
 	env.hosts = [ addr ]
@@ -252,44 +261,50 @@ def getIfConfig(addr, sshid, sshpw, nicname):
 	return results[addr]
 
 
-def updateVmNIC(cmdData):
+def update_nic_task(beforeData, afterData):
+	options = {
+		"duplex": "duplex",
+		"smp_affinity": "smp_affinity",
+		"hw-id": "hw_id",
+		"speed": "speed",
+		"address": "address"
+	}
 
-    f = open(mainDir + '/commands.txt', 'w')
+	commands = []
+	results = []
+	ethName = afterData["ethName"]
+	for key in afterData:
+		beforeValue = beforeData[key]
+		afterValue = afterData[key]
+		
+		if beforeValue != afterValue:
+			commands.append("$SET interfaces ethernet %s %s %s" % (ethName, options[key], afterValue))
+			if key == "address" or key == "hw-id":
+				diff = {"ethName": ethName, key: afterValue}
+				results.append(diff)
 
-    commands = [
-            "$SET interfaces ethernet %s duplex %s" % (cmdData['ethName'],cmdData['duplex']),
-            "$SET interfaces ethernet %s hw-id %s" % (cmdData['ethName'],cmdData['hw-id']),
-            "$SET interfaces ethernet %s smp_affinity %s" % (cmdData['ethName'],cmdData['smp_affinity']),
-            "$SET interfaces ethernet %s speed %s" % (cmdData['ethName'],cmdData['speed']),
-            '$COMMIT',
-            '$SAVE'
-            ]
-    print commands
-    
-    f.write("\n".join(commands))
-    f.close()
-    run('mkdir -p .spider')
-    with cd('.spider'):
-        put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
-        put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
-        result = run('./cli.sh', pty=False)
-    lines = result.split('\n')
-    for line in lines:
-        print "LINE: " + line
+	f = open(mainDir + '/commands.txt', 'w')
+	commands.append("$COMMIT").append("$SAVE")
+	logger.debug(commands)
+	f.write("\n".join(commands))
+	f.close()
 
-    return
+	run('mkdir -p .spider')
+	with cd('.spider'):
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		result = run('./cli.sh', pty=False)
+	lines = result.split('\n')
+	for line in lines:
+		print "LINE: " + line
 
+	return results
 
-
-
-
-
-def setVmNIC(addr, sshid, sshpw, jsonData):
+def update_nic(addr, sshid, sshpw, jsonData):
     env.hosts = [ addr ]
     env.user = sshid
     env.password = sshpw
-
     env.shell = '/bin/vbash -ic'
-    results = execute(updateVmNIC, hosts=[addr], cmdData = jsonData)
+    results = execute(update_nic_task, hosts=[addr], beforeData = jsonData['before'], afterData=jsonData['after'])
     return
 
