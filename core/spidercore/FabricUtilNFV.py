@@ -314,5 +314,5 @@ def update_nic(addr, sshid, sshpw, jsonData):
     env.password = sshpw
     env.shell = '/bin/vbash -ic'
     results = execute(update_nic_task, hosts=[addr], beforeData = jsonData['before'], afterData=jsonData['after'])
-    return
+    return results[addr]
 
