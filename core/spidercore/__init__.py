@@ -80,7 +80,7 @@ def write_repository(name, data):
 	data = f.write(json.dumps(data))
 	f.close()
 
-setup_logging();
+setup_logging(default_level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
