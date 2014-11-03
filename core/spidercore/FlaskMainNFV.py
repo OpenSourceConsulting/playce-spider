@@ -241,7 +241,7 @@ def mon_vmifupdate(id=None, ifid=None):
 	elif ifid == None:
 		return "No unique ifid for interface", 404
 
-	print "/nfv/%s/if/%s" % (id, ifid)
+	logger.debug("/nfv/%s/if/%s" % (id, ifid))
 
 	jsonData = json.loads(request.data)
 	print json.dumps(jsonData, indent=4)
