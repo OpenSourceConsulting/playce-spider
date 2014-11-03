@@ -295,13 +295,17 @@ def update_nic_task(beforeData, afterData):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		try:
-			result = run('./cli.sh', pty=False)
+			result = run('./cli.sh', pty=False, combine_stderr=True)
+			logger.debug("--------------------------------")
 			logger.debug("Run result %s" % result)
+			logger.debug("--------------------------------")
 		except Exception, e:
 			return {"success": "fail", "errmsg": result}
 	if "[edit]" in result:
+		logger.debug("success")
 		return results
 	else:
+		logger.debug("fail")
 		return {"success": "fail", "errmsg": result}
 
 def update_nic(addr, sshid, sshpw, jsonData):
