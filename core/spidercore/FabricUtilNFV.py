@@ -294,7 +294,10 @@ def update_nic_task(beforeData, afterData):
 	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
-		result = run('./cli.sh', pty=False)
+		try:
+			result = run('./cli.sh', pty=False)
+		except Exception, e:
+			return {"success": "fail", "errmsg": result}
 	if "[edit]" in result:
 		return results
 	else:
