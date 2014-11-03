@@ -301,12 +301,12 @@ def update_nic_task(beforeData, afterData):
 			logger.debug("--------------------------------")
 		except Exception, e:
 			return {"success": "fail", "errmsg": result}
-	if "[edit]" in result:
-		logger.debug("success")
-		return results
-	else:
+	if "already exists" in result:
 		logger.debug("fail")
 		return {"success": "fail", "errmsg": result}
+	else:
+		logger.debug("success")
+		return results
 
 def update_nic(addr, sshid, sshpw, jsonData):
     env.hosts = [ addr ]
