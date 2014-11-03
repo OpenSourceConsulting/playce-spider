@@ -244,6 +244,7 @@ def vmifupdate(id=None, ifid=None):
 	else:
 		return "VM not found " + id, 404
 	
+	logger.debug(results)
 	if "success" in results and results["success"] == "fail":
 		return "Failed to update NIC %s" % ifid, 500
 	
