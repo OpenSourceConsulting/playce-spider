@@ -244,36 +244,37 @@ def mon_vmifupdate(id=None, ifid=None):
 	print "/nfv/%s/if/%s" % (id, ifid)
 
 	jsonData = json.loads(request.data)
+	print json.dumps(jsonData, indent=4)
 
-	nics_results = []
-	update_vms = []
-
-	vms = read_repository("vms")
-	
-	updateResult = False
-	for vm in vms:
-		if '_id' in vm and id == vm['_id']:
-			from spidercore.FabricUtilNFV import getInterfaces
-			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
-			for nic in nics:
-				if ifid == nic['ethName']:
-					nics_results.append(jsonData)
-					setVmNIC(vm['mgraddr'], vm['sshid'], vm['sshpw'], jsonData)
-					updateResult = True
-				else:
-					nics_results.append(nic)
-				
-			vm['interfaces'] = nics_results
-			
-		update_vms.append(vm)
-
-
-	if updateResult:
-		write_repository("vms", update_vms)
-		return json.dumps(nics_results)
-	
-	else:
-		return 'Not found', 404
+# 	nics_results = []
+# 	update_vms = []
+# 
+# 	vms = read_repository("vms")
+# 	
+# 	updateResult = False
+# 	for vm in vms:
+# 		if '_id' in vm and id == vm['_id']:
+# 			from spidercore.FabricUtilNFV import getInterfaces
+# 			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+# 			for nic in nics:
+# 				if ifid == nic['ethName']:
+# 					nics_results.append(jsonData)
+# 					setVmNIC(vm['mgraddr'], vm['sshid'], vm['sshpw'], jsonData)
+# 					updateResult = True
+# 				else:
+# 					nics_results.append(nic)
+# 				
+# 			vm['interfaces'] = nics_results
+# 			
+# 		update_vms.append(vm)
+# 
+# 
+# 	if updateResult:
+# 		write_repository("vms", update_vms)
+# 		return json.dumps(nics_results)
+# 	
+# 	else:
+# 		return 'Not found', 404
  
 
 
