@@ -284,7 +284,8 @@ def update_nic_task(beforeData, afterData):
 				results.append(diff)
 
 	f = open(mainDir + '/commands.txt', 'w')
-	commands.append("$COMMIT").append("$SAVE")
+	commands.append("$COMMIT")
+	commands.append("$SAVE")
 	logger.debug(commands)
 	f.write("\n".join(commands))
 	f.close()
