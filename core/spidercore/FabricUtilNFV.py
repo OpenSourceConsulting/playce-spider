@@ -296,6 +296,7 @@ def update_nic_task(beforeData, afterData):
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		try:
 			result = run('./cli.sh', pty=False)
+			logger.debug("Run result %s" % result)
 		except Exception, e:
 			return {"success": "fail", "errmsg": result}
 	if "[edit]" in result:
