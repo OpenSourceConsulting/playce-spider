@@ -276,7 +276,7 @@ def mon_vmifupdate(id=None, ifid=None):
 # 	else:
 # 		return 'Not found', 404
  
-
+	return "OK", 200
 
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
