@@ -244,6 +244,9 @@ def vmifupdate(id=None, ifid=None):
 	else:
 		return "VM not found " + id, 404
 	
+	if "success" in results and results["success"] == "fail":
+		return "Failed to update NIC %s" % ifid, 500
+	
 	for diff in results:
 		ethName = diff["ethName"]
 		if "hw-id" in diff:

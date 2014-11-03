@@ -295,11 +295,10 @@ def update_nic_task(beforeData, afterData):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False)
-	lines = result.split('\n')
-	for line in lines:
-		print "LINE: " + line
-
-	return results
+	if "[edit]" in result:
+		return results
+	else:
+		return {"success": "fail", "errmsg": result}
 
 def update_nic(addr, sshid, sshpw, jsonData):
     env.hosts = [ addr ]
