@@ -11,6 +11,9 @@ from spidercore import *
 from spidercore.FabricUtilKVM import *
 from spidercore.FabricUtilNFV import *
 
+logger = logging.getLogger(__name__)
+
+
 @app.route("/vmreg", methods=['POST'])
 def vm_reg_init():
 	data = request.data
@@ -213,8 +216,8 @@ def mon_vmif(id=None, ifid=None):
 					# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
 					# 그래서 json에 같이 병합해서 전송
 					nicinfo = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], nic['ethName'])
-		 			nic['ipaddr'] = nicinfo['ipaddr']
-# 				 	nic['subnet'] = nicinfo['subnet']
+					for kk in nicinfo:
+						nic[kk] = nicinfo[kk]
 					results.append(nic)
 
 			return json.dumps(results)
