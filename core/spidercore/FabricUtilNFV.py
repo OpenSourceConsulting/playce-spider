@@ -12,6 +12,8 @@ from spidercore import *
 from __builtin__ import int
 import os
 
+logger = logging.getLogger(__name__)
+
 def show_interfaces():
 	result = run('show interfaces', pty=False, quiet=True)
 	lines = result.split('\n')
