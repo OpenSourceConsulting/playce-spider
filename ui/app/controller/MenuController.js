@@ -370,7 +370,7 @@ Ext.define('spider.controller.MenuController', {
             menuPanel = this.getMenuPanel();
 
         // 현재 선택된 item이 managementPanel일 경우 무시한다.
-        if (centerContainer.layout.getActiveItem().itemId !== "managementPanel") {
+        if (centerContainer.layout.getActiveItem().itemId !== "VmManagementPanel") {
 
             managementBtn.toggle(true);
             dashboardBtn.toggle(false);

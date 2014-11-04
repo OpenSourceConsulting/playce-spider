@@ -909,7 +909,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.view.MyPanel119": [],
   "spider.view.VMHostInfoWindow": [],
   "spider.view.Viewport": [],
-  "spider.view.vmMgmtPanel": [],
+  "spider.view.VmManagementPanel": [],
   "vmConstants": [],
   "vmHostConstants": []
 });
@@ -1973,8 +1973,8 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.VMHostInfoWindow"
   ],
   "spider.view.Viewport": [],
-  "spider.view.vmMgmtPanel": [
-    "widget.vmMgmtPanel"
+  "spider.view.VmManagementPanel": [
+    "widget.VmManagementPanel"
   ],
   "vmConstants": [],
   "vmHostConstants": []

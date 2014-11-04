@@ -7,11 +7,11 @@
     "codeClass": null,
     "userConfig": {
         "autoScroll": null,
-        "designer|userAlias": "vmMgmtPanel",
-        "designer|userClassName": "vmMgmtPanel",
+        "designer|userAlias": "VmManagementPanel",
+        "designer|userClassName": "VmManagementPanel",
         "height": null,
-        "id": "managementPanel",
-        "itemId": "managementPanel",
+        "id": "VmManagementPanel",
+        "itemId": "VmManagementPanel",
         "layout": "border",
         "title": null
     },
@@ -1772,7 +1772,28 @@
                                                 "padding": "3 10 3 10",
                                                 "text": "저장"
                                             },
-                                            "designerId": "c4232e80-fdd0-47fb-994b-6de733f98b5f"
+                                            "designerId": "c4232e80-fdd0-47fb-994b-6de733f98b5f",
+                                            "cn": [
+                                                {
+                                                    "type": "fixedfunction",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "designer|params": [
+                                                            "button",
+                                                            "e"
+                                                        ],
+                                                        "fn": "handler",
+                                                        "implHandler": [
+                                                            "vmConstants.me.saveNic(button);"
+                                                        ]
+                                                    },
+                                                    "designerId": "b1847773-92c1-4707-965e-1e8d2f946d23"
+                                                }
+                                            ]
                                         }
                                     ]
                                 },
@@ -1938,18 +1959,74 @@
                                             ],
                                             "cn": [
                                                 {
-                                                    "type": "Ext.form.field.Text",
+                                                    "type": "Ext.form.field.ComboBox",
                                                     "reference": {
                                                         "name": "items",
                                                         "type": "array"
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "editable": false,
                                                         "fieldLabel": "Duplex",
                                                         "layout|flex": 1,
-                                                        "name": "duplex"
+                                                        "name": "duplex",
+                                                        "store": [
+                                                            "[",
+                                                            "    \"auto\",",
+                                                            "    \"full\",",
+                                                            "    \"half\"",
+                                                            "]"
+                                                        ]
                                                     },
-                                                    "designerId": "fc94cfaf-167a-4807-b42b-a4f5cac5d739"
+                                                    "configAlternates": {
+                                                        "store": "array"
+                                                    },
+                                                    "designerId": "fc94cfaf-167a-4807-b42b-a4f5cac5d739",
+                                                    "cn": [
+                                                        {
+                                                            "type": "basiceventbinding",
+                                                            "reference": {
+                                                                "name": "listeners",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "fn": "onComboboxChange",
+                                                                "implHandler": [
+                                                                    "var store;",
+                                                                    "if(newValue == \"auto\") {",
+                                                                    "    store = Ext.create('Ext.data.Store', {",
+                                                                    "        fields: ['text'],",
+                                                                    "        data: [",
+                                                                    "            {text: \"auto\"},",
+                                                                    "            {text: \"10\"},",
+                                                                    "            {text: \"100\"},",
+                                                                    "            {text: \"1000\"}",
+                                                                    "        ]",
+                                                                    "    });",
+                                                                    "} else {",
+                                                                    "    store = Ext.create('Ext.data.Store', {",
+                                                                    "        fields: ['text'],",
+                                                                    "        data: [",
+                                                                    "            {text: \"10\"},",
+                                                                    "            {text: \"100\"},",
+                                                                    "            {text: \"1000\"}",
+                                                                    "        ]",
+                                                                    "    });",
+                                                                    "}",
+                                                                    "",
+                                                                    "var speed = field.up('form').getForm().findField('speed');",
+                                                                    "speed.bindStore(store);",
+                                                                    "if(newValue !== \"auto\" && speed.getValue() === \"auto\") {",
+                                                                    "    speed.setValue(\"\");",
+                                                                    "}"
+                                                                ],
+                                                                "name": "change",
+                                                                "scope": "me"
+                                                            },
+                                                            "designerId": "bb165c1d-2265-4982-b63d-084916ee6029"
+                                                        }
+                                                    ]
                                                 },
                                                 {
                                                     "type": "Ext.form.field.Text",
@@ -1992,16 +2069,19 @@
                                             ],
                                             "cn": [
                                                 {
-                                                    "type": "Ext.form.field.Text",
+                                                    "type": "Ext.form.field.ComboBox",
                                                     "reference": {
                                                         "name": "items",
                                                         "type": "array"
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "editable": false,
                                                         "fieldLabel": "Speed",
                                                         "layout|flex": 1,
-                                                        "name": "speed"
+                                                        "name": "speed",
+                                                        "queryMode": "local",
+                                                        "valueField": "text"
                                                     },
                                                     "designerId": "e40fc7a2-a2c3-4f91-be54-664733f2178c"
                                                 },
@@ -2034,6 +2114,62 @@
                                                 "rows": 8
                                             },
                                             "designerId": "34f4b78b-96ed-4a49-8b06-2e76fb4c2ce5"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Hidden",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "Label",
+                                                "layout|anchor": "100%",
+                                                "name": "address"
+                                            },
+                                            "designerId": "2f3b4b60-6da9-4b15-9e09-765dbb39a272"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Hidden",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "Label",
+                                                "layout|anchor": "100%",
+                                                "name": "ethName"
+                                            },
+                                            "designerId": "54f376c2-3e41-46ce-8508-7b78793cfaa2"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Hidden",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "Label",
+                                                "layout|anchor": "100%",
+                                                "name": "hw-id"
+                                            },
+                                            "designerId": "35f0daf5-0a21-4743-acae-4a4bc568863f"
+                                        },
+                                        {
+                                            "type": "Ext.form.field.Hidden",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fieldLabel": "Label",
+                                                "layout|anchor": "100%",
+                                                "name": "smp_affinity"
+                                            },
+                                            "designerId": "f080d35b-f64a-4b09-82f7-2c410505dfd6"
                                         }
                                     ]
                                 }

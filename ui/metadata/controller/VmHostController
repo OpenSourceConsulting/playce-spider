@@ -108,7 +108,7 @@
                     "    contextMenu: vmHostContextMenu,",
                     "    selectRecord : null,",
                     "    actionRecord : null,",
-                    "    ",
+                    "",
                     "    intervalId1 : null",
                     "});"
                 ]

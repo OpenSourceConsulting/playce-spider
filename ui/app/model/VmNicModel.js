@@ -41,6 +41,9 @@ Ext.define('spider.model.VmNicModel', {
         },
         {
             name: 'ipaddr'
+        },
+        {
+            name: 'hw-id'
         }
     ]
 });
