@@ -81,6 +81,6 @@ def write_repository(name, data):
 	f.close()
 
 setup_logging()
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 
