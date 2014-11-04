@@ -2,3 +2,5 @@
 /vmhosts.new.json
 /test.json
 *.pyc
+/errors.log
+/server.log

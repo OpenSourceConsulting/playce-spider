@@ -1,8 +1,10 @@
-'''
-Created on 2014. 11. 3.
-
-@author: Bong-Jin Kwon
-'''
+#-*- coding: utf-8 -*-
+'''---------------------------------
+    Simple Logging Demo 
+    
+    Created on 2014. 11. 3.
+    @author: Bong-Jin Kwon
+---------------------------------'''
 import os
 import json
 import logging.config
@@ -32,8 +34,9 @@ def setup_logging(
     else:
         logging.basicConfig(level=default_level)
         logging.info("logging: set basic config.")
+        
 """
-Logging Test
+# Logging Test
 
 setup_logging()
 

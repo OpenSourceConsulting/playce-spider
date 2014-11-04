@@ -1,9 +1,12 @@
-'''
-Created on 2014. 11. 3.
-
-@author: Bong-Jin Kwon
-'''
-import logging
+#-*- coding: utf-8 -*-
+'''---------------------------
+    Sample Service
+    
+    Created on 2014. 11. 3.
+    @author: Bong-Jin Kwon
+---------------------------'''
+from spidercore import *
+#import logging
 
 
 logger = logging.getLogger(__name__)

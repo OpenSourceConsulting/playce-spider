@@ -11,28 +11,8 @@ import uuid
 from spidercore import *
 from spidercore.FabricUtilKVM2 import *
 
-import logging
 
-# create logger with 'sprider_application'
-logger = logging.getLogger('spider_application')
-logger.setLevel(logging.DEBUG)
-
-# create file handler which logs even debug messages
-fh = logging.FileHandler('spider.log')
-fh.setLevel(logging.DEBUG)
-
-# create console handler with a higher log level
-ch = logging.StreamHandler()
-ch.setLevel(logging.ERROR)
-
-# create formatter and add it to the handlers
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-ch.setFormatter(formatter)
-
-# add the handlers to the logger
-logger.addHandler(fh)
-logger.addHandler(ch)
+logger = logging.getLogger(__name__)
 
 
 @app.route("/vm/clone", methods=['POST'])

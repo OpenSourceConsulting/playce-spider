@@ -1,20 +1,24 @@
-'''
-Created on 2014. 11. 3.
-
-@author: Bong-Jin Kwon
-'''
-from flask import Flask
-import logging
-import BongLoggingTest
+#-*- coding: utf-8 -*-
+'''---------------------------------
+    Simple Flask Demo 
+     - 한글 주석 사용
+     - logging 기능
+     - service(비즈니스 로직) 분리
+    
+    Created on 2014. 11. 3.
+    @author: Bong-Jin Kwon
+---------------------------------'''
+from spidercore import *
+#from flask import Flask
+#import BongLoggingTest
 import BongService
 
 
-BongLoggingTest.setup_logging();
+
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__)
+#app = Flask(__name__)
 
-logging.info("--------------- server starting....")
 
 @app.route("/")
 def hello():
@@ -27,4 +31,5 @@ def hello():
     return BongService.service_method("World")
 
 if __name__ == "__main__":
+    logger.info("--------------- server starting....")
     app.run(host='0.0.0.0', port=5000, debug=False)

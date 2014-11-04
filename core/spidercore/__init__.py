@@ -45,8 +45,8 @@ number.setParseAction( convertNumbers )
 
 
 def setup_logging(
-    default_path='conf/log_conf.json', 
-    default_level=logging.INFO,
+    default_path='../conf/log_conf.json', 
+    default_level=logging.DEBUG,
     env_key='LOG_CFG'
 ):
     """ 
@@ -80,7 +80,7 @@ def write_repository(name, data):
 	data = f.write(json.dumps(data))
 	f.close()
 
-setup_logging(default_level=logging.DEBUG)
+setup_logging()
 logger = logging.getLogger(__name__)
 
 
