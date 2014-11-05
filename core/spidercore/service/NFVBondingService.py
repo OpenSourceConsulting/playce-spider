@@ -38,7 +38,7 @@ def create_bonding(id, params):
 	env.user = vm['sshid']
 	env.password = vm['sshpw']
 	env.shell = '/bin/vbash -ic'
-	results = execute(create_bonding_task, hosts=[addr], params)
+	results = execute(create_bonding_task, hosts=[addr], jsondata = params)
 
 	return results[addr]
 	
