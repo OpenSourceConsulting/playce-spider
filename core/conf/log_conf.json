@@ -48,6 +48,6 @@
 
     "root": {
         "level": "DEBUG",
-        "handlers": ["console", "file_handler", "error_file_handler"]
+        "handlers": ["console", "error_file_handler"]
     }
 }

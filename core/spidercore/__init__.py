@@ -49,23 +49,34 @@ def setup_logging(
     default_level=logging.DEBUG,
     env_key='LOG_CFG'
 ):
-    """ 
+	""" 
     Setup logging configuration
     """
-    
-    path = default_path
-    print "setup_logging path: "+ os.path.abspath(path)
-    value = os.getenv(env_key, None)
-    if value:
-        path = value
-    if os.path.exists(path):
-        with open(path, 'rt') as f:
-            config = json.load(f)
-        logging.config.dictConfig(config)
-        logging.info("logging: load "+ os.path.abspath(path))
-    else:
-        logging.basicConfig(level=default_level)
-        logging.info("logging: set basic config.")
+
+	path = default_path
+	print "setup_logging path: "+ os.path.abspath(path)
+	value = os.getenv(env_key, None)
+	if value:
+		path = value
+	if os.path.exists(path):
+		with open(path, 'rt') as f:
+			config = json.load(f)
+
+		server_type = os.getenv("SVR_TYPE", None)
+
+		if server_type:
+			print "SVR_TYPE: " + server_type
+			if "local" == server_type:
+				config['handlers']['file_handler']['filename'] = "../spider.log";
+				config['handlers']['error_file_handler']['filename'] = "../errors.log";
+		else:
+			print "SVR_TYPE is not set."
+	
+		logging.config.dictConfig(config)
+		logging.info("logging: load "+ os.path.abspath(path))
+	else:
+		logging.basicConfig(level=default_level)
+		logging.info("logging: set basic config.")
 
 def read_repository(name):
 	print "Name: " + name
