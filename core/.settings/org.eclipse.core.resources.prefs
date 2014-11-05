@@ -4,6 +4,7 @@ encoding//spidercore/BongLoggingTest.py=utf-8
 encoding//spidercore/BongService.py=utf-8
 encoding//spidercore/FlaskMainNFV.py=utf-8
 encoding//spidercore/FlaskMainUser.py=utf-8
+encoding//spidercore/service/NFVBondingService.py=utf-8
 encoding//spidercore/vms.json=UTF-8
 encoding/<project>=UTF-8
 encoding/test.json=UTF-8

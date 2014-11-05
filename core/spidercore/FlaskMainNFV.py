@@ -10,6 +10,7 @@ import uuid
 from spidercore import *
 from spidercore.FabricUtilKVM import *
 from spidercore.FabricUtilNFV import *
+from spidercore.service import NFVBondingService
 
 logger = logging.getLogger(__name__)
 
@@ -264,6 +265,24 @@ def vmifupdate(id=None, ifid=None):
 	
 	return "OK", 200
 
+# create bonding
+@app.route("/nfv/<id>/bonding/<bondid>", methods=['POST', 'PUT'])
+def vmbondingsave(id=None, bondid=None):
+	if id == None:
+		return "No unique id for VM", 500
+	elif bondid == None:
+		return "No unique bondid for interface", 500
+	
+	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
+	jsonData = json.loads(request.data)
+	logger.debug(json.dumps(jsonData, indent=4))
+	
+	if request.method == 'POST':
+		NFVBondingService.create_bonding(jsonData)
+	else:
+		NFVBondingService.update_bonding(jsonData)
+	
+	return "OK", 200
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
 def mon_vmiflist(id=None):

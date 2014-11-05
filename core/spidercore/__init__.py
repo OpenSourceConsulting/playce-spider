@@ -93,7 +93,16 @@ def write_repository(name, data):
 	data = f.write(json.dumps(data))
 	f.close()
 
+def get_vm(id):
+	vms = read_repository("vms")
+	for vm in vms:
+		if '_id' in vm and id == vm['_id']:
+			return vm
+		else:
+			return None
+	else:
+		return None
+
 setup_logging()
-#logger = logging.getLogger(__name__)
 
 

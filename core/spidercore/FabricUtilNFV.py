@@ -262,6 +262,34 @@ def getIfConfig(addr, sshid, sshpw, nicname):
 	results = execute(ifconfig_task, hosts=[addr], nicname=nicname)
 	return results[addr]
 
+def send_vyatta_command(commands):
+	
+	results = []
+	f = open(mainDir + '/commands.txt', 'w')
+	commands.append("$COMMIT")
+	commands.append("$SAVE")
+	logger.debug(commands)
+	f.write("\n".join(commands))
+	f.close()
+
+	run('mkdir -p .spider')
+	with cd('.spider'):
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		try:
+			result = run('./cli.sh', pty=False, combine_stderr=True)
+			logger.debug("--------------------------------")
+			logger.debug("Run result %s" % result)
+			logger.debug("--------------------------------")
+		except Exception, e:
+			return {"success": "fail", "errmsg": result}
+		
+	if "already exists" in result:
+		logger.debug("fail")
+		return {"success": "fail", "errmsg": result}
+	else:
+		logger.debug("success")
+		return results
 
 def update_nic_task(beforeData, afterData):
 	options = {
@@ -285,6 +313,7 @@ def update_nic_task(beforeData, afterData):
 				diff = {"ethName": ethName, key: afterValue}
 				results.append(diff)
 
+	# replace below code to send_vyatta_command(commands) ??
 	f = open(mainDir + '/commands.txt', 'w')
 	commands.append("$COMMIT")
 	commands.append("$SAVE")
