@@ -29,7 +29,8 @@ Ext.application({
         'SampleModel',
         'VmHostModel',
         'VmTemplateModel',
-        'VmNicModel'
+        'VmNicModel',
+        'SessionModel'
     ],
     stores: [
         'ServerListStore',
@@ -44,17 +45,19 @@ Ext.application({
         'VmMemoryChartStore',
         'VmNetworkChartStore',
         'VmNicStore',
-        'VmInterfaceStore'
+        'VmInterfaceStore',
+        'SessionStore'
     ],
     views: [
         'AthenaSpider',
         'MyContainer1',
         'VMHostInfoWindow',
-        'VmManagementPanel',
         'MyPanel119',
         'DashBoardNodePanel',
         'AddVmHostWindow',
-        'AddVmWindow'
+        'AddVmWindow',
+        'AddBondingWindow',
+        'LoginWindow'
     ],
     controllers: [
         'HeaderController',
@@ -62,7 +65,8 @@ Ext.application({
         'MenuController',
         'DashboardController',
         'VmManagementController',
-        'VmHostController'
+        'VmHostController',
+        'LoginController'
     ],
     name: 'spider',
 

@@ -12,14 +12,16 @@
             "MenuController",
             "DashboardController",
             "VmManagementController",
-            "VmHostController"
+            "VmHostController",
+            "LoginController"
         ],
         "models": [
             "HostListData",
             "SampleModel",
             "VmHostModel",
             "VmTemplateModel",
-            "VmNicModel"
+            "VmNicModel",
+            "SessionModel"
         ],
         "name": "spider",
         "requires": [
@@ -38,17 +40,19 @@
             "VmMemoryChartStore",
             "VmNetworkChartStore",
             "VmNicStore",
-            "VmInterfaceStore"
+            "VmInterfaceStore",
+            "SessionStore"
         ],
         "views": [
             "AthenaSpider",
             "MyContainer1",
             "VMHostInfoWindow",
-            "vmMgmtPanel",
             "MyPanel119",
             "DashBoardNodePanel",
             "AddVmHostWindow",
-            "AddVmWindow"
+            "AddVmWindow",
+            "AddBondingWindow",
+            "LoginWindow"
         ]
     },
     "designerId": "application"

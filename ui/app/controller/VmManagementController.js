@@ -969,6 +969,90 @@ Ext.define('spider.controller.VmManagementController', {
 
         }
 
+    },
+
+    popVmBondingPopup: function() {
+        //VM Host 생성 팝업 호출
+
+        var popWindow = Ext.create("widget.AddBondingWindow");
+        popWindow.show();
+    },
+
+    createVMBonding: function(button) {
+        var addBondingForm = Ext.getCmp("addBondingForm");
+
+        if(addBondingForm.isValid()) {
+
+            var checks = addBondingForm.down('#bondingNICGroup').getChecked();
+
+            if(checks.length < 2) {
+                Ext.Msg.alert('Failure', "NIC는 두개 이상 체크하셔야 합니다.");
+                return;
+            }
+
+            var ethernets = [];
+            Ext.each(checks, function(checkBox){
+                ethernets.push(checkBox.getName());
+            });
+
+            var sendData = {};
+            var formData = addBondingForm.getForm().getFieldValues();
+
+            sendData.address = formData.address;
+            sendData.mode = formData.mode;
+            sendData.ethernets = ethernets;
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + formData.bondid,
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : addBondingForm.getEl(),
+                 jsonData: sendData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                         Ext.Msg.alert('Success', '등록이 완료되었습니다.');
+
+                         addBondingForm.up('window').close();
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText);
+                }
+             });
+
+        }
+
+    },
+
+    renderNicCombo: function(component, msgTarget) {
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
+            disableCaching : true,
+            waitMsg: 'Loading...',
+            waitMsgTarget : msgTarget,
+            success: function(response){
+
+                if(response.status == 200) {
+
+                    var data = Ext.decode(response.responseText);
+                    var i_max = data.length;
+                    var newCheckboxes = new Array();
+                    for( i = 0; i < i_max; i++ ) {
+                        component.add(new Ext.form.Checkbox({ boxLabel: data[i].ethName, name: data[i].ethName, inputValue: data[i].ethName }));
+                    }
+                }
+
+            }
+        });
+
     }
 
 });
