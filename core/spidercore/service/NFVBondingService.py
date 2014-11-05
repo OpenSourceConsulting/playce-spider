@@ -13,17 +13,18 @@ import spidercore.FabricUtilNFV
 
 logger = logging.getLogger(__name__)
 
-def create_bonding_task(params):
+def create_bonding_task(bondinfo):
 	
-	bondid = params['bondid']
+	bondid = bondinfo['bondid']
 	commands = []
+	commands.append("$DELETE interfaces bonding " + bondid) # for test
 	commands.append("$SET interfaces bonding " + bondid)
-	commands.append("$SET interfaces bonding %s address %s" % (bondid, params['address']))
-	commands.append("$SET interfaces bonding %s mode %s" % (bondid, params['mode']))
+	commands.append("$SET interfaces bonding %s address %s" % (bondid, bondinfo['address']))
+	commands.append("$SET interfaces bonding %s mode %s" % (bondid, bondinfo['mode']))
 	
-	for ethernet in params['ethernets']:
+	for ethernet in bondinfo['ethernets']:
 		commands.append("$DELETE interfaces ethernet %s address" % ethernet)
-		commands.append("$SET interfaces ethernet %s bound-group %s " % (ethernet, bondid))
+		commands.append("$SET interfaces ethernet %s bond-group %s " % (ethernet, bondid))
 	
 	return FabricUtilNFV.send_vyatta_command(commands)
 
@@ -38,11 +39,11 @@ def create_bonding(id, params):
 	env.user = vm['sshid']
 	env.password = vm['sshpw']
 	env.shell = '/bin/vbash -ic'
-	results = execute(create_bonding_task, hosts=[addr], jsondata = params)
+	results = execute(create_bonding_task, hosts=[addr], bondinfo = params)
 
 	return results[addr]
 	
 	
-def update_bonding(params):
+def update_bonding(id, params):
 	
 	logger.debug("update call!!")

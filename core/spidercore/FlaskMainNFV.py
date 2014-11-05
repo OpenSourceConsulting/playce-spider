@@ -275,12 +275,15 @@ def vmbondingsave(id=None, bondid=None):
 	
 	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
 	jsonData = json.loads(request.data)
+	
+	jsonData['bondid'] = bondid
 	logger.debug(json.dumps(jsonData, indent=4))
 	
+	
 	if request.method == 'POST':
-		NFVBondingService.create_bonding(jsonData)
+		NFVBondingService.create_bonding(id, jsonData)
 	else:
-		NFVBondingService.update_bonding(jsonData)
+		NFVBondingService.update_bonding(id, jsonData)
 	
 	return "OK", 200
 
