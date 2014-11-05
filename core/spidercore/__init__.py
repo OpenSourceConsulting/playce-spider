@@ -45,14 +45,16 @@ number.setParseAction( convertNumbers )
 
 
 def setup_logging(
-    default_path='../conf/log_conf.json', 
+    default_path=mainDir+'/../conf/log_conf.json', 
     default_level=logging.DEBUG,
     env_key='LOG_CFG'
 ):
     """ 
     Setup logging configuration
     """
+    
     path = default_path
+    print "setup_logging path: "+ os.path.abspath(path)
     value = os.getenv(env_key, None)
     if value:
         path = value

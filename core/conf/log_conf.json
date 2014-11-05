@@ -18,7 +18,7 @@
         "file_handler": {
             "class": "logging.handlers.RotatingFileHandler",
             "formatter": "simple",
-            "filename": "../server.log",
+            "filename": "/var/lib/spider/spider.log",
             "maxBytes": 10485760,
             "backupCount": 20,
             "encoding": "utf8"
@@ -28,7 +28,7 @@
             "class": "logging.handlers.RotatingFileHandler",
             "level": "ERROR",
             "formatter": "simple",
-            "filename": "../errors.log",
+            "filename": "/var/lib/spider/errors.log",
             "maxBytes": 10485760,
             "backupCount": 20,
             "encoding": "utf8"
@@ -47,7 +47,7 @@
     },
 
     "root": {
-        "level": "INFO",
+        "level": "DEBUG",
         "handlers": ["console", "file_handler", "error_file_handler"]
     }
 }

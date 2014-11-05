@@ -4,3 +4,4 @@
 *.pyc
 /errors.log
 /server.log
+/build.xml
