@@ -18,7 +18,7 @@ Ext.define('spider.view.AthenaSpider', {
 
     requires: [
         'spider.view.DashboardPanel',
-        'spider.view.vmMgmtPanel',
+        'spider.view.VmManagementPanel',
         'spider.view.MyContainer1',
         'Ext.Img',
         'Ext.toolbar.Toolbar',
@@ -397,7 +397,7 @@ Ext.define('spider.view.AthenaSpider', {
                                     width: 150
                                 },
                                 {
-                                    xtype: 'vmMgmtPanel'
+                                    xtype: 'VmManagementPanel'
                                 },
                                 {
                                     xtype: 'mycontainer1',

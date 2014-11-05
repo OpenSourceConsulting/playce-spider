@@ -50,7 +50,7 @@ Ext.application({
         'AthenaSpider',
         'MyContainer1',
         'VMHostInfoWindow',
-        'vmMgmtPanel',
+        'VmManagementPanel',
         'MyPanel119',
         'DashBoardNodePanel',
         'AddVmHostWindow',

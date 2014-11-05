@@ -770,7 +770,7 @@ Ext.define('spider.controller.VmManagementController', {
         var centerContainer = this.getCenterContainer();
         var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
 
-        if (centerContainer.layout.getActiveItem().itemId !== "managementPanel") {
+        if (centerContainer.layout.getActiveItem().itemId !== "VmManagementPanel") {
             return;
         } else if(vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(0)) {
             return;
@@ -892,6 +892,83 @@ Ext.define('spider.controller.VmManagementController', {
             comboStore.load();
 
         }
+    },
+
+    saveNic: function(button) {
+
+        var combo = Ext.getCmp("comboNicName"),
+            comboValue = combo.getValue(),
+            store = combo.getStore(),
+            record = store.findRecord("ethName", comboValue);
+
+        var viewNicForm = Ext.getCmp("viewNicForm");
+
+        if(viewNicForm.isValid()) {
+
+            var sendData = {};
+            //sendData.after = viewNicForm.getForm().getFieldValues();
+
+            sendData.after = {
+                "address"		: record.get("address"),
+                "duplex"		: viewNicForm.getForm().findField("duplex").getValue(),
+                "ethName"		: record.get("ethName"),
+                "hw-id"			: record.get("hw-id"),
+                "smp_affinity"	: record.get("smp_affinity"),
+                "speed"			: viewNicForm.getForm().findField("speed").getValue()
+            };
+
+            sendData.before = {
+                "address"		: record.get("address"),
+                "duplex"		: record.get("duplex"),
+                "ethName"		: record.get("ethName"),
+                "hw-id"			: record.get("hw-id"),
+                "smp_affinity"	: record.get("smp_affinity"),
+                "speed"			: record.get("speed")
+            };
+
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/if/" + comboValue,
+                method: "PUT",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                waitMsg: 'Saving Data...',
+                jsonData: sendData,
+                success: function (response) {
+
+                    if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            Ext.Ajax.request({
+                                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/' + comboValue,
+                                waitMsg: 'Loading...',
+                                disableCaching : true,
+                                success: function(response){
+
+                                    var columnData = Ext.decode(response.responseText);
+                                    if(columnData.length > 0) {
+
+                                        var data = columnData[0];
+
+                                        record.set("duplex", data.duplex);
+                                        record.set("speed", data.speed);
+
+                                        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+                                    }
+                                }
+                            });
+                        });
+
+                    }
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText);
+                }
+            });
+
+        }
+
     }
 
 });
