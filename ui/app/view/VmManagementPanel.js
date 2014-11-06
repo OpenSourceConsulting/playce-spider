@@ -1062,9 +1062,9 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 {
                                                     xtype: 'combobox',
                                                     margin: '0 0 0 10',
-                                                    width: 110,
-                                                    fieldLabel: 'NIC ',
-                                                    labelWidth: 40
+                                                    width: 180,
+                                                    fieldLabel: 'Bonding',
+                                                    labelWidth: 60
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
@@ -1081,6 +1081,9 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 },
                                                 {
                                                     xtype: 'button',
+                                                    handler: function(button, e) {
+                                                        vmConstants.me.popVmBondingPopup();
+                                                    },
                                                     margin: '0 20 0 0',
                                                     text: '신규생성'
                                                 }
@@ -1090,6 +1093,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                     items: [
                                         {
                                             xtype: 'form',
+                                            id: 'viewBondingForm',
+                                            itemId: 'viewBondingForm',
                                             autoScroll: true,
                                             bodyPadding: 10,
                                             header: false,
@@ -1117,33 +1122,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             xtype: 'checkboxgroup',
                                                             flex: 1,
                                                             margin: '0 0 0 20',
-                                                            width: 321,
-                                                            items: [
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth1'
-                                                                },
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth2'
-                                                                },
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth3'
-                                                                },
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'eth4'
+                                                            width: 400,
+                                                            listeners: {
+                                                                render: {
+                                                                    fn: me.onCheckboxgroupRender,
+                                                                    scope: me
                                                                 }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'tbspacer',
-                                                            flex: 2
+                                                            }
                                                         }
                                                     ]
                                                 },
@@ -2075,6 +2060,10 @@ Ext.define('spider.view.VmManagementPanel', {
         if(newValue !== "auto" && speed.getValue() === "auto") {
             speed.setValue("");
         }
+    },
+
+    onCheckboxgroupRender: function(component, eOpts) {
+        vmConstants.me.renderNicCombo(component, Ext.getCmp("viewBondingForm").getEl());
     }
 
 });

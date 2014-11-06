@@ -875,6 +875,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.controller.DashboardController": [],
   "spider.controller.GlobalController": [],
   "spider.controller.HeaderController": [],
+  "spider.controller.LoginController": [],
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
@@ -883,6 +884,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.form.field.Base": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
+  "spider.model.SessionModel": [],
   "spider.model.VmHostModel": [],
   "spider.model.VmNicModel": [],
   "spider.model.VmTemplateModel": [],
@@ -891,6 +893,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.HostListStore": [],
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
+  "spider.store.SessionStore": [],
   "spider.store.VmCpuChartStore": [],
   "spider.store.VmHostChartStore": [],
   "spider.store.VmHostInterfaceStore": [],
@@ -899,11 +902,13 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.view.AddBondingWindow": [],
   "spider.view.AddVmHostWindow": [],
   "spider.view.AddVmWindow": [],
   "spider.view.AthenaSpider": [],
   "spider.view.DashBoardNodePanel": [],
   "spider.view.DashboardPanel": [],
+  "spider.view.LoginWindow": [],
   "spider.view.Main": [],
   "spider.view.MyContainer1": [],
   "spider.view.MyPanel119": [],
@@ -1923,6 +1928,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.controller.DashboardController": [],
   "spider.controller.GlobalController": [],
   "spider.controller.HeaderController": [],
+  "spider.controller.LoginController": [],
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
@@ -1931,6 +1937,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.form.field.Base": [],
   "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
+  "spider.model.SessionModel": [],
   "spider.model.VmHostModel": [],
   "spider.model.VmNicModel": [],
   "spider.model.VmTemplateModel": [],
@@ -1939,6 +1946,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.HostListStore": [],
   "spider.store.SampleStore": [],
   "spider.store.ServerListStore": [],
+  "spider.store.SessionStore": [],
   "spider.store.VmCpuChartStore": [],
   "spider.store.VmHostChartStore": [],
   "spider.store.VmHostInterfaceStore": [],
@@ -1947,6 +1955,9 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.view.AddBondingWindow": [
+    "widget.AddBondingWindow"
+  ],
   "spider.view.AddVmHostWindow": [
     "widget.AddVmHostWindow"
   ],
@@ -1959,6 +1970,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "spider.view.DashboardPanel": [
     "widget.dashboardpanel"
+  ],
+  "spider.view.LoginWindow": [
+    "widget.LoginWindow"
   ],
   "spider.view.Main": [
     "widget.app-main"

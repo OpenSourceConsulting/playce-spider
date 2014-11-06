@@ -1,0 +1,28 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "SessionStore",
+        "model": "SessionModel",
+        "storeId": "SessionStore"
+    },
+    "designerId": "eab59b05-61a6-4b9c-a774-d7ecae18e21a",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.SessionStorage",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "id": "notificationKey"
+            },
+            "designerId": "60e804dc-0e26-48ec-947f-37c5bae15a04"
+        }
+    ]
+}
