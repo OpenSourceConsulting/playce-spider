@@ -210,6 +210,7 @@ def mon_vmif(id=None, ifid=None):
 	results = []
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
+			# Vyatta 의 show interfaces 명령 실행 
 			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
@@ -251,16 +252,22 @@ def vmifupdate(id=None, ifid=None):
 	if "success" in results and results["success"] == "fail":
 		return "Failed to update NIC %s" % ifid, 500
 	
+	modified = False
 	for diff in results:
 		ethName = diff["ethName"]
 		if "hw-id" in diff:
 			vm["interfaces"][ethName]["macaddr"] = diff["hw-id"]
+			modified = True
 		elif "address" in diff:
+			modified = True
 			if diff["address"] == "dhcp":
 				nicinfo = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], ethName)
 				vm["interfaces"][ethName]["ipaddr"] = nicinfo['ipaddr']
 			else:
 				vm["interfaces"][ethName]["ipaddr"] = diff["address"]
+	
+	if modified:
+		write_repository('vms', vms)
 	
 	return "OK", 200
 
