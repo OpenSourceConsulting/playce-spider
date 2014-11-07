@@ -1061,10 +1061,14 @@ Ext.define('spider.view.VmManagementPanel', {
                                             items: [
                                                 {
                                                     xtype: 'combobox',
+                                                    id: 'comboBondingName',
                                                     margin: '0 0 0 10',
                                                     width: 180,
                                                     fieldLabel: 'Bonding',
-                                                    labelWidth: 60
+                                                    labelWidth: 60,
+                                                    displayField: 'ethName',
+                                                    store: 'VmBondingStore',
+                                                    valueField: 'ethName'
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
@@ -1146,7 +1150,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'IP 주소'
+                                                            fieldLabel: 'IP 주소',
+                                                            name: 'address'
                                                         },
                                                         {
                                                             xtype: 'textfield',
@@ -1192,7 +1197,17 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         {
                                                             xtype: 'combobox',
                                                             flex: 1,
-                                                            fieldLabel: 'Duplex'
+                                                            fieldLabel: 'Mode',
+                                                            name: 'mode',
+                                                            store: [
+                                                                '802.3ad',
+                                                                'active-backup',
+                                                                'adaptive-load-balance',
+                                                                'round-robin',
+                                                                'transmit-load-balance',
+                                                                'xor-hash',
+                                                                'broadcast'
+                                                            ]
                                                         },
                                                         {
                                                             xtype: 'textfield',
@@ -1213,14 +1228,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     },
                                                     items: [
                                                         {
-                                                            xtype: 'combobox',
-                                                            flex: 1,
-                                                            fieldLabel: 'Speed'
-                                                        },
-                                                        {
                                                             xtype: 'textfield',
                                                             flex: 1,
                                                             fieldLabel: 'MTU'
+                                                        },
+                                                        {
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
                                                         }
                                                     ]
                                                 },

@@ -6,9 +6,10 @@
     },
     "codeClass": null,
     "userConfig": {
-        "activeItem": 1,
         "designer|initialView": true,
         "designer|userClassName": "AthenaSpider",
+        "id": "AthenaSpider",
+        "itemId": "AthenaSpider",
         "layout": "card",
         "requires": [
             "Ext.layout.container.*",

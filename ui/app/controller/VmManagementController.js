@@ -38,8 +38,11 @@ Ext.define('spider.controller.VmManagementController', {
         } else if(newCard.title === "NIC") {
 
             this.setNic();
-        }
 
+        } else if(newCard.title === "Bonding") {
+
+            this.setBonding();
+        }
 
         if(oldCard.title == "Instance Dashboard") {
             clearInterval(GlobalData.intervalId2);
@@ -148,7 +151,8 @@ Ext.define('spider.controller.VmManagementController', {
 
                     vmCombo : null,
 
-                    initComboNic : false
+                    initComboNic : false,
+                    initComboBonding : false
 
                 });
 
@@ -969,6 +973,21 @@ Ext.define('spider.controller.VmManagementController', {
 
         }
 
+    },
+
+    setBonding: function() {
+        Ext.getCmp("comboBondingName").setValue("");
+
+        Ext.getCmp("viewBondingForm").getForm().reset();
+
+        var comboStore = Ext.getStore("VmBondingStore");
+        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
+
+        if(vmConstants.initComboBonding) {
+            comboStore.removeAll();
+            comboStore.load();
+
+        }
     },
 
     popVmBondingPopup: function() {

@@ -25,6 +25,8 @@ Ext.define('spider.view.LoginWindow', {
     ],
 
     height: 230,
+    id: 'LoginWindow',
+    itemId: 'LoginWindow',
     width: 420,
     resizable: false,
     closable: false,

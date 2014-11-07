@@ -2236,10 +2236,14 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "displayField": "ethName",
                                                 "fieldLabel": "Bonding",
+                                                "id": "comboBondingName",
                                                 "labelWidth": 60,
                                                 "layout|flex": null,
                                                 "margin": "0 0 0 10",
+                                                "store": "VmBondingStore",
+                                                "valueField": "ethName",
                                                 "width": 180
                                             },
                                             "designerId": "3aacf3a4-658a-4306-8541-a84d4734e663"
@@ -2444,7 +2448,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "IP 주소",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "address"
                                                     },
                                                     "designerId": "9eec8b11-534a-411d-9eda-8a549ef1cd2c"
                                                 },
@@ -2549,8 +2554,23 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "fieldLabel": "Duplex",
-                                                        "layout|flex": 1
+                                                        "fieldLabel": "Mode",
+                                                        "layout|flex": 1,
+                                                        "name": "mode",
+                                                        "store": [
+                                                            "[",
+                                                            "   \"802.3ad\",",
+                                                            "   \"active-backup\",",
+                                                            "   \"adaptive-load-balance\",",
+                                                            "   \"round-robin\",",
+                                                            "   \"transmit-load-balance\",",
+                                                            "   \"xor-hash\",",
+                                                            "   \"broadcast\"",
+                                                            "]"
+                                                        ]
+                                                    },
+                                                    "configAlternates": {
+                                                        "store": "array"
                                                     },
                                                     "designerId": "ad60d998-bcea-4200-aa3d-170796934203"
                                                 },
@@ -2595,19 +2615,6 @@
                                             ],
                                             "cn": [
                                                 {
-                                                    "type": "Ext.form.field.ComboBox",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "fieldLabel": "Speed",
-                                                        "layout|flex": 1
-                                                    },
-                                                    "designerId": "00c07005-054f-49a9-ba19-a1f3c973924f"
-                                                },
-                                                {
                                                     "type": "Ext.form.field.Text",
                                                     "reference": {
                                                         "name": "items",
@@ -2619,6 +2626,18 @@
                                                         "layout|flex": 1
                                                     },
                                                     "designerId": "a5477adb-d2dc-480f-86f1-61b284bc328a"
+                                                },
+                                                {
+                                                    "type": "Ext.toolbar.Spacer",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "layout|flex": 1
+                                                    },
+                                                    "designerId": "b597b2ee-1941-4f44-b1f2-20d5b0eb3872"
                                                 }
                                             ]
                                         },

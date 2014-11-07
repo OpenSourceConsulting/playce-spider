@@ -87,11 +87,11 @@ Ext.define('spider.view.AddBondingWindow', {
                             editable: false,
                             store: [
                                 '802.3ad',
-                                'active‐backup',
-                                'adaptive‐load‐balance',
-                                'round‐robin',
-                                'transmit‐load‐balance',
-                                'xor‐hash',
+                                'active-backup',
+                                'adaptive-load-balance',
+                                'round-robin',
+                                'transmit-load-balance',
+                                'xor-hash',
                                 'broadcast'
                             ]
                         }

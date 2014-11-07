@@ -70,28 +70,21 @@ Ext.define('spider.controller.LoginController', {
         // Success
         var successCallback = function(resp, ops) {
 
-            var response = Ext.decode(resp.responseText);
-            if(response.success){
-                me.successfulLogin(response.data, "json");
-            }
-            else {
-                failureCallback(response, ops);
+            if(resp.status == 200) {
+                me.successfulLogin(Ext.decode(resp.responseText), "json");
+            } else {
+                failureCallback(resp, ops);
             }
 
         };
 
-
         // Failure
         var failureCallback = function(resp, ops) {
 
-            var msg = "로그인에 실패하였습니다.";
-            if(resp.msg !== null) {
-                msg = resp.msg;
-            }
             // Show login failure error
             Ext.Msg.alert({
                 title: "Login Failure",
-                msg: msg,
+                msg: "로그인에 실패하였습니다.",
                 buttons: Ext.Msg.OK,
                 fn: function(choice) {
                     password.setValue("");
@@ -127,16 +120,20 @@ Ext.define('spider.controller.LoginController', {
             });
         } else {
 
-
             //TODO: Login using server-side authentication service
             Ext.Ajax.request({
                 url: GLOBAL.apiUrlPrefix + "user/login",
-                params: values,
+                method: "POST",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                jsonData: form.getForm().getFieldValues(),
                 success: successCallback,
                 failure: failureCallback
             });
 
         }
+
     },
 
     onUserIdSpecialkey: function(field, e, eOpts) {
@@ -195,7 +192,7 @@ Ext.define('spider.controller.LoginController', {
         Ext.getCmp("AthenaSpider").layout.setActiveItem(1);
         Ext.getCmp("loginUserName").setText(newRecord.get("userName"));
 
-        component.getEl().on('click',function(){
+        Ext.getCmp("logoutLabel").getEl().on('click',function(){
             me.doLogout();
         });
     },

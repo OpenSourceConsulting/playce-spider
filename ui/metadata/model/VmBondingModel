@@ -1,0 +1,62 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmBondingModel"
+    },
+    "designerId": "eec6c015-ef46-4f24-8c00-5e63c3cef8a1",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "items"
+            },
+            "designerId": "08393a9c-4f67-4878-92f4-139800653b2c"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "address"
+            },
+            "designerId": "29e96da9-86ac-4204-a525-afa3939ffb47"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "mode"
+            },
+            "designerId": "025c8155-9d86-40a2-9f5f-c3cfe6001c5c"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "ethName"
+            },
+            "designerId": "6d08b943-d27a-46b2-b70c-b607cb393d28"
+        }
+    ]
+}

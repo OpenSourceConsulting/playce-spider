@@ -30,7 +30,8 @@ Ext.application({
         'VmHostModel',
         'VmTemplateModel',
         'VmNicModel',
-        'SessionModel'
+        'SessionModel',
+        'VmBondingModel'
     ],
     stores: [
         'ServerListStore',
@@ -46,7 +47,8 @@ Ext.application({
         'VmNetworkChartStore',
         'VmNicStore',
         'VmInterfaceStore',
-        'SessionStore'
+        'SessionStore',
+        'VmBondingStore'
     ],
     views: [
         'AthenaSpider',

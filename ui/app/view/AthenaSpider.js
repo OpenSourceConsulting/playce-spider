@@ -40,7 +40,8 @@ Ext.define('spider.view.AthenaSpider', {
         'Ext.grid.plugin.RowEditing'
     ],
 
-    activeItem: 1,
+    id: 'AthenaSpider',
+    itemId: 'AthenaSpider',
     layout: 'card',
 
     initComponent: function() {

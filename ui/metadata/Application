@@ -21,7 +21,8 @@
             "VmHostModel",
             "VmTemplateModel",
             "VmNicModel",
-            "SessionModel"
+            "SessionModel",
+            "VmBondingModel"
         ],
         "name": "spider",
         "requires": [
@@ -41,7 +42,8 @@
             "VmNetworkChartStore",
             "VmNicStore",
             "VmInterfaceStore",
-            "SessionStore"
+            "SessionStore",
+            "VmBondingStore"
         ],
         "views": [
             "AthenaSpider",

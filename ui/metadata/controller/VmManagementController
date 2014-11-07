@@ -104,7 +104,8 @@
                     "",
                     "    vmCombo : null,",
                     "",
-                    "    initComboNic : false",
+                    "    initComboNic : false,",
+                    "    initComboBonding : false",
                     "",
                     "});"
                 ]
@@ -534,8 +535,11 @@
                     "} else if(newCard.title === \"NIC\") {",
                     "",
                     "    this.setNic();",
+                    "    ",
+                    "} else if(newCard.title === \"Bonding\") {",
+                    "    ",
+                    "    this.setBonding();",
                     "}",
-                    "",
                     "",
                     "if(oldCard.title == \"Instance Dashboard\") {",
                     "    clearInterval(GlobalData.intervalId2);",
@@ -1130,6 +1134,32 @@
             },
             "codeClass": null,
             "userConfig": {
+                "fn": "setBonding",
+                "implHandler": [
+                    "Ext.getCmp(\"comboBondingName\").setValue(\"\");",
+                    "",
+                    "Ext.getCmp(\"viewBondingForm\").getForm().reset();",
+                    "",
+                    "var comboStore = Ext.getStore(\"VmBondingStore\");",
+                    "comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get(\"id\") + '/bonding/all';",
+                    "",
+                    "if(vmConstants.initComboBonding) {",
+                    "    comboStore.removeAll();",
+                    "    comboStore.load();",
+                    "",
+                    "}"
+                ]
+            },
+            "designerId": "2670e131-23d6-4136-b89e-9bd5af7eac5f"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "fn": "popVmBondingPopup",
                 "implHandler": [
                     "//VM Host 생성 팝업 호출",
@@ -1171,7 +1201,7 @@
                     "",
                     "    var sendData = {};",
                     "    var formData = addBondingForm.getForm().getFieldValues();",
-                    "    ",
+                    "",
                     "    sendData.address = formData.address;",
                     "    sendData.mode = formData.mode;",
                     "    sendData.ethernets = ethernets;",
