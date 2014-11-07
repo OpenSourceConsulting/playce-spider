@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 '''
 Created on 2014. 9. 11.
 
@@ -11,6 +12,7 @@ import json
 from spidercore import *
 from __builtin__ import int
 import os
+import tempfile
 
 logger = logging.getLogger(__name__)
 
@@ -265,7 +267,10 @@ def getIfConfig(addr, sshid, sshpw, nicname):
 def send_vyatta_command(commands):
 	
 	results = []
-	f = open(mainDir + '/commands.txt', 'w')
+	tempDir = mainDir+"/tmp"
+	#f = open(mainDir + '/commands.txt', 'w')
+	# 임시파일 생성해서 사용
+	f = tempfile.NamedTemporaryFile(mode='w+b', delete=False, dir=tempDir)
 	commands.append("$COMMIT")
 	commands.append("$SAVE")
 	logger.debug(commands)
@@ -275,7 +280,8 @@ def send_vyatta_command(commands):
 	run('mkdir -p .spider')
 	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
-		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		#put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		put(open(f.name), 'commands.sh', mode=0755)
 		try:
 			result = run('./cli.sh', pty=False, combine_stderr=True)
 			logger.debug("--------------------------------")
@@ -285,11 +291,11 @@ def send_vyatta_command(commands):
 			return {"success": "fail", "errmsg": result}
 		
 	if "already exists" in result:
-		logger.debug("fail")
+		logger.error("vyatta command fail.")
 		return {"success": "fail", "errmsg": result}
 	else:
 		logger.debug("success")
-		return results
+		return {"success": "success", "msg": result}
 
 def update_nic_task(beforeData, afterData):
 	options = {

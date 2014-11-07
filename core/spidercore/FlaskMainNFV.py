@@ -274,6 +274,7 @@ def vmbondingsave(id=None, bondid=None):
 		return "No unique bondid for interface", 500
 	
 	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
+	#logger.debug("request.data : "+request.data.decode("utf-8"))
 	jsonData = json.loads(request.data)
 	
 	jsonData['bondid'] = bondid
@@ -281,11 +282,15 @@ def vmbondingsave(id=None, bondid=None):
 	
 	
 	if request.method == 'POST':
-		NFVBondingService.create_bonding(id, jsonData)
+		result = NFVBondingService.create_bonding(id, jsonData)
 	else:
-		NFVBondingService.update_bonding(id, jsonData)
+		result = NFVBondingService.update_bonding(id, jsonData)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		return result['errmsg'], 500
 	
-	return "OK", 200
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
 def mon_vmiflist(id=None):
