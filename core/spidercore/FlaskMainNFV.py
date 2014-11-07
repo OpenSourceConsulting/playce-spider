@@ -266,31 +266,37 @@ def vmifupdate(id=None, ifid=None):
 	return "OK", 200
 
 # create bonding
-@app.route("/nfv/<id>/bonding/<bondid>", methods=['POST', 'PUT'])
+@app.route("/nfv/<id>/bonding/<bondid>", methods=['POST', 'PUT', 'DELETE'])
 def vmbondingsave(id=None, bondid=None):
-	if id == None:
-		return "No unique id for VM", 500
-	elif bondid == None:
-		return "No unique bondid for interface", 500
 	
 	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
 	#logger.debug("request.data : "+request.data.decode("utf-8"))
-	jsonData = json.loads(request.data)
+	jsonParams = json.loads(request.data)
 	
-	jsonData['bondid'] = bondid
-	logger.debug(json.dumps(jsonData, indent=4))
+	jsonParams['bondid'] = bondid
+	logger.debug(json.dumps(jsonParams, indent=4))
 	
 	
 	if request.method == 'POST':
-		result = NFVBondingService.create_bonding(id, jsonData)
+		result = NFVBondingService.create_bonding(id, jsonParams)
+	elif request.method == 'PUT':
+		result = NFVBondingService.update_bonding(id, jsonParams)
 	else:
-		result = NFVBondingService.update_bonding(id, jsonData)
+		result = NFVBondingService.delete_bonding(id, jsonParams)
 		
 	if result['success'] == 'success':
 		return "OK", 200
 	else:
 		return result['errmsg'], 500
 	
+@app.route("/nfv/<id>/bonding/all", methods=['GET'])
+def vmbondingall(id=None):
+	logger.debug("%s /nfv/%s/bonding/all" % (request.method, id))
+	
+	result = NFVBondingService.all_bonding(id)
+	
+	return json.dumps(result), 200
+
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
 def mon_vmiflist(id=None):
