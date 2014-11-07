@@ -9,6 +9,7 @@ from spidercore import *
 from fabric.api import env
 from fabric.tasks import execute
 import spidercore.FabricUtilNFV
+from spidercore.util import PyUtils
 
 
 logger = logging.getLogger(__name__)
@@ -33,6 +34,7 @@ def create_bonding(vmid, params):
 	logger.debug("create call!!")
 	
 	vm = get_vm(vmid)
+	
 	addr = vm['mgraddr']
 	
 	env.hosts = [ addr ]
@@ -68,18 +70,46 @@ def all_bonding(vmid):
 	
 	return result
 
+def update_bonding_task(bondid, bondinfo):
+	
+	commands = []
+	
+	for key in bondinfo:
+		commands.append("DELETE interfaces bonding %s %s" % (key, bondinfo[key]))
+		commands.append("SET interfaces bonding %s %s" % (key, bondinfo[key]))
+	
+		
+	return FabricUtilNFV.send_vyatta_command(commands)
+
 def update_bonding(vmid, params):
 	
 	logger.debug("update call!!")
+	
+	diff = PyUtils.diff_vyatta_conf(params['before'], params['after'])
+	
+	if len(diff) == 0:
+		logger.debug("bondging 수정사항이 없습니다.")
+		return {"success": "success", "msg": "수정 사항이 없습니다."}
+	
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
+	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(update_bonding_task, hosts=[addr], bondid=params['bondid'], bondinfo = diff)
+	
+	return results[addr]
 	
 def delete_bonding_task(bondinfo):
 	bondid = bondinfo['bondid']
 	commands = []
 	
 	for eth in bondinfo["ethernets"]:
-		commands.append("$DELETE interfaces ethernet %s bond-group" % eth) # for test
+		commands.append("$DELETE interfaces ethernet %s bond-group" % eth)
 	
-	commands.append("$DELETE interfaces bonding " + bondid) # for test
+	commands.append("$DELETE interfaces bonding " + bondid)
 		
 	return FabricUtilNFV.send_vyatta_command(commands)
 	
