@@ -80,6 +80,8 @@ def setup_logging(
 
 def read_repository(name):
 	print "Name: " + name
+	print "loading : " + mainDir + '/' + name + ".json"
+	
 	f = codecs.open(mainDir + '/' + name + ".json", 'r', encoding='utf8')
 	data = f.read()
 	f.close()
@@ -89,19 +91,22 @@ def read_repository(name):
 
 def write_repository(name, data):
 	print "Name: " + name
+	
 	f = codecs.open(mainDir + '/' + name + ".json", 'w', encoding='utf8')
 	data = f.write(json.dumps(data))
 	f.close()
 
 def get_vm(id):
 	vms = read_repository("vms")
+	
+	#print "get_vm vms: "+json.dumps(vms, indent=4)
+	
 	for vm in vms:
+		print vm['_id'] + " : " + id
 		if '_id' in vm and id == vm['_id']:
 			return vm
-		else:
-			return None
-	else:
-		return None
+
+	raise Exception("get_vm not found: " + id)
 
 setup_logging()
 
