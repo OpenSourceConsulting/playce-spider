@@ -182,7 +182,7 @@ Ext.define('spider.controller.MenuController', {
         this.renderServerTree();
     },
 
-    onLaunch: function() {
+    onMainContainerActivate: function(component, eOpts) {
         var listMenuPanel = this.getListMenuPanel();
         var centerContainer = this.getCenterContainer();
 
@@ -204,6 +204,9 @@ Ext.define('spider.controller.MenuController', {
 
         this.renderServerTree();
 
+    },
+
+    onLaunch: function() {
 
         //this.renderDashboard();
         /*
@@ -354,6 +357,9 @@ Ext.define('spider.controller.MenuController', {
             },
             "#mytool": {
                 click: this.onMytoolClick
+            },
+            "#mainContainer": {
+                activate: this.onMainContainerActivate
             }
         });
     },
@@ -370,7 +376,7 @@ Ext.define('spider.controller.MenuController', {
             menuPanel = this.getMenuPanel();
 
         // 현재 선택된 item이 managementPanel일 경우 무시한다.
-        if (centerContainer.layout.getActiveItem().itemId !== "managementPanel") {
+        if (centerContainer.layout.getActiveItem().itemId !== "VmManagementPanel") {
 
             managementBtn.toggle(true);
             dashboardBtn.toggle(false);

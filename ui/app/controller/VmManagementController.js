@@ -38,8 +38,11 @@ Ext.define('spider.controller.VmManagementController', {
         } else if(newCard.title === "NIC") {
 
             this.setNic();
-        }
 
+        } else if(newCard.title === "Bonding") {
+
+            this.setBonding();
+        }
 
         if(oldCard.title == "Instance Dashboard") {
             clearInterval(GlobalData.intervalId2);
@@ -148,7 +151,8 @@ Ext.define('spider.controller.VmManagementController', {
 
                     vmCombo : null,
 
-                    initComboNic : false
+                    initComboNic : false,
+                    initComboBonding : false
 
                 });
 
@@ -770,7 +774,7 @@ Ext.define('spider.controller.VmManagementController', {
         var centerContainer = this.getCenterContainer();
         var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
 
-        if (centerContainer.layout.getActiveItem().itemId !== "managementPanel") {
+        if (centerContainer.layout.getActiveItem().itemId !== "VmManagementPanel") {
             return;
         } else if(vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(0)) {
             return;
@@ -892,6 +896,182 @@ Ext.define('spider.controller.VmManagementController', {
             comboStore.load();
 
         }
+    },
+
+    saveNic: function(button) {
+
+        var combo = Ext.getCmp("comboNicName"),
+            comboValue = combo.getValue(),
+            store = combo.getStore(),
+            record = store.findRecord("ethName", comboValue);
+
+        var viewNicForm = Ext.getCmp("viewNicForm");
+
+        if(viewNicForm.isValid()) {
+
+            var sendData = {};
+            //sendData.after = viewNicForm.getForm().getFieldValues();
+
+            sendData.after = {
+                "address"		: record.get("address"),
+                "duplex"		: viewNicForm.getForm().findField("duplex").getValue(),
+                "ethName"		: record.get("ethName"),
+                "hw-id"			: record.get("hw-id"),
+                "smp_affinity"	: record.get("smp_affinity"),
+                "speed"			: viewNicForm.getForm().findField("speed").getValue()
+            };
+
+            sendData.before = {
+                "address"		: record.get("address"),
+                "duplex"		: record.get("duplex"),
+                "ethName"		: record.get("ethName"),
+                "hw-id"			: record.get("hw-id"),
+                "smp_affinity"	: record.get("smp_affinity"),
+                "speed"			: record.get("speed")
+            };
+
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/if/" + comboValue,
+                method: "PUT",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                waitMsg: 'Saving Data...',
+                jsonData: sendData,
+                success: function (response) {
+
+                    if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            Ext.Ajax.request({
+                                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/' + comboValue,
+                                waitMsg: 'Loading...',
+                                disableCaching : true,
+                                success: function(response){
+
+                                    var columnData = Ext.decode(response.responseText);
+                                    if(columnData.length > 0) {
+
+                                        var data = columnData[0];
+
+                                        record.set("duplex", data.duplex);
+                                        record.set("speed", data.speed);
+
+                                        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+                                    }
+                                }
+                            });
+                        });
+
+                    }
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText);
+                }
+            });
+
+        }
+
+    },
+
+    setBonding: function() {
+        Ext.getCmp("comboBondingName").setValue("");
+
+        Ext.getCmp("viewBondingForm").getForm().reset();
+
+        var comboStore = Ext.getStore("VmBondingStore");
+        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
+
+        if(vmConstants.initComboBonding) {
+            comboStore.removeAll();
+            comboStore.load();
+
+        }
+    },
+
+    popVmBondingPopup: function() {
+        //VM Host 생성 팝업 호출
+
+        var popWindow = Ext.create("widget.AddBondingWindow");
+        popWindow.show();
+    },
+
+    createVMBonding: function(button) {
+        var addBondingForm = Ext.getCmp("addBondingForm");
+
+        if(addBondingForm.isValid()) {
+
+            var checks = addBondingForm.down('#bondingNICGroup').getChecked();
+
+            if(checks.length < 2) {
+                Ext.Msg.alert('Failure', "NIC는 두개 이상 체크하셔야 합니다.");
+                return;
+            }
+
+            var ethernets = [];
+            Ext.each(checks, function(checkBox){
+                ethernets.push(checkBox.getName());
+            });
+
+            var sendData = {};
+            var formData = addBondingForm.getForm().getFieldValues();
+
+            sendData.address = formData.address;
+            sendData.mode = formData.mode;
+            sendData.ethernets = ethernets;
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + formData.bondid,
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : addBondingForm.getEl(),
+                 jsonData: sendData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                         Ext.Msg.alert('Success', '등록이 완료되었습니다.');
+
+                         addBondingForm.up('window').close();
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText);
+                }
+             });
+
+        }
+
+    },
+
+    renderNicCombo: function(component, msgTarget) {
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
+            disableCaching : true,
+            waitMsg: 'Loading...',
+            waitMsgTarget : msgTarget,
+            success: function(response){
+
+                if(response.status == 200) {
+
+                    var data = Ext.decode(response.responseText);
+                    var i_max = data.length;
+                    var newCheckboxes = new Array();
+                    for( i = 0; i < i_max; i++ ) {
+                        component.add(new Ext.form.Checkbox({ boxLabel: data[i].ethName, name: data[i].ethName, inputValue: data[i].ethName }));
+                    }
+                }
+
+            }
+        });
+
     }
 
 });

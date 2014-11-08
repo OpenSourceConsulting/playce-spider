@@ -1,8 +1,9 @@
 eclipse.preferences.version=1
-encoding//spidercore/BongFlaskMain.py=utf-8
-encoding//spidercore/BongLoggingTest.py=utf-8
-encoding//spidercore/BongService.py=utf-8
+encoding//spidercore/FabricUtilNFV.py=utf-8
 encoding//spidercore/FlaskMainNFV.py=utf-8
+encoding//spidercore/service/NFVBondingService.py=utf-8
+encoding//spidercore/service/NFVNATService.py=utf-8
+encoding//spidercore/util/PyUtils.py=utf-8
 encoding//spidercore/vms.json=UTF-8
 encoding/<project>=UTF-8
 encoding/test.json=UTF-8

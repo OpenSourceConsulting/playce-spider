@@ -1,0 +1,313 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "LoginController"
+    },
+    "designerId": "973ba471-e0db-4be8-968f-4b831290ffb3",
+    "cn": [
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#introPanel",
+                "designer|targetType": "Ext.panel.Panel",
+                "fn": "onIntroPanelActivate",
+                "implHandler": [
+                    "//Login Session Check",
+                    "var sessionInfo = Ext.getStore('SessionStore');",
+                    "sessionInfo.load();",
+                    "",
+                    "if(null != sessionInfo.getAt(0)){",
+                    "    this.successfulLogin(sessionInfo.getAt(0), \"model\");",
+                    "",
+                    "} else {",
+                    "",
+                    "    // Create new login form window",
+                    "    var login = Ext.create(\"widget.LoginWindow\");",
+                    "",
+                    "    // Show window",
+                    "    login.show();",
+                    "",
+                    "    this.getUserId().focus();",
+                    "",
+                    "}",
+                    ""
+                ],
+                "name": "activate",
+                "scope": "me"
+            },
+            "designerId": "bfa866e9-3391-4fe9-9519-97c919ab5f6a"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "userId",
+                "selector": "#userId"
+            },
+            "designerId": "d82c1a86-1e4f-4446-82e0-b6aeb6f3a78b"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "password",
+                "selector": "#password"
+            },
+            "designerId": "1e85bdc6-e935-40e0-af2d-405332cdee97"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "loginBtn",
+                "selector": "#loginBtn"
+            },
+            "designerId": "8f4f88b7-946a-4e83-b0a9-d713a294a02f"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#loginBtn",
+                "designer|targetType": "Ext.button.Button",
+                "fn": "doLogin",
+                "implHandler": [
+                    "",
+                    "var form = Ext.getCmp(\"loginForm\"),\t\t\t// Login form",
+                    "    formWindow = Ext.getCmp('LoginWindow'),\t// Login form window",
+                    "    values = form.getValues();\t\t\t\t// Form values",
+                    "",
+                    "var me = this;",
+                    "",
+                    "var userId = this.getUserId(),",
+                    "    password = this.getPassword();",
+                    "",
+                    "var userIdVal = userId.getValue(),",
+                    "    passwordVal = password.getValue();",
+                    "",
+                    "// Success",
+                    "var successCallback = function(resp, ops) {",
+                    "    ",
+                    "    if(resp.status == 200) {",
+                    "        me.successfulLogin(Ext.decode(resp.responseText), \"json\");",
+                    "    } else {",
+                    "        failureCallback(resp, ops);",
+                    "    }",
+                    "",
+                    "};",
+                    "",
+                    "// Failure",
+                    "var failureCallback = function(resp, ops) {",
+                    "",
+                    "    // Show login failure error",
+                    "    Ext.Msg.alert({",
+                    "        title: \"Login Failure\",",
+                    "        msg: \"로그인에 실패하였습니다.\",",
+                    "        buttons: Ext.Msg.OK,",
+                    "        fn: function(choice) {",
+                    "            password.setValue(\"\");",
+                    "            password.focus();",
+                    "        },",
+                    "        icon: Ext.Msg.ERROR",
+                    "    });",
+                    "};",
+                    "",
+                    "if (userIdVal === \"\") {",
+                    "",
+                    "    // username must not be null.",
+                    "    Ext.Msg.show({",
+                    "        title: \"Message\",",
+                    "        msg: \"사용자아이디를 입력해주세요.\",",
+                    "        buttons: Ext.Msg.OK,",
+                    "        fn: function(choice) {",
+                    "            userId.focus();",
+                    "        },",
+                    "        icon: Ext.Msg.WARNING",
+                    "    });",
+                    "} else if (passwordVal === \"\") {",
+                    "",
+                    "    // password must not be null.",
+                    "    Ext.Msg.show({",
+                    "        title: \"Message\",",
+                    "        msg: \"비밀번호를 입력해주세요.\",",
+                    "        buttons: Ext.Msg.OK,",
+                    "        fn: function(choice) {",
+                    "            password.focus();",
+                    "        },",
+                    "        icon: Ext.Msg.WARNING",
+                    "    });",
+                    "} else {",
+                    "",
+                    "    //TODO: Login using server-side authentication service",
+                    "    Ext.Ajax.request({",
+                    "        url: GLOBAL.apiUrlPrefix + \"user/login\",",
+                    "        method: \"POST\",",
+                    "        headers : {",
+                    "            \"Content-Type\" : \"application/json\"",
+                    "        },",
+                    "        jsonData: form.getForm().getFieldValues(),",
+                    "        success: successCallback,",
+                    "        failure: failureCallback",
+                    "    });",
+                    "",
+                    "}",
+                    ""
+                ],
+                "name": "click",
+                "scope": "me"
+            },
+            "designerId": "098ccb3a-73d7-4c40-94dd-098ded37c724"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#userId",
+                "designer|targetType": "Ext.form.field.Text",
+                "fn": "onUserIdSpecialkey",
+                "implHandler": [
+                    "",
+                    "if (e.getKey() == e.ENTER) {",
+                    "    this.doLogin();",
+                    "}"
+                ],
+                "name": "specialkey",
+                "scope": "me"
+            },
+            "designerId": "a5046dab-6ae8-4387-8167-9299b3897723"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#password",
+                "designer|targetType": "Ext.form.field.Text",
+                "fn": "onPasswordSpecialkey",
+                "implHandler": [
+                    "",
+                    "if (e.getKey() == e.ENTER) {",
+                    "    this.doLogin();",
+                    "}"
+                ],
+                "name": "specialkey",
+                "scope": "me"
+            },
+            "designerId": "8d35fee4-eecf-4ac1-a97d-2f5fce940eb5"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "session",
+                    "opt"
+                ],
+                "fn": "successfulLogin",
+                "implHandler": [
+                    "",
+                    "//Login Session 설정",
+                    "var me = this;",
+                    "this.session = session;",
+                    "",
+                    "var sessionInfo = Ext.getStore('SessionStore');",
+                    "sessionInfo.removeAll();",
+                    "sessionInfo.sync();",
+                    "",
+                    "var newRecord;",
+                    "if(opt == 'json') {",
+                    "",
+                    "    newRecord = new spider.model.SessionModel({",
+                    "        userId\t\t: this.session.userId,",
+                    "        userName\t: this.session.userName,",
+                    "        email\t\t: this.session.email",
+                    "    });",
+                    "",
+                    "} else {",
+                    "",
+                    "    newRecord = new spider.model.SessionModel({",
+                    "        userId\t\t: this.session.get(\"userId\"),",
+                    "        userName\t: this.session.get(\"userName\"),",
+                    "        email\t\t: this.session.get(\"email\")",
+                    "    });",
+                    "",
+                    "}",
+                    "",
+                    "sessionInfo.add(newRecord);",
+                    "sessionInfo.sync();",
+                    "",
+                    "// Close window",
+                    "var loginWindow = Ext.getCmp('LoginWindow');",
+                    "if(loginWindow != null) {",
+                    "    Ext.getCmp('LoginWindow').destroy();",
+                    "}",
+                    "",
+                    "//Main Layout 설정",
+                    "Ext.getCmp(\"AthenaSpider\").layout.setActiveItem(1);",
+                    "Ext.getCmp(\"loginUserName\").setText(newRecord.get(\"userName\"));",
+                    "",
+                    "Ext.getCmp(\"logoutLabel\").getEl().on('click',function(){",
+                    "    me.doLogout();",
+                    "});"
+                ]
+            },
+            "designerId": "c5e8d43e-85ae-447d-9f31-b9b4ecf89516"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "doLogout",
+                "implHandler": [
+                    "var sessionInfo = Ext.getStore('SessionStore');",
+                    "sessionInfo.removeAll();",
+                    "sessionInfo.sync();",
+                    "",
+                    "window.location.reload();"
+                ]
+            },
+            "designerId": "696ab436-d6cf-4d3b-bdfa-a231f2da0748"
+        }
+    ]
+}

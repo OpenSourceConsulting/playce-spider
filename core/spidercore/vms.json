@@ -1,1 +1,20 @@
-[{"sshid": "vyatta", "vmhost": "cdf685a2-0530-4d03-87b0-0db4471fb1d6", "sshpw": "vyatta", "vmname": "vyatta", "interfaces": [{"nic": "eth2", "addr": "192.168.56.13"}], "hostname": "vyatta", "vmtype": "kvm", "vendor": "vyatta", "_id": "607de2f1-45ad-4354-9d96-b4841664d2d8", "type": "nfv", "addr": "vyatta"}]
+[
+	{
+		"sshid":"vyatta",
+		"vmhost":"cdf685a2-0530-4d03-87b0-0db4471fb1d6",
+		"sshpw":"vyatta",
+		"vmname":"vyatta",
+		"interfaces":[
+			{
+				"nic":"eth2",
+				"addr":"192.168.56.13"
+			}
+		],
+		"hostname":"vyatta",
+		"vmtype":"kvm",
+		"vendor":"vyatta",
+		"_id":"607de2f1-45ad-4354-9d96-b4841664d2d8",
+		"type":"nfv",
+		"addr":"vyatta"
+	}
+]

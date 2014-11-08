@@ -93,6 +93,18 @@
                 "name": "ipaddr"
             },
             "designerId": "a68d806f-d930-4053-b303-a58d00aa78a7"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "hw-id"
+            },
+            "designerId": "6c7c893d-b9b8-4a39-b030-55bc54b17e4a"
         }
     ]
 }

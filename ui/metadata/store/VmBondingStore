@@ -1,0 +1,75 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmBondingStore",
+        "model": "VmBondingModel",
+        "storeId": "VmBondingStore"
+    },
+    "designerId": "5faaedb0-f291-43c9-8f1d-1fc26fe2e231",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.Ajax",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "/mon/vm"
+            },
+            "designerId": "2d929560-e6cd-4495-acf0-f24f19a2c735",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "b30116f1-e6e9-458f-a5c7-fc67161580ba"
+                },
+                {
+                    "type": "processcfgfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "config"
+                        ],
+                        "fn": "processMyAjaxProxy1",
+                        "implHandler": [
+                            "config.actionMethods = {read: \"GET\"};",
+                            "return config;"
+                        ]
+                    },
+                    "designerId": "2b524025-8915-4f42-be80-29c3e76f462f"
+                }
+            ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onJsonstoreLoad",
+                "implHandler": [
+                    "vmConstants.initComboBonding = true;"
+                ],
+                "name": "load",
+                "scope": "me"
+            },
+            "designerId": "0246d47f-a31f-4900-92ab-f4315cf00d3a"
+        }
+    ]
+}

@@ -137,27 +137,6 @@
             "userConfig": {
                 "fn": "onLaunch",
                 "implHandler": [
-                    "var listMenuPanel = this.getListMenuPanel();",
-                    "var centerContainer = this.getCenterContainer();",
-                    "",
-                    "centerContainer.layout.setActiveItem(0);",
-                    "",
-                    "/**",
-                    " * Expand-All Image click event를 catch 하도록 설정",
-                    " */",
-                    "this.getExpandImg().getEl().on('click', function() {",
-                    "    listMenuPanel.expandAll();",
-                    "});",
-                    "",
-                    "/**",
-                    " * Collapse-All Image click event를 catch 하도록 설정",
-                    " */",
-                    "this.getCollapseImg().getEl().on('click', function() {",
-                    "    listMenuPanel.collapseAll();",
-                    "});",
-                    "",
-                    "this.renderServerTree();",
-                    "",
                     "",
                     "//this.renderDashboard();",
                     "/*",
@@ -557,7 +536,7 @@
                     "    menuPanel = this.getMenuPanel();",
                     "",
                     "// 현재 선택된 item이 managementPanel일 경우 무시한다.",
-                    "if (centerContainer.layout.getActiveItem().itemId !== \"managementPanel\") {",
+                    "if (centerContainer.layout.getActiveItem().itemId !== \"VmManagementPanel\") {",
                     "",
                     "    managementBtn.toggle(true);",
                     "    dashboardBtn.toggle(false);",
@@ -586,7 +565,7 @@
                     "                    vmhostName\t: record.vmhostName,",
                     "                    vmhost \t\t: record.vmhost",
                     "                });",
-                    "                ",
+                    "",
                     "                vmConstants.me.initVmManagement(vmRecord, tabIndex);",
                     "",
                     "                return false;",
@@ -631,6 +610,45 @@
                 ]
             },
             "designerId": "1c859520-00c7-486b-a74e-ba5245a70748"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#mainContainer",
+                "designer|targetType": "Ext.container.Container",
+                "fn": "onMainContainerActivate",
+                "implHandler": [
+                    "var listMenuPanel = this.getListMenuPanel();",
+                    "var centerContainer = this.getCenterContainer();",
+                    "",
+                    "centerContainer.layout.setActiveItem(0);",
+                    "",
+                    "/**",
+                    " * Expand-All Image click event를 catch 하도록 설정",
+                    " */",
+                    "this.getExpandImg().getEl().on('click', function() {",
+                    "    listMenuPanel.expandAll();",
+                    "});",
+                    "",
+                    "/**",
+                    " * Collapse-All Image click event를 catch 하도록 설정",
+                    " */",
+                    "this.getCollapseImg().getEl().on('click', function() {",
+                    "    listMenuPanel.collapseAll();",
+                    "});",
+                    "",
+                    "this.renderServerTree();",
+                    ""
+                ],
+                "name": "activate",
+                "scope": "me"
+            },
+            "designerId": "53c34135-0089-4612-9810-95bb84d74570"
         }
     ]
 }

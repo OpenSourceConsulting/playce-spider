@@ -1,0 +1,234 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "AddBondingWindow",
+        "designer|userClassName": "AddBondingWindow",
+        "height": 220,
+        "id": "AddBondingWindow",
+        "itemId": null,
+        "modal": true,
+        "resizable": false,
+        "title": "Bonding 등록",
+        "width": 500
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "54b76a93-235d-49a4-b902-abd05a88f548",
+    "cn": [
+        {
+            "type": "Ext.form.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "bodyPadding": 15,
+                "fieldDefaults": [
+                    "{",
+                    "    msgTarget: 'side',",
+                    "    labelWidth: 120",
+                    "}"
+                ],
+                "header": false,
+                "height": 180,
+                "id": "addBondingForm",
+                "itemId": "addBondingForm",
+                "margin": null,
+                "padding": null,
+                "title": "My Form"
+            },
+            "designerId": "70647758-5cd4-4500-9c6a-63ca299db3c8",
+            "cn": [
+                {
+                    "type": "Ext.form.CheckboxGroup",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fieldLabel": "",
+                        "itemId": "bondingNICGroup"
+                    },
+                    "designerId": "5bc01562-5dae-4087-95e4-2c02e97ace38",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onBondingNICGroupRender",
+                                "implHandler": [
+                                    "vmConstants.me.renderNicCombo(component, Ext.getCmp(\"addBondingForm\").getEl());"
+                                ],
+                                "name": "render",
+                                "scope": "me"
+                            },
+                            "designerId": "d0e5df8a-ab01-403e-b16c-8c938553f9a9"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "Bond Group",
+                        "layout|anchor": "100%",
+                        "name": "bondid",
+                        "padding": "0 0 0 5"
+                    },
+                    "designerId": "e936032c-2d26-465c-aac8-8fe4a3dc9da4"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "IP 주소",
+                        "layout|anchor": "100%",
+                        "name": "address",
+                        "padding": "0 0 0 5"
+                    },
+                    "designerId": "4006cf09-9bbc-4a04-af48-32ff1b5dcf4a"
+                },
+                {
+                    "type": "Ext.form.field.ComboBox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "editable": false,
+                        "fieldLabel": "Mode",
+                        "layout|anchor": "100%",
+                        "name": "mode",
+                        "padding": "0 0 0 5",
+                        "store": [
+                            "[",
+                            "   \"802.3ad\",",
+                            "   \"active-backup\",",
+                            "   \"adaptive-load-balance\",",
+                            "   \"round-robin\",",
+                            "   \"transmit-load-balance\",",
+                            "   \"xor-hash\",",
+                            "   \"broadcast\"",
+                            "]"
+                        ]
+                    },
+                    "configAlternates": {
+                        "store": "array"
+                    },
+                    "designerId": "94a27d5e-44f8-458a-9599-47dda9045cbd"
+                },
+                {
+                    "type": "Ext.toolbar.Toolbar",
+                    "reference": {
+                        "name": "dockedItems",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|pack": "center",
+                        "designer|uiInterfaceName": "footer",
+                        "dock": "bottom",
+                        "ui": "footer"
+                    },
+                    "designerId": "b8ff0f74-5019-4496-8bdb-1e7ddf73d728",
+                    "cn": [
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "저장"
+                            },
+                            "designerId": "456a4bd7-807b-46cb-8900-0536b39be393",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "vmConstants.me.createVMBonding(button);"
+                                        ]
+                                    },
+                                    "designerId": "a9a5638a-1cbc-4144-bf58-80ff907ddc18"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "취소"
+                            },
+                            "designerId": "aa3e49c3-89db-42da-a056-e38bce551e33",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "GLOBAL.me.closeWindow(button);"
+                                        ]
+                                    },
+                                    "designerId": "8855009d-2d6a-43da-a9b9-f1bf0bd82bde"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

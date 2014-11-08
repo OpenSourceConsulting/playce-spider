@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 '''
 Created on 2014. 9. 11.
 
@@ -11,6 +12,7 @@ import json
 from spidercore import *
 from __builtin__ import int
 import os
+import tempfile
 
 logger = logging.getLogger(__name__)
 
@@ -262,6 +264,40 @@ def getIfConfig(addr, sshid, sshpw, nicname):
 	results = execute(ifconfig_task, hosts=[addr], nicname=nicname)
 	return results[addr]
 
+def send_vyatta_command(commands):
+	
+	results = []
+	tempDir = mainDir+"/tmp"
+	#f = open(mainDir + '/commands.txt', 'w')
+	# 임시파일 생성해서 사용
+	f = tempfile.NamedTemporaryFile(mode='w+b', delete=False, dir=tempDir)
+	commands.append("$COMMIT")
+	commands.append("$SAVE")
+	logger.debug(commands)
+	f.write("\n".join(commands))
+	f.close()
+
+	run('mkdir -p .spider')
+	with cd('.spider'):
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		#put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		put(open(f.name), 'commands.sh', mode=0755)
+		try:
+			result = run('./cli.sh', pty=False, combine_stderr=True)
+			logger.debug("--------------------------------")
+			logger.debug("Run result %s" % result)
+			logger.debug("--------------------------------")
+		except Exception, e:
+			return {"success": "fail", "errmsg": result}
+		
+	for item in ['already exists','failed']:
+		
+		if item in result:
+			logger.error("vyatta command fail.")
+			return {"success": "fail", "errmsg": result}
+	else:
+		logger.debug("success")
+		return {"success": "success", "msg": result}
 
 def update_nic_task(beforeData, afterData):
 	options = {
@@ -285,6 +321,7 @@ def update_nic_task(beforeData, afterData):
 				diff = {"ethName": ethName, key: afterValue}
 				results.append(diff)
 
+	# replace below code to send_vyatta_command(commands) ??
 	f = open(mainDir + '/commands.txt', 'w')
 	commands.append("$COMMIT")
 	commands.append("$SAVE")

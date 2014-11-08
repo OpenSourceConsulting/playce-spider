@@ -10,6 +10,8 @@ import uuid
 from spidercore import *
 from spidercore.FabricUtilKVM import *
 from spidercore.FabricUtilNFV import *
+from spidercore.service import NFVBondingService
+from spidercore.service import NFVNATService
 
 logger = logging.getLogger(__name__)
 
@@ -270,6 +272,69 @@ def vmifupdate(id=None, ifid=None):
 		write_repository('vms', vms)
 	
 	return "OK", 200
+
+# create bonding
+@app.route("/nfv/<id>/bonding/<bondid>", methods=['POST', 'PUT', 'DELETE'])
+def vmbondingsave(id=None, bondid=None):
+	
+	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
+	#logger.debug("request.data : "+request.data.decode("utf-8"))
+	jsonParams = json.loads(request.data)
+	
+	jsonParams['bondid'] = bondid
+	logger.debug(json.dumps(jsonParams, indent=4))
+	
+	
+	if request.method == 'POST':
+		result = NFVBondingService.create_bonding(id, jsonParams)
+	elif request.method == 'PUT':
+		result = NFVBondingService.update_bonding(id, jsonParams)
+	else:
+		result = NFVBondingService.delete_bonding(id, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		return result['errmsg'], 500
+	
+@app.route("/nfv/<id>/bonding/all", methods=['GET'])
+def vmbondingall(id=None):
+	logger.debug("%s /nfv/%s/bonding/all" % (request.method, id))
+	
+	result = NFVBondingService.all_bonding(id)
+	
+	return json.dumps(result), 200
+
+# create / update / delete nat
+@app.route("/nfv/<vmid>/nat/<ruleid>", methods=['POST', 'PUT', 'DELETE'])
+def vmnatsave(vmid=None, ruleid=None):
+	
+	logger.debug("%s /nfv/%s/if/%s" % (request.method, vmid, ruleid))
+	#logger.debug("request.data : "+request.data.decode("utf-8"))
+	jsonParams = json.loads(request.data)
+	
+	jsonParams['ruleid'] = ruleid
+	logger.debug(json.dumps(jsonParams, indent=4))
+	
+	if request.method == 'POST':
+		result = NFVNATService.create_nat(vmid, jsonParams)
+	elif request.method == 'PUT':
+		result = NFVNATService.update_nat(vmid, jsonParams)
+	else:
+		result = NFVNATService.delete_nat(vmid, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		return result['errmsg'], 500
+	
+@app.route("/nfv/<vmid>/nat/all", methods=['GET'])
+def vmnatall(vmid=None):
+	logger.debug("%s /nfv/%s/nat/all" % (request.method, vmid))
+	
+	result = NFVNATService.all_nats(vmid)
+	
+	return json.dumps(result), 200
 
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
