@@ -303,8 +303,8 @@ def update_nic_task(beforeData, afterData):
 			logger.debug("--------------------------------")
 		except Exception, e:
 			return {"success": "fail", "errmsg": result}
-	if "already exists" in result:
-		logger.debug("fail")
+	if "Commit failed" in result:
+		logger.debug("fail", errmsg = result)
 		return {"success": "fail", "errmsg": result}
 	else:
 		logger.debug("success")
