@@ -379,7 +379,7 @@ def mon_vmnat(id=None, rule=None):
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
 			from spidercore.FabricUtilNFV import getNATs
-			nats = getNATs(vm['addr'], vm['sshid'], vm['sshpw'])
+			nats = getNATs(vm['mgraddr'], vm['sshid'], vm['sshpw'])
  			for nat in nats:
 				if rule == '_all' or rule == nat['rule']:
  					results.append(nat)
