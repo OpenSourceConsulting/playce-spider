@@ -330,6 +330,7 @@ def update_nic_task(beforeData, afterData):
 	f.close()
 
 	# test
+	# test 2
 	run('mkdir -p .spider')
 	with cd('.spider'):
 		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
