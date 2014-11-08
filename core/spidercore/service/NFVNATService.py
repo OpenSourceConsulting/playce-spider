@@ -15,11 +15,41 @@ import spidercore.FabricUtilNFV
 logger = logging.getLogger(__name__)
 
 def create_nat_task(natinfo):
-    ruleid = natinfo['ruleid']
+    rulenum = natinfo['rulenum']
     ruletype = natinfo['ruletype']
     
+    if 'ibnic' in natinfo:
+        ibnic = natinfo['ibnic']
+    else:
+        ibnic = None
+    
+    if 'obnic' in natinfo:
+        obnic = natinfo['obnic']
+    else:
+        obnic = None
+        
+    if 'translation' in natinfo:
+        translation = natinfo['translation']
+    else:
+        translation = None
+    
+    if 'masquerade' in natinfo:
+        masquerade = natinfo['masquerade']
+    else:
+        masquerade = None
+    
     commands = []
-    commands.append("$SET nat " + ruletype + " rule " + ruleid)
+    
+    if ruletype == "source":
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " outbound-interface " + obnic)
+    else:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " inbound-interface " + ibnic)
+        
+    if translation:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address " + translation)  
+    else:
+        if masquerade:  
+            commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address masquerade")
     
     return FabricUtilNFV.send_vyatta_command(commands)
     
@@ -41,47 +71,103 @@ def all_nats(vmid):
     vm = get_vm(vmid)
     return FabricUtilNFV.getNATs(vm['mgraddr'], vm['sshid'], vm['sshpw'])
     
-def update_nat_task(natinfo):
-    ruleid = natinfo['ruleid']
-    ruletype = natinfo['ruletype']
-    ibnic = natinfo['ibnic']
-    obnic = natinfo['obnic']
-    srcaddr = natinfo['srcaddr']
-    destaddr = natinfo['destaddr']
-    srcport = natinfo['srcport']
-    destport = natinfo['destport']
-    protocol = natinfo['protocol']
-    translation = natinfo['translation']
-    masquerade = natinfo['masquerade']
+def get_nat(vmid, rulenum, ruletype):
+    logger.debug("get_nat call!!")
     
+    vm = get_vm(vmid)
+    
+    results = []
+    nats = FabricUtilNFV.getNATs(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+    for nat in nats:
+        if rulenum == nat['rule']:
+            if ruletype:
+                if ruletype == "source" and nat['isSource'] ==  True:
+                    results.append(nat)
+                elif ruletype == "destination" and nat['isSource'] == False:
+                    results.append(nat)
+            else:
+                results.append(nat)
+             
+    return results    
+    
+def update_nat_task(natinfo):
+    rulenum = natinfo['rulenum']
+    ruletype = natinfo['ruletype']
+    
+    if 'ibnic' in natinfo:
+        ibnic = natinfo['ibnic']
+    else:
+        ibnic = None
+    
+    if 'obnic' in natinfo:
+        obnic = natinfo['obnic']
+    else:
+        obnic = None
+    
+    if 'srcaddr' in natinfo:
+        srcaddr = natinfo['srcaddr']
+    else:
+        srcaddr = None
+    
+    if 'destaddr' in natinfo:
+        destaddr = natinfo['destaddr']
+    else:
+        destaddr = None
+    
+    if 'srcport' in natinfo:
+        srcport = natinfo['srcport']
+    else:
+        srcport = None
+    
+    if 'destport' in natinfo:
+        destport = natinfo['destport']
+    else:
+        destport = None
+    
+    if 'protocol' in natinfo:
+        protocol = natinfo['protocol']
+    else:
+        protocol = None
+    
+    if 'translation' in natinfo:
+        translation = natinfo['translation']
+    else:
+        translation = None
+    
+    if 'masquerade' in natinfo:
+        masquerade = natinfo['masquerade']
+    else:
+        masquerade = None
+        
     commands = []
     
-    if ibnic:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " inbound-interface " + ibnic)
+    if ruletype == "destination" and ibnic:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " inbound-interface " + ibnic)
         
-    if obnic:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " outbound-interface " + obnic)
+    if ruletype == "source" and obnic:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " outbound-interface " + obnic)
     
     if srcaddr:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " source address " + srcaddr)
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " source address " + srcaddr)
     
     if srcport:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " source port " + srcport)
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " source port " + srcport)
         
     if destaddr:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " destination address " + destaddr)
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " destination address " + destaddr)
         
     if destport:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " destination port " + destport)
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " destination port " + destport)
         
     if protocol:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " protocol " + str(protocol).lower())
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " protocol " + str(protocol).lower())
         
-    if masquerade:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " translation address masquerade")
-    elif translation:
-        commands.append("$set nat " + ruletype + " rule " + ruleid + " translation address " + translation)    
-        
+    if translation:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address " + translation)  
+    else:
+        if masquerade:  
+            commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address masquerade")
+            
     return FabricUtilNFV.send_vyatta_command(commands)
 
 def update_nat(vmid, params):
@@ -99,10 +185,11 @@ def update_nat(vmid, params):
     return results[addr]
     
 def delete_nat_task(natinfo):
-    ruleid = natinfo['ruleid']
-    commands = []
+    rulenum = natinfo['rulenum']
+    ruletype = natinfo['ruletype']
     
-    commands.append("$DELETE nat rule " + ruleid)
+    commands = []
+    commands.append("$DELETE nat " + ruletype + " rule " + rulenum)
         
     return FabricUtilNFV.send_vyatta_command(commands)
     

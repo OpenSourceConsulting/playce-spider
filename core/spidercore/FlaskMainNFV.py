@@ -213,7 +213,7 @@ def mon_vmif(id=None, ifid=None):
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
 			# Vyatta 의 show interfaces 명령 실행 
-			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], request.args.get('filter', None))
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
 					# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
@@ -274,25 +274,31 @@ def vmifupdate(id=None, ifid=None):
 	return "OK", 200
 
 # create bonding
-@app.route("/nfv/<id>/bonding/<bondid>", methods=['POST', 'PUT', 'DELETE'])
+@app.route("/nfv/<id>/bonding/<bondid>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def vmbondingsave(id=None, bondid=None):
 	
 	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
 	#logger.debug("request.data : "+request.data.decode("utf-8"))
-	jsonParams = json.loads(request.data)
 	
-	jsonParams['bondid'] = bondid
-	logger.debug(json.dumps(jsonParams, indent=4))
+	if request.data:
+		jsonParams = json.loads(request.data)
+		
+		jsonParams['bondid'] = bondid
+		logger.debug(json.dumps(jsonParams, indent=4))
 	
 	
-	if request.method == 'POST':
+	if request.method == 'GET':
+		result = NFVBondingService.get_bonding(id, bondid)
+	elif request.method == 'POST':
 		result = NFVBondingService.create_bonding(id, jsonParams)
 	elif request.method == 'PUT':
 		result = NFVBondingService.update_bonding(id, jsonParams)
 	else:
 		result = NFVBondingService.delete_bonding(id, jsonParams)
 		
-	if result['success'] == 'success':
+	if result['success'] == 'success' and request.method == 'GET':
+		return result['msg'], 200
+	elif result['success'] == 'success':
 		return "OK", 200
 	else:
 		return result['errmsg'], 500
@@ -305,20 +311,31 @@ def vmbondingall(id=None):
 	
 	return json.dumps(result), 200
 
-# create / update / delete nat
-@app.route("/nfv/<vmid>/nat/<ruleid>", methods=['POST', 'PUT', 'DELETE'])
-def vmnatsave(vmid=None, ruleid=None):
+# read / create / update / delete nat
+@app.route("/nfv/<vmid>/nat", methods=['GET', 'POST', 'PUT', 'DELETE'])
+def vmnatsave(vmid=None):
 	
-	logger.debug("%s /nfv/%s/if/%s" % (request.method, vmid, ruleid))
+	logger.debug("%s /nfv/%s/nat" % (request.method, vmid))
 	#logger.debug("request.data : "+request.data.decode("utf-8"))
-	jsonParams = json.loads(request.data)
 	
-	jsonParams['ruleid'] = ruleid
-	logger.debug(json.dumps(jsonParams, indent=4))
+	if request.method != 'GET':
+		jsonParams = json.loads(request.data)	
+		logger.debug(json.dumps(jsonParams, indent=4))
 	
-	if request.method == 'POST':
+	if request.method == 'GET':
+		rulenum = request.args.get('rulenum')
+		ruletype = request.args.get('ruletype')
+		
+		if rulenum:
+			result = NFVNATService.get_nat(vmid, rulenum, ruletype)
+			return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
+		else:
+			result = NFVNATService.all_nats(vmid)
+			return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
+	elif request.method == 'POST':
 		result = NFVNATService.create_nat(vmid, jsonParams)
 	elif request.method == 'PUT':
+		NFVNATService.delete_nat(vmid, jsonParams)
 		result = NFVNATService.update_nat(vmid, jsonParams)
 	else:
 		result = NFVNATService.delete_nat(vmid, jsonParams)
@@ -327,14 +344,6 @@ def vmnatsave(vmid=None, ruleid=None):
 		return "OK", 200
 	else:
 		return result['errmsg'], 500
-	
-@app.route("/nfv/<vmid>/nat/all", methods=['GET'])
-def vmnatall(vmid=None):
-	logger.debug("%s /nfv/%s/nat/all" % (request.method, vmid))
-	
-	result = NFVNATService.all_nats(vmid)
-	
-	return json.dumps(result), 200
 
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
@@ -379,7 +388,7 @@ def mon_vmnat(id=None, rule=None):
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
 			from spidercore.FabricUtilNFV import getNATs
-			nats = getNATs(vm['addr'], vm['sshid'], vm['sshpw'])
+			nats = getNATs(vm['mgraddr'], vm['sshid'], vm['sshpw'])
  			for nat in nats:
 				if rule == '_all' or rule == nat['rule']:
  					results.append(nat)

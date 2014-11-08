@@ -36,7 +36,7 @@ def show_interfaces():
 			if parsed != None:
 				print parsed
 
-def show_interfaces_with_configure():
+def show_interfaces_with_configure(filter):
 	f = open(mainDir + '/commands.txt', 'w')
 	commands = [
 # 			'$SET interfaces loopback lo address 127.0.0.5/24',
@@ -56,7 +56,7 @@ def show_interfaces_with_configure():
 
 	import pprint
 	results = elementList.parseString(result)
-#  	pprint.pprint( results.asList() )
+  	pprint.pprint( results.asList() )
 	
 	nics =[]
 	for eth in results.asList():
@@ -65,16 +65,19 @@ def show_interfaces_with_configure():
 		for attr in eth[2]:
 			nic[attr[0]] = attr[1]
 		
-		nics.append(nic)
-	
+		if filter == None:
+			nics.append(nic)
+		elif filter == eth[0]:
+			nics.append(nic)
+			
 	return nics
 
-def getInterfaces(addr, sshid, sshpw):
+def getInterfaces(addr, sshid, sshpw, pfilter):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
 	env.shell = '/bin/vbash -ic'
-	results = execute(show_interfaces_with_configure, hosts=[addr])
+	results = execute(show_interfaces_with_configure, hosts=[addr], filter = pfilter)
 	return results[addr]
 
 def show_nat_with_configure():
@@ -101,17 +104,28 @@ def show_nat_with_configure():
 	
 	rules =[]
 	for srctgt in results.asList():
-		ruleAry = srctgt[1][0]
-		print ruleAry
-		ruleNum = ruleAry[1]
-		rule = {'rule': ruleNum}
-		rule['isSource'] = (srctgt[0].lower() == 'source')
-		
-		for attr in ruleAry[2]:
-			rule[attr[0]] = attr[1]
-		print rule
-		
-		rules.append(rule)
+		if len(srctgt[1]) > 0:
+			for ruleAry in srctgt[1]:
+				#print "ruleAry :", ruleAry
+				ruleNum = ruleAry[1]
+				
+				rule = {'rule': ruleNum}
+				rule['isSource'] = (srctgt[0].lower() == 'source')
+				
+				for attr in ruleAry[2]:
+					if len(attr) == 1:
+						rule[attr[0]] = True
+					else:
+						if type(attr[1]) == list:
+							temp = {}
+							for prop in attr[1]:
+								temp[prop[0]] = prop[1]
+							rule[attr[0]] = temp
+						else:
+							rule[attr[0]] = attr[1]
+					
+				#print "rule :", rule
+				rules.append(rule)
 
 	return rules
 
@@ -290,7 +304,8 @@ def send_vyatta_command(commands):
 		except Exception, e:
 			return {"success": "fail", "errmsg": result}
 		
-	for item in ['already exists','failed']:
+	# see Case 420 
+	for item in ['already exists','failed','Commit failed']:
 		
 		if item in result:
 			logger.error("vyatta command fail.")
@@ -339,10 +354,10 @@ def update_nic_task(beforeData, afterData):
 			logger.debug("Run result %s" % result)
 			logger.debug("--------------------------------")
 		except Exception, e:
-			return {"success": "fail", "errmsg": result}
+			return result, 500
 	if "Commit failed" in result: 
 		logger.debug("fail", errmsg = result)
-		return {"success": "fail", "errmsg": result}
+		return result, 500
 	else:
 		logger.debug("success")
 		return results
