@@ -49,12 +49,13 @@ def create_bonding_task(bondinfo):
 	
 	bondid = bondinfo['bondid']
 	commands = []
-	commands.append("$DELETE interfaces bonding " + bondid) # for test
+	commands.append("$DELETE interfaces bonding " + bondid)
 	commands.append("$SET interfaces bonding " + bondid)
 	commands.append("$SET interfaces bonding %s address %s" % (bondid, bondinfo['address']))
 	commands.append("$SET interfaces bonding %s mode %s" % (bondid, bondinfo['mode']))
 	
 	for ethernet in bondinfo['ethernets']:
+		commands.append("$DELETE interfaces ethernet %s bond-group" % ethernet)
 		commands.append("$DELETE interfaces ethernet %s address" % ethernet)
 		commands.append("$SET interfaces ethernet %s bond-group %s " % (ethernet, bondid))
 	
@@ -72,6 +73,7 @@ def create_bonding(vmid, params):
 	env.user = vm['sshid']
 	env.password = vm['sshpw']
 	env.shell = '/bin/vbash -ic'
+	
 	results = execute(create_bonding_task, hosts=[addr], bondinfo = params)
 
 	return results[addr]
@@ -83,7 +85,7 @@ def all_bonding(vmid):
 	result = []
 	bond_dic = {}
 	
-	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'])
+	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'], None)
 	
 	logger.debug(json.dumps(nics, indent=4))
 	

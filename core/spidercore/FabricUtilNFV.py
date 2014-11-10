@@ -36,7 +36,7 @@ def show_interfaces():
 			if parsed != None:
 				print parsed
 
-def show_interfaces_with_configure():
+def show_interfaces_with_configure(filter):
 	f = open(mainDir + '/commands.txt', 'w')
 	commands = [
 # 			'$SET interfaces loopback lo address 127.0.0.5/24',
@@ -56,7 +56,7 @@ def show_interfaces_with_configure():
 
 	import pprint
 	results = elementList.parseString(result)
-#  	pprint.pprint( results.asList() )
+  	pprint.pprint( results.asList() )
 	
 	nics =[]
 	for eth in results.asList():
@@ -65,16 +65,19 @@ def show_interfaces_with_configure():
 		for attr in eth[2]:
 			nic[attr[0]] = attr[1]
 		
-		nics.append(nic)
-	
+		if filter == None:
+			nics.append(nic)
+		elif filter == eth[0]:
+			nics.append(nic)
+			
 	return nics
 
-def getInterfaces(addr, sshid, sshpw):
+def getInterfaces(addr, sshid, sshpw, pfilter):
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
 	env.shell = '/bin/vbash -ic'
-	results = execute(show_interfaces_with_configure, hosts=[addr])
+	results = execute(show_interfaces_with_configure, hosts=[addr], filter = pfilter)
 	return results[addr]
 
 def show_nat_with_configure():
