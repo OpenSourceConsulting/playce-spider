@@ -105,23 +105,40 @@
             ]
         },
         {
-            "type": "Ext.button.Button",
+            "type": "Ext.container.Container",
             "reference": {
                 "name": "items",
                 "type": "array"
             },
             "codeClass": null,
             "userConfig": {
-                "dock": null,
-                "id": "loginBtn",
-                "layout|flex": null,
-                "margin": "5 0 15 150",
-                "maxWidth": 100,
-                "scale": "medium",
-                "text": "로그인",
-                "width": null
+                "container|align": "stretch",
+                "layout": "hbox",
+                "layout|flex": 1,
+                "margin": "",
+                "padding": 5
             },
-            "designerId": "0c002176-2f5a-4b27-9555-f0ffb65fa3a2"
+            "designerId": "fabfa89a-b550-4328-b10a-3227af4df008",
+            "cn": [
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "id": "loginBtn",
+                        "layout|flex": null,
+                        "margin": "10 0 15 150",
+                        "maxWidth": null,
+                        "scale": "medium",
+                        "text": "로그인",
+                        "width": 100
+                    },
+                    "designerId": "0c002176-2f5a-4b27-9555-f0ffb65fa3a2"
+                }
+            ]
         }
     ]
 }

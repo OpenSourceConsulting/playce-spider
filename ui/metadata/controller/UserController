@@ -1,0 +1,81 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "UserController"
+    },
+    "designerId": "cc12aefc-24f6-420f-994c-c9d0f2e772f0",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "hand",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "application"
+                ],
+                "fn": "init",
+                "implHandler": [
+                    "var user = this;",
+                    "",
+                    "//VM Host Tree Constants",
+                    "Ext.define('userConstants', {",
+                    "    singleton: true,",
+                    "    me : user",
+                    "    ",
+                    "});"
+                ]
+            },
+            "designerId": "acf3c80a-eb76-4c73-a628-2600881cd581"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "popAddUserWindow",
+                "implHandler": [
+                    "//User 등록 팝업 호출",
+                    "var popWindow = Ext.create(\"widget.AddUserWindow\");",
+                    "popWindow.show();"
+                ]
+            },
+            "designerId": "828aef43-2a61-4581-9d36-bbc180ea2551"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "button"
+                ],
+                "fn": "createUser",
+                "implHandler": [
+                    ""
+                ]
+            },
+            "designerId": "598829b5-db2e-4e0a-a33c-a42a5ed4be2f"
+        }
+    ]
+}

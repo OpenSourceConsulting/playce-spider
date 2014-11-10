@@ -27,9 +27,11 @@ Ext.Loader.addClassPathMappings({
   "GLOBAL": "../../app/controller/GlobalController.js",
   "GlobalData": "../../app/controller/GlobalController.js",
   "dashboardConstants": "../../app/controller/DashboardController.js",
+  "loginConstants": "../../app/controller/LoginController.js",
   "menuConstants": "../../app/controller/MenuController.js",
   "spider": "../../app",
   "spider.form.field.Base": "../../app/controller/GlobalController.js",
+  "userConstants": "../../app/controller/UserController.js",
   "vmConstants": "../../app/controller/VmManagementController.js",
   "vmHostConstants": "../../app/controller/VmHostController.js"
 });
@@ -870,6 +872,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "GLOBAL": [],
   "GlobalData": [],
   "dashboardConstants": [],
+  "loginConstants": [],
   "menuConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
@@ -879,6 +882,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
+  "spider.controller.UserController": [],
   "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],
   "spider.form.field.Base": [],
@@ -905,6 +909,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
   "spider.view.AddBondingWindow": [],
+  "spider.view.AddUserWindow": [],
   "spider.view.AddVmHostWindow": [],
   "spider.view.AddVmWindow": [],
   "spider.view.AthenaSpider": [],
@@ -914,9 +919,11 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.view.Main": [],
   "spider.view.MyContainer1": [],
   "spider.view.MyPanel119": [],
+  "spider.view.UserManagementPanel": [],
   "spider.view.VMHostInfoWindow": [],
   "spider.view.Viewport": [],
   "spider.view.VmManagementPanel": [],
+  "userConstants": [],
   "vmConstants": [],
   "vmHostConstants": []
 });
@@ -1925,6 +1932,7 @@ Ext.ClassManager.addNameAliasMappings({
   "GLOBAL": [],
   "GlobalData": [],
   "dashboardConstants": [],
+  "loginConstants": [],
   "menuConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
@@ -1934,6 +1942,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.SampleController": [],
+  "spider.controller.UserController": [],
   "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],
   "spider.form.field.Base": [],
@@ -1962,6 +1971,9 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.AddBondingWindow": [
     "widget.AddBondingWindow"
   ],
+  "spider.view.AddUserWindow": [
+    "widget.AddUserWindow"
+  ],
   "spider.view.AddVmHostWindow": [
     "widget.AddVmHostWindow"
   ],
@@ -1987,6 +1999,9 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.MyPanel119": [
     "widget.mypanel119"
   ],
+  "spider.view.UserManagementPanel": [
+    "widget.usermanagementpanel"
+  ],
   "spider.view.VMHostInfoWindow": [
     "widget.VMHostInfoWindow"
   ],
@@ -1994,6 +2009,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.VmManagementPanel": [
     "widget.VmManagementPanel"
   ],
+  "userConstants": [],
   "vmConstants": [],
   "vmHostConstants": []
 });

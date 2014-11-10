@@ -87,12 +87,24 @@ Ext.define('spider.view.LoginWindow', {
                     ]
                 },
                 {
-                    xtype: 'button',
-                    id: 'loginBtn',
-                    margin: '5 0 15 150',
-                    maxWidth: 100,
-                    scale: 'medium',
-                    text: '로그인'
+                    xtype: 'container',
+                    flex: 1,
+                    margin: '',
+                    padding: 5,
+                    layout: {
+                        type: 'hbox',
+                        align: 'stretch'
+                    },
+                    items: [
+                        {
+                            xtype: 'button',
+                            id: 'loginBtn',
+                            margin: '10 0 15 150',
+                            width: 100,
+                            scale: 'medium',
+                            text: '로그인'
+                        }
+                    ]
                 }
             ]
         });

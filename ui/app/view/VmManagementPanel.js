@@ -1086,7 +1086,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 {
                                                     xtype: 'button',
                                                     handler: function(button, e) {
-                                                        vmConstants.me.popVmBondingPopup();
+                                                        vmConstants.me.popVmBondingWindow();
                                                     },
                                                     margin: '0 20 0 0',
                                                     text: '신규생성'
@@ -1125,6 +1125,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         {
                                                             xtype: 'checkboxgroup',
                                                             flex: 1,
+                                                            itemId: 'bondingNICGroup',
                                                             margin: '0 0 0 20',
                                                             width: 400,
                                                             listeners: {
@@ -1244,6 +1245,34 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     margin: '5 20 5 0',
                                                     fieldLabel: 'Config ',
                                                     rows: 8
+                                                }
+                                            ],
+                                            dockedItems: [
+                                                {
+                                                    xtype: 'toolbar',
+                                                    dock: 'top',
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        pack: 'end'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                vmConstants.me.saveVMBonding(button);
+                                                            },
+                                                            padding: '3 8 3 8',
+                                                            text: '저장'
+                                                        },
+                                                        {
+                                                            xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                vmConstants.me.deleteVMBonding(button);
+                                                            },
+                                                            padding: '3 8 3 8',
+                                                            text: '삭제'
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }

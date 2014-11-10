@@ -113,7 +113,7 @@
                     "",
                     "// Success",
                     "var successCallback = function(resp, ops) {",
-                    "    ",
+                    "",
                     "    if(resp.status == 200) {",
                     "        me.successfulLogin(Ext.decode(resp.responseText), \"json\");",
                     "    } else {",
@@ -308,6 +308,30 @@
                 ]
             },
             "designerId": "696ab436-d6cf-4d3b-bdfa-a231f2da0748"
+        },
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "application"
+                ],
+                "fn": "init",
+                "implHandler": [
+                    "var login = this;",
+                    "",
+                    "//Login Constants",
+                    "Ext.define('loginConstants', {",
+                    "    singleton: true,",
+                    "    me : login",
+                    "});"
+                ]
+            },
+            "designerId": "c2911e9c-aad4-43f2-8fe0-e03187f13f93"
         }
     ]
 }
