@@ -290,7 +290,8 @@ def send_vyatta_command(commands):
 		except Exception, e:
 			return {"success": "fail", "errmsg": result}
 		
-	for item in ['already exists','failed']:
+	# see Case 420 
+	for item in ['already exists','failed','Commit failed']:
 		
 		if item in result:
 			logger.error("vyatta command fail.")
