@@ -701,16 +701,6 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             text: 'VM  생성'
                         },
                         {
-                            xtype: 'button',
-                            margin: '0 5 0 5',
-                            text: 'VM  관리'
-                        },
-                        {
-                            xtype: 'button',
-                            margin: '0 10 0 5',
-                            text: 'VM  Template'
-                        },
-                        {
                             xtype: 'tbspacer',
                             flex: 2
                         },
@@ -721,7 +711,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             },
                             margin: '0 30 0 0',
                             padding: '3 10 3 10',
-                            text: '삭제'
+                            text: 'VM Host 해제'
                         }
                     ]
                 }
