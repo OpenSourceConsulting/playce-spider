@@ -317,7 +317,8 @@ def send_vyatta_command(commands):
 		
 		if item in result:
 			logger.error("vyatta command fail.")
-			return {"success": "fail", "errmsg": result}
+			#return {"success": "fail", "errmsg": result}
+			raise ValueError(result) #http://stackoverflow.com/questions/2052390/how-do-i-manually-throw-raise-an-exception-in-python
 	else:
 		logger.debug("success")
 		return {"success": "success", "msg": result}
@@ -371,10 +372,24 @@ def update_nic_task(beforeData, afterData):
 		return results
 
 def update_nic(addr, sshid, sshpw, jsonData):
-    env.hosts = [ addr ]
-    env.user = sshid
-    env.password = sshpw
-    env.shell = '/bin/vbash -ic'
-    results = execute(update_nic_task, hosts=[addr], beforeData = jsonData['before'], afterData=jsonData['after'])
-    return results[addr]
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/vbash -ic'
+	results = execute(update_nic_task, hosts=[addr], beforeData = jsonData['before'], afterData=jsonData['after'])
+	return results[addr]
 
+def get_vyatta_conf_task(command):
+	return send_vyatta_command([command])
+
+def get_vyatta_conf(vmid, pcommand):
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
+	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(get_vyatta_conf_task, hosts=[addr], command=pcommand)
+	list = results[addr]['msg'].split('\n')
+	return "\n".join(list[2: len(list)-2])
