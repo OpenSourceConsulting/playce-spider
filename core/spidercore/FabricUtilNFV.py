@@ -287,8 +287,11 @@ def send_vyatta_command(commands):
 	commands.insert(0, ". ./env.sh")
 	commands.append("$COMMIT")
 	commands.append("$SAVE")
-	logger.debug(commands)
-	f.write("\n".join(commands))
+	
+	cmdStr = "\n".join(commands);
+	logger.debug("commands: \n" + cmdStr)
+	
+	f.write(cmdStr)
 	f.close()
 	
 	filename = os.path.basename(f.name)
@@ -310,7 +313,7 @@ def send_vyatta_command(commands):
 			os.remove(f.name)
 		
 	# see Case 420 
-	for item in ['already exists','failed','Commit failed']:
+	for item in ['already exists','Commit failed','failed']:
 		
 		if item in result:
 			logger.error("vyatta command fail.")

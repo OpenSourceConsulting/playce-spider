@@ -108,10 +108,15 @@ def update_bonding_task(bondid, bondinfo):
 	commands = []
 	
 	for key in bondinfo:
-		commands.append("$DELETE interfaces bonding %s %s" % (bondid, key))
-		commands.append("$SET interfaces bonding %s %s %s" % (bondid, key, bondinfo[key]))
-	
+		if '_' in 'ipv6_address':
+			_key = key.replace('_',' ')
+		else:
+			_key = key
+		commands.append("$DELETE interfaces bonding %s %s" % (bondid, _key))
 		
+		if len(bondinfo[key]) > 0:
+			commands.append("$SET interfaces bonding %s %s %s" % (bondid, _key, bondinfo[key]))
+	
 	return FabricUtilNFV.send_vyatta_command(commands)
 
 def update_bonding(vmid, params):
