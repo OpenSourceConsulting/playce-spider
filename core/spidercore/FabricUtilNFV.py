@@ -382,6 +382,14 @@ def update_nic(addr, sshid, sshpw, jsonData):
 def get_vyatta_conf_task(command):
 	return send_vyatta_command([command])
 
+
+
+""" vyatta 설정 정보(string) 가져오기
+	
+	@param vmid:   vm id.
+	@param pcommand:  show 로 시작하는 vyatta command
+	@return 
+"""
 def get_vyatta_conf(vmid, pcommand):
 	vm = get_vm(vmid)
 	addr = vm['mgraddr']
@@ -391,5 +399,7 @@ def get_vyatta_conf(vmid, pcommand):
 	env.password = vm['sshpw']
 	env.shell = '/bin/vbash -ic'
 	results = execute(get_vyatta_conf_task, hosts=[addr], command=pcommand)
+	
+	#앞뒤 2줄씩 삭제하고 리턴
 	list = results[addr]['msg'].split('\n')
 	return "\n".join(list[2: len(list)-2])
