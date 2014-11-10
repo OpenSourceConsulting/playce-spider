@@ -326,12 +326,8 @@ def vmnatsave(vmid=None):
 		rulenum = request.args.get('rulenum')
 		ruletype = request.args.get('ruletype')
 		
-		if rulenum:
-			result = NFVNATService.get_nat(vmid, rulenum, ruletype)
-			return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
-		else:
-			result = NFVNATService.all_nats(vmid)
-			return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
+		result = NFVNATService.get_nat(vmid, rulenum, ruletype)
+		return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
 	elif request.method == 'POST':
 		result = NFVNATService.create_nat(vmid, jsonParams)
 	elif request.method == 'PUT':

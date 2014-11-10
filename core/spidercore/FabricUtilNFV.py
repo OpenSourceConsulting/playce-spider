@@ -279,30 +279,35 @@ def getIfConfig(addr, sshid, sshpw, nicname):
 	return results[addr]
 
 def send_vyatta_command(commands):
-	
 	results = []
 	tempDir = mainDir+"/tmp"
 	#f = open(mainDir + '/commands.txt', 'w')
 	# 임시파일 생성해서 사용
-	f = tempfile.NamedTemporaryFile(mode='w+b', delete=False, dir=tempDir)
+	f = tempfile.NamedTemporaryFile(mode='w+b', delete=False, dir=tempDir, suffix=".sh")
+	commands.insert(0, ". ./env.sh")
 	commands.append("$COMMIT")
 	commands.append("$SAVE")
 	logger.debug(commands)
 	f.write("\n".join(commands))
 	f.close()
+	
+	filename = os.path.basename(f.name)
 
 	run('mkdir -p .spider')
 	with cd('.spider'):
-		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
-		#put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
-		put(open(f.name), 'commands.sh', mode=0755)
+		put(open(mainDir + '/env.txt'), 'env.sh', mode=0755)
+		put(open(f.name), filename, mode=0755)
 		try:
-			result = run('./cli.sh', pty=False, combine_stderr=True)
+			result = run("./" + filename, pty=False, combine_stderr=True)
 			logger.debug("--------------------------------")
 			logger.debug("Run result %s" % result)
 			logger.debug("--------------------------------")
 		except Exception, e:
 			return {"success": "fail", "errmsg": result}
+		finally:
+			# 실행 완료된 파일을 제거한다.
+			run('rm -f ' + filename)
+			os.remove(f.name)
 		
 	# see Case 420 
 	for item in ['already exists','failed','Commit failed']:

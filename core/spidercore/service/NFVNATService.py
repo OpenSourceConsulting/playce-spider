@@ -10,7 +10,7 @@ Vyatta NAT 제어 모듈
 from spidercore import *
 from fabric.api import env
 from fabric.tasks import execute
-import spidercore.FabricUtilNFV
+from spidercore import FabricUtilNFV
 
 logger = logging.getLogger(__name__)
 
@@ -67,10 +67,6 @@ def create_nat(vmid, params):
 
     return results[addr]
     
-def all_nats(vmid):
-    vm = get_vm(vmid)
-    return FabricUtilNFV.getNATs(vm['mgraddr'], vm['sshid'], vm['sshpw'])
-    
 def get_nat(vmid, rulenum, ruletype):
     logger.debug("get_nat call!!")
     
@@ -79,11 +75,22 @@ def get_nat(vmid, rulenum, ruletype):
     results = []
     nats = FabricUtilNFV.getNATs(vm['mgraddr'], vm['sshid'], vm['sshpw'])
     for nat in nats:
-        if rulenum == nat['rule']:
-            if ruletype:
-                if ruletype == "source" and nat['isSource'] ==  True:
+        if ruletype:
+            if ruletype == "source" and nat['isSource'] ==  True:
+                if rulenum:
+                    if rulenum == nat['rule']:
+                        results.append(nat)
+                else:
                     results.append(nat)
-                elif ruletype == "destination" and nat['isSource'] == False:
+            elif ruletype == "destination" and nat['isSource'] == False:
+                if rulenum:
+                    if rulenum == nat['rule']:
+                        results.append(nat)
+                else:
+                    results.append(nat)
+        else:
+            if rulenum:
+                if rulenum == nat['rule']:
                     results.append(nat)
             else:
                 results.append(nat)
