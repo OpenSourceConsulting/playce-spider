@@ -110,6 +110,8 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "id": "startVmBtn",
+                        "itemId": "",
                         "layout|flex": null,
                         "padding": "3 8 3 8",
                         "text": "시작"
@@ -124,9 +126,10 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "id": "stopVmBtn",
                         "layout|flex": null,
                         "padding": "3 8 3 8",
-                        "text": "종료"
+                        "text": "정지"
                     },
                     "designerId": "ddaa6ef9-7358-49cc-a5f5-0d533f91e005"
                 }
@@ -1856,6 +1859,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "IP 주소",
                                                         "layout|flex": 1,
                                                         "name": "ipaddr"
@@ -1870,64 +1874,10 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "fieldLabel": "Subnet",
-                                                        "layout|flex": 1,
-                                                        "name": "subnet"
-                                                    },
-                                                    "designerId": "6f7aef5b-147b-452d-b729-2c02869f0d67"
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "type": "Ext.form.FieldContainer",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "container|align": "middle",
-                                                "fieldLabel": "Label",
-                                                "flex": "1",
-                                                "height": 35,
-                                                "hideLabel": true,
-                                                "layout": "hbox",
-                                                "margin": null
-                                            },
-                                            "designerId": "7a26fdf1-84bc-4524-9274-b435368f7703",
-                                            "customConfigs": [
-                                                {
-                                                    "group": "(Custom Properties)",
-                                                    "name": "flex",
-                                                    "type": "string"
-                                                }
-                                            ],
-                                            "cn": [
-                                                {
-                                                    "type": "Ext.form.field.Text",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "fieldLabel": "Gateway",
-                                                        "layout|flex": 1,
-                                                        "name": "gateway"
-                                                    },
-                                                    "designerId": "2816658d-ce87-41ff-a102-6a68a3eabdb9"
-                                                },
-                                                {
-                                                    "type": "Ext.form.field.Text",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "IP V6 주소",
                                                         "layout|flex": 1,
-                                                        "name": "ipv6addr"
+                                                        "name": "ipv6_address"
                                                     },
                                                     "designerId": "ab1adbf9-7a0e-4041-a909-dd0be5000dfa"
                                                 }
@@ -1967,6 +1917,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "editable": false,
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "Duplex",
                                                         "layout|flex": 1,
                                                         "name": "duplex",
@@ -2036,8 +1987,10 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "MAC ID",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "hw-id"
                                                     },
                                                     "designerId": "becd8a83-6d38-476b-ad43-83b124339d24"
                                                 }
@@ -2077,6 +2030,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "editable": false,
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "Speed",
                                                         "layout|flex": 1,
                                                         "name": "speed",
@@ -2093,8 +2047,10 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "MTU",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "mtu"
                                                     },
                                                     "designerId": "2d6154a8-2abd-4b6b-a799-3658a74460a2"
                                                 }
@@ -2108,9 +2064,11 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "emptyText": "Default",
                                                 "fieldLabel": "Config ",
                                                 "layout|anchor": "100%",
                                                 "margin": "5 20 5 0",
+                                                "name": "config",
                                                 "rows": 8
                                             },
                                             "designerId": "34f4b78b-96ed-4a49-8b06-2e76fb4c2ce5"
@@ -2486,6 +2444,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "editable": false,
                                                         "emptyText": "Default",
                                                         "fieldLabel": "Mode",
                                                         "layout|flex": 1,

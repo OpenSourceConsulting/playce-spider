@@ -332,7 +332,7 @@ def vmnatsave(vmid=None):
 		result = NFVNATService.create_nat(vmid, jsonParams)
 	elif request.method == 'PUT':
 		NFVNATService.delete_nat(vmid, jsonParams)
-		result = NFVNATService.update_nat(vmid, jsonParams)
+		result = NFVNATService.create_nat(vmid, jsonParams)
 	else:
 		result = NFVNATService.delete_nat(vmid, jsonParams)
 		

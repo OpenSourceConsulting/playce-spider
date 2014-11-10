@@ -198,7 +198,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                     xtype: 'label',
                                                     padding: '20 0 0 5',
                                                     width: 120,
-                                                    text: 'Version : 0.03'
+                                                    text: 'Version : 0.04'
                                                 },
                                                 {
                                                     xtype: 'tbspacer',
@@ -360,7 +360,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                                     handler: function(button, e) {
                                                                         vmHostConstants.me.popAddVMHostWindow();
                                                                     },
-                                                                    text: 'VM  Host 추가'
+                                                                    text: 'VM  Host 등록'
                                                                 }
                                                             ]
                                                         }

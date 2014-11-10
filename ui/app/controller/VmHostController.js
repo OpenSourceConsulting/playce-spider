@@ -34,8 +34,12 @@ Ext.define('spider.controller.VmHostController', {
                     var data = Ext.JSON.decode(response.responseText);
 
                     if(data.length === 0 || data[0].state.toLowerCase() === "running") {
+                        vmHostConstants.contextMenu.items.items[11].setDisabled(true);
+                        vmHostConstants.contextMenu.items.items[12].setDisabled(false);
                         vmHostConstants.contextMenu.items.items[13].setDisabled(true);
                     } else {
+                        vmHostConstants.contextMenu.items.items[11].setDisabled(false);
+                        vmHostConstants.contextMenu.items.items[12].setDisabled(true);
                         vmHostConstants.contextMenu.items.items[13].setDisabled(false);
                     }
 

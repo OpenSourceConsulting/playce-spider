@@ -111,10 +111,15 @@ Ext.define('spider.controller.VmManagementController', {
                 var disableFlag = false;
 
                 Ext.each(disables, function(disable) {
-                    if(checkBox.getName() == disable || checkBox.getName() == "disableCheck") {
+                    if(checkBox.getName() == disable) {
                         disableFlag = true;
                     }
                 });
+
+                if(checkBox.getName() == "disableCheck") {
+                    disableFlag = true;
+                }
+
                 checkBox.setDisabled(disableFlag);
 
                 Ext.each(nics, function(nic) {
@@ -174,6 +179,15 @@ Ext.define('spider.controller.VmManagementController', {
                         Ext.getCmp("mgmtVmState").setValue(data[0].state.toLowerCase());
 
                     }
+
+                    if(data[0].state.toLowerCase() == 'running') {
+                        Ext.getCmp('startVmBtn').setDisabled(true);
+                        Ext.getCmp('stopVmBtn').setDisabled(false);
+                    } else {
+                        Ext.getCmp('startVmBtn').setDisabled(false);
+                        Ext.getCmp('stopVmBtn').setDisabled(true);
+                    }
+
 
                 }
             });
@@ -1188,32 +1202,31 @@ Ext.define('spider.controller.VmManagementController', {
 
                      if(response.status == 200) {
 
-                         Ext.Msg.alert('Success', '수정이 완료되었습니다.');
-
-                         /*
-
                         Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
 
+                            combo.setValue("");
                             Ext.Ajax.request({
-                                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/' + comboValue,
+                                url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + comboValue,
+                                method: "GET",
                                 waitMsg: 'Loading...',
                                 disableCaching : true,
                                 success: function(response){
 
                                     var columnData = Ext.decode(response.responseText);
-                                    if(columnData.length > 0) {
 
-                                        var data = columnData[0];
+                                    if(columnData != null) {
 
-                                        record.set("duplex", data.duplex);
-                                        record.set("speed", data.speed);
+                                        var data = columnData[comboValue];
+                                        data.ethernets = columnData.ethernets;
+                                        data.disables = columnData.disables;
 
-                                        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+                                        record.set(data);
+                                        combo.setValue(comboValue);
                                     }
                                 }
                             });
                         });
-        */
+
 
                      }
 

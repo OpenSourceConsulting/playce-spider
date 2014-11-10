@@ -318,7 +318,7 @@
                                                 "margin": null,
                                                 "padding": "20 0 0 5",
                                                 "style": null,
-                                                "text": "Version : 0.03",
+                                                "text": "Version : 0.04",
                                                 "width": 120
                                             },
                                             "configAlternates": {
@@ -670,7 +670,7 @@
                                                             },
                                                             "codeClass": null,
                                                             "userConfig": {
-                                                                "text": "VM  Host 추가"
+                                                                "text": "VM  Host 등록"
                                                             },
                                                             "designerId": "1ee50ac8-6809-438d-8541-d4da2752a96d",
                                                             "cn": [
