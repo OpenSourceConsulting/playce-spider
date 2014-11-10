@@ -343,10 +343,10 @@ def update_nic_task(beforeData, afterData):
 			logger.debug("Run result %s" % result)
 			logger.debug("--------------------------------")
 		except Exception, e:
-			return {"success": "fail", "errmsg": result}
+			return result, 500
 	if "Commit failed" in result: 
 		logger.debug("fail", errmsg = result)
-		return {"success": "fail", "errmsg": result}
+		return result, 500
 	else:
 		logger.debug("success")
 		return results
