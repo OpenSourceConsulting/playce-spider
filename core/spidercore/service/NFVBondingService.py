@@ -107,15 +107,27 @@ def update_bonding_task(bondid, bondinfo):
 	
 	commands = []
 	
+	for eth in bondinfo['before_eths']:
+		commands.append("$DELETE interfaces ethernet %s bond-group" % eth)
+	
 	for key in bondinfo:
 		if '_' in 'ipv6_address':
 			_key = key.replace('_',' ')
 		else:
 			_key = key
-		commands.append("$DELETE interfaces bonding %s %s" % (bondid, _key))
+			
+		if key == 'before_eths':
+			continue
+			
+		if key == 'ethernets':
+			for eth in bondinfo[key]:
+				commands.append("$SET interfaces ethernet %s bond-group %s" % (eth, bondid))
+		else:
+			commands.append("$DELETE interfaces bonding %s %s" % (bondid, _key))
+			if len(bondinfo[key]) > 0:
+				commands.append("$SET interfaces bonding %s %s %s" % (bondid, _key, bondinfo[key]))
+			
 		
-		if len(bondinfo[key]) > 0:
-			commands.append("$SET interfaces bonding %s %s %s" % (bondid, _key, bondinfo[key]))
 	
 	return FabricUtilNFV.send_vyatta_command(commands)
 
@@ -124,6 +136,8 @@ def update_bonding(vmid, params):
 	logger.debug("update call!!")
 	
 	diff = PyUtils.diff_vyatta_conf(params['before'], params['after'])
+	
+	diff['before_eths'] = params['before']['ethernets']
 	
 	if len(diff) == 0:
 		logger.debug("bondging 수정사항이 없습니다.")
