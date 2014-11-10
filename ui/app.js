@@ -59,7 +59,9 @@ Ext.application({
         'AddVmHostWindow',
         'AddVmWindow',
         'AddBondingWindow',
-        'LoginWindow'
+        'LoginWindow',
+        'AddUserWindow',
+        'UserManagementPanel'
     ],
     controllers: [
         'HeaderController',
@@ -68,7 +70,8 @@ Ext.application({
         'DashboardController',
         'VmManagementController',
         'VmHostController',
-        'LoginController'
+        'LoginController',
+        'UserController'
     ],
     name: 'spider',
 

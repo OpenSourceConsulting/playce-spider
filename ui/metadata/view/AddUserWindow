@@ -1,0 +1,199 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "AddUserWindow",
+        "designer|userClassName": "AddUserWindow",
+        "height": 220,
+        "id": null,
+        "itemId": null,
+        "modal": true,
+        "resizable": false,
+        "title": "회원 가입",
+        "width": 430
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "00792f6a-40f1-40eb-a4dc-acf0a15b216f",
+    "cn": [
+        {
+            "type": "Ext.form.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "bodyPadding": 15,
+                "fieldDefaults": [
+                    "{",
+                    "    msgTarget: 'side',",
+                    "    labelWidth: 120",
+                    "}"
+                ],
+                "header": false,
+                "id": "addUserForm",
+                "itemId": "addUserForm",
+                "title": "My Form"
+            },
+            "designerId": "4874e9e1-40f4-484b-ac9f-221d31fd03da",
+            "cn": [
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "User ID",
+                        "layout|anchor": "100%",
+                        "name": "userId"
+                    },
+                    "designerId": "d16c0276-5e57-4592-8380-b6135c64296d"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "Password",
+                        "inputType": "password",
+                        "layout|anchor": "100%",
+                        "name": "password"
+                    },
+                    "designerId": "6c2f3408-8894-4931-9214-1dfd184b1d60"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "Confirm Password",
+                        "inputType": "password",
+                        "layout|anchor": "100%",
+                        "name": "confirmpw",
+                        "vtype": "password"
+                    },
+                    "designerId": "da721637-22fd-43e5-9293-9f57e180bd84"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "E-mail",
+                        "layout|anchor": "100%",
+                        "name": "email"
+                    },
+                    "designerId": "36d4ec84-a005-4a64-a915-b902b49499d9"
+                }
+            ]
+        },
+        {
+            "type": "Ext.toolbar.Toolbar",
+            "reference": {
+                "name": "dockedItems",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|pack": "center",
+                "designer|uiInterfaceName": "footer",
+                "dock": "bottom",
+                "ui": "footer"
+            },
+            "designerId": "55d59b5f-3ae7-41fd-8ea7-6eede2955f0c",
+            "cn": [
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "padding": "3 8 3 8",
+                        "text": "등록"
+                    },
+                    "designerId": "b27248b8-a194-4ac4-a7bd-8e0e3f9aabdd",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "userConstants.me.createUser(button);"
+                                ]
+                            },
+                            "designerId": "a239eb42-830b-42ef-a0fe-d884a5111a85"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "padding": "3 8 3 8",
+                        "text": "취소"
+                    },
+                    "designerId": "ed82dd21-b4df-430c-bf37-2e1b8d180851",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "GLOBAL.me.closeWindow(button);"
+                                ]
+                            },
+                            "designerId": "0e00f114-d2fe-46dc-87fa-9d82425bb648"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

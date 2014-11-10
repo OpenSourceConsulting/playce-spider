@@ -2317,7 +2317,7 @@
                                                         ],
                                                         "fn": "handler",
                                                         "implHandler": [
-                                                            "vmConstants.me.popVmBondingPopup();"
+                                                            "vmConstants.me.popVmBondingWindow();"
                                                         ]
                                                     },
                                                     "designerId": "022809e3-f769-43c9-b0f1-49e317a2816c"
@@ -2386,6 +2386,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": null,
+                                                        "itemId": "bondingNICGroup",
                                                         "layout|flex": 1,
                                                         "margin": "0 0 0 20",
                                                         "padding": null,
@@ -2655,6 +2656,91 @@
                                                 "rows": 8
                                             },
                                             "designerId": "8900e740-4a90-4a24-8cd9-0466c7cf790d"
+                                        },
+                                        {
+                                            "type": "Ext.toolbar.Toolbar",
+                                            "reference": {
+                                                "name": "dockedItems",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "container|pack": "end",
+                                                "dock": "top"
+                                            },
+                                            "designerId": "8bdbbe0e-b33b-401b-ac15-6ec593ff7def",
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.button.Button",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "layout|flex": null,
+                                                        "padding": "3 8 3 8",
+                                                        "text": "저장"
+                                                    },
+                                                    "designerId": "0279c5ec-7b49-4da4-ab59-e55cce80327d",
+                                                    "cn": [
+                                                        {
+                                                            "type": "fixedfunction",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "designer|params": [
+                                                                    "button",
+                                                                    "e"
+                                                                ],
+                                                                "fn": "handler",
+                                                                "implHandler": [
+                                                                    "vmConstants.me.saveVMBonding(button);"
+                                                                ]
+                                                            },
+                                                            "designerId": "8881de9b-8aac-477b-a998-a8a8e29bbc22"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "Ext.button.Button",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "layout|flex": null,
+                                                        "padding": "3 8 3 8",
+                                                        "text": "삭제"
+                                                    },
+                                                    "designerId": "8d89e80d-45c8-4050-9bf2-eb72554e8a27",
+                                                    "cn": [
+                                                        {
+                                                            "type": "fixedfunction",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "designer|params": [
+                                                                    "button",
+                                                                    "e"
+                                                                ],
+                                                                "fn": "handler",
+                                                                "implHandler": [
+                                                                    "vmConstants.me.deleteVMBonding(button);"
+                                                                ]
+                                                            },
+                                                            "designerId": "f615c456-68b5-44aa-9873-29dbf673ee24"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
                                 }

@@ -4175,11 +4175,6 @@ img {
   top: 0;
 }
 
-/* line 4, ../../../../ext/packages/ext-theme-base/sass/src/Editor.scss */
-div.x-editor {
-  overflow: visible;
-}
-
 /* line 1, ../../../../ext/packages/ext-theme-base/sass/src/LoadMask.scss */
 .x-mask {
   z-index: 100;
@@ -5426,11 +5421,6 @@ a.x-tab {
 .x-animating-size,
 .x-collapsed {
   overflow: hidden!important;
-}
-
-/* line 2, ../../../../ext/packages/ext-theme-neutral/sass/src/Editor.scss */
-.x-editor .x-form-item-body {
-  padding-bottom: 0;
 }
 
 /* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/FocusManager.scss */
@@ -14226,17 +14216,6 @@ div.x-form-spinner-down {
   font: normal 13px/15px helvetica, arial, verdana, sans-serif;
   padding: 5px 10px 4px 10px;
   text-overflow: ellipsis;
-}
-
-/* line 3, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/CellEditing.scss */
-.x-tree-cell-editor .x-form-text {
-  padding-left: 3px;
-  padding-right: 3px;
-}
-/* line 8, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/CellEditing.scss */
-.x-gecko .x-tree-cell-editor .x-form-text {
-  padding-left: 2px;
-  padding-right: 2px;
 }
 
 /* line 2, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/RowEditing.scss */

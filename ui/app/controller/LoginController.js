@@ -206,6 +206,14 @@ Ext.define('spider.controller.LoginController', {
     },
 
     init: function(application) {
+                var login = this;
+
+                //Login Constants
+                Ext.define('loginConstants', {
+                    singleton: true,
+                    me : login
+                });
+
         this.control({
             "#introPanel": {
                 activate: this.onIntroPanelActivate

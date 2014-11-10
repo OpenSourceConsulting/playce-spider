@@ -20,6 +20,7 @@ Ext.define('spider.view.AthenaSpider', {
         'spider.view.DashboardPanel',
         'spider.view.VmManagementPanel',
         'spider.view.MyContainer1',
+        'spider.view.UserManagementPanel',
         'Ext.Img',
         'Ext.toolbar.Toolbar',
         'Ext.toolbar.Fill',
@@ -189,15 +190,15 @@ Ext.define('spider.view.AthenaSpider', {
                                                     itemId: 'mainViewBtn',
                                                     margin: '7 0 0 0',
                                                     enableToggle: true,
-                                                    icon: 'resources/images/icons/server_link.png',
+                                                    icon: 'resources/images/icons/group.png',
                                                     scale: 'medium',
-                                                    text: 'Main View'
+                                                    text: 'User Management'
                                                 },
                                                 {
                                                     xtype: 'label',
                                                     padding: '20 0 0 5',
                                                     width: 120,
-                                                    text: 'Last Version : 0.02'
+                                                    text: 'Version : 0.03'
                                                 },
                                                 {
                                                     xtype: 'tbspacer',
@@ -432,9 +433,7 @@ Ext.define('spider.view.AthenaSpider', {
                                             id: 'samplePanel'
                                         },
                                         {
-                                            xtype: 'panel',
-                                            header: false,
-                                            title: 'My Panel'
+                                            xtype: 'usermanagementpanel'
                                         }
                                     ]
                                 }
