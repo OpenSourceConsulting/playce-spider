@@ -21,7 +21,7 @@ def get_bonding(vmid, bondid):
 	addr = vm['mgraddr']
 
 	results = {}
-	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'])
+	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'], None)
 	bonding = {}
 	
 	for nic in nics:
