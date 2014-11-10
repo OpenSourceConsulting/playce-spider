@@ -1146,13 +1146,15 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             xtype: 'textfield',
                                                             flex: 1,
                                                             fieldLabel: 'IP 주소',
-                                                            name: 'address'
+                                                            name: 'address',
+                                                            emptyText: 'Default'
                                                         },
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
                                                             fieldLabel: 'IP V6 주소',
-                                                            name: 'ipv6_address'
+                                                            name: 'ipv6_address',
+                                                            emptyText: 'Default'
                                                         }
                                                     ]
                                                 },
@@ -1172,6 +1174,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             flex: 1,
                                                             fieldLabel: 'Mode',
                                                             name: 'mode',
+                                                            emptyText: 'Default',
                                                             store: [
                                                                 '802.3ad',
                                                                 'active-backup',
@@ -1186,7 +1189,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             xtype: 'textfield',
                                                             flex: 1,
                                                             fieldLabel: 'MAC ID',
-                                                            name: 'hw-id'
+                                                            name: 'hw-id',
+                                                            emptyText: 'Default'
                                                         }
                                                     ]
                                                 },
@@ -1207,7 +1211,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             margin: '0 20 0 0',
                                                             padding: '',
                                                             fieldLabel: 'MTU',
-                                                            name: 'mtu'
+                                                            name: 'mtu',
+                                                            emptyText: 'Default'
                                                         },
                                                         {
                                                             xtype: 'tbspacer',
@@ -1221,6 +1226,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     margin: '5 20 5 0',
                                                     fieldLabel: 'Config ',
                                                     name: 'config',
+                                                    emptyText: 'Default',
                                                     rows: 8
                                                 }
                                             ],

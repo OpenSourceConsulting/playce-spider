@@ -2429,6 +2429,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "IP 주소",
                                                         "layout|flex": 1,
                                                         "name": "address"
@@ -2443,6 +2444,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "IP V6 주소",
                                                         "layout|flex": 1,
                                                         "name": "ipv6_address"
@@ -2484,6 +2486,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "Mode",
                                                         "layout|flex": 1,
                                                         "name": "mode",
@@ -2512,6 +2515,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "MAC ID",
                                                         "layout|flex": 1,
                                                         "name": "hw-id"
@@ -2553,6 +2557,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "emptyText": "Default",
                                                         "fieldLabel": "MTU",
                                                         "layout|flex": 1,
                                                         "margin": "0 20 0 0",
@@ -2583,6 +2588,7 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "emptyText": "Default",
                                                 "fieldLabel": "Config ",
                                                 "layout|anchor": "100%",
                                                 "margin": "5 20 5 0",
