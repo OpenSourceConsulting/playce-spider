@@ -297,12 +297,12 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "enableToggle": true,
-                                                "icon": "resources/images/icons/server_link.png",
+                                                "icon": "resources/images/icons/group.png",
                                                 "id": "mainViewBtn",
                                                 "itemId": "mainViewBtn",
                                                 "margin": "7 0 0 0",
                                                 "scale": "medium",
-                                                "text": "Main View"
+                                                "text": "User Management"
                                             },
                                             "designerId": "72b3dad8-9ce8-4bdb-93bc-66dd29e98755"
                                         },
@@ -318,7 +318,7 @@
                                                 "margin": null,
                                                 "padding": "20 0 0 5",
                                                 "style": null,
-                                                "text": "Last Version : 0.02",
+                                                "text": "Version : 0.03",
                                                 "width": 120
                                             },
                                             "configAlternates": {
@@ -841,17 +841,14 @@
                                     "masterInstanceId": "39eb896a-2ca4-4a41-adc4-0cc0fbcbaf8c"
                                 },
                                 {
-                                    "type": "Ext.panel.Panel",
+                                    "type": "linkedinstance",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "header": false,
-                                        "title": "My Panel"
-                                    },
-                                    "designerId": "57743204-3532-4b72-9d71-51dd6f9a4103"
+                                    "designerId": "ba541852-f944-4e6d-be6b-c7783af67f56",
+                                    "masterInstanceId": "d197eff4-8d53-4fd5-909a-4dcde3a0d61f"
                                 }
                             ]
                         }

@@ -8,22 +8,54 @@
 from spidercore import *
 from fabric.api import env
 from fabric.tasks import execute
-import spidercore.FabricUtilNFV
+from spidercore import FabricUtilNFV
 from spidercore.util import PyUtils
 
 
 logger = logging.getLogger(__name__)
 
+
+def get_bonding(vmid, bondid):
+	vm = get_vm(vmid)
+	
+	addr = vm['mgraddr']
+
+	results = {}
+	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'])
+	bonding = {}
+	
+	for nic in nics:
+		logger.debug(bondid + ": " + nic['ethName'])
+		if bondid == nic['ethName']:
+			bonding[bondid] = nic
+			bonding['ethernets'] = []
+			bonding['disables'] = []
+			results['success'] = 'success'
+			
+		elif nic.has_key('bond-group') and bondid == nic['bond-group']:
+			bonding['ethernets'].append(nic['ethName'])
+		elif nic.has_key('bond-group'):
+			bonding['disables'].append(nic['ethName'])
+		
+	if results.has_key('success'):
+		results['msg'] = json.dumps(bonding)
+	else:
+		results['success'] = 'fail'
+		results['errmsg'] = 'bonding not found.'
+
+	return results
+
 def create_bonding_task(bondinfo):
 	
 	bondid = bondinfo['bondid']
 	commands = []
-	commands.append("$DELETE interfaces bonding " + bondid) # for test
+	commands.append("$DELETE interfaces bonding " + bondid)
 	commands.append("$SET interfaces bonding " + bondid)
 	commands.append("$SET interfaces bonding %s address %s" % (bondid, bondinfo['address']))
 	commands.append("$SET interfaces bonding %s mode %s" % (bondid, bondinfo['mode']))
 	
 	for ethernet in bondinfo['ethernets']:
+		commands.append("$DELETE interfaces ethernet %s bond-group" % ethernet)
 		commands.append("$DELETE interfaces ethernet %s address" % ethernet)
 		commands.append("$SET interfaces ethernet %s bond-group %s " % (ethernet, bondid))
 	
@@ -41,6 +73,7 @@ def create_bonding(vmid, params):
 	env.user = vm['sshid']
 	env.password = vm['sshpw']
 	env.shell = '/bin/vbash -ic'
+	
 	results = execute(create_bonding_task, hosts=[addr], bondinfo = params)
 
 	return results[addr]
@@ -52,17 +85,17 @@ def all_bonding(vmid):
 	result = []
 	bond_dic = {}
 	
-	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'])
+	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'], None)
 	
 	logger.debug(json.dumps(nics, indent=4))
 	
 	#bonging 정보만 추출.
 	for nic in nics:
 		if nic["ethName"].startswith("bond"):
-			nic['items'] = []
+			nic['ethernets'] = []
 			bond_dic[nic["ethName"]] = nic
 		elif nic.has_key('bond-group'):
-			bond_dic[nic["bond-group"]]['items'].append(nic["ethName"])
+			bond_dic[nic["bond-group"]]['ethernets'].append(nic["ethName"])
 	
 	for bond_id in bond_dic:
 		result.append(bond_dic[bond_id])
@@ -75,8 +108,8 @@ def update_bonding_task(bondid, bondinfo):
 	commands = []
 	
 	for key in bondinfo:
-		commands.append("DELETE interfaces bonding %s %s" % (key, bondinfo[key]))
-		commands.append("SET interfaces bonding %s %s" % (key, bondinfo[key]))
+		commands.append("$DELETE interfaces bonding %s %s" % (bondid, key))
+		commands.append("$SET interfaces bonding %s %s %s" % (bondid, key, bondinfo[key]))
 	
 		
 	return FabricUtilNFV.send_vyatta_command(commands)

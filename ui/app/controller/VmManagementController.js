@@ -84,6 +84,46 @@ Ext.define('spider.controller.VmManagementController', {
 
     },
 
+    onComboBondingNameChange: function(field, newValue, oldValue, eOpts) {
+
+        if(newValue !== '') {
+
+            var form = Ext.getCmp("viewBondingForm");
+            form.getForm().reset();
+
+            var store = field.getStore();
+            var record = store.findRecord("ethName", newValue);
+
+            form.getForm().loadRecord(record);
+
+            form.down('toolbar').down('button').show();
+
+            var nics = record.get("items");
+
+            var checks = form.down('#bondingNICGroup').items;
+            for(var i=0; checks.length; i++) {
+
+                var checkBox = checks.items[i];
+
+                Ext.each(nics, function(nic) {
+                    if(checkBox.getName() == nic) {
+                        checkBox.setValue(true);
+                    }
+                });
+
+            }
+
+        } else {
+
+            var form = Ext.getCmp("viewBondingForm");
+            form.getForm().reset();
+
+            form.down('toolbar').down('button').hide();
+
+        }
+
+    },
+
     initVmManagement: function(record, tabIndex) {
         if(record == null) {
 
@@ -165,6 +205,9 @@ Ext.define('spider.controller.VmManagementController', {
             },
             "#comboNicName": {
                 change: this.onComboboxChange
+            },
+            "#comboBondingName": {
+                change: this.onComboBondingNameChange
             }
         });
     },
@@ -990,7 +1033,7 @@ Ext.define('spider.controller.VmManagementController', {
         }
     },
 
-    popVmBondingPopup: function() {
+    popVmBondingWindow: function() {
         //VM Host 생성 팝업 호출
 
         var popWindow = Ext.create("widget.AddBondingWindow");
@@ -1034,9 +1077,14 @@ Ext.define('spider.controller.VmManagementController', {
 
                      if(response.status == 200) {
 
-                         Ext.Msg.alert('Success', '등록이 완료되었습니다.');
+                        Ext.Msg.alert('Success', '등록이 완료되었습니다.');
 
-                         addBondingForm.up('window').close();
+                        var comboStore = Ext.getStore("VmBondingStore");
+                        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
+                        comboStore.removeAll();
+                        comboStore.load();
+
+                        addBondingForm.up('window').close();
 
                      }
 
@@ -1048,6 +1096,168 @@ Ext.define('spider.controller.VmManagementController', {
 
         }
 
+    },
+
+    saveVMBonding: function(button) {
+
+        var combo = Ext.getCmp("comboBondingName"),
+            comboValue = combo.getValue(),
+            store = combo.getStore(),
+            record = store.findRecord("ethName", comboValue);
+
+        var viewBondingForm = Ext.getCmp("viewBondingForm");
+
+        if(viewBondingForm.isValid()) {
+
+            var checks = viewBondingForm.down('#bondingNICGroup').getChecked();
+
+            if(checks.length < 2) {
+                Ext.Msg.alert('Failure', "NIC는 두개 이상 체크하셔야 합니다.");
+                return;
+            }
+
+            var ethernets = [];
+            Ext.each(checks, function(checkBox){
+                ethernets.push(checkBox.getName());
+            });
+
+            var sendData = {};
+            var formData = viewBondingForm.getForm().getFieldValues();
+
+            sendData.after = {
+                "address"		: formData.address,
+                "mode"			: formData.mode,
+                "ethernets"		: ethernets
+            };
+
+            sendData.before = {
+                "address"		: record.get("address"),
+                "mode"			: record.get("mode"),
+                "ethernets"		: record.get("items")
+            };
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + formData.bondid,
+                 method: "PUT",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : viewBondingForm.getEl(),
+                 jsonData: sendData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                         Ext.Msg.alert('Success', '수정이 완료되었습니다.');
+
+                         /*
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            Ext.Ajax.request({
+                                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/' + comboValue,
+                                waitMsg: 'Loading...',
+                                disableCaching : true,
+                                success: function(response){
+
+                                    var columnData = Ext.decode(response.responseText);
+                                    if(columnData.length > 0) {
+
+                                        var data = columnData[0];
+
+                                        record.set("duplex", data.duplex);
+                                        record.set("speed", data.speed);
+
+                                        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+                                    }
+                                }
+                            });
+                        });
+        */
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText);
+                }
+             });
+
+        }
+    },
+
+    deleteVMBonding: function(button) {
+
+        var combo = Ext.getCmp("comboBondingName"),
+            comboValue = combo.getValue(),
+            store = combo.getStore(),
+            record = store.findRecord("ethName", comboValue);
+
+        var viewBondingForm = Ext.getCmp("viewBondingForm");
+
+        if(viewBondingForm.isValid()) {
+
+            var sendData = {
+                "address"		: record.get("address"),
+                "mode"			: record.get("mode"),
+                "ethernets"		: record.get("items")
+            };
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + record.ethName,
+                 method: "DELETE",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Delete Data...',
+                 waitMsgTarget : viewBondingForm.getEl(),
+                 jsonData: sendData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '삭제가 완료되었습니다.');
+
+                        var comboStore = Ext.getStore("VmBondingStore");
+                        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
+                        comboStore.removeAll();
+                        comboStore.load();
+
+                         /*
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            Ext.Ajax.request({
+                                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/' + comboValue,
+                                waitMsg: 'Loading...',
+                                disableCaching : true,
+                                success: function(response){
+
+                                    var columnData = Ext.decode(response.responseText);
+                                    if(columnData.length > 0) {
+
+                                        var data = columnData[0];
+
+                                        record.set("duplex", data.duplex);
+                                        record.set("speed", data.speed);
+
+                                        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+                                    }
+                                }
+                            });
+                        });
+        */
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText);
+                }
+             });
+
+        }
     },
 
     renderNicCombo: function(component, msgTarget) {
