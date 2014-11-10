@@ -274,25 +274,31 @@ def vmifupdate(id=None, ifid=None):
 	return "OK", 200
 
 # create bonding
-@app.route("/nfv/<id>/bonding/<bondid>", methods=['POST', 'PUT', 'DELETE'])
+@app.route("/nfv/<id>/bonding/<bondid>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def vmbondingsave(id=None, bondid=None):
 	
 	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
 	#logger.debug("request.data : "+request.data.decode("utf-8"))
-	jsonParams = json.loads(request.data)
 	
-	jsonParams['bondid'] = bondid
-	logger.debug(json.dumps(jsonParams, indent=4))
+	if request.data:
+		jsonParams = json.loads(request.data)
+		
+		jsonParams['bondid'] = bondid
+		logger.debug(json.dumps(jsonParams, indent=4))
 	
 	
-	if request.method == 'POST':
+	if request.method == 'GET':
+		result = NFVBondingService.get_bonding(id, bondid)
+	elif request.method == 'POST':
 		result = NFVBondingService.create_bonding(id, jsonParams)
 	elif request.method == 'PUT':
 		result = NFVBondingService.update_bonding(id, jsonParams)
 	else:
 		result = NFVBondingService.delete_bonding(id, jsonParams)
 		
-	if result['success'] == 'success':
+	if result['success'] == 'success' and request.method == 'GET':
+		return result['msg'], 200
+	elif result['success'] == 'success':
 		return "OK", 200
 	else:
 		return result['errmsg'], 500
