@@ -32,6 +32,12 @@ Ext.define('spider.model.VmBondingModel', {
         },
         {
             name: 'ethName'
+        },
+        {
+            name: 'ethernets'
+        },
+        {
+            name: 'disables'
         }
     ]
 });

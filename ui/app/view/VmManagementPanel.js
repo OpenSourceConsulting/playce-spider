@@ -1127,13 +1127,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             flex: 1,
                                                             itemId: 'bondingNICGroup',
                                                             margin: '0 0 0 20',
-                                                            width: 400,
-                                                            listeners: {
-                                                                render: {
-                                                                    fn: me.onCheckboxgroupRender,
-                                                                    scope: me
-                                                                }
-                                                            }
+                                                            width: 400
                                                         }
                                                     ]
                                                 },
@@ -1157,30 +1151,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'Subnet'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Gateway'
-                                                        },
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'IP V6 주소'
+                                                            fieldLabel: 'IP V6 주소',
+                                                            name: 'ipv6_address'
                                                         }
                                                     ]
                                                 },
@@ -1213,7 +1185,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'MAC ID'
+                                                            fieldLabel: 'MAC ID',
+                                                            name: 'hw-id'
                                                         }
                                                     ]
                                                 },
@@ -1231,7 +1204,10 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         {
                                                             xtype: 'textfield',
                                                             flex: 1,
-                                                            fieldLabel: 'MTU'
+                                                            margin: '0 20 0 0',
+                                                            padding: '',
+                                                            fieldLabel: 'MTU',
+                                                            name: 'mtu'
                                                         },
                                                         {
                                                             xtype: 'tbspacer',
@@ -1244,6 +1220,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     anchor: '100%',
                                                     margin: '5 20 5 0',
                                                     fieldLabel: 'Config ',
+                                                    name: 'config',
                                                     rows: 8
                                                 }
                                             ],
@@ -1261,6 +1238,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             handler: function(button, e) {
                                                                 vmConstants.me.saveVMBonding(button);
                                                             },
+                                                            cls: 'saveBtn',
+                                                            itemId: 'saveBtn',
                                                             padding: '3 8 3 8',
                                                             text: '저장'
                                                         },
@@ -1269,6 +1248,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             handler: function(button, e) {
                                                                 vmConstants.me.deleteVMBonding(button);
                                                             },
+                                                            cls: 'deleteBtn',
+                                                            itemId: 'deleteBtn',
                                                             padding: '3 8 3 8',
                                                             text: '삭제'
                                                         }
@@ -1278,7 +1259,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                         }
                                     ]
                                 }
-                            ]
+                            ],
+                            listeners: {
+                                show: {
+                                    fn: me.onPanelShow,
+                                    scope: me
+                                }
+                            }
                         },
                         {
                             xtype: 'panel',
@@ -2066,6 +2053,22 @@ Ext.define('spider.view.VmManagementPanel', {
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            xtype: 'panel',
+                            overlapHeader: false,
+                            title: 'blank',
+                            tabConfig: {
+                                xtype: 'tab',
+                                hidden: true
+                            },
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    header: false,
+                                    title: 'My Panel'
+                                }
+                            ]
                         }
                     ]
                 }
@@ -2105,8 +2108,8 @@ Ext.define('spider.view.VmManagementPanel', {
         }
     },
 
-    onCheckboxgroupRender: function(component, eOpts) {
-        vmConstants.me.renderNicCombo(component, Ext.getCmp("viewBondingForm").getEl());
+    onPanelShow: function(component, eOpts) {
+        vmConstants.me.activeNicCombo(component.down('#bondingNICGroup'), Ext.getCmp("viewBondingForm").getEl());
     }
 
 });

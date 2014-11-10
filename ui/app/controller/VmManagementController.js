@@ -91,19 +91,31 @@ Ext.define('spider.controller.VmManagementController', {
             var form = Ext.getCmp("viewBondingForm");
             form.getForm().reset();
 
+            form.down('#saveBtn').show();
+            form.down('#deleteBtn').show();
+
             var store = field.getStore();
             var record = store.findRecord("ethName", newValue);
 
             form.getForm().loadRecord(record);
 
-            form.down('toolbar').down('button').show();
+            Ext.get("viewBondingForm").select('.saveBtn').show();
+            Ext.get("viewBondingForm").select('.deleteBtn').show();
 
-            var nics = record.get("items");
+            var nics = record.get("ethernets");
+            var disables = record.get("disables");
 
-            var checks = form.down('#bondingNICGroup').items;
-            for(var i=0; checks.length; i++) {
+            var checks = form.down('#bondingNICGroup').getBoxes();
+            Ext.each(checks, function (checkBox) {
 
-                var checkBox = checks.items[i];
+                var disableFlag = false;
+
+                Ext.each(disables, function(disable) {
+                    if(checkBox.getName() == disable || checkBox.getName() == "disableCheck") {
+                        disableFlag = true;
+                    }
+                });
+                checkBox.setDisabled(disableFlag);
 
                 Ext.each(nics, function(nic) {
                     if(checkBox.getName() == nic) {
@@ -111,20 +123,24 @@ Ext.define('spider.controller.VmManagementController', {
                     }
                 });
 
-            }
+            });
+
 
         } else {
 
             var form = Ext.getCmp("viewBondingForm");
             form.getForm().reset();
 
-            form.down('toolbar').down('button').hide();
+            form.down('#saveBtn').hide();
+            form.down('#deleteBtn').hide();
 
         }
 
     },
 
     initVmManagement: function(record, tabIndex) {
+        var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
+
         if(record == null) {
 
             Ext.getCmp("mgmtVmHostName").setValue("");
@@ -135,30 +151,36 @@ Ext.define('spider.controller.VmManagementController', {
             return;
         }
 
-        vmConstants.selectRecord = record;
-        vmConstants.selectVmId = record.get("id");
+        if(record.get("id") !== vmConstants.selectVmId) {
 
-        Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
-        Ext.getCmp("mgmtVmName").setValue(record.get("text"));
-        Ext.getCmp("mgmtVmState").setValue("");
+            vmConstants.vmNicRecords = null;
 
-        Ext.Ajax.request({
-            url: GLOBAL.apiUrlPrefix + 'mon/vm/' + record.get("vmhost") + "/" + record.get("text") + "/status",
-            method : 'GET',
-            disableCaching : true,
-            success: function(response){
+            vmConstants.selectRecord = record;
+            vmConstants.selectVmId = record.get("id");
 
-                var data = Ext.JSON.decode(response.responseText);
+            Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
+            Ext.getCmp("mgmtVmName").setValue(record.get("text"));
+            Ext.getCmp("mgmtVmState").setValue("");
 
-                if(data.length > 0) {
-                    Ext.getCmp("mgmtVmState").setValue(data[0].state.toLowerCase());
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + 'mon/vm/' + record.get("vmhost") + "/" + record.get("text") + "/status",
+                method : 'GET',
+                disableCaching : true,
+                success: function(response){
+
+                    var data = Ext.JSON.decode(response.responseText);
+
+                    if(data.length > 0) {
+                        Ext.getCmp("mgmtVmState").setValue(data[0].state.toLowerCase());
+
+                    }
 
                 }
+            });
 
-            }
-        });
+            vmDetailTab.setActiveTab(11); //blank tab
+        }
 
-        var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
         if(tabIndex) {
 
             vmDetailTab.setActiveTab(tabIndex);
@@ -192,7 +214,8 @@ Ext.define('spider.controller.VmManagementController', {
                     vmCombo : null,
 
                     initComboNic : false,
-                    initComboBonding : false
+                    initComboBonding : false,
+                    vmNicRecords : true
 
                 });
 
@@ -932,7 +955,7 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.getCmp("viewNicForm").getForm().reset();
 
         var comboStore = Ext.getStore("VmNicStore");
-        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all';
+        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet';
 
         if(vmConstants.initComboNic) {
             comboStore.removeAll();
@@ -1042,6 +1065,7 @@ Ext.define('spider.controller.VmManagementController', {
 
     createVMBonding: function(button) {
         var addBondingForm = Ext.getCmp("addBondingForm");
+        var formData = addBondingForm.getForm().getFieldValues();
 
         if(addBondingForm.isValid()) {
 
@@ -1052,13 +1076,17 @@ Ext.define('spider.controller.VmManagementController', {
                 return;
             }
 
+            if(formData.address == vmConstants.selectRecord.get("mgraddr")) {
+                Ext.Msg.alert('Failure', "Bonding의 IP 주소는 VM의 IP 주소와 동일하지 않도록 설정하셔야 합니다.");
+                return;
+            }
+
             var ethernets = [];
             Ext.each(checks, function(checkBox){
                 ethernets.push(checkBox.getName());
             });
 
             var sendData = {};
-            var formData = addBondingForm.getForm().getFieldValues();
 
             sendData.address = formData.address;
             sendData.mode = formData.mode;
@@ -1106,6 +1134,7 @@ Ext.define('spider.controller.VmManagementController', {
             record = store.findRecord("ethName", comboValue);
 
         var viewBondingForm = Ext.getCmp("viewBondingForm");
+        var formData = viewBondingForm.getForm().getFieldValues();
 
         if(viewBondingForm.isValid()) {
 
@@ -1116,13 +1145,17 @@ Ext.define('spider.controller.VmManagementController', {
                 return;
             }
 
+            if(formData.address == vmConstants.selectRecord.get("mgraddr")) {
+                Ext.Msg.alert('Failure', "Bonding의 IP 주소는 VM의 IP 주소와 동일하지 않도록 설정하셔야 합니다.");
+                return;
+            }
+
             var ethernets = [];
             Ext.each(checks, function(checkBox){
                 ethernets.push(checkBox.getName());
             });
 
             var sendData = {};
-            var formData = viewBondingForm.getForm().getFieldValues();
 
             sendData.after = {
                 "address"		: formData.address,
@@ -1133,11 +1166,11 @@ Ext.define('spider.controller.VmManagementController', {
             sendData.before = {
                 "address"		: record.get("address"),
                 "mode"			: record.get("mode"),
-                "ethernets"		: record.get("items")
+                "ethernets"		: record.get("ethernets")
             };
 
             Ext.Ajax.request({
-                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + formData.bondid,
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + comboValue,
                  method: "PUT",
                  headers : {
                      "Content-Type" : "application/json"
@@ -1201,11 +1234,11 @@ Ext.define('spider.controller.VmManagementController', {
             var sendData = {
                 "address"		: record.get("address"),
                 "mode"			: record.get("mode"),
-                "ethernets"		: record.get("items")
+                "ethernets"		: record.get("ethernets")
             };
 
             Ext.Ajax.request({
-                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + record.ethName,
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + record.get("ethName"),
                  method: "DELETE",
                  headers : {
                      "Content-Type" : "application/json"
@@ -1221,33 +1254,10 @@ Ext.define('spider.controller.VmManagementController', {
 
                         var comboStore = Ext.getStore("VmBondingStore");
                         comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
-                        comboStore.removeAll();
-                        comboStore.load();
+                        comboStore.remove(record);
 
-                         /*
+                        Ext.getCmp("comboBondingName").setValue("");
 
-                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
-
-                            Ext.Ajax.request({
-                                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/' + comboValue,
-                                waitMsg: 'Loading...',
-                                disableCaching : true,
-                                success: function(response){
-
-                                    var columnData = Ext.decode(response.responseText);
-                                    if(columnData.length > 0) {
-
-                                        var data = columnData[0];
-
-                                        record.set("duplex", data.duplex);
-                                        record.set("speed", data.speed);
-
-                                        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
-                                    }
-                                }
-                            });
-                        });
-        */
 
                      }
 
@@ -1263,7 +1273,7 @@ Ext.define('spider.controller.VmManagementController', {
     renderNicCombo: function(component, msgTarget) {
 
         Ext.Ajax.request({
-            url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
+            url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet',
             disableCaching : true,
             waitMsg: 'Loading...',
             waitMsgTarget : msgTarget,
@@ -1275,12 +1285,80 @@ Ext.define('spider.controller.VmManagementController', {
                     var i_max = data.length;
                     var newCheckboxes = new Array();
                     for( i = 0; i < i_max; i++ ) {
-                        component.add(new Ext.form.Checkbox({ boxLabel: data[i].ethName, name: data[i].ethName, inputValue: data[i].ethName }));
+
+                        var disabledFlag = true;
+                        if(data[i]["bond-group"] == null || data[i]["bond-group"].length == 0) {
+                            disabledFlag = false;
+                        }
+
+                        if(data[i].ipaddr == vmConstants.selectRecord.get("mgraddr")) {
+                            disabledFlag = true;
+                        }
+
+                        component.add(new Ext.form.Checkbox({ boxLabel: data[i].ethName, name: data[i].ethName, inputValue: data[i].ethName, disabled:disabledFlag }));
+
                     }
                 }
 
             }
         });
+
+    },
+
+    activeNicCombo: function(component, msgTarget) {
+        component.removeAll();
+
+        if(vmConstants.vmNicRecords == null) {
+
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet',
+                disableCaching : true,
+                waitMsg: 'Loading...',
+                waitMsgTarget : msgTarget,
+                success: function(response){
+
+                    if(response.status == 200) {
+
+                        var data = Ext.decode(response.responseText);
+
+                        vmConstants.vmNicRecords = data;
+
+                        var i_max = data.length;
+                        var newCheckboxes = new Array();
+                        for( i = 0; i < i_max; i++ ) {
+
+                            var disabledFlag = false;
+                            var fieldName = data[i].ethName;
+                            if(data[i].ipaddr == vmConstants.selectRecord.get("mgraddr")) {
+                                disabledFlag = true;
+                                fieldName = "disableCheck";
+                            }
+                            component.add(new Ext.form.Checkbox({ boxLabel: data[i].ethName, name: fieldName, inputValue: data[i].ethName }));
+                        }
+                    }
+
+                }
+            });
+
+
+        } else {
+
+            var data = vmConstants.vmNicRecords;
+
+            var i_max = data.length;
+            var newCheckboxes = new Array();
+            for( i = 0; i < i_max; i++ ) {
+
+                var disabledFlag = false;
+                var fieldName = data[i].ethName;
+                if(data[i].ipaddr == vmConstants.selectRecord.get("mgraddr")) {
+                    disabledFlag = true;
+                    fieldName = "disableCheck";
+                }
+
+                component.add(new Ext.form.Checkbox({ boxLabel: data[i].ethName, name: fieldName, inputValue: data[i].ethName }));
+            }
+        }
 
     }
 

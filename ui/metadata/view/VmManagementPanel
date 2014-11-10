@@ -2392,26 +2392,7 @@
                                                         "padding": null,
                                                         "width": 400
                                                     },
-                                                    "designerId": "080ef0fd-7304-4a5b-9ae8-eb4552c6a110",
-                                                    "cn": [
-                                                        {
-                                                            "type": "basiceventbinding",
-                                                            "reference": {
-                                                                "name": "listeners",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "fn": "onCheckboxgroupRender",
-                                                                "implHandler": [
-                                                                    "vmConstants.me.renderNicCombo(component, Ext.getCmp(\"viewBondingForm\").getEl());"
-                                                                ],
-                                                                "name": "render",
-                                                                "scope": "me"
-                                                            },
-                                                            "designerId": "908bc961-9add-4d2b-a6c7-f6504ec3e48a"
-                                                        }
-                                                    ]
+                                                    "designerId": "080ef0fd-7304-4a5b-9ae8-eb4552c6a110"
                                                 }
                                             ]
                                         },
@@ -2462,61 +2443,9 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "fieldLabel": "Subnet",
-                                                        "layout|flex": 1
-                                                    },
-                                                    "designerId": "16f7f736-f67f-43ba-a0d9-4cdc4cb9b9a8"
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "type": "Ext.form.FieldContainer",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "container|align": "middle",
-                                                "fieldLabel": "Label",
-                                                "flex": "1",
-                                                "height": 35,
-                                                "hideLabel": true,
-                                                "layout": "hbox",
-                                                "margin": null
-                                            },
-                                            "designerId": "e2847a7f-0e68-47ed-8d72-11b9a22a9b15",
-                                            "customConfigs": [
-                                                {
-                                                    "group": "(Custom Properties)",
-                                                    "name": "flex",
-                                                    "type": "string"
-                                                }
-                                            ],
-                                            "cn": [
-                                                {
-                                                    "type": "Ext.form.field.Text",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "fieldLabel": "Gateway",
-                                                        "layout|flex": 1
-                                                    },
-                                                    "designerId": "d1171a34-08e4-4695-9669-656070f8a26b"
-                                                },
-                                                {
-                                                    "type": "Ext.form.field.Text",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
                                                         "fieldLabel": "IP V6 주소",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "ipv6_address"
                                                     },
                                                     "designerId": "5518c3ef-76e3-4503-bc47-1982f716bfbf"
                                                 }
@@ -2584,7 +2513,8 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "MAC ID",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "name": "hw-id"
                                                     },
                                                     "designerId": "d7ad2bd2-a6f7-491c-ad9c-8144cbfe704b"
                                                 }
@@ -2624,7 +2554,10 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "fieldLabel": "MTU",
-                                                        "layout|flex": 1
+                                                        "layout|flex": 1,
+                                                        "margin": "0 20 0 0",
+                                                        "name": "mtu",
+                                                        "padding": ""
                                                     },
                                                     "designerId": "a5477adb-d2dc-480f-86f1-61b284bc328a"
                                                 },
@@ -2653,6 +2586,7 @@
                                                 "fieldLabel": "Config ",
                                                 "layout|anchor": "100%",
                                                 "margin": "5 20 5 0",
+                                                "name": "config",
                                                 "rows": 8
                                             },
                                             "designerId": "8900e740-4a90-4a24-8cd9-0466c7cf790d"
@@ -2678,6 +2612,8 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "cls": "saveBtn",
+                                                        "itemId": "saveBtn",
                                                         "layout|flex": null,
                                                         "padding": "3 8 3 8",
                                                         "text": "저장"
@@ -2713,6 +2649,8 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "cls": "deleteBtn",
+                                                        "itemId": "deleteBtn",
                                                         "layout|flex": null,
                                                         "padding": "3 8 3 8",
                                                         "text": "삭제"
@@ -2745,6 +2683,23 @@
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onPanelShow",
+                                "implHandler": [
+                                    "vmConstants.me.activeNicCombo(component.down('#bondingNICGroup'), Ext.getCmp(\"viewBondingForm\").getEl());"
+                                ],
+                                "name": "show",
+                                "scope": "me"
+                            },
+                            "designerId": "4172155f-7c8a-46d8-8431-b94f20cf6190"
                         }
                     ]
                 },
@@ -4596,6 +4551,47 @@
                                     "designerId": "27161e75-781e-46e7-85bf-170c79ab3aec"
                                 }
                             ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "headerPosition": null,
+                        "overlapHeader": false,
+                        "title": "blank"
+                    },
+                    "designerId": "2908456e-2005-49ad-936b-84bcd63793db",
+                    "cn": [
+                        {
+                            "type": "Ext.tab.Tab",
+                            "reference": {
+                                "name": "tabConfig",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "hidden": true
+                            },
+                            "designerId": "402b40c2-91ef-4234-9f3e-e98a8f6e9a72"
+                        },
+                        {
+                            "type": "Ext.panel.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "header": false,
+                                "title": "My Panel"
+                            },
+                            "designerId": "5a1a3093-5baa-4220-8747-1a4f7d911d9f"
                         }
                     ]
                 }

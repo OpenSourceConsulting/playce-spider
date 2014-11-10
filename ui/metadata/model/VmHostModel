@@ -105,6 +105,30 @@
                 "name": "vmhostName"
             },
             "designerId": "3cb127c1-9515-4b02-8bba-a21cdc7452d2"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "ipaddr"
+            },
+            "designerId": "2b3a7cd3-5a18-4c2a-bb40-d13f82a87d55"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "mgraddr"
+            },
+            "designerId": "47860a7f-19d6-4455-ba54-408dfbb324bb"
         }
     ]
 }
