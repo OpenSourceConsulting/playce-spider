@@ -22,9 +22,6 @@ Ext.define('spider.model.VmBondingModel', {
 
     fields: [
         {
-            name: 'items'
-        },
-        {
             name: 'address'
         },
         {
@@ -38,6 +35,18 @@ Ext.define('spider.model.VmBondingModel', {
         },
         {
             name: 'disables'
+        },
+        {
+            name: 'ipv6_address'
+        },
+        {
+            name: 'hw-id'
+        },
+        {
+            name: 'mtu'
+        },
+        {
+            name: 'config'
         }
     ]
 });

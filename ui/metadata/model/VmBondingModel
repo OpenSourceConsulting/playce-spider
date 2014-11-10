@@ -18,18 +18,6 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "items"
-            },
-            "designerId": "08393a9c-4f67-4878-92f4-139800653b2c"
-        },
-        {
-            "type": "Ext.data.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
                 "name": "address"
             },
             "designerId": "29e96da9-86ac-4204-a525-afa3939ffb47"
@@ -81,6 +69,54 @@
                 "name": "disables"
             },
             "designerId": "6962b716-4825-4393-8741-8191ed7c9880"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "ipv6_address"
+            },
+            "designerId": "64b1b4e1-cd4e-4773-9da0-81fe4b715cff"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "hw-id"
+            },
+            "designerId": "4ca8b57f-a23c-4c9c-bd51-53f85d8d5ce0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "mtu"
+            },
+            "designerId": "6f337752-203b-4060-844c-1d3cf3f981ca"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "config"
+            },
+            "designerId": "6680aa88-d164-448b-8987-de4423f9f630"
         }
     ]
 }

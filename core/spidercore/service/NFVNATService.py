@@ -14,7 +14,7 @@ from spidercore import FabricUtilNFV
 
 logger = logging.getLogger(__name__)
 
-def create_nat_task(natinfo):
+def create_nat_task(natinfo):    
     rulenum = natinfo['rulenum']
     ruletype = natinfo['ruletype']
     
@@ -27,30 +27,95 @@ def create_nat_task(natinfo):
         obnic = natinfo['obnic']
     else:
         obnic = None
-        
-    if 'translation' in natinfo:
-        translation = natinfo['translation']
+    
+    if 'srcaddr' in natinfo:
+        srcaddr = natinfo['srcaddr']
     else:
-        translation = None
+        srcaddr = None
+    
+    if 'destaddr' in natinfo:
+        destaddr = natinfo['destaddr']
+    else:
+        destaddr = None
+    
+    if 'srcport' in natinfo:
+        srcport = natinfo['srcport']
+    else:
+        srcport = None
+    
+    if 'destport' in natinfo:
+        destport = natinfo['destport']
+    else:
+        destport = None
+    
+    if 'protocol' in natinfo:
+        protocol = natinfo['protocol']
+    else:
+        protocol = None
+    
+    if 'transaddr' in natinfo:
+        transaddr = natinfo['transaddr']
+    else:
+        transaddr = None
+    
+    if 'transport' in natinfo:
+        transport = natinfo['transport']
+    else:
+        transport = None
     
     if 'masquerade' in natinfo:
         masquerade = natinfo['masquerade']
     else:
         masquerade = None
     
+    if 'disable' in natinfo:
+        disable = natinfo['disable']
+    else:
+        disable = None
+    
+    if 'exclude' in natinfo:
+        exclude = natinfo['exclude']
+    else:
+        exclude = None
+        
     commands = []
     
-    if ruletype == "source":
-        commands.append("$SET nat " + ruletype + " rule " + rulenum + " outbound-interface " + obnic)
-    else:
+    if ruletype == "destination" and ibnic:
         commands.append("$SET nat " + ruletype + " rule " + rulenum + " inbound-interface " + ibnic)
         
-    if translation:
-        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address " + translation)  
+    if ruletype == "source" and obnic:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " outbound-interface " + obnic)
+    
+    if srcaddr:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " source address " + srcaddr)
+    
+    if srcport:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " source port " + srcport)
+        
+    if destaddr:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " destination address " + destaddr)
+        
+    if destport:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " destination port " + destport)
+        
+    if protocol:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " protocol " + str(protocol).lower())
+        
+    if transaddr:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address " + transaddr)  
     else:
         if masquerade:  
             commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address masquerade")
-    
+        
+    if transport:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation port " + transport)  
+            
+    if disable:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " disable")  
+            
+    if exclude:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " exclude")  
+        
     return FabricUtilNFV.send_vyatta_command(commands)
     
 def create_nat(vmid, params):
@@ -136,15 +201,30 @@ def update_nat_task(natinfo):
     else:
         protocol = None
     
-    if 'translation' in natinfo:
-        translation = natinfo['translation']
+    if 'transaddr' in natinfo:
+        transaddr = natinfo['transaddr']
     else:
-        translation = None
+        transaddr = None
+    
+    if 'transport' in natinfo:
+        transport = natinfo['transport']
+    else:
+        transport = None
     
     if 'masquerade' in natinfo:
         masquerade = natinfo['masquerade']
     else:
         masquerade = None
+    
+    if 'disable' in natinfo:
+        disable = natinfo['disable']
+    else:
+        disable = None
+    
+    if 'exclude' in natinfo:
+        exclude = natinfo['exclude']
+    else:
+        exclude = None
         
     commands = []
     
@@ -169,11 +249,21 @@ def update_nat_task(natinfo):
     if protocol:
         commands.append("$SET nat " + ruletype + " rule " + rulenum + " protocol " + str(protocol).lower())
         
-    if translation:
-        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address " + translation)  
+    if transaddr:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address " + transaddr)  
     else:
         if masquerade:  
             commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation address masquerade")
+        
+    if transport:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " translation port " + transport)  
+            
+    if disable:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " disable")  
+            
+    if exclude:
+        commands.append("$SET nat " + ruletype + " rule " + rulenum + " exclude")  
+        
             
     return FabricUtilNFV.send_vyatta_command(commands)
 
