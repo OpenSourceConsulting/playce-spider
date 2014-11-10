@@ -93,6 +93,7 @@ def all_bonding(vmid):
 	for nic in nics:
 		if nic["ethName"].startswith("bond"):
 			nic['ethernets'] = []
+			nic['config'] = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW interfaces")
 			bond_dic[nic["ethName"]] = nic
 		elif nic.has_key('bond-group'):
 			bond_dic[nic["bond-group"]]['ethernets'].append(nic["ethName"])
