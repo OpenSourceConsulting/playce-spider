@@ -1,0 +1,58 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "UserStore",
+        "model": "UserModel",
+        "storeId": "UserStore"
+    },
+    "designerId": "96cf8d54-01d3-4e9d-a061-40a812582333",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.Ajax",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "user/list"
+            },
+            "designerId": "9191e1f3-a6bb-49d5-89c0-670cce0aff01",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "da4f6633-6786-43e7-9ec9-0dd83ec46923"
+                },
+                {
+                    "type": "processcfgfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "config"
+                        ],
+                        "fn": "processMyAjaxProxy1",
+                        "implHandler": [
+                            "config.actionMethods = {read: \"GET\"};",
+                            "return config;"
+                        ]
+                    },
+                    "designerId": "382b0566-bc21-45d7-869a-ff5810ee6efb"
+                }
+            ]
+        }
+    ]
+}

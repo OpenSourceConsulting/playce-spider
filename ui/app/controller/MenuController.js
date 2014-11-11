@@ -42,12 +42,12 @@ Ext.define('spider.controller.MenuController', {
             selector: '#monitoringBtn'
         },
         {
-            ref: 'centerContainer',
-            selector: '#centerPanel'
+            ref: 'userManagementBtn',
+            selector: '#userManagementBtn'
         },
         {
-            ref: 'mainViewBtn',
-            selector: '#mainViewBtn'
+            ref: 'centerContainer',
+            selector: '#centerPanel'
         },
         {
             ref: 'mytool',
@@ -67,7 +67,7 @@ Ext.define('spider.controller.MenuController', {
             dashboardBtn = this.getDashboardBtn(),
             managementBtn = this.getManagementBtn(),
             monitoringBtn = this.getMonitoringBtn(),
-            mainViewBtn = this.getMainViewBtn(),
+            userManagementBtn = this.getUserManagementBtn(),
             menuPanel = this.getMenuPanel();
 
         // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
@@ -79,7 +79,7 @@ Ext.define('spider.controller.MenuController', {
         dashboardBtn.toggle(true);
         managementBtn.toggle(false);
         monitoringBtn.toggle(false);
-        mainViewBtn.toggle(false);
+        userManagementBtn.toggle(false);
 
         centerContainer.layout.setActiveItem(0);
 
@@ -108,12 +108,12 @@ Ext.define('spider.controller.MenuController', {
             dashboardBtn = this.getDashboardBtn(),
             managementBtn = this.getManagementBtn(),
             monitoringBtn = this.getMonitoringBtn(),
-            mainViewBtn = this.getMainViewBtn(),
+            userManagementBtn = this.getUserManagementBtn(),
             menuPanel = this.getMenuPanel();
 
         dashboardBtn.toggle(false);
         managementBtn.toggle(false);
-        mainViewBtn.toggle(false);
+        userManagementBtn.toggle(false);
         monitoringBtn.toggle(true);
 
         centerContainer.layout.setActiveItem(2);
@@ -148,7 +148,7 @@ Ext.define('spider.controller.MenuController', {
         clearInterval(GlobalData.intervalId3);
     },
 
-    onMainViewBtnClick: function(button, e, eOpts) {
+    onUserManagementBtnBtnClick: function(button, e, eOpts) {
 
         /**
          * Main View 메뉴 버튼 클릭 시 수행되는 function
@@ -157,11 +157,11 @@ Ext.define('spider.controller.MenuController', {
             dashboardBtn = this.getDashboardBtn(),
             managementBtn = this.getManagementBtn(),
             monitoringBtn = this.getMonitoringBtn(),
-            mainViewBtn = this.getMainViewBtn(),
+            userManagementBtn = this.getUserManagementBtn(),
             menuPanel = this.getMenuPanel();
 
         // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
-        if (centerContainer.layout.getActiveItem().itemId === "samplePanel") {
+        if (centerContainer.layout.getActiveItem().itemId === "UserManagementPanel") {
             button.toggle(true);
             return;
         }
@@ -169,13 +169,12 @@ Ext.define('spider.controller.MenuController', {
         dashboardBtn.toggle(false);
         managementBtn.toggle(false);
         monitoringBtn.toggle(false);
-        mainViewBtn.toggle(true);
+        userManagementBtn.toggle(true);
 
         centerContainer.layout.setActiveItem(3);
 
-        clearInterval(GlobalData.intervalId1);
-        clearInterval(GlobalData.intervalId2);
-        clearInterval(GlobalData.intervalId3);
+        Ext.getStore("UserStore").getProxy().url = GLOBAL.apiUrlPrefix + "user/list";
+        Ext.getStore("UserStore").load();
     },
 
     onMytoolClick: function(tool, e, eOpts) {
@@ -245,6 +244,8 @@ Ext.define('spider.controller.MenuController', {
     },
 
     renderServerTree: function() {
+        var center = Ext.getCmp("lnbLocationCombo").getValue();
+        var treeData = [];
 
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'mon/vmhost/_all',
@@ -267,43 +268,48 @@ Ext.define('spider.controller.MenuController', {
 
                             Ext.each(hostDatas, function(host, index) {
 
-                                host.id = host._id;
-                                host.text = host.name;
-                                host.icon = 'resources/images/icons/server.png';
-                                host.type = 'vmhost';
+                                if(host.location == center) {
 
-                                if(index == 0) {
-                                    host.expanded = true;
-                                }
+                                    host.id = host._id;
+                                    host.text = host.name;
+                                    host.icon = 'resources/images/icons/server.png';
+                                    host.type = 'vmhost';
 
-                                var vmList = [];
-                                Ext.each(vmDatas, function(vm) {
-
-                                    if(host._id == vm.vmhost) {
-
-                                        vm.id = vm._id;
-                                        vm.text = vm.vmname;
-                                        vm.icon = 'resources/images/icons/host.png';
-                                        vm.type = 'vm';
-                                        vm.leaf = true;
-
-                                        if(vm.interim === true) {
-                                            vm.cls = "node-red";
-                                        }
-
-                                        vmList.push(vm);
+                                    if(index == 0) {
+                                        host.expanded = true;
                                     }
-                                });
 
-                                if(vmList.length > 0) {
+                                    var vmList = [];
+                                    Ext.each(vmDatas, function(vm) {
 
-                                    host.leaf = false;
-                                    host.children = vmList;
+                                        if(host._id == vm.vmhost) {
 
-                                } else {
+                                            vm.id = vm._id;
+                                            vm.text = vm.vmname;
+                                            vm.icon = 'resources/images/icons/host.png';
+                                            vm.type = 'vm';
+                                            vm.leaf = true;
 
-                                    host.leaf = true;
+                                            if(vm.interim === true) {
+                                                vm.cls = "node-red";
+                                            }
 
+                                            vmList.push(vm);
+                                        }
+                                    });
+
+                                    if(vmList.length > 0) {
+
+                                        host.leaf = false;
+                                        host.children = vmList;
+
+                                    } else {
+
+                                        host.leaf = true;
+
+                                    }
+
+                                    treeData.push(host);
                                 }
 
                             });
@@ -315,7 +321,7 @@ Ext.define('spider.controller.MenuController', {
                                         text: 'Server List',
                                         icon : '',
                                         type : 'root',
-                                        children: hostDatas
+                                        children: treeData
                                     }
                                 });
 
@@ -352,8 +358,8 @@ Ext.define('spider.controller.MenuController', {
             "#monitoringBtn": {
                 click: this.onMonitoringBtnClick
             },
-            "#mainViewBtn": {
-                click: this.onMainViewBtnClick
+            "#userManagementBtn": {
+                click: this.onUserManagementBtnBtnClick
             },
             "#mytool": {
                 click: this.onMytoolClick
@@ -372,7 +378,7 @@ Ext.define('spider.controller.MenuController', {
             dashboardBtn = this.getDashboardBtn(),
             managementBtn = this.getManagementBtn(),
             monitoringBtn = this.getMonitoringBtn(),
-            mainViewBtn = this.getMainViewBtn(),
+            userManagementBtn = this.getUserManagementBtn(),
             menuPanel = this.getMenuPanel();
 
         // 현재 선택된 item이 managementPanel일 경우 무시한다.
@@ -381,7 +387,7 @@ Ext.define('spider.controller.MenuController', {
             managementBtn.toggle(true);
             dashboardBtn.toggle(false);
             monitoringBtn.toggle(false);
-            mainViewBtn.toggle(false);
+            userManagementBtn.toggle(false);
 
             centerContainer.layout.setActiveItem(1);
 

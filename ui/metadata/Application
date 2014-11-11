@@ -24,7 +24,8 @@
             "VmNicModel",
             "SessionModel",
             "VmBondingModel",
-            "VmNatModel"
+            "VmNatModel",
+            "UserModel"
         ],
         "name": "spider",
         "requires": [
@@ -45,7 +46,8 @@
             "VmNicStore",
             "VmInterfaceStore",
             "SessionStore",
-            "VmBondingStore"
+            "VmBondingStore",
+            "UserStore"
         ],
         "views": [
             "AthenaSpider",
