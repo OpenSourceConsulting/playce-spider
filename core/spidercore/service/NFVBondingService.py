@@ -47,6 +47,7 @@ def get_bonding(vmid, bondid):
 	for nic in nics:
 		logger.debug(bondid + ": " + nic['ethName'])
 		if bondid == nic['ethName']:
+			nic['config'] = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW interfaces")
 			bonding[bondid] = nic
 			bonding['ethernets'] = []
 			bonding['disables'] = []
