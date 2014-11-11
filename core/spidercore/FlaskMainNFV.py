@@ -104,15 +104,18 @@ def vm_reg_init():
 	vmhosts = read_repository("vmhosts")
 	results = []
 	for vmhost in vmhosts:
-		vms = getAllMacAddrs(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
-		for vm in vms:
-			print vm
-			for mac in macaddrs:
-				if mac in vm['macaddrs']:
-					vmhostId = vmhost['_id']
-					domain = vm['domain']
-					break
-	
+		try:
+			vms = getAllMacAddrs(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
+			for vm in vms:
+				print vm
+				for mac in macaddrs:
+					if mac in vm['macaddrs']:
+						vmhostId = vmhost['_id']
+						domain = vm['domain']
+						break
+		except Exception, e:
+			logger.debug("VM Host (%s) caused error: %s" % (vmhost['addr'], e))
+			
 	if vmhostId != None:
 		vms = read_repository("vms")
 		for i in range(0, len(vms)):
