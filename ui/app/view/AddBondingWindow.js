@@ -133,7 +133,7 @@ Ext.define('spider.view.AddBondingWindow', {
     },
 
     onBondingNICGroupRender: function(component, eOpts) {
-        vmConstants.me.renderNicCombo(component, Ext.getCmp("addBondingForm").getEl());
+        vmConstants.me.renderNicCheckbox(component, Ext.getCmp("addBondingForm").getEl());
     }
 
 });

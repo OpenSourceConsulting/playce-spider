@@ -891,6 +891,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.model.SessionModel": [],
   "spider.model.VmBondingModel": [],
   "spider.model.VmHostModel": [],
+  "spider.model.VmNatModel": [],
   "spider.model.VmNicModel": [],
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
@@ -909,6 +910,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
   "spider.view.AddBondingWindow": [],
+  "spider.view.AddNatWindow": [],
+  "spider.view.AddRuleWindow": [],
   "spider.view.AddUserWindow": [],
   "spider.view.AddVmHostWindow": [],
   "spider.view.AddVmWindow": [],
@@ -1951,6 +1954,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.model.SessionModel": [],
   "spider.model.VmBondingModel": [],
   "spider.model.VmHostModel": [],
+  "spider.model.VmNatModel": [],
   "spider.model.VmNicModel": [],
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
@@ -1970,6 +1974,12 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmNicStore": [],
   "spider.view.AddBondingWindow": [
     "widget.AddBondingWindow"
+  ],
+  "spider.view.AddNatWindow": [
+    "widget.AddNatWindow"
+  ],
+  "spider.view.AddRuleWindow": [
+    "widget.AddRuleWindow"
   ],
   "spider.view.AddUserWindow": [
     "widget.AddUserWindow"

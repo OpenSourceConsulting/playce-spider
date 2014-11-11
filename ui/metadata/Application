@@ -23,7 +23,8 @@
             "VmTemplateModel",
             "VmNicModel",
             "SessionModel",
-            "VmBondingModel"
+            "VmBondingModel",
+            "VmNatModel"
         ],
         "name": "spider",
         "requires": [
@@ -57,7 +58,8 @@
             "AddBondingWindow",
             "LoginWindow",
             "AddUserWindow",
-            "UserManagementPanel"
+            "UserManagementPanel",
+            "AddRuleWindow"
         ]
     },
     "designerId": "application"

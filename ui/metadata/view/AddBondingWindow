@@ -69,7 +69,7 @@
                             "userConfig": {
                                 "fn": "onBondingNICGroupRender",
                                 "implHandler": [
-                                    "vmConstants.me.renderNicCombo(component, Ext.getCmp(\"addBondingForm\").getEl());"
+                                    "vmConstants.me.renderNicCheckbox(component, Ext.getCmp(\"addBondingForm\").getEl());"
                                 ],
                                 "name": "render",
                                 "scope": "me"
