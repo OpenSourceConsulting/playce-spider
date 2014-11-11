@@ -347,7 +347,8 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "html": "",
-                                                "itemId": "VmHostName1",
+                                                "id": "locationLabel",
+                                                "itemId": null,
                                                 "layout|flex": null,
                                                 "margin": "5 0 0 0",
                                                 "style": "{text-align: center;font-size : 18px;font-weight: bold;letter-spacing:10px;}",
@@ -463,28 +464,7 @@
                                         "store": "array",
                                         "value": "string"
                                     },
-                                    "designerId": "db7dfef6-9db3-438e-8437-80e83c04ef79",
-                                    "cn": [
-                                        {
-                                            "type": "basiceventbinding",
-                                            "reference": {
-                                                "name": "listeners",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "fn": "onLnbLocationComboChange",
-                                                "implHandler": [
-                                                    "if(newValue != \"\") {",
-                                                    "    menuConstants.me.renderServerTree();",
-                                                    "}"
-                                                ],
-                                                "name": "change",
-                                                "scope": "me"
-                                            },
-                                            "designerId": "6d6c1607-d968-4132-b3e4-5500149f9d9c"
-                                        }
-                                    ]
+                                    "designerId": "db7dfef6-9db3-438e-8437-80e83c04ef79"
                                 }
                             ]
                         },

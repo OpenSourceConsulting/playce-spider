@@ -213,6 +213,7 @@ Ext.define('spider.controller.VmManagementController', {
 
             vmConstants.vmNicRecords = null;
             vmConstants.vmNatRecords = null;
+            vmConstants.vmIfAllRecords = null;
 
             vmConstants.selectRecord = record;
             vmConstants.selectVmId = record.get("id");
@@ -284,7 +285,8 @@ Ext.define('spider.controller.VmManagementController', {
                     initComboNic : false,
                     initComboBonding : false,
                     vmNicRecords : null,
-                    vmNatRecords : null
+                    vmNatRecords : null,
+                    vmIfAllRecords : null
 
                 });
 
@@ -1060,6 +1062,8 @@ Ext.define('spider.controller.VmManagementController', {
             sendData.after.disable = (!Ext.getCmp("checkNicDisable").getValue());
             if(Ext.getCmp("checkNicDhcp").getValue() == true) {
                 sendData.after.address = "dhcp";
+            } else {
+                sendData.after.address = "";
             }
 
             sendData.before = {
@@ -1678,10 +1682,10 @@ Ext.define('spider.controller.VmManagementController', {
 
         var store;
 
-        if(vmConstants.vmNicRecords == null) {
+        if(vmConstants.vmIfAllRecords == null) {
 
             Ext.Ajax.request({
-                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet',
+                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
                 disableCaching : true,
                 waitMsg: 'Loading...',
                 waitMsgTarget : msgTarget,
@@ -1691,7 +1695,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         var datas = Ext.decode(response.responseText);
 
-                        vmConstants.vmNicRecords = datas;
+                        vmConstants.vmIfAllRecords = datas;
 
                         store = Ext.create('Ext.data.Store', {
                             model: 'spider.model.VmNicModel',
@@ -1710,7 +1714,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         } else {
 
-            var datas = vmConstants.vmNicRecords;
+            var datas = vmConstants.vmIfAllRecords;
 
             store = Ext.create('Ext.data.Store', {
                 model: 'spider.model.VmNicModel',
