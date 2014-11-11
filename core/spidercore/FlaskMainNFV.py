@@ -117,49 +117,56 @@ def vm_reg_init():
 			logger.debug("VM Host (%s) caused error: %s" % (vmhost['addr'], e))
 			
 	if vmhostId != None:
+		init = True
 		vms = read_repository("vms")
 		for i in range(0, len(vms)):
 			vm = vms[i]
 			if domain == vm['vmname']:
+				jsonData = {
+					"_id": vm['_id'],
+				    "vmhost": vmhostId,
+				    "vyatta": isVyatta,
+				    "vmname": domain,
+				    "kernel": kernel,
+				    "arch": arch,
+				    "ostype": ostype,
+				    "vmtype": "kvm",
+				    "sshid": "vyos",
+				    "sshpw": "vyos",
+				    "interfaces": ifs,
+				    "templateName": vm['templateName'],
+				    "vendor": vm['vendor'],
+				    "hostname": vm['hostname'],
+				    "vmhostName": vm['vmhostName'],
+				    "vmtype": vm['vmtype']
+				}
+
+				# 	Seeking which interface can be communicated via management network
+				for ifeth in ifs:
+					if 'ipaddr' in ifs[ifeth]:
+						ipAddr = ifs[ifeth]['ipaddr']
+						if pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
+							break
+				else:
+					return "FAIL: ping", 503
+				
 				if 'interim' in vm and vm['interim']:
-					jsonData = {
-						"_id": vm['_id'],
-					    "vmhost": vmhostId,
-					    "vyatta": isVyatta,
-					    "vmname": domain,
-					    "kernel": kernel,
-					    "arch": arch,
-					    "ostype": ostype,
-					    "vmtype": "kvm",
-					    "sshid": "vyos",
-					    "sshpw": "vyos",
-					    "interfaces": ifs,
-					    "templateName": vm['templateName'],
-					    "vendor": vm['vendor'],
-					    "hostname": vm['hostname'],
-					    "vmhostName": vm['vmhostName'],
-					    "vmtype": vm['vmtype']
-					}
+					vms[i] = jsonData
+					break
+				elif 'mgraddr' in vms and vms['mgraddr'] != ipAddr:
+					init = False
 					vms[i] = jsonData
 					break
 				else:
 					return "DUP", 409
 		
-		# 	Seeking which interface can be communicated via management network
-		for ifeth in ifs:
-			if 'ipaddr' in ifs[ifeth]:
-				ipAddr = ifs[ifeth]['ipaddr']
-				if pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
-					break
-		else:
-			return "FAIL: ping", 503
-	
 		#	Assign the unique VM is to NFV CollectD's hostname via Fabric
 		#	SSH Account should be one for newly created VM
 		
 		try:
 			jsonData['mgraddr'] = ipAddr
-			initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], vm['_id'], jsonData['hostname'])
+			if init:
+				initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], vm['_id'], jsonData['hostname'])
 		except Exception, e:
 			print e
 			return "FAIL: init", 503
