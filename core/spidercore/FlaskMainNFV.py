@@ -153,7 +153,7 @@ def vm_reg_init():
 				if 'interim' in vm and vm['interim']:
 					vms[i] = jsonData
 					break
-				elif 'mgraddr' in vms and vm['mgraddr'] != ipAddr:
+				elif 'mgraddr' in vms and vm['mgraddr'] != ipAddr:		# vm, not vms
 					init = False
 					vms[i] = jsonData
 					break
