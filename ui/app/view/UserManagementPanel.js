@@ -19,12 +19,11 @@ Ext.define('spider.view.UserManagementPanel', {
 
     requires: [
         'Ext.grid.Panel',
-        'Ext.grid.column.Number',
-        'Ext.grid.column.Date',
-        'Ext.grid.column.Boolean',
         'Ext.grid.View',
         'Ext.toolbar.Toolbar',
-        'Ext.button.Button'
+        'Ext.toolbar.Spacer',
+        'Ext.button.Button',
+        'Ext.grid.column.Column'
     ],
 
     id: 'UserManagementPanel',
@@ -43,42 +42,47 @@ Ext.define('spider.view.UserManagementPanel', {
                     itemId: 'UserGrid',
                     header: false,
                     title: 'My Grid Panel',
+                    columnLines: true,
                     forceFit: true,
-                    columns: [
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'string',
-                            text: 'String'
-                        },
-                        {
-                            xtype: 'numbercolumn',
-                            dataIndex: 'number',
-                            text: 'Number'
-                        },
-                        {
-                            xtype: 'datecolumn',
-                            dataIndex: 'date',
-                            text: 'Date'
-                        },
-                        {
-                            xtype: 'booleancolumn',
-                            dataIndex: 'bool',
-                            text: 'Boolean'
-                        }
-                    ],
+                    store: 'UserStore',
                     dockedItems: [
                         {
                             xtype: 'toolbar',
                             dock: 'top',
                             items: [
                                 {
+                                    xtype: 'tbspacer',
+                                    flex: 1
+                                },
+                                {
                                     xtype: 'button',
                                     handler: function(button, e) {
                                         userConstants.me.popAddUserWindow();
                                     },
+                                    margin: '0 20 0 0',
                                     text: 'Add User'
                                 }
                             ]
+                        }
+                    ],
+                    columns: [
+                        {
+                            xtype: 'gridcolumn',
+                            minWidth: 100,
+                            dataIndex: 'userId',
+                            text: 'User ID'
+                        },
+                        {
+                            xtype: 'gridcolumn',
+                            minWidth: 150,
+                            dataIndex: 'userName',
+                            text: 'User Name'
+                        },
+                        {
+                            xtype: 'gridcolumn',
+                            minWidth: 250,
+                            dataIndex: 'email',
+                            text: 'Email'
                         }
                     ]
                 }

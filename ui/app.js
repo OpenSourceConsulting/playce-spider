@@ -32,7 +32,8 @@ Ext.application({
         'VmNicModel',
         'SessionModel',
         'VmBondingModel',
-        'VmNatModel'
+        'VmNatModel',
+        'UserModel'
     ],
     stores: [
         'ServerListStore',
@@ -49,7 +50,8 @@ Ext.application({
         'VmNicStore',
         'VmInterfaceStore',
         'SessionStore',
-        'VmBondingStore'
+        'VmBondingStore',
+        'UserStore'
     ],
     views: [
         'AthenaSpider',

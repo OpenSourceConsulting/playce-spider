@@ -186,8 +186,8 @@ Ext.define('spider.view.AthenaSpider', {
                                                 },
                                                 {
                                                     xtype: 'button',
-                                                    id: 'mainViewBtn',
-                                                    itemId: 'mainViewBtn',
+                                                    id: 'userManagementBtn',
+                                                    itemId: 'userManagementBtn',
                                                     margin: '7 0 0 0',
                                                     enableToggle: true,
                                                     icon: 'resources/images/icons/group.png',
@@ -268,7 +268,13 @@ Ext.define('spider.view.AthenaSpider', {
                                             store: [
                                                 '대전',
                                                 '광주'
-                                            ]
+                                            ],
+                                            listeners: {
+                                                change: {
+                                                    fn: me.onLnbLocationComboChange,
+                                                    scope: me
+                                                }
+                                            }
                                         }
                                     ]
                                 },
@@ -445,6 +451,12 @@ Ext.define('spider.view.AthenaSpider', {
         });
 
         me.callParent(arguments);
+    },
+
+    onLnbLocationComboChange: function(field, newValue, oldValue, eOpts) {
+        if(newValue != "") {
+            menuConstants.me.renderServerTree();
+        }
     }
 
 });

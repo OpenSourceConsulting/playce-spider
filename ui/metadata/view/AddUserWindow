@@ -8,7 +8,7 @@
     "userConfig": {
         "designer|userAlias": "AddUserWindow",
         "designer|userClassName": "AddUserWindow",
-        "height": 220,
+        "height": 250,
         "id": null,
         "itemId": null,
         "modal": true,
@@ -57,6 +57,21 @@
                         "name": "userId"
                     },
                     "designerId": "d16c0276-5e57-4592-8380-b6135c64296d"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "fieldLabel": "User Name",
+                        "layout|anchor": "100%",
+                        "name": "userName"
+                    },
+                    "designerId": "b44c7787-9ba5-4cf7-b36b-c150a3c8871a"
                 },
                 {
                     "type": "Ext.form.field.Text",

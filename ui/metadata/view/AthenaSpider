@@ -298,8 +298,8 @@
                                             "userConfig": {
                                                 "enableToggle": true,
                                                 "icon": "resources/images/icons/group.png",
-                                                "id": "mainViewBtn",
-                                                "itemId": "mainViewBtn",
+                                                "id": "userManagementBtn",
+                                                "itemId": "userManagementBtn",
                                                 "margin": "7 0 0 0",
                                                 "scale": "medium",
                                                 "text": "User Management"
@@ -463,7 +463,28 @@
                                         "store": "array",
                                         "value": "string"
                                     },
-                                    "designerId": "db7dfef6-9db3-438e-8437-80e83c04ef79"
+                                    "designerId": "db7dfef6-9db3-438e-8437-80e83c04ef79",
+                                    "cn": [
+                                        {
+                                            "type": "basiceventbinding",
+                                            "reference": {
+                                                "name": "listeners",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "fn": "onLnbLocationComboChange",
+                                                "implHandler": [
+                                                    "if(newValue != \"\") {",
+                                                    "    menuConstants.me.renderServerTree();",
+                                                    "}"
+                                                ],
+                                                "name": "change",
+                                                "scope": "me"
+                                            },
+                                            "designerId": "6d6c1607-d968-4132-b3e4-5500149f9d9c"
+                                        }
+                                    ]
                                 }
                             ]
                         },
