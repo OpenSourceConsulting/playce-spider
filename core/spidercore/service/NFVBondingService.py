@@ -132,7 +132,7 @@ def update_bonding_task(bondid, bondinfo):
 		commands.append("$DELETE interfaces ethernet %s bond-group" % eth)
 	
 	for key in bondinfo:
-		if '_' in 'ipv6_address':
+		if '_' in key:
 			_key = key.replace('_',' ')
 		else:
 			_key = key

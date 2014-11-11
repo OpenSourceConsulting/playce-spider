@@ -343,61 +343,6 @@ def send_vyatta_command(commands):
 		logger.debug("success")
 		return {"success": "success", "msg": result}
 
-def update_nic_task(beforeData, afterData):
-	options = {
-		"duplex": "duplex",
-		"smp_affinity": "smp_affinity",
-		"hw-id": "hw_id",
-		"speed": "speed",
-		"address": "address"
-	}
-
-	commands = []
-	results = []
-	ethName = afterData["ethName"]
-	for key in afterData:
-		beforeValue = beforeData[key]
-		afterValue = afterData[key]
-		
-		if beforeValue != afterValue:
-			commands.append("$SET interfaces ethernet %s %s %s" % (ethName, options[key], afterValue))
-			if key == "address" or key == "hw-id":
-				diff = {"ethName": ethName, key: afterValue}
-				results.append(diff)
-
-	# replace below code to send_vyatta_command(commands) ??
-	f = open(mainDir + '/commands.txt', 'w')
-	commands.append("$COMMIT")
-	commands.append("$SAVE")
-	logger.debug(commands)
-	f.write("\n".join(commands))
-	f.close()
-
-	run('mkdir -p .spider')
-	with cd('.spider'):
-		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
-		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
-		try:
-			result = run('./cli.sh', pty=False, combine_stderr=True)
-			logger.debug("--------------------------------")
-			logger.debug("Run result %s" % result)
-			logger.debug("--------------------------------")
-		except Exception, e:
-			return result, 500
-	if "Commit failed" in result: 
-		logger.debug("fail", errmsg = result)
-		return result, 500
-	else:
-		logger.debug("success")
-		return results
-
-def update_nic(addr, sshid, sshpw, jsonData):
-	env.hosts = [ addr ]
-	env.user = sshid
-	env.password = sshpw
-	env.shell = '/bin/vbash -ic'
-	results = execute(update_nic_task, hosts=[addr], beforeData = jsonData['before'], afterData=jsonData['after'])
-	return results[addr]
 
 def get_vyatta_conf_task(command):
 	return send_vyatta_command([command])

@@ -30,8 +30,7 @@ import uuid
 from spidercore import *
 from spidercore.FabricUtilKVM import *
 from spidercore.FabricUtilNFV import *
-from spidercore.service import NFVBondingService
-from spidercore.service import NFVNATService
+from spidercore.service import *
 
 logger = logging.getLogger(__name__)
 
@@ -262,36 +261,14 @@ def vmifupdate(id=None, ifid=None):
 	jsonData = json.loads(request.data)
 	logger.debug(json.dumps(jsonData, indent=4))
 
-	vms = read_repository("vms")
-	for vm in vms:
-		if '_id' in vm and id == vm['_id']:
-			results = update_nic(vm['mgraddr'], vm['sshid'], vm['sshpw'], jsonData)
-			break
+	
+	result = NFVNICService.update_nic(id, jsonData)
+	
+	
+	if result['success'] == 'success':
+		return "OK", 200
 	else:
-		return "VM not found " + id, 404
-	
-	logger.debug(results)
-	if "success" in results and results["success"] == "fail":
-		return "Failed to update NIC %s" % ifid, 500
-	
-	modified = False
-	for diff in results:
-		ethName = diff["ethName"]
-		if "hw-id" in diff:
-			vm["interfaces"][ethName]["macaddr"] = diff["hw-id"]
-			modified = True
-		elif "address" in diff:
-			modified = True
-			if diff["address"] == "dhcp":
-				nicinfo = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], ethName)
-				vm["interfaces"][ethName]["ipaddr"] = nicinfo['ipaddr']
-			else:
-				vm["interfaces"][ethName]["ipaddr"] = diff["address"]
-	
-	if modified:
-		write_repository('vms', vms)
-	
-	return "OK", 200
+		return result['errmsg'], 500
 
 # create bonding
 @app.route("/nfv/<id>/bonding/<bondid>", methods=['GET', 'POST', 'PUT', 'DELETE'])
