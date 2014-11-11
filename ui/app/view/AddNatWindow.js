@@ -48,7 +48,7 @@ Ext.define('spider.view.AddNatWindow', {
                     fieldDefaults: {
                         msgTarget: 'side',
                         labelStyle: 'color:#666;font-weight: bold;text-align: right;',
-                        labelSeparator: ' :',
+                        labelSeparator: ' : ',
                         margin: '0 10 0 0',
                         labelWidth: 140
                     },
@@ -68,13 +68,15 @@ Ext.define('spider.view.AddNatWindow', {
                                     xtype: 'textfield',
                                     flex: 1,
                                     fieldLabel: 'Rule Num',
-                                    name: 'rulenum'
+                                    name: 'rulenum',
+                                    allowBlank: false
                                 },
                                 {
                                     xtype: 'radiogroup',
                                     flex: 1,
                                     width: 300,
                                     fieldLabel: 'Rule Type',
+                                    allowBlank: false,
                                     items: [
                                         {
                                             xtype: 'radiofield',
@@ -116,6 +118,7 @@ Ext.define('spider.view.AddNatWindow', {
                                     flex: 1,
                                     fieldLabel: 'Inbound Interface',
                                     name: 'ibnic',
+                                    allowBlank: false,
                                     editable: false,
                                     displayField: 'ethName',
                                     queryMode: 'local',
@@ -126,6 +129,7 @@ Ext.define('spider.view.AddNatWindow', {
                                     flex: 1,
                                     fieldLabel: 'Outbound Interface',
                                     name: 'obnic',
+                                    allowBlank: false,
                                     editable: false,
                                     displayField: 'ethName',
                                     queryMode: 'local',
@@ -222,14 +226,21 @@ Ext.define('spider.view.AddNatWindow', {
                                     xtype: 'textfield',
                                     flex: 1,
                                     fieldLabel: 'Translation Address',
-                                    name: 'transaddr'
+                                    name: 'transaddr',
+                                    allowBlank: false
                                 },
                                 {
                                     xtype: 'checkboxfield',
                                     flex: 1,
                                     fieldLabel: '',
                                     name: 'masquerade',
-                                    boxLabel: 'Masquerade'
+                                    boxLabel: 'Masquerade',
+                                    listeners: {
+                                        change: {
+                                            fn: me.onCheckboxfieldChange,
+                                            scope: me
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -346,6 +357,20 @@ Ext.define('spider.view.AddNatWindow', {
             form.getForm().findField("obnic").setDisabled(true);
         }
 
+    },
+
+    onCheckboxfieldChange: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+        if(newValue == true) {
+            form.findField("transaddr").setValue("");
+            form.findField("transport").setValue("");
+
+            form.findField("transaddr").setDisabled(true);
+            form.findField("transport").setDisabled(true);
+        } else {
+            form.findField("transaddr").setDisabled(false);
+            form.findField("transport").setDisabled(false);
+        }
     },
 
     onAddNatFormRender: function(component, eOpts) {

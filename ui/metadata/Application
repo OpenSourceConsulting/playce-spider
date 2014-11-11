@@ -58,8 +58,7 @@
             "AddBondingWindow",
             "LoginWindow",
             "AddUserWindow",
-            "UserManagementPanel",
-            "AddRuleWindow"
+            "UserManagementPanel"
         ]
     },
     "designerId": "application"

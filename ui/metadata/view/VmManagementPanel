@@ -1731,6 +1731,7 @@
                                             "userConfig": {
                                                 "boxLabel": "DHCP",
                                                 "fieldLabel": null,
+                                                "id": "chekcNicDhcp",
                                                 "layout|flex": null,
                                                 "margin": "0 10 0 10"
                                             },
@@ -1746,6 +1747,7 @@
                                             "userConfig": {
                                                 "boxLabel": "활성화",
                                                 "fieldLabel": null,
+                                                "id": "checkNicDisable",
                                                 "layout|flex": null
                                             },
                                             "designerId": "14aa148c-2ba6-47c9-b50e-4e879108c7aa"
@@ -2100,20 +2102,6 @@
                                                 "name": "ethName"
                                             },
                                             "designerId": "54f376c2-3e41-46ce-8508-7b78793cfaa2"
-                                        },
-                                        {
-                                            "type": "Ext.form.field.Hidden",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "fieldLabel": "Label",
-                                                "layout|anchor": "100%",
-                                                "name": "hw-id"
-                                            },
-                                            "designerId": "35f0daf5-0a21-4743-acae-4a4bc568863f"
                                         },
                                         {
                                             "type": "Ext.form.field.Hidden",
@@ -2770,77 +2758,161 @@
                                     "designerId": "87e210fe-2c2c-41d4-8438-626632c260d1",
                                     "cn": [
                                         {
-                                            "type": "Ext.form.field.ComboBox",
+                                            "type": "Ext.form.Panel",
                                             "reference": {
                                                 "name": "items",
                                                 "type": "array"
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "displayField": "rule",
-                                                "editable": false,
-                                                "fieldLabel": "Rule",
-                                                "id": "comboRuleName",
-                                                "labelWidth": 40,
+                                                "bodyPadding": 0,
+                                                "container|align": "stretch",
+                                                "designer|uiInterfaceName": "footer",
+                                                "header": false,
+                                                "layout": "hbox",
                                                 "layout|flex": null,
-                                                "margin": "0 0 0 10",
-                                                "queryMode": "local",
-                                                "store": null,
-                                                "valueField": "rule",
-                                                "width": 150
+                                                "margin": 0,
+                                                "plain": null,
+                                                "title": "My Form",
+                                                "ui": "footer",
+                                                "width": 600
                                             },
                                             "configAlternates": {
-                                                "store": "array"
+                                                "plain": "boolean"
                                             },
-                                            "designerId": "959f6278-68cd-458c-a68f-922440f5ade1"
-                                        },
-                                        {
-                                            "type": "Ext.form.RadioGroup",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "fieldLabel": "",
-                                                "layout|flex": null,
-                                                "margin": "0 0 0 40",
-                                                "width": 200
-                                            },
-                                            "designerId": "fe66d18b-e371-4d6e-8128-8a983e7934b9",
+                                            "designerId": "69b92b1d-bbaa-4720-b192-8513e74231ca",
+                                            "customConfigs": [
+                                                {
+                                                    "group": "(Custom Properties)",
+                                                    "name": "plain",
+                                                    "type": "string"
+                                                }
+                                            ],
                                             "cn": [
                                                 {
-                                                    "type": "Ext.form.field.Radio",
+                                                    "type": "Ext.form.field.ComboBox",
                                                     "reference": {
                                                         "name": "items",
                                                         "type": "array"
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "boxLabel": "Source",
-                                                        "fieldLabel": null,
-                                                        "id": "natRuleSource",
-                                                        "inputValue": "source",
-                                                        "itemId": null,
-                                                        "name": "natRuleCombo"
+                                                        "displayField": "rule",
+                                                        "editable": false,
+                                                        "fieldLabel": "Rule",
+                                                        "id": "comboRuleName",
+                                                        "labelWidth": 40,
+                                                        "layout|flex": null,
+                                                        "margin": "0 0 0 10",
+                                                        "queryMode": "local",
+                                                        "store": null,
+                                                        "valueField": "rule",
+                                                        "width": 150
                                                     },
-                                                    "designerId": "1bd98b91-0b54-4de7-b553-6a1e62d047ec"
+                                                    "configAlternates": {
+                                                        "store": "array"
+                                                    },
+                                                    "designerId": "959f6278-68cd-458c-a68f-922440f5ade1"
                                                 },
                                                 {
-                                                    "type": "Ext.form.field.Radio",
+                                                    "type": "Ext.form.RadioGroup",
                                                     "reference": {
                                                         "name": "items",
                                                         "type": "array"
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "boxLabel": "Destination",
-                                                        "fieldLabel": null,
-                                                        "id": "natRuleDestination",
-                                                        "inputValue": "destination",
-                                                        "name": "natRuleCombo"
+                                                        "fieldLabel": "",
+                                                        "layout|flex": null,
+                                                        "margin": "0 0 0 40",
+                                                        "width": 200
                                                     },
-                                                    "designerId": "f9f41092-e707-406f-b143-8b80f32bf2c3"
+                                                    "designerId": "fe66d18b-e371-4d6e-8128-8a983e7934b9",
+                                                    "cn": [
+                                                        {
+                                                            "type": "Ext.form.field.Radio",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "boxLabel": "Source",
+                                                                "designer|displayName": "natRuleCombo",
+                                                                "fieldLabel": null,
+                                                                "id": "natRuleSource",
+                                                                "inputValue": "source",
+                                                                "itemId": null,
+                                                                "name": "natRuleCombo"
+                                                            },
+                                                            "designerId": "1bd98b91-0b54-4de7-b553-6a1e62d047ec",
+                                                            "cn": [
+                                                                {
+                                                                    "type": "fixedfunction",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "designer|params": [
+                                                                            "checkbox",
+                                                                            "checked"
+                                                                        ],
+                                                                        "fn": "handler",
+                                                                        "implHandler": [
+                                                                            "if(checked == true) {",
+                                                                            "    vmConstants.me.changeNatData(Ext.getCmp(\"comboRuleName\").getValue(), \"source\");",
+                                                                            "}",
+                                                                            ""
+                                                                        ]
+                                                                    },
+                                                                    "designerId": "7b9ae11e-0c04-4c56-8edb-f54b6ec614ec"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "Ext.form.field.Radio",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "boxLabel": "Destination",
+                                                                "designer|displayName": "natRuleCombo",
+                                                                "fieldLabel": null,
+                                                                "id": "natRuleDestination",
+                                                                "inputValue": "destination",
+                                                                "itemId": null,
+                                                                "name": "natRuleCombo"
+                                                            },
+                                                            "designerId": "f9f41092-e707-406f-b143-8b80f32bf2c3",
+                                                            "cn": [
+                                                                {
+                                                                    "type": "fixedfunction",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "designer|params": [
+                                                                            "checkbox",
+                                                                            "checked"
+                                                                        ],
+                                                                        "fn": "handler",
+                                                                        "implHandler": [
+                                                                            "if(checked == true) {",
+                                                                            "    vmConstants.me.changeNatData(Ext.getCmp(\"comboRuleName\").getValue(), \"destination\");",
+                                                                            "}"
+                                                                        ]
+                                                                    },
+                                                                    "designerId": "c96368ae-671e-4128-8e4d-7dc761274853"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         },
@@ -2906,7 +2978,7 @@
                                             "{",
                                             "    msgTarget: 'side',",
                                             "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
-                                            "    labelSeparator: ' :',",
+                                            "    labelSeparator: ' : ',",
                                             "    margin: '0 10 0 0',",
                                             "    labelWidth : 140",
                                             "}"
@@ -3039,6 +3111,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "allowBlank": false,
                                                         "displayField": "ethName",
                                                         "editable": false,
                                                         "emptyText": "Default",
@@ -3062,6 +3135,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "allowBlank": false,
                                                         "displayField": "ethName",
                                                         "editable": false,
                                                         "emptyText": "Default",
@@ -3284,6 +3358,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "allowBlank": false,
                                                         "emptyText": "Default",
                                                         "fieldLabel": "Translation Address",
                                                         "layout|flex": 1,
@@ -3305,7 +3380,36 @@
                                                         "layout|flex": 1,
                                                         "name": "masquerade"
                                                     },
-                                                    "designerId": "fb04542d-e880-4ce6-9e7e-3146309afa80"
+                                                    "designerId": "fb04542d-e880-4ce6-9e7e-3146309afa80",
+                                                    "cn": [
+                                                        {
+                                                            "type": "basiceventbinding",
+                                                            "reference": {
+                                                                "name": "listeners",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "fn": "onCheckboxfieldChange",
+                                                                "implHandler": [
+                                                                    "var form = field.up('form').getForm();",
+                                                                    "if(newValue == true) {",
+                                                                    "    form.findField(\"transaddr\").setValue(\"\");",
+                                                                    "    form.findField(\"transport\").setValue(\"\");",
+                                                                    "    ",
+                                                                    "    form.findField(\"transaddr\").setDisabled(true);",
+                                                                    "    form.findField(\"transport\").setDisabled(true);",
+                                                                    "} else {",
+                                                                    "    form.findField(\"transaddr\").setDisabled(false);",
+                                                                    "    form.findField(\"transport\").setDisabled(false);",
+                                                                    "}"
+                                                                ],
+                                                                "name": "change",
+                                                                "scope": "me"
+                                                            },
+                                                            "designerId": "d06b8757-6145-4100-b57d-50146eb01529"
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         },

@@ -856,11 +856,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
+                                                    id: 'chekcNicDhcp',
                                                     margin: '0 10 0 10',
                                                     boxLabel: 'DHCP'
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
+                                                    id: 'checkNicDisable',
                                                     boxLabel: '활성화'
                                                 },
                                                 {
@@ -1012,12 +1014,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     anchor: '100%',
                                                     fieldLabel: 'Label',
                                                     name: 'ethName'
-                                                },
-                                                {
-                                                    xtype: 'hiddenfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'Label',
-                                                    name: 'hw-id'
                                                 },
                                                 {
                                                     xtype: 'hiddenfield',
@@ -1295,36 +1291,62 @@ Ext.define('spider.view.VmManagementPanel', {
                                             ui: 'footer',
                                             items: [
                                                 {
-                                                    xtype: 'combobox',
-                                                    id: 'comboRuleName',
-                                                    margin: '0 0 0 10',
-                                                    width: 150,
-                                                    fieldLabel: 'Rule',
-                                                    labelWidth: 40,
-                                                    editable: false,
-                                                    displayField: 'rule',
-                                                    queryMode: 'local',
-                                                    valueField: 'rule'
-                                                },
-                                                {
-                                                    xtype: 'radiogroup',
-                                                    margin: '0 0 0 40',
-                                                    width: 200,
-                                                    fieldLabel: '',
+                                                    xtype: 'form',
+                                                    margin: 0,
+                                                    ui: 'footer',
+                                                    width: 600,
+                                                    bodyPadding: 0,
+                                                    header: false,
+                                                    title: 'My Form',
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'stretch'
+                                                    },
                                                     items: [
                                                         {
-                                                            xtype: 'radiofield',
-                                                            id: 'natRuleSource',
-                                                            name: 'natRuleCombo',
-                                                            boxLabel: 'Source',
-                                                            inputValue: 'source'
+                                                            xtype: 'combobox',
+                                                            id: 'comboRuleName',
+                                                            margin: '0 0 0 10',
+                                                            width: 150,
+                                                            fieldLabel: 'Rule',
+                                                            labelWidth: 40,
+                                                            editable: false,
+                                                            displayField: 'rule',
+                                                            queryMode: 'local',
+                                                            valueField: 'rule'
                                                         },
                                                         {
-                                                            xtype: 'radiofield',
-                                                            id: 'natRuleDestination',
-                                                            name: 'natRuleCombo',
-                                                            boxLabel: 'Destination',
-                                                            inputValue: 'destination'
+                                                            xtype: 'radiogroup',
+                                                            margin: '0 0 0 40',
+                                                            width: 200,
+                                                            fieldLabel: '',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'radiofield',
+                                                                    handler: function(checkbox, checked) {
+                                                                        if(checked == true) {
+                                                                            vmConstants.me.changeNatData(Ext.getCmp("comboRuleName").getValue(), "source");
+                                                                        }
+
+                                                                    },
+                                                                    id: 'natRuleSource',
+                                                                    name: 'natRuleCombo',
+                                                                    boxLabel: 'Source',
+                                                                    inputValue: 'source'
+                                                                },
+                                                                {
+                                                                    xtype: 'radiofield',
+                                                                    handler: function(checkbox, checked) {
+                                                                        if(checked == true) {
+                                                                            vmConstants.me.changeNatData(Ext.getCmp("comboRuleName").getValue(), "destination");
+                                                                        }
+                                                                    },
+                                                                    id: 'natRuleDestination',
+                                                                    name: 'natRuleCombo',
+                                                                    boxLabel: 'Destination',
+                                                                    inputValue: 'destination'
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -1353,7 +1375,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                             fieldDefaults: {
                                                 msgTarget: 'side',
                                                 labelStyle: 'color:#666;font-weight: bold;text-align: right;',
-                                                labelSeparator: ' :',
+                                                labelSeparator: ' : ',
                                                 margin: '0 10 0 0',
                                                 labelWidth: 140
                                             },
@@ -1406,6 +1428,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             flex: 1,
                                                             fieldLabel: 'Inbound Interface',
                                                             name: 'ibnic',
+                                                            allowBlank: false,
                                                             emptyText: 'Default',
                                                             editable: false,
                                                             displayField: 'ethName',
@@ -1417,6 +1440,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             flex: 1,
                                                             fieldLabel: 'Outbound Interface',
                                                             name: 'obnic',
+                                                            allowBlank: false,
                                                             emptyText: 'Default',
                                                             editable: false,
                                                             displayField: 'ethName',
@@ -1520,6 +1544,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             flex: 1,
                                                             fieldLabel: 'Translation Address',
                                                             name: 'transaddr',
+                                                            allowBlank: false,
                                                             emptyText: 'Default'
                                                         },
                                                         {
@@ -1527,7 +1552,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             flex: 1,
                                                             fieldLabel: '',
                                                             name: 'masquerade',
-                                                            boxLabel: 'Masquerade'
+                                                            boxLabel: 'Masquerade',
+                                                            listeners: {
+                                                                change: {
+                                                                    fn: me.onCheckboxfieldChange,
+                                                                    scope: me
+                                                                }
+                                                            }
                                                         }
                                                     ]
                                                 },
@@ -2278,6 +2309,20 @@ Ext.define('spider.view.VmManagementPanel', {
 
     onPanelShow: function(component, eOpts) {
         vmConstants.me.activeNicCheckbox(component.down('#bondingNICGroup'), Ext.getCmp("viewBondingForm").getEl());
+    },
+
+    onCheckboxfieldChange: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+        if(newValue == true) {
+            form.findField("transaddr").setValue("");
+            form.findField("transport").setValue("");
+
+            form.findField("transaddr").setDisabled(true);
+            form.findField("transport").setDisabled(true);
+        } else {
+            form.findField("transaddr").setDisabled(false);
+            form.findField("transport").setDisabled(false);
+        }
     }
 
 });

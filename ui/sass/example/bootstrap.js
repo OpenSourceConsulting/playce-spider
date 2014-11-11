@@ -911,7 +911,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmNicStore": [],
   "spider.view.AddBondingWindow": [],
   "spider.view.AddNatWindow": [],
-  "spider.view.AddRuleWindow": [],
   "spider.view.AddUserWindow": [],
   "spider.view.AddVmHostWindow": [],
   "spider.view.AddVmWindow": [],
@@ -1977,9 +1976,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "spider.view.AddNatWindow": [
     "widget.AddNatWindow"
-  ],
-  "spider.view.AddRuleWindow": [
-    "widget.AddRuleWindow"
   ],
   "spider.view.AddUserWindow": [
     "widget.AddUserWindow"

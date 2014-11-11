@@ -105,6 +105,42 @@
                 "name": "hw-id"
             },
             "designerId": "6c7c893d-b9b8-4a39-b030-55bc54b17e4a"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "ipv6_address"
+            },
+            "designerId": "82022e88-5d71-4b63-9132-cb400d091d2d"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "mtu"
+            },
+            "designerId": "1e29d1aa-6181-4914-bfe5-07e2f51a2027"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "config"
+            },
+            "designerId": "a6afcae8-77bb-4f27-b945-30de5f576065"
         }
     ]
 }
