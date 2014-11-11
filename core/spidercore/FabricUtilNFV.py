@@ -76,14 +76,15 @@ def show_interfaces_with_configure(filter):
 
 	import pprint
 	results = elementList.parseString(result)
-  	pprint.pprint( results.asList() )
+	pprint.pprint( results.asList() )
 	
 	nics =[]
 	for eth in results.asList():
 		nic = {'ethName': eth[1]}
 		
 		for attr in eth[2]:
-			nic[attr[0]] = attr[1]
+			if len(attr) > 1:
+				nic[attr[0]] = attr[1]
 		
 		if filter == None:
 			nics.append(nic)

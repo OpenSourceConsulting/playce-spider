@@ -148,7 +148,6 @@ def update_bonding_task(bondid, bondinfo):
 			for eth in bondinfo[key]:
 				commands.append("$SET interfaces ethernet %s bond-group %s" % (eth, bondid))
 		else:
-			logger.debug("%s : %s" % (_key, bondinfo[key]))
 			commands.append("$DELETE interfaces bonding %s %s" % (bondid, _key))
 			if key == "disable" and bondinfo[key] == True:
 				commands.append("$SET interfaces bonding %s %s" % (bondid, key))
