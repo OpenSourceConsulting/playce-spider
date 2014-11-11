@@ -299,6 +299,9 @@ def getIfConfig(addr, sshid, sshpw, nicname):
 	return results[addr]
 
 def send_vyatta_command(commands):
+	# Remove known_hosts file to prevent host key verification failed.
+	os.system("rm ~/.ssh/known_hosts")
+	
 	results = []
 	tempDir = mainDir+"/tmp"
 	#f = open(mainDir + '/commands.txt', 'w')
