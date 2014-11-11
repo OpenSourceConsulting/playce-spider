@@ -62,8 +62,7 @@ Ext.application({
         'AddBondingWindow',
         'LoginWindow',
         'AddUserWindow',
-        'UserManagementPanel',
-        'AddRuleWindow'
+        'UserManagementPanel'
     ],
     controllers: [
         'HeaderController',

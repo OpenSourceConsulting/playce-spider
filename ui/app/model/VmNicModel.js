@@ -44,6 +44,15 @@ Ext.define('spider.model.VmNicModel', {
         },
         {
             name: 'hw-id'
+        },
+        {
+            name: 'ipv6_address'
+        },
+        {
+            name: 'mtu'
+        },
+        {
+            name: 'config'
         }
     ]
 });

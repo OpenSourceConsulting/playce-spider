@@ -34,7 +34,7 @@
                     "{",
                     "    msgTarget: 'side',",
                     "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
-                    "    labelSeparator: ' :',",
+                    "    labelSeparator: ' : ',",
                     "    margin: '0 10 0 0',",
                     "    labelWidth : 140",
                     "}"
@@ -78,6 +78,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "allowBlank": false,
                                 "emptyText": null,
                                 "fieldLabel": "Rule Num",
                                 "layout|flex": 1,
@@ -96,6 +97,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "allowBlank": false,
                                 "fieldLabel": "Rule Type",
                                 "layout|flex": 1,
                                 "width": 300
@@ -198,6 +200,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "allowBlank": false,
                                 "displayField": "ethName",
                                 "editable": false,
                                 "emptyText": null,
@@ -221,6 +224,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "allowBlank": false,
                                 "displayField": "ethName",
                                 "editable": false,
                                 "emptyText": null,
@@ -443,6 +447,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "allowBlank": false,
                                 "emptyText": null,
                                 "fieldLabel": "Translation Address",
                                 "layout|flex": 1,
@@ -464,7 +469,36 @@
                                 "layout|flex": 1,
                                 "name": "masquerade"
                             },
-                            "designerId": "fdc1ea24-6b19-4cf6-9760-dd1b7b82f84c"
+                            "designerId": "fdc1ea24-6b19-4cf6-9760-dd1b7b82f84c",
+                            "cn": [
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onCheckboxfieldChange",
+                                        "implHandler": [
+                                            "var form = field.up('form').getForm();",
+                                            "if(newValue == true) {",
+                                            "    form.findField(\"transaddr\").setValue(\"\");",
+                                            "    form.findField(\"transport\").setValue(\"\");",
+                                            "    ",
+                                            "    form.findField(\"transaddr\").setDisabled(true);",
+                                            "    form.findField(\"transport\").setDisabled(true);",
+                                            "} else {",
+                                            "    form.findField(\"transaddr\").setDisabled(false);",
+                                            "    form.findField(\"transport\").setDisabled(false);",
+                                            "}"
+                                        ],
+                                        "name": "change",
+                                        "scope": "me"
+                                    },
+                                    "designerId": "34d9dd19-b84a-4b4a-81b3-46b595b8e4f9"
+                                }
+                            ]
                         }
                     ]
                 },
