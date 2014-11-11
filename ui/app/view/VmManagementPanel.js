@@ -856,7 +856,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
-                                                    id: 'chekcNicDhcp',
+                                                    id: 'checkNicDhcp',
                                                     margin: '0 10 0 10',
                                                     boxLabel: 'DHCP'
                                                 },
@@ -874,6 +874,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     handler: function(button, e) {
                                                         vmConstants.me.saveNic(button);
                                                     },
+                                                    itemId: 'saveBtn',
                                                     margin: '0 20 0 0',
                                                     padding: '3 10 3 10',
                                                     text: '저장'
@@ -1007,12 +1008,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     xtype: 'hiddenfield',
                                                     anchor: '100%',
                                                     fieldLabel: 'Label',
-                                                    name: 'address'
-                                                },
-                                                {
-                                                    xtype: 'hiddenfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'Label',
                                                     name: 'ethName'
                                                 },
                                                 {
@@ -1056,11 +1051,19 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
+                                                    id: 'checkBondigDhcp',
                                                     margin: '0 10 0 10',
-                                                    boxLabel: 'DHCP'
+                                                    boxLabel: 'DHCP',
+                                                    listeners: {
+                                                        change: {
+                                                            fn: me.onCheckBondingDhcpChange,
+                                                            scope: me
+                                                        }
+                                                    }
                                                 },
                                                 {
                                                     xtype: 'checkboxfield',
+                                                    id: 'checkBondingDisable',
                                                     boxLabel: '활성화'
                                                 },
                                                 {
@@ -1377,7 +1380,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 labelStyle: 'color:#666;font-weight: bold;text-align: right;',
                                                 labelSeparator: ' : ',
                                                 margin: '0 10 0 0',
-                                                labelWidth: 140
+                                                labelWidth: 145
                                             },
                                             dockedItems: [
                                                 {
@@ -2304,6 +2307,21 @@ Ext.define('spider.view.VmManagementPanel', {
         speed.bindStore(store);
         if(newValue !== "auto" && speed.getValue() === "auto") {
             speed.setValue("");
+        }
+    },
+
+    onCheckBondingDhcpChange: function(field, newValue, oldValue, eOpts) {
+        if(Ext.getCmp("comboBondingName").getValue() == "") {
+            return;
+        } else {
+
+            if(newValue) {
+                Ext.getCmp("viewBondingForm").getForm().findField("address").setValue("dhcp");
+                Ext.getCmp("viewBondingForm").getForm().findField("address").setReadOnly(true);
+            } else {
+                Ext.getCmp("viewBondingForm").getForm().findField("address").setValue("");
+                Ext.getCmp("viewBondingForm").getForm().findField("address").setReadOnly(false);
+            }
         }
     },
 

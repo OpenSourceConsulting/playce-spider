@@ -50,7 +50,7 @@ Ext.define('spider.view.AddNatWindow', {
                         labelStyle: 'color:#666;font-weight: bold;text-align: right;',
                         labelSeparator: ' : ',
                         margin: '0 10 0 0',
-                        labelWidth: 140
+                        labelWidth: 145
                     },
                     items: [
                         {

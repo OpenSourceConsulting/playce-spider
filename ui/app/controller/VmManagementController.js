@@ -75,16 +75,27 @@ Ext.define('spider.controller.VmManagementController', {
 
             field.up('toolbar').down('button').show();
 
+            //VM의 Mgr Address 와 NIC의 IP Address 가 같을 경우 수정 불가능
+            if(record.get("ipaddr") == vmConstants.selectRecord.get("mgraddr")) {
+                field.up('toolbar').down('button').hide();
+            }
+
             var readOnlyFlag = false;
             if(record.get("address") == "dhcp") {
                 readOnlyFlag = true;
             }
 
-            Ext.getCmp("chekcNicDhcp").setValue(readOnlyFlag);
-            //Ext.getCmp("chekcNicDisable").setValue(readOnlyFlag);
+
+            Ext.getCmp("checkNicDhcp").setValue(readOnlyFlag);
+
+            if(record.get("disable") == true) {
+                Ext.getCmp("checkNicDisable").setValue(false);
+            } else {
+                Ext.getCmp("checkNicDisable").setValue(true);
+            }
 
             form.findField("ipaddr").setReadOnly(readOnlyFlag);
-            form.findField("ipv6addr").setReadOnly(readOnlyFlag);
+            form.findField("ipv6_address").setReadOnly(readOnlyFlag);
 
         }
 
@@ -107,6 +118,18 @@ Ext.define('spider.controller.VmManagementController', {
 
             Ext.get("viewBondingForm").select('.saveBtn').show();
             Ext.get("viewBondingForm").select('.deleteBtn').show();
+
+            var dhcpFlag = false;
+            if(record.get("address") == "dhcp") {
+                dhcpFlag = true;
+            }
+            Ext.getCmp("checkBondigDhcp").setValue(dhcpFlag);
+
+            if(record.get("disable") == true) {
+                Ext.getCmp("checkBondingDisable").setValue(false);
+            } else {
+                Ext.getCmp("checkBondingDisable").setValue(true);
+            }
 
             var nics = record.get("ethernets");
             var disables = record.get("disables");
@@ -1025,10 +1048,20 @@ Ext.define('spider.controller.VmManagementController', {
 
         if(viewNicForm.isValid()) {
 
+            if(formData.ipaddr == vmConstants.selectRecord.get("mgraddr")) {
+                Ext.Msg.alert('Failure', "NIC의 IP 주소는 VM의 IP 주소와 동일하지 않도록 설정하셔야 합니다.");
+                return;
+            }
+
             var sendData = {};
             //sendData.after = viewNicForm.getForm().getFieldValues();
 
             sendData.after = formData;
+            sendData.after.disable = (!Ext.getCmp("checkNicDisable").getValue());
+            if(Ext.getCmp("checkNicDhcp").getValue() == true) {
+                sendData.after.address = "dhcp";
+            }
+
             sendData.before = {
                 "address"		: (record.get("address") == null ? "" : record.get("address")),
                 "ipaddr"		: (record.get("ipaddr") == null ? "" : record.get("ipaddr")),
@@ -1039,7 +1072,8 @@ Ext.define('spider.controller.VmManagementController', {
                 "mtu"			: (record.get("mtu") == null ? "" : record.get("mtu")),
                 "config"		: (record.get("config") == null ? "" : record.get("config")),
                 "ethName"		: (record.get("ethName") == null ? "" : record.get("ethName")),
-                "smp_affinity"	: (record.get("smp_affinity") == null ? "" : record.get("smp_affinity"))
+                "smp_affinity"	: (record.get("smp_affinity") == null ? "" : record.get("smp_affinity")),
+                "disable"		: (record.get("disable") == null ? "" : record.get("disable"))
             };
 
             Ext.Ajax.request({
@@ -1211,6 +1245,8 @@ Ext.define('spider.controller.VmManagementController', {
             formData.ethernets = ethernets;
 
             sendData.after = formData;
+            sendData.after.disable = (!Ext.getCmp("checkBondingDisable").getValue());
+
             sendData.before = {
                 "address"		: (record.get("address") == null ? "" : record.get("address")),
                 "ipv6_address"	: (record.get("ipv6_address") == null ? "" : record.get("ipv6_address")),
@@ -1218,7 +1254,8 @@ Ext.define('spider.controller.VmManagementController', {
                 "hw-id"			: (record.get("hw-id") == null ? "" : record.get("hw-id")),
                 "mtu"			: (record.get("mtu") == null ? "" : record.get("mtu")),
                 "config"		: (record.get("config") == null ? "" : record.get("config")),
-                "ethernets"		: (record.get("ethernets") == null ? "" : record.get("ethernets"))
+                "ethernets"		: (record.get("ethernets") == null ? "" : record.get("ethernets")),
+                "disable"		: (record.get("disable") == null ? "" : record.get("disable"))
             };
 
             Ext.Ajax.request({
@@ -1656,16 +1693,9 @@ Ext.define('spider.controller.VmManagementController', {
 
                         vmConstants.vmNicRecords = datas;
 
-                        var storeData = [];
-                        Ext.each(datas, function(data){
-                            if(data.ipaddr != vmConstants.selectRecord.get("mgraddr")) {
-                                storeData.push(data);
-                            }
-                        });
-
                         store = Ext.create('Ext.data.Store', {
                             model: 'spider.model.VmNicModel',
-                            data: storeData
+                            data: datas
                         });
 
                         Ext.each(components, function(component) {
@@ -1682,16 +1712,9 @@ Ext.define('spider.controller.VmManagementController', {
 
             var datas = vmConstants.vmNicRecords;
 
-            var storeData = [];
-            Ext.each(datas, function(data){
-                if(data.ipaddr != vmConstants.selectRecord.get("mgraddr")) {
-                    storeData.push(data);
-                }
-            });
-
             store = Ext.create('Ext.data.Store', {
                 model: 'spider.model.VmNicModel',
-                data: storeData
+                data: datas
             });
 
             Ext.each(components, function(component) {

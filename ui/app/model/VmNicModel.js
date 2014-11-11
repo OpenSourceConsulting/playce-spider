@@ -53,6 +53,9 @@ Ext.define('spider.model.VmNicModel', {
         },
         {
             name: 'config'
+        },
+        {
+            name: 'disable'
         }
     ]
 });

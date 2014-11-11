@@ -141,6 +141,18 @@
                 "name": "config"
             },
             "designerId": "a6afcae8-77bb-4f27-b945-30de5f576065"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "disable"
+            },
+            "designerId": "37d79627-f807-4f1f-b8b1-e05e55fc744f"
         }
     ]
 }

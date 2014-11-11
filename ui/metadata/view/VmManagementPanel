@@ -1731,7 +1731,7 @@
                                             "userConfig": {
                                                 "boxLabel": "DHCP",
                                                 "fieldLabel": null,
-                                                "id": "chekcNicDhcp",
+                                                "id": "checkNicDhcp",
                                                 "layout|flex": null,
                                                 "margin": "0 10 0 10"
                                             },
@@ -1772,6 +1772,7 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "itemId": "saveBtn",
                                                 "layout|flex": null,
                                                 "margin": "0 20 0 0",
                                                 "padding": "3 10 3 10",
@@ -2085,20 +2086,6 @@
                                             "userConfig": {
                                                 "fieldLabel": "Label",
                                                 "layout|anchor": "100%",
-                                                "name": "address"
-                                            },
-                                            "designerId": "2f3b4b60-6da9-4b15-9e09-765dbb39a272"
-                                        },
-                                        {
-                                            "type": "Ext.form.field.Hidden",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "fieldLabel": "Label",
-                                                "layout|anchor": "100%",
                                                 "name": "ethName"
                                             },
                                             "designerId": "54f376c2-3e41-46ce-8508-7b78793cfaa2"
@@ -2204,10 +2191,41 @@
                                             "userConfig": {
                                                 "boxLabel": "DHCP",
                                                 "fieldLabel": null,
+                                                "id": "checkBondigDhcp",
                                                 "layout|flex": null,
                                                 "margin": "0 10 0 10"
                                             },
-                                            "designerId": "378efbab-1644-401b-b41b-92551bfc450f"
+                                            "designerId": "378efbab-1644-401b-b41b-92551bfc450f",
+                                            "cn": [
+                                                {
+                                                    "type": "basiceventbinding",
+                                                    "reference": {
+                                                        "name": "listeners",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "fn": "onCheckBondingDhcpChange",
+                                                        "implHandler": [
+                                                            "if(Ext.getCmp(\"comboBondingName\").getValue() == \"\") {",
+                                                            "    return;",
+                                                            "} else {",
+                                                            "    ",
+                                                            "    if(newValue) {",
+                                                            "        Ext.getCmp(\"viewBondingForm\").getForm().findField(\"address\").setValue(\"dhcp\");",
+                                                            "        Ext.getCmp(\"viewBondingForm\").getForm().findField(\"address\").setReadOnly(true);",
+                                                            "    } else {",
+                                                            "        Ext.getCmp(\"viewBondingForm\").getForm().findField(\"address\").setValue(\"\");",
+                                                            "        Ext.getCmp(\"viewBondingForm\").getForm().findField(\"address\").setReadOnly(false);",
+                                                            "    }",
+                                                            "}"
+                                                        ],
+                                                        "name": "change",
+                                                        "scope": "me"
+                                                    },
+                                                    "designerId": "30854b88-5262-4c70-9c2a-53c3f70e83c2"
+                                                }
+                                            ]
                                         },
                                         {
                                             "type": "Ext.form.field.Checkbox",
@@ -2219,6 +2237,7 @@
                                             "userConfig": {
                                                 "boxLabel": "활성화",
                                                 "fieldLabel": null,
+                                                "id": "checkBondingDisable",
                                                 "layout|flex": null
                                             },
                                             "designerId": "3c304e5b-51e1-4672-86a2-d658c4e500a9"
@@ -2980,7 +2999,7 @@
                                             "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
                                             "    labelSeparator: ' : ',",
                                             "    margin: '0 10 0 0',",
-                                            "    labelWidth : 140",
+                                            "    labelWidth : 145",
                                             "}"
                                         ],
                                         "header": false,
