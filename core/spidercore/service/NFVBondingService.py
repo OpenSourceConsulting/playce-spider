@@ -139,6 +139,9 @@ def update_bonding_task(bondid, bondinfo):
 			
 		if key == 'before_eths':
 			continue
+		elif key == "disable" and bondinfo[key] == "false":
+			bondinfo[key] = '' # delete 만 하기 위해.
+			
 			
 		if key == 'ethernets':
 			for eth in bondinfo[key]:
@@ -146,7 +149,11 @@ def update_bonding_task(bondid, bondinfo):
 		else:
 			commands.append("$DELETE interfaces bonding %s %s" % (bondid, _key))
 			if len(bondinfo[key]) > 0:
-				commands.append("$SET interfaces bonding %s %s %s" % (bondid, _key, bondinfo[key]))
+				if key == "disable" and bondinfo[key] == "true":
+					commands.append("$SET interfaces bonding %s %s" % (bondid, key))
+				else:
+					#값이 있을때만 set 
+					commands.append("$SET interfaces bonding %s %s %s" % (bondid, _key, bondinfo[key]))
 			
 		
 	

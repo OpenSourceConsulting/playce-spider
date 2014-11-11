@@ -48,16 +48,24 @@ def update_nic_task(ethName, diff):
 	commands = []
 	
 	for key in diff:
+		
+		if key == "disable" and diff[key] == "false":
+			diff[key] = '' # delete 만 하기 위해.
+			
+		
 		if '_' in key:
 			_key = key.replace('_',' ')
 		else:
 			_key = key
 			
 		# 무조건 삭제후
-		commands.append("$DELETE interfaces ethernet %s %s %s" % (ethName, key, diff[key]))
+		commands.append("$DELETE interfaces ethernet %s %s" % (ethName, key))
 		if len(diff[key]) > 0:
-			#값이 있을때만 set 
-			commands.append("$SET interfaces ethernet %s %s %s" % (ethName, key, diff[key]))
+			if key == "disable" and diff[key] == "true":
+				commands.append("$SET interfaces ethernet %s %s" % (ethName, key))
+			else:
+				#값이 있을때만 set 
+				commands.append("$SET interfaces ethernet %s %s %s" % (ethName, key, diff[key]))
 				
 
 	return FabricUtilNFV.send_vyatta_command(commands)
