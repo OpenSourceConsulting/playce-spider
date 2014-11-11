@@ -205,6 +205,14 @@ Ext.define('spider.controller.MenuController', {
 
     },
 
+    onLnbLocationComboChange: function(field, newValue, oldValue, eOpts) {
+        if(newValue != "") {
+            Ext.getCmp("locationLabel").setText(newValue);
+
+            menuConstants.me.renderServerTree();
+        }
+    },
+
     onLaunch: function() {
 
         //this.renderDashboard();
@@ -366,6 +374,9 @@ Ext.define('spider.controller.MenuController', {
             },
             "#mainContainer": {
                 activate: this.onMainContainerActivate
+            },
+            "#lnbLocationCombo": {
+                change: this.onLnbLocationComboChange
             }
         });
     },

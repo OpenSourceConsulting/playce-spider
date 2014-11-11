@@ -207,7 +207,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                 {
                                                     xtype: 'label',
                                                     html: '',
-                                                    itemId: 'VmHostName1',
+                                                    id: 'locationLabel',
                                                     margin: '5 0 0 0',
                                                     style: '{text-align: center;font-size : 18px;font-weight: bold;letter-spacing:10px;}',
                                                     text: '대전'
@@ -268,13 +268,7 @@ Ext.define('spider.view.AthenaSpider', {
                                             store: [
                                                 '대전',
                                                 '광주'
-                                            ],
-                                            listeners: {
-                                                change: {
-                                                    fn: me.onLnbLocationComboChange,
-                                                    scope: me
-                                                }
-                                            }
+                                            ]
                                         }
                                     ]
                                 },
@@ -451,12 +445,6 @@ Ext.define('spider.view.AthenaSpider', {
         });
 
         me.callParent(arguments);
-    },
-
-    onLnbLocationComboChange: function(field, newValue, oldValue, eOpts) {
-        if(newValue != "") {
-            menuConstants.me.renderServerTree();
-        }
     }
 
 });

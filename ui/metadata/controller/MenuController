@@ -655,6 +655,29 @@
                 "scope": "me"
             },
             "designerId": "53c34135-0089-4612-9810-95bb84d74570"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "#lnbLocationCombo",
+                "designer|targetType": "Ext.form.field.ComboBox",
+                "fn": "onLnbLocationComboChange",
+                "implHandler": [
+                    "if(newValue != \"\") {",
+                    "    Ext.getCmp(\"locationLabel\").setText(newValue);",
+                    "    ",
+                    "    menuConstants.me.renderServerTree();",
+                    "}"
+                ],
+                "name": "change",
+                "scope": "me"
+            },
+            "designerId": "e98f6ecd-e9b0-4c1e-a400-77eafe176df5"
         }
     ]
 }
