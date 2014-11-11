@@ -83,7 +83,9 @@ def show_interfaces_with_configure(filter):
 		nic = {'ethName': eth[1]}
 		
 		for attr in eth[2]:
-			if len(attr) > 1:
+			if len(attr) == 1:
+				nic[attr[0]] = True
+			else:
 				nic[attr[0]] = attr[1]
 		
 		if filter == None:
