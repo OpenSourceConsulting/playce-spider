@@ -340,8 +340,7 @@ def send_vyatta_command(commands):
 		
 		if item in result:
 			logger.error("vyatta command fail.")
-			#return {"success": "fail", "errmsg": result}
-			raise ValueError(result) #http://stackoverflow.com/questions/2052390/how-do-i-manually-throw-raise-an-exception-in-python
+			return {"success": "fail", "errmsg": result}
 	else:
 		logger.debug("success")
 		return {"success": "success", "msg": result}

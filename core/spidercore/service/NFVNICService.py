@@ -73,11 +73,11 @@ def update_nic(vmid, params):
 	vms = read_repository("vms")
 	
 	for vm in vms:
-		print vm['_id'] + " : " + id
-		if '_id' in vm and id == vm['_id']:
-			return vm
+		print vm['_id'] + " : " + vmid
+		if '_id' in vm and vmid == vm['_id']:
+			break
 	if vm == None:
-		raise Exception("get_vm not found: " + id)
+		raise ValueError("get_vm not found: " + vmid)
 
 	pEthName = params['after']['ethName']
 	addr = vm['mgraddr']
