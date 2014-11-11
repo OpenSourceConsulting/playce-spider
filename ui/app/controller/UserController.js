@@ -34,6 +34,40 @@ Ext.define('spider.controller.UserController', {
     },
 
     createUser: function(button) {
+        var addUserForm = Ext.getCmp("addUserForm");
+
+        if(addUserForm.isValid()) {
+
+            var sendData = addUserForm.getForm().getFieldValues();
+
+             Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "user/insert",
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : addUserForm.getEl(),
+                 jsonData: sendData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                         Ext.Msg.alert('Success', '등록이 완료되었습니다.');
+
+                         Ext.getStore("UserStore").reload();
+
+                         addUserForm.up('window').close();
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText);
+                }
+             });
+
+        }
 
     }
 

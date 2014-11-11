@@ -64,39 +64,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         } else {
 
-            var form = Ext.getCmp("viewNicForm").getForm();
-            form.reset();
-
-
-            var store = field.getStore();
-            var record = store.findRecord("ethName", newValue);
-
-            Ext.getCmp("viewNicForm").getForm().loadRecord(record);
-
-            field.up('toolbar').down('button').show();
-
-            //VM의 Mgr Address 와 NIC의 IP Address 가 같을 경우 수정 불가능
-            if(record.get("ipaddr") == vmConstants.selectRecord.get("mgraddr")) {
-                field.up('toolbar').down('button').hide();
-            }
-
-            var readOnlyFlag = false;
-            if(record.get("address") == "dhcp") {
-                readOnlyFlag = true;
-            }
-
-
-            Ext.getCmp("checkNicDhcp").setValue(readOnlyFlag);
-
-            if(record.get("disable") == true) {
-                Ext.getCmp("checkNicDisable").setValue(false);
-            } else {
-                Ext.getCmp("checkNicDisable").setValue(true);
-            }
-
-            form.findField("ipaddr").setReadOnly(readOnlyFlag);
-            form.findField("ipv6_address").setReadOnly(readOnlyFlag);
-
+            this.changeNicData(newValue);
         }
 
     },
@@ -105,60 +73,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         if(newValue !== '') {
 
-            var form = Ext.getCmp("viewBondingForm");
-            form.getForm().reset();
-
-            form.down('#saveBtn').show();
-            form.down('#deleteBtn').show();
-
-            var store = field.getStore();
-            var record = store.findRecord("ethName", newValue);
-
-            form.getForm().loadRecord(record);
-
-            Ext.get("viewBondingForm").select('.saveBtn').show();
-            Ext.get("viewBondingForm").select('.deleteBtn').show();
-
-            var dhcpFlag = false;
-            if(record.get("address") == "dhcp") {
-                dhcpFlag = true;
-            }
-            Ext.getCmp("checkBondigDhcp").setValue(dhcpFlag);
-
-            if(record.get("disable") == true) {
-                Ext.getCmp("checkBondingDisable").setValue(false);
-            } else {
-                Ext.getCmp("checkBondingDisable").setValue(true);
-            }
-
-            var nics = record.get("ethernets");
-            var disables = record.get("disables");
-
-            var checks = form.down('#bondingNICGroup').getBoxes();
-            Ext.each(checks, function (checkBox) {
-
-                var disableFlag = false;
-
-                Ext.each(disables, function(disable) {
-                    if(checkBox.getName() == disable) {
-                        disableFlag = true;
-                    }
-                });
-
-                if(checkBox.getName() == "disableCheck") {
-                    disableFlag = true;
-                }
-
-                checkBox.setDisabled(disableFlag);
-
-                Ext.each(nics, function(nic) {
-                    if(checkBox.getName() == nic) {
-                        checkBox.setValue(true);
-                    }
-                });
-
-            });
-
+            this.changeBondingData(newValue);
 
         } else {
 
@@ -213,6 +128,7 @@ Ext.define('spider.controller.VmManagementController', {
 
             vmConstants.vmNicRecords = null;
             vmConstants.vmNatRecords = null;
+            vmConstants.vmIfAllRecords = null;
 
             vmConstants.selectRecord = record;
             vmConstants.selectVmId = record.get("id");
@@ -284,7 +200,8 @@ Ext.define('spider.controller.VmManagementController', {
                     initComboNic : false,
                     initComboBonding : false,
                     vmNicRecords : null,
-                    vmNatRecords : null
+                    vmNatRecords : null,
+                    vmIfAllRecords : null
 
                 });
 
@@ -1036,6 +953,43 @@ Ext.define('spider.controller.VmManagementController', {
         }
     },
 
+    changeNicData: function(newValue) {
+        var field = Ext.getCmp("comboNicName");
+        var form = Ext.getCmp("viewNicForm").getForm();
+        form.reset();
+
+
+        var store = field.getStore();
+        var record = store.findRecord("ethName", newValue);
+
+        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+
+        field.up('toolbar').down('button').show();
+
+        //VM의 Mgr Address 와 NIC의 IP Address 가 같을 경우 수정 불가능
+        if(record.get("ipaddr") == vmConstants.selectRecord.get("mgraddr")) {
+            field.up('toolbar').down('button').hide();
+        }
+
+        var readOnlyFlag = false;
+        if(record.get("address") == "dhcp") {
+            readOnlyFlag = true;
+        }
+
+
+        Ext.getCmp("checkNicDhcp").setValue(readOnlyFlag);
+
+        if(record.get("disable") == true) {
+            Ext.getCmp("checkNicDisable").setValue(false);
+        } else {
+            Ext.getCmp("checkNicDisable").setValue(true);
+        }
+
+        form.findField("ipaddr").setReadOnly(readOnlyFlag);
+        form.findField("ipv6_address").setReadOnly(readOnlyFlag);
+
+    },
+
     saveNic: function(button) {
 
         var combo = Ext.getCmp("comboNicName"),
@@ -1060,6 +1014,8 @@ Ext.define('spider.controller.VmManagementController', {
             sendData.after.disable = (!Ext.getCmp("checkNicDisable").getValue());
             if(Ext.getCmp("checkNicDhcp").getValue() == true) {
                 sendData.after.address = "dhcp";
+            } else {
+                sendData.after.address = "";
             }
 
             sendData.before = {
@@ -1099,12 +1055,8 @@ Ext.define('spider.controller.VmManagementController', {
                                     var columnData = Ext.decode(response.responseText);
                                     if(columnData.length > 0) {
 
-                                        var data = columnData[0];
-
-                                        record.set("duplex", data.duplex);
-                                        record.set("speed", data.speed);
-
-                                        Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+                                        record.set(columnData[0]);
+                                        vmConstants.me.changeNicData(comboValue);
                                     }
                                 }
                             });
@@ -1134,6 +1086,66 @@ Ext.define('spider.controller.VmManagementController', {
             comboStore.load();
 
         }
+    },
+
+    changeBondingData: function(newValue) {
+
+        var field = Ext.getCmp("comboBondingName");
+        var form = Ext.getCmp("viewBondingForm");
+        form.getForm().reset();
+
+        form.down('#saveBtn').show();
+        form.down('#deleteBtn').show();
+
+        var store = field.getStore();
+        var record = store.findRecord("ethName", newValue);
+
+        form.getForm().loadRecord(record);
+
+        Ext.get("viewBondingForm").select('.saveBtn').show();
+        Ext.get("viewBondingForm").select('.deleteBtn').show();
+
+        var dhcpFlag = false;
+        if(record.get("address") == "dhcp") {
+            dhcpFlag = true;
+        }
+        Ext.getCmp("checkBondigDhcp").setValue(dhcpFlag);
+
+        if(record.get("disable") == true) {
+            Ext.getCmp("checkBondingDisable").setValue(false);
+        } else {
+            Ext.getCmp("checkBondingDisable").setValue(true);
+        }
+
+        var nics = record.get("ethernets");
+        var disables = record.get("disables");
+
+        var checks = form.down('#bondingNICGroup').getBoxes();
+        Ext.each(checks, function (checkBox) {
+
+            var disableFlag = false;
+
+            Ext.each(disables, function(disable) {
+                if(checkBox.getName() == disable) {
+                    disableFlag = true;
+                }
+            });
+
+            if(checkBox.getName() == "disableCheck") {
+                disableFlag = true;
+            }
+
+            checkBox.setDisabled(disableFlag);
+
+            Ext.each(nics, function(nic) {
+                if(checkBox.getName() == nic) {
+                    checkBox.setValue(true);
+                }
+            });
+
+        });
+
+
     },
 
     popVmBondingWindow: function() {
@@ -1273,7 +1285,6 @@ Ext.define('spider.controller.VmManagementController', {
 
                         Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
 
-                            combo.setValue("");
                             Ext.Ajax.request({
                                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + comboValue,
                                 method: "GET",
@@ -1290,7 +1301,8 @@ Ext.define('spider.controller.VmManagementController', {
                                         data.disables = columnData.disables;
 
                                         record.set(data);
-                                        combo.setValue(comboValue);
+
+                                        vmConstants.me.changeBondingData(comboValue);
                                     }
                                 }
                             });
@@ -1678,10 +1690,10 @@ Ext.define('spider.controller.VmManagementController', {
 
         var store;
 
-        if(vmConstants.vmNicRecords == null) {
+        if(vmConstants.vmIfAllRecords == null) {
 
             Ext.Ajax.request({
-                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet',
+                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
                 disableCaching : true,
                 waitMsg: 'Loading...',
                 waitMsgTarget : msgTarget,
@@ -1691,7 +1703,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         var datas = Ext.decode(response.responseText);
 
-                        vmConstants.vmNicRecords = datas;
+                        vmConstants.vmIfAllRecords = datas;
 
                         store = Ext.create('Ext.data.Store', {
                             model: 'spider.model.VmNicModel',
@@ -1710,7 +1722,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         } else {
 
-            var datas = vmConstants.vmNicRecords;
+            var datas = vmConstants.vmIfAllRecords;
 
             store = Ext.create('Ext.data.Store', {
                 model: 'spider.model.VmNicModel',

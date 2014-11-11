@@ -298,8 +298,8 @@
                                             "userConfig": {
                                                 "enableToggle": true,
                                                 "icon": "resources/images/icons/group.png",
-                                                "id": "mainViewBtn",
-                                                "itemId": "mainViewBtn",
+                                                "id": "userManagementBtn",
+                                                "itemId": "userManagementBtn",
                                                 "margin": "7 0 0 0",
                                                 "scale": "medium",
                                                 "text": "User Management"
@@ -347,7 +347,8 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "html": "",
-                                                "itemId": "VmHostName1",
+                                                "id": "locationLabel",
+                                                "itemId": null,
                                                 "layout|flex": null,
                                                 "margin": "5 0 0 0",
                                                 "style": "{text-align: center;font-size : 18px;font-weight: bold;letter-spacing:10px;}",

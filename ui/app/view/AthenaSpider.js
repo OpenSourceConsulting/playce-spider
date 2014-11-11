@@ -186,8 +186,8 @@ Ext.define('spider.view.AthenaSpider', {
                                                 },
                                                 {
                                                     xtype: 'button',
-                                                    id: 'mainViewBtn',
-                                                    itemId: 'mainViewBtn',
+                                                    id: 'userManagementBtn',
+                                                    itemId: 'userManagementBtn',
                                                     margin: '7 0 0 0',
                                                     enableToggle: true,
                                                     icon: 'resources/images/icons/group.png',
@@ -207,7 +207,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                 {
                                                     xtype: 'label',
                                                     html: '',
-                                                    itemId: 'VmHostName1',
+                                                    id: 'locationLabel',
                                                     margin: '5 0 0 0',
                                                     style: '{text-align: center;font-size : 18px;font-weight: bold;letter-spacing:10px;}',
                                                     text: '대전'

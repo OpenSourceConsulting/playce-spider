@@ -47,6 +47,7 @@ def get_bonding(vmid, bondid):
 	for nic in nics:
 		logger.debug(bondid + ": " + nic['ethName'])
 		if bondid == nic['ethName']:
+			nic['config'] = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW interfaces")
 			bonding[bondid] = nic
 			bonding['ethernets'] = []
 			bonding['disables'] = []
@@ -128,8 +129,9 @@ def update_bonding_task(bondid, bondinfo):
 	
 	commands = []
 	
-	for eth in bondinfo['before_eths']:
-		commands.append("$DELETE interfaces ethernet %s bond-group" % eth)
+	if 'ethernets' in bondinfo and len(bondinfo['ethernets']) > 0:
+		for eth in bondinfo['before_eths']:
+			commands.append("$DELETE interfaces ethernet %s bond-group" % eth)
 	
 	for key in bondinfo:
 		if '_' in key:
@@ -139,7 +141,7 @@ def update_bonding_task(bondid, bondinfo):
 			
 		if key == 'before_eths':
 			continue
-		elif key == "disable" and bondinfo[key] == "false":
+		elif key == "disable" and bondinfo[key] == False:
 			bondinfo[key] = '' # delete 만 하기 위해.
 			
 			
@@ -148,12 +150,11 @@ def update_bonding_task(bondid, bondinfo):
 				commands.append("$SET interfaces ethernet %s bond-group %s" % (eth, bondid))
 		else:
 			commands.append("$DELETE interfaces bonding %s %s" % (bondid, _key))
-			if len(bondinfo[key]) > 0:
-				if key == "disable" and bondinfo[key] == "true":
-					commands.append("$SET interfaces bonding %s %s" % (bondid, key))
-				else:
-					#값이 있을때만 set 
-					commands.append("$SET interfaces bonding %s %s %s" % (bondid, _key, bondinfo[key]))
+			if key == "disable" and bondinfo[key] == True:
+				commands.append("$SET interfaces bonding %s %s" % (bondid, key))
+			elif len(bondinfo[key]) > 0:
+				#값이 있을때만 set 
+				commands.append("$SET interfaces bonding %s %s %s" % (bondid, _key, bondinfo[key]))
 			
 		
 	

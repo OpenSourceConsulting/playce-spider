@@ -24,7 +24,7 @@ Ext.define('spider.view.AddUserWindow', {
         'Ext.button.Button'
     ],
 
-    height: 220,
+    height: 250,
     width: 430,
     resizable: false,
     title: '회원 가입',
@@ -52,6 +52,13 @@ Ext.define('spider.view.AddUserWindow', {
                             anchor: '100%',
                             fieldLabel: 'User ID',
                             name: 'userId',
+                            allowBlank: false
+                        },
+                        {
+                            xtype: 'textfield',
+                            anchor: '100%',
+                            fieldLabel: 'User Name',
+                            name: 'userName',
                             allowBlank: false
                         },
                         {
