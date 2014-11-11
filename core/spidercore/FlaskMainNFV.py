@@ -250,6 +250,9 @@ def mon_vmif(id=None, ifid=None):
 					nicinfo = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], nic['ethName'])
 					for kk in nicinfo:
 						nic[kk] = nicinfo[kk]
+						
+					nic['config'] = get_vyatta_conf(id, "$SHOW interfaces ethernet "+nic['ethName'])
+					
 					results.append(nic)
 
 			return json.dumps(results)
