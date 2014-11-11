@@ -262,15 +262,17 @@ def mon_vmif(id=None, ifid=None):
 @app.route("/nfv/<id>/if/<ifid>", methods=['PUT'])
 def vmifupdate(id=None, ifid=None):
 	if id == None:
-		return "No unique id for VM", 404
+		return "No unique id for VM", 500
 	elif ifid == None:
-		return "No unique ifid for interface", 404
+		return "No unique ifid for interface", 500
 
 	logger.debug("/nfv/%s/if/%s" % (id, ifid))
 
 	jsonData = json.loads(request.data)
 	logger.debug(json.dumps(jsonData, indent=4))
 
+	if len(jsonData['before']) != len(jsonData['after']):
+		return "before 와 after 중 누락된 항목이 존재합니다.", 500
 	
 	result = NFVNICService.update_nic(id, jsonData)
 	
@@ -299,6 +301,8 @@ def vmbondingsave(id=None, bondid=None):
 	elif request.method == 'POST':
 		result = NFVBondingService.create_bonding(id, jsonParams)
 	elif request.method == 'PUT':
+		if len(jsonParams['before']) != len(jsonParams['after']):
+			return "before 와 after 중 누락된 항목이 존재합니다.", 500
 		result = NFVBondingService.update_bonding(id, jsonParams)
 	else:
 		result = NFVBondingService.delete_bonding(id, jsonParams)
