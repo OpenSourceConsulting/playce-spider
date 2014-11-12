@@ -15,78 +15,13 @@
 
 Ext.define('spider.view.MyPanel119', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.mypanel119',
 
-    requires: [
-        'Ext.chart.Chart',
-        'Ext.chart.axis.Category',
-        'Ext.chart.axis.Numeric',
-        'Ext.chart.series.Line'
-    ],
-
-    height: 45,
-    collapsed: false,
-    collapsible: false,
-    header: false,
-    title: 'Sencha',
-
-    layout: {
-        type: 'hbox',
-        align: 'stretch'
-    },
+    height: 250,
+    width: 400,
+    title: 'My Panel',
 
     initComponent: function() {
         var me = this;
-
-        Ext.applyIf(me, {
-            items: [
-                {
-                    xtype: 'chart',
-                    flex: 1,
-                    height: 250,
-                    shadow: false,
-                    insetPadding: 5,
-                    store: 'SampleStore',
-                    axes: [
-                        {
-                            type: 'Category',
-                            fields: [
-                                'cate'
-                            ],
-                            grid: false,
-                            hidden: true,
-                            position: 'bottom'
-                        },
-                        {
-                            type: 'Numeric',
-                            fields: [
-                                'test'
-                            ],
-                            label: '',
-                            grid: false,
-                            majorTickSteps: 1,
-                            minorTickSteps: 1,
-                            position: 'left'
-                        }
-                    ],
-                    series: [
-                        {
-                            type: 'line',
-                            label: '',
-                            xField: 'cate',
-                            yField: 'test',
-                            showMarkers: false,
-                            smooth: 3,
-                            style: {
-                                fill: '#3892d3',
-                                'stroke-width': 1.2,
-                                stroke: '#3892d3'
-                            }
-                        }
-                    ]
-                }
-            ]
-        });
 
         me.callParent(arguments);
     }

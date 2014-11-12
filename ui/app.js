@@ -33,7 +33,8 @@ Ext.application({
         'SessionModel',
         'VmBondingModel',
         'VmNatModel',
-        'UserModel'
+        'UserModel',
+        'VmFirewallModel'
     ],
     stores: [
         'ServerListStore',
@@ -64,7 +65,8 @@ Ext.application({
         'AddBondingWindow',
         'LoginWindow',
         'AddUserWindow',
-        'UserManagementPanel'
+        'UserManagementPanel',
+        'AddFirewallWindow'
     ],
     controllers: [
         'HeaderController',

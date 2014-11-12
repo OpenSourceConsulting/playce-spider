@@ -25,7 +25,8 @@
             "SessionModel",
             "VmBondingModel",
             "VmNatModel",
-            "UserModel"
+            "UserModel",
+            "VmFirewallModel"
         ],
         "name": "spider",
         "requires": [
@@ -60,7 +61,8 @@
             "AddBondingWindow",
             "LoginWindow",
             "AddUserWindow",
-            "UserManagementPanel"
+            "UserManagementPanel",
+            "AddFirewallWindow"
         ]
     },
     "designerId": "application"

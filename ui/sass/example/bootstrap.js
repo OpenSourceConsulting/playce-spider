@@ -891,6 +891,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.model.SessionModel": [],
   "spider.model.UserModel": [],
   "spider.model.VmBondingModel": [],
+  "spider.model.VmFirewallModel": [],
   "spider.model.VmHostModel": [],
   "spider.model.VmNatModel": [],
   "spider.model.VmNicModel": [],
@@ -912,6 +913,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
   "spider.view.AddBondingWindow": [],
+  "spider.view.AddFirewallWindow": [],
   "spider.view.AddNatWindow": [],
   "spider.view.AddUserWindow": [],
   "spider.view.AddVmHostWindow": [],
@@ -1955,6 +1957,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.model.SessionModel": [],
   "spider.model.UserModel": [],
   "spider.model.VmBondingModel": [],
+  "spider.model.VmFirewallModel": [],
   "spider.model.VmHostModel": [],
   "spider.model.VmNatModel": [],
   "spider.model.VmNicModel": [],
@@ -1978,6 +1981,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.AddBondingWindow": [
     "widget.AddBondingWindow"
   ],
+  "spider.view.AddFirewallWindow": [],
   "spider.view.AddNatWindow": [
     "widget.AddNatWindow"
   ],
@@ -2006,9 +2010,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.MyContainer1": [
     "widget.mycontainer1"
   ],
-  "spider.view.MyPanel119": [
-    "widget.mypanel119"
-  ],
+  "spider.view.MyPanel119": [],
   "spider.view.UserManagementPanel": [
     "widget.usermanagementpanel"
   ],
