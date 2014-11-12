@@ -285,11 +285,11 @@ def vmifupdate(id=None, ifid=None):
 	else:
 		return result['errmsg'], 500
 
-# create bonding
+# bonding CRUD
 @app.route("/nfv/<id>/bonding/<bondid>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def vmbondingsave(id=None, bondid=None):
 	
-	logger.debug("%s /nfv/%s/if/%s" % (request.method, id, bondid))
+	logger.debug("%s /nfv/%s/bonding/%s" % (request.method, id, bondid))
 	#logger.debug("request.data : "+request.data.decode("utf-8"))
 	
 	if request.data:
@@ -432,3 +432,44 @@ def mon_vmservice(id=None, svc=None):
 			return json.dumps(results)
 	
 	return 'Not found', 404
+
+
+# firewall CRUD
+@app.route("/nfv/<id>/firewall/<fwname>", methods=['GET', 'POST', 'PUT', 'DELETE'])
+def vmfirewall(id=None, fwname=None):
+	
+	logger.debug("%s /nfv/%s/firewall/%s" % (request.method, id, fwname))
+	#logger.debug("request.data : "+request.data.decode("utf-8"))
+	
+	if request.data:
+		jsonParams = json.loads(request.data)
+		
+		jsonParams['name'] = fwname
+		logger.debug(json.dumps(jsonParams, indent=4))
+	
+	
+	if request.method == 'GET':
+		result = NFVFirewallService.get_firewall(id, fwname)
+	elif request.method == 'POST':
+		result = NFVFirewallService.create_firewall(id, jsonParams)
+	elif request.method == 'PUT':
+		if len(jsonParams['before']) != len(jsonParams['after']):
+			return "before 와 after 중 누락된 항목이 존재합니다.", 500
+		result = NFVFirewallService.update_firewall(id, jsonParams)
+	else:
+		result = NFVFirewallService.delete_firewall(id, jsonParams)
+		
+	if result['success'] == 'success' and request.method == 'GET':
+		return result['msg'], 200
+	elif result['success'] == 'success':
+		return "OK", 200
+	else:
+		return result['errmsg'], 500
+	
+@app.route("/nfv/<id>/firewall/all", methods=['GET'])
+def vmfirewallall(id=None):
+	logger.debug("%s /nfv/%s/firewall/all" % (request.method, id))
+	
+	result = NFVFirewallService.all_firewall(id)
+	
+	return json.dumps(result), 200
