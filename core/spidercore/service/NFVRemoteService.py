@@ -80,7 +80,7 @@ def update_remote_service_task(serviceinfo):
         
     commands = []
     
-    if httpsenable and httpsenable == 'true':
+    if httpsenable and (httpsenable == True or httpsenable == 'true'):
         commands.append("$SET service https")
         commands.append("$DELETE service https listen-address")
         
