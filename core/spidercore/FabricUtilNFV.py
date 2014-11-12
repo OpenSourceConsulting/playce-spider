@@ -191,7 +191,10 @@ def show_service_with_configure():
 			if len(attr) > 2:
 				service[attr[0]] = [attr[1], attr[2]]
 			elif len(attr) > 1:
-				service[attr[0]] = attr[1]
+				if attr[0] in service:
+					service[attr[0]] = service[attr[0]] + "," + attr[1]
+				else:
+					service[attr[0]] = attr[1]
 			else:
 				service[attr[0]] = True
 		

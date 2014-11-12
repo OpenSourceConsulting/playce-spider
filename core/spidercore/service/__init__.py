@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 # ########################## Copyrights and license ############################################
 #                                                                                              #
 # Copyright 2014 Open Source Consulting, Inc. <support@osci.kr>                                #
