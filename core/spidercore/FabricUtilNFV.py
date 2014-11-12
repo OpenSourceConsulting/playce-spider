@@ -350,8 +350,10 @@ def send_vyatta_command(commands):
 
 
 def get_vyatta_conf_task(command):
-	return send_vyatta_command([command])
-
+	if type(command) == list:
+		return send_vyatta_command(command)
+	else:
+		return send_vyatta_command([command])
 
 
 """ vyatta 설정 정보(string) 가져오기
@@ -371,5 +373,5 @@ def get_vyatta_conf(vmid, pcommand):
 	results = execute(get_vyatta_conf_task, hosts=[addr], command=pcommand)
 	
 	#앞뒤 2줄씩 삭제하고 리턴
-	list = results[addr]['msg'].split('\n')
-	return "\n".join(list[2: len(list)-2])
+	_list = results[addr]['msg'].split('\n')
+	return "\n".join(_list[2: len(_list)-2])

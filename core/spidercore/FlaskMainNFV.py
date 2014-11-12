@@ -355,6 +355,30 @@ def vmnatsave(vmid=None):
 	else:
 		return result['errmsg'], 500
 
+# HTTPS(Web GUI), SSH Remote Service Control
+@app.route("/nfv/<vmid>/remote", methods=['GET', 'PUT'])
+def vmremoteservice(vmid=None):
+	
+	logger.debug("%s /nfv/%s/remote" % (request.method, vmid))
+	
+	if request.method != 'GET':
+		jsonParams = json.loads(request.data)	
+		logger.debug(json.dumps(jsonParams, indent=4))
+	
+	if request.method == 'GET':
+		result = NFVRemoteService.get_remote_service(vmid)
+		return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
+	else:
+		result = NFVRemoteService.update_remote_service(vmid, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		if 'already exists' in result['errmsg']:
+			return "OK", 200
+		else:
+			return result['errmsg'], 500
+
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
 def mon_vmiflist(id=None):
