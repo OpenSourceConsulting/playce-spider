@@ -382,7 +382,6 @@ Ext.define('spider.view.AthenaSpider', {
                                                             header: false,
                                                             title: 'My Tree Grid Panel',
                                                             hideHeaders: true,
-                                                            store: 'VmHostStore',
                                                             rootVisible: false,
                                                             viewConfig: {
 

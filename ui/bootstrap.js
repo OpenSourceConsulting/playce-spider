@@ -886,7 +886,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],
   "spider.form.field.Base": [],
-  "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
   "spider.model.SessionModel": [],
   "spider.model.UserModel": [],
@@ -898,21 +897,19 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
-  "spider.store.HostListStore": [],
   "spider.store.SampleStore": [],
-  "spider.store.ServerListStore": [],
   "spider.store.SessionStore": [],
   "spider.store.UserStore": [],
   "spider.store.VmBondingStore": [],
   "spider.store.VmCpuChartStore": [],
   "spider.store.VmHostChartStore": [],
   "spider.store.VmHostInterfaceStore": [],
-  "spider.store.VmHostStore": [],
   "spider.store.VmInterfaceStore": [],
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
   "spider.view.AddBondingWindow": [],
+  "spider.view.AddDhcpWindow": [],
   "spider.view.AddFirewallWindow": [],
   "spider.view.AddNatWindow": [],
   "spider.view.AddUserWindow": [],
@@ -924,7 +921,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.view.LoginWindow": [],
   "spider.view.Main": [],
   "spider.view.MyContainer1": [],
-  "spider.view.MyPanel119": [],
   "spider.view.UserManagementPanel": [],
   "spider.view.VMHostInfoWindow": [],
   "spider.view.Viewport": [],
@@ -1952,7 +1948,6 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],
   "spider.form.field.Base": [],
-  "spider.model.HostListData": [],
   "spider.model.SampleModel": [],
   "spider.model.SessionModel": [],
   "spider.model.UserModel": [],
@@ -1964,16 +1959,13 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
-  "spider.store.HostListStore": [],
   "spider.store.SampleStore": [],
-  "spider.store.ServerListStore": [],
   "spider.store.SessionStore": [],
   "spider.store.UserStore": [],
   "spider.store.VmBondingStore": [],
   "spider.store.VmCpuChartStore": [],
   "spider.store.VmHostChartStore": [],
   "spider.store.VmHostInterfaceStore": [],
-  "spider.store.VmHostStore": [],
   "spider.store.VmInterfaceStore": [],
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
@@ -1981,7 +1973,12 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.AddBondingWindow": [
     "widget.AddBondingWindow"
   ],
-  "spider.view.AddFirewallWindow": [],
+  "spider.view.AddDhcpWindow": [
+    "widget.AddDhcpWindow"
+  ],
+  "spider.view.AddFirewallWindow": [
+    "widget.AddFirewallWindow"
+  ],
   "spider.view.AddNatWindow": [
     "widget.AddNatWindow"
   ],
@@ -2010,7 +2007,6 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.MyContainer1": [
     "widget.mycontainer1"
   ],
-  "spider.view.MyPanel119": [],
   "spider.view.UserManagementPanel": [
     "widget.usermanagementpanel"
   ],

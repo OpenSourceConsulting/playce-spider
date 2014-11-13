@@ -25,7 +25,6 @@ Ext.application({
         'Ext.window.MessageBox'
     ],
     models: [
-        'HostListData',
         'SampleModel',
         'VmHostModel',
         'VmTemplateModel',
@@ -37,11 +36,7 @@ Ext.application({
         'VmFirewallModel'
     ],
     stores: [
-        'ServerListStore',
-        'HostListStore',
-        'ChartDataStore',
         'SampleStore',
-        'VmHostStore',
         'ComboVmTemplateStore',
         'VmHostInterfaceStore',
         'VmHostChartStore',
@@ -58,7 +53,6 @@ Ext.application({
         'AthenaSpider',
         'MyContainer1',
         'VMHostInfoWindow',
-        'MyPanel119',
         'DashBoardNodePanel',
         'AddVmHostWindow',
         'AddVmWindow',
@@ -66,7 +60,8 @@ Ext.application({
         'LoginWindow',
         'AddUserWindow',
         'UserManagementPanel',
-        'AddFirewallWindow'
+        'AddFirewallWindow',
+        'AddDhcpWindow'
     ],
     controllers: [
         'HeaderController',

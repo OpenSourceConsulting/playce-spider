@@ -6,6 +6,7 @@
     },
     "codeClass": null,
     "userConfig": {
+        "designer|userAlias": "AddFirewallWindow",
         "designer|userClassName": "AddFirewallWindow",
         "height": 325,
         "id": "AddBondingWindow2",
@@ -241,6 +242,7 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "allowBlank": false,
                                 "displayField": null,
                                 "editable": false,
                                 "emptyText": null,
@@ -674,27 +676,6 @@
                             ]
                         }
                     ]
-                },
-                {
-                    "type": "basiceventbinding",
-                    "reference": {
-                        "name": "listeners",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "fn": "onAddFirewallFormShow",
-                        "implHandler": [
-                            "component.getForm().findField(\"name\").bindStore(Ext.getCmp(\"comboFirewallName\").getStore());",
-                            "",
-                            "var components = [component.getForm().findField(\"ethernet\")];",
-                            "",
-                            "vmConstants.me.renderNicComboBox(components, component.getEl());"
-                        ],
-                        "name": "show",
-                        "scope": "me"
-                    },
-                    "designerId": "c6a26478-12ab-4c9a-87c2-77201592d596"
                 }
             ]
         }

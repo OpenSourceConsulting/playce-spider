@@ -730,7 +730,7 @@
                                                         "id": "listMenuPanel",
                                                         "itemId": "listMenuPanel",
                                                         "rootVisible": false,
-                                                        "store": "VmHostStore",
+                                                        "store": null,
                                                         "title": "My Tree Grid Panel",
                                                         "width": 400
                                                     },

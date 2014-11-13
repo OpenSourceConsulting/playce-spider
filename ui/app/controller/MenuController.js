@@ -117,7 +117,7 @@ Ext.define('spider.controller.MenuController', {
         monitoringBtn.toggle(true);
 
         centerContainer.layout.setActiveItem(2);
-
+        /*
         Ext.Ajax.request({
             url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
             disableCaching : true,
@@ -146,6 +146,8 @@ Ext.define('spider.controller.MenuController', {
         clearInterval(GlobalData.intervalId1);
         clearInterval(GlobalData.intervalId2);
         clearInterval(GlobalData.intervalId3);
+
+        */
     },
 
     onUserManagementBtnBtnClick: function(button, e, eOpts) {

@@ -57,49 +57,6 @@
                             "name": "split",
                             "type": "string"
                         }
-                    ],
-                    "cn": [
-                        {
-                            "type": "Ext.Img",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "height": 200,
-                                "id": "graphiteImg",
-                                "src": "http://192.168.0.3:8000/render/?width=200&height=200&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes",
-                                "width": 200
-                            },
-                            "designerId": "00fc46cb-391e-43da-9a80-1a1b852c0ba4"
-                        },
-                        {
-                            "type": "basiceventbinding",
-                            "reference": {
-                                "name": "listeners",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "fn": "onMypanel94Resize",
-                                "implHandler": [
-                                    "var cmpWidth = width - 5;",
-                                    "var cmpHeight = height - 40;",
-                                    "",
-                                    "var imgCmp = Ext.getCmp('graphiteImg');",
-                                    "",
-                                    "imgCmp.setWidth(cmpWidth);",
-                                    "imgCmp.setHeight(cmpHeight);",
-                                    "",
-                                    "imgCmp.setSrc('http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes'",
-                                    "        + '&width='+cmpWidth + '&height=' + cmpHeight);"
-                                ],
-                                "name": "resize",
-                                "scope": "me"
-                            },
-                            "designerId": "c457a4fc-ceea-4b95-a61a-caa6c24c8e88"
-                        }
                     ]
                 },
                 {

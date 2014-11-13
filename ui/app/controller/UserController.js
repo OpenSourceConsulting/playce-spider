@@ -63,7 +63,7 @@ Ext.define('spider.controller.UserController', {
 
                 },
                 failure: function (response) {
-                    Ext.Msg.alert('Failure', response.responseText);
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
                 }
              });
 

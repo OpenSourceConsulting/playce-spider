@@ -24,8 +24,17 @@ Ext.define('spider.store.ChartDataStore', {
         var me = this;
         cfg = cfg || {};
         me.callParent([Ext.apply({
-            autoLoad: true,
             storeId: 'ChartDataStore',
+            data: [
+                {
+                    date: 1,
+                    cpu: 1,
+                    memory: 1,
+                    network: 1,
+                    cur_in: 1,
+                    cur_out: 1
+                }
+            ],
             fields: [
                 {
                     name: 'date'

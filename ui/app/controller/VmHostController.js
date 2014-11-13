@@ -389,7 +389,7 @@ Ext.define('spider.controller.VmHostController', {
 
                 },
                 failure: function (response) {
-                    Ext.Msg.alert('Failure', response.responseText);
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
                 }
              });
 
@@ -470,7 +470,7 @@ Ext.define('spider.controller.VmHostController', {
 
                 },
                 failure: function (response) {
-                    Ext.Msg.alert('Failure', response.responseText);
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
                 }
             });
 
