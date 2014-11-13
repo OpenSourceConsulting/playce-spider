@@ -471,6 +471,11 @@ def vmfirewall(id=None, fwname=None):
 		jsonParams['name'] = fwname
 		logger.debug(json.dumps(jsonParams, indent=4))
 	
+	try:
+		NFVFirewallService.validate_params(jsonParams['after'])
+	except ValueError as e:
+		return e, 500
+		
 	
 	if request.method == 'GET':
 		result = NFVFirewallService.get_firewall(id, fwname)
