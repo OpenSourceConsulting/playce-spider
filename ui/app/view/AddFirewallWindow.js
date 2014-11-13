@@ -15,6 +15,7 @@
 
 Ext.define('spider.view.AddFirewallWindow', {
     extend: 'Ext.window.Window',
+    alias: 'widget.AddFirewallWindow',
 
     requires: [
         'Ext.form.Panel',
@@ -138,6 +139,7 @@ Ext.define('spider.view.AddFirewallWindow', {
                                     margin: '0 20 0 0',
                                     fieldLabel: '동작',
                                     name: 'action',
+                                    allowBlank: false,
                                     editable: false,
                                     queryMode: 'local',
                                     store: [
@@ -310,26 +312,12 @@ Ext.define('spider.view.AddFirewallWindow', {
                                 }
                             ]
                         }
-                    ],
-                    listeners: {
-                        show: {
-                            fn: me.onAddFirewallFormShow,
-                            scope: me
-                        }
-                    }
+                    ]
                 }
             ]
         });
 
         me.callParent(arguments);
-    },
-
-    onAddFirewallFormShow: function(component, eOpts) {
-        component.getForm().findField("name").bindStore(Ext.getCmp("comboFirewallName").getStore());
-
-        var components = [component.getForm().findField("ethernet")];
-
-        vmConstants.me.renderNicComboBox(components, component.getEl());
     }
 
 });

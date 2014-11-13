@@ -29,13 +29,16 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.FieldSet',
         'Ext.form.Panel',
         'Ext.grid.Panel',
-        'Ext.grid.column.Column',
         'Ext.form.field.ComboBox',
         'Ext.toolbar.Spacer',
         'Ext.form.field.TextArea',
         'Ext.form.field.Hidden',
         'Ext.form.RadioGroup',
-        'Ext.form.field.Radio'
+        'Ext.form.field.Radio',
+        'Ext.grid.column.Number',
+        'Ext.grid.column.Date',
+        'Ext.grid.column.Boolean',
+        'Ext.grid.View'
     ],
 
     id: 'VmManagementPanel',
@@ -614,13 +617,12 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     width: 400,
                                                                     animate: true,
                                                                     insetPadding: 20,
-                                                                    store: 'ChartDataStore',
+                                                                    store: 'SampleStore',
                                                                     axes: [
                                                                         {
                                                                             type: 'Numeric',
                                                                             fields: [
-                                                                                'cur_in',
-                                                                                'cur_out'
+                                                                                'test'
                                                                             ],
                                                                             grid: {
                                                                                 odd: {
@@ -637,7 +639,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                         {
                                                                             type: 'Time',
                                                                             fields: [
-                                                                                'date'
+                                                                                'cate'
                                                                             ],
                                                                             label: {
                                                                                 rotate: {
@@ -660,21 +662,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                 'left',
                                                                                 'bottom'
                                                                             ],
-                                                                            xField: 'date',
-                                                                            yField: 'cur_in',
-                                                                            markerConfig: {
-                                                                                radius: 3,
-                                                                                size: 3
-                                                                            }
-                                                                        },
-                                                                        {
-                                                                            type: 'line',
-                                                                            axis: [
-                                                                                'left',
-                                                                                'bottom'
-                                                                            ],
-                                                                            xField: 'date',
-                                                                            yField: 'cur_out',
+                                                                            xField: 'test',
+                                                                            yField: 'cate',
                                                                             markerConfig: {
                                                                                 radius: 3,
                                                                                 size: 3
@@ -834,7 +823,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
-                            autoScroll: true,
+                            overflowY: 'auto',
                             title: 'NIC',
                             items: [
                                 {
@@ -1031,7 +1020,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
-                            autoScroll: true,
+                            overflowY: 'auto',
                             title: 'Bonding',
                             items: [
                                 {
@@ -1270,6 +1259,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
+                            overflowY: 'auto',
                             title: 'Routing',
                             items: [
                                 {
@@ -1287,6 +1277,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
+                            overflowY: 'auto',
                             title: 'NAT',
                             items: [
                                 {
@@ -1652,10 +1643,12 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
+                            overflowY: 'auto',
                             title: 'DHCP(Service)',
                             items: [
                                 {
                                     xtype: 'panel',
+                                    overflowY: 'auto',
                                     header: false,
                                     title: 'My Panel',
                                     dockedItems: [
@@ -1695,6 +1688,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                     items: [
                                         {
                                             xtype: 'form',
+                                            id: 'viewDhcpForm',
                                             autoScroll: true,
                                             bodyPadding: 10,
                                             header: false,
@@ -1709,15 +1703,28 @@ Ext.define('spider.view.VmManagementPanel', {
                                             items: [
                                                 {
                                                     xtype: 'fieldset',
-                                                    margin: '10 20 10 20',
-                                                    padding: 10,
+                                                    margin: '10 20 20 20',
                                                     title: 'DHCP Global Options / Parameters',
                                                     items: [
                                                         {
+                                                            xtype: 'toolbar',
+                                                            height: 32,
+                                                            items: [
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                },
+                                                                {
+                                                                    xtype: 'button',
+                                                                    padding: '3 8 3 8',
+                                                                    text: '저장'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
                                                             xtype: 'fieldcontainer',
                                                             flex: '1',
-                                                            height: 35,
-                                                            margin: '5 0 5 30',
+                                                            height: 32,
                                                             fieldLabel: 'Label',
                                                             hideLabel: true,
                                                             layout: {
@@ -1728,43 +1735,22 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     xtype: 'checkboxgroup',
                                                                     flex: 1,
-                                                                    margin: '0 0 0 20',
-                                                                    width: 321,
+                                                                    fieldLabel: 'Options',
+                                                                    layout: {
+                                                                        type: 'checkboxgroup',
+                                                                        autoFlex: false
+                                                                    },
                                                                     items: [
                                                                         {
                                                                             xtype: 'checkboxfield',
-                                                                            margin: 0,
-                                                                            boxLabel: 'Authoritative'
+                                                                            boxLabel: 'Disable'
                                                                         },
                                                                         {
                                                                             xtype: 'checkboxfield',
-                                                                            margin: 0,
-                                                                            boxLabel: 'Disable'
+                                                                            padding: '0 0 0 20',
+                                                                            boxLabel: 'Dynamic DNS Update'
                                                                         }
                                                                     ]
-                                                                },
-                                                                {
-                                                                    xtype: 'tbspacer',
-                                                                    flex: 2
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    margin: '0 20 0 0',
-                                                                    fieldLabel: 'Subnet'
                                                                 },
                                                                 {
                                                                     xtype: 'tbspacer',
@@ -1775,76 +1761,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         {
                                                             xtype: 'fieldcontainer',
                                                             flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Start IP'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Stop IP'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'combobox',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'DNS Server'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Domain Name'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'combobox',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Static Mapping IP'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Static Mapping MAC'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 160,
+                                                            height: 90,
                                                             fieldLabel: 'Label',
                                                             hideLabel: true,
                                                             layout: {
@@ -1855,16 +1772,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     xtype: 'textareafield',
                                                                     flex: 1,
-                                                                    margin: '5 10 5 0',
-                                                                    fieldLabel: 'Static IP',
-                                                                    rows: 8
-                                                                },
-                                                                {
-                                                                    xtype: 'button',
-                                                                    flex: 1,
-                                                                    maxWidth: 50,
-                                                                    width: 50,
-                                                                    text: '추가'
+                                                                    fieldLabel: 'Parameters'
                                                                 }
                                                             ]
                                                         }
@@ -1873,30 +1781,25 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 {
                                                     xtype: 'fieldset',
                                                     margin: '10 20 10 20',
-                                                    padding: 0,
-                                                    title: '',
+                                                    title: 'MYLAN1',
                                                     items: [
                                                         {
                                                             xtype: 'toolbar',
                                                             height: 40,
-                                                            ui: 'footer',
                                                             items: [
-                                                                {
-                                                                    xtype: 'combobox',
-                                                                    margin: '0 0 0 10',
-                                                                    width: 200,
-                                                                    fieldLabel: 'Shared Network',
-                                                                    labelStyle: ' ',
-                                                                    labelWidth: 110
-                                                                },
                                                                 {
                                                                     xtype: 'tbspacer',
                                                                     flex: 1
                                                                 },
                                                                 {
                                                                     xtype: 'button',
-                                                                    margin: '0 20 0 0',
-                                                                    text: '신규생성'
+                                                                    padding: '3 8 3 8',
+                                                                    text: '저장'
+                                                                },
+                                                                {
+                                                                    xtype: 'button',
+                                                                    padding: '3 8 3 8',
+                                                                    text: '삭제'
                                                                 }
                                                             ]
                                                         },
@@ -1904,7 +1807,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             xtype: 'fieldcontainer',
                                                             flex: '1',
                                                             height: 35,
-                                                            margin: '5 0 5 30',
                                                             fieldLabel: 'Label',
                                                             hideLabel: true,
                                                             layout: {
@@ -1913,26 +1815,71 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             },
                                                             items: [
                                                                 {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'IP/Subnet'
+                                                                },
+                                                                {
                                                                     xtype: 'checkboxgroup',
                                                                     flex: 1,
-                                                                    margin: '0 0 0 20',
-                                                                    width: 321,
+                                                                    width: 400,
+                                                                    fieldLabel: 'Options',
                                                                     items: [
                                                                         {
                                                                             xtype: 'checkboxfield',
-                                                                            margin: 0,
                                                                             boxLabel: 'Authoritative'
                                                                         },
                                                                         {
                                                                             xtype: 'checkboxfield',
-                                                                            margin: 0,
                                                                             boxLabel: 'Disable'
                                                                         }
                                                                     ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Start IP Address'
                                                                 },
                                                                 {
-                                                                    xtype: 'tbspacer',
-                                                                    flex: 2
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Stop IP Address'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Default Router'
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'DNS Server'
                                                                 }
                                                             ]
                                                         },
@@ -1951,7 +1898,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
                                                                     margin: '0 20 0 0',
-                                                                    fieldLabel: 'Subnet'
+                                                                    fieldLabel: 'Domain Name'
                                                                 },
                                                                 {
                                                                     xtype: 'tbspacer',
@@ -1960,152 +1907,62 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             ]
                                                         },
                                                         {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
+                                                            xtype: 'gridpanel',
+                                                            height: 150,
+                                                            margin: '5 10 10 30',
+                                                            overflowY: 'auto',
+                                                            header: false,
+                                                            title: 'My Grid Panel',
+                                                            columnLines: true,
+                                                            forceFit: true,
+                                                            columns: [
                                                                 {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Start IP'
+                                                                    xtype: 'gridcolumn',
+                                                                    dataIndex: 'string',
+                                                                    text: 'String'
                                                                 },
                                                                 {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Stop IP'
+                                                                    xtype: 'numbercolumn',
+                                                                    dataIndex: 'number',
+                                                                    text: 'Number'
+                                                                },
+                                                                {
+                                                                    xtype: 'datecolumn',
+                                                                    dataIndex: 'date',
+                                                                    text: 'Date'
+                                                                },
+                                                                {
+                                                                    xtype: 'booleancolumn',
+                                                                    dataIndex: 'bool',
+                                                                    text: 'Boolean'
                                                                 }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
+                                                            ],
+                                                            dockedItems: [
                                                                 {
-                                                                    xtype: 'combobox',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'DNS Server'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Domain Name'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 35,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'combobox',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Static Mapping IP'
-                                                                },
-                                                                {
-                                                                    xtype: 'textfield',
-                                                                    flex: 1,
-                                                                    fieldLabel: 'Static Mapping MAC'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'fieldcontainer',
-                                                            flex: '1',
-                                                            height: 160,
-                                                            fieldLabel: 'Label',
-                                                            hideLabel: true,
-                                                            layout: {
-                                                                type: 'hbox',
-                                                                align: 'middle'
-                                                            },
-                                                            items: [
-                                                                {
-                                                                    xtype: 'textareafield',
-                                                                    flex: 1,
-                                                                    margin: '5 10 5 0',
-                                                                    fieldLabel: 'Static IP',
-                                                                    rows: 8
-                                                                },
-                                                                {
-                                                                    xtype: 'button',
-                                                                    flex: 1,
-                                                                    maxWidth: 50,
-                                                                    width: 50,
-                                                                    text: '추가'
+                                                                    xtype: 'toolbar',
+                                                                    dock: 'top',
+                                                                    height: 35,
+                                                                    padding: 0,
+                                                                    items: [
+                                                                        {
+                                                                            xtype: 'displayfield',
+                                                                            fieldLabel: 'Static Mapping',
+                                                                            labelWidth: 110
+                                                                        },
+                                                                        {
+                                                                            xtype: 'tbspacer',
+                                                                            flex: 1
+                                                                        },
+                                                                        {
+                                                                            xtype: 'button',
+                                                                            padding: '3 8 3 8',
+                                                                            text: '추가'
+                                                                        }
+                                                                    ]
                                                                 }
                                                             ]
                                                         }
                                                     ]
-                                                },
-                                                {
-                                                    xtype: 'fieldset',
-                                                    title: 'My Fields'
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 20,
-                                                    margin: '5 0 0 0',
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'checkboxgroup',
-                                                            flex: 1,
-                                                            margin: '0 0 0 20',
-                                                            width: 321,
-                                                            items: [
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'Disable'
-                                                                },
-                                                                {
-                                                                    xtype: 'checkboxfield',
-                                                                    margin: 0,
-                                                                    boxLabel: 'Dynamic DNS Update'
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'tbspacer',
-                                                            flex: 2
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'textareafield',
-                                                    anchor: '100%',
-                                                    margin: '5 20 5 20',
-                                                    fieldLabel: 'global-parameters',
-                                                    labelAlign: 'top',
-                                                    labelStyle: ' ',
-                                                    labelWidth: 130,
-                                                    rows: 8
                                                 }
                                             ]
                                         }
@@ -2115,6 +1972,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
+                            overflowY: 'auto',
                             title: 'DNS(Service)',
                             items: [
                                 {
@@ -2221,6 +2079,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
+                            overflowY: 'auto',
                             title: 'HTTPS/SSH(Service)',
                             items: [
                                 {
@@ -2387,6 +2246,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
+                            overflowY: 'auto',
                             title: 'System(Service)',
                             items: [
                                 {
@@ -2509,6 +2369,7 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'panel',
+                            overflowY: 'auto',
                             title: 'Firewall',
                             items: [
                                 {
@@ -2558,39 +2419,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             displayField: 'rule',
                                                             queryMode: 'local',
                                                             valueField: 'rule'
-                                                        },
-                                                        {
-                                                            xtype: 'radiogroup',
-                                                            margin: '0 0 0 40',
-                                                            width: 200,
-                                                            fieldLabel: '',
-                                                            items: [
-                                                                {
-                                                                    xtype: 'radiofield',
-                                                                    handler: function(checkbox, checked) {
-                                                                        if(checked == true) {
-                                                                            vmConstants.me.changeNatData(Ext.getCmp("comboRuleName").getValue(), "source");
-                                                                        }
-
-                                                                    },
-                                                                    id: 'natRuleSource1',
-                                                                    name: 'natRuleCombo',
-                                                                    boxLabel: 'Source',
-                                                                    inputValue: 'source'
-                                                                },
-                                                                {
-                                                                    xtype: 'radiofield',
-                                                                    handler: function(checkbox, checked) {
-                                                                        if(checked == true) {
-                                                                            vmConstants.me.changeNatData(Ext.getCmp("comboRuleName").getValue(), "destination");
-                                                                        }
-                                                                    },
-                                                                    id: 'natRuleDestination1',
-                                                                    name: 'natRuleCombo',
-                                                                    boxLabel: 'Destination',
-                                                                    inputValue: 'destination'
-                                                                }
-                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -2678,7 +2506,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             editable: false,
                                                             displayField: 'ethName',
                                                             queryMode: 'local',
-                                                            valueField: 'ethName'
+                                                            valueField: 'ethName',
+                                                            valueNotFoundText: '해당없음'
                                                         },
                                                         {
                                                             xtype: 'tbspacer',
@@ -2725,7 +2554,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             margin: '0 20 0 0',
                                                             fieldLabel: '동작 위치',
                                                             name: 'inout',
-                                                            allowBlank: false,
                                                             emptyText: 'Default',
                                                             editable: false,
                                                             displayField: 'ethName',

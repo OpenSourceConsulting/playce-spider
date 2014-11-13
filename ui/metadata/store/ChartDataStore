@@ -6,8 +6,12 @@
     },
     "codeClass": null,
     "userConfig": {
-        "autoLoad": true,
-        "data": null,
+        "autoLoad": null,
+        "data": [
+            "[",
+            "    {date : 1, cpu : 1, memory : 1, network : 1, cur_in : 1, cur_out : 1}",
+            "]"
+        ],
         "designer|userClassName": "ChartDataStore",
         "storeId": "ChartDataStore"
     },
