@@ -129,6 +129,7 @@ def update_bonding_task(bondid, bondinfo):
 	
 	commands = []
 	
+	# 이전 ethernets 삭제
 	if 'ethernets' in bondinfo and len(bondinfo['ethernets']) > 0:
 		for eth in bondinfo['before_eths']:
 			commands.append("$DELETE interfaces ethernet %s bond-group" % eth)
@@ -140,7 +141,7 @@ def update_bonding_task(bondid, bondinfo):
 			_key = key
 			
 		if key == 'before_eths':
-			continue
+			continue  # 앞에서 처리했음으로.. pass.
 		elif key == "disable" and bondinfo[key] == False:
 			bondinfo[key] = '' # delete 만 하기 위해.
 			
