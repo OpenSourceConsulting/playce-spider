@@ -33,6 +33,11 @@ from spidercore.util import PyUtils
 logger = logging.getLogger(__name__)
 
 
+def validate_params(params):
+	
+	
+	return None
+
 def get_firewall(vmid, fwname):
 	
 	return {"success":"success","msg":"Not Implemented"}
@@ -47,16 +52,20 @@ def create_firewall_task(fwinfo):
 	commands = []
 	rule_num = fwinfo['rule']
 	
+	commands.append("$DELETE firewall name %s rule %s " % (fwname, rule_num))
+	commands.append("$SET firewall name %s rule %s " % (fwname, rule_num))
+	
 	for key in fwinfo:
 		if '_' in key:
 			_key = key.replace('_',' ')
 		else:
 			_key = key
 			
-		if key in ['rule','ethernet','inout']:
+		if key in ['rule','ethernet','inout', 'name']:
 			continue
 			
-		commands.append("$SET firewall name %s rule %s %s %s " % (fwname, rule_num, _key, fwinfo[key]))
+		if len(fwinfo[key]) > 0:
+			commands.append("$SET firewall name %s rule %s %s %s " % (fwname, rule_num, _key, fwinfo[key]))
 		
 	if 'ethernet' in fwinfo:
 		commands.append("$SET interfaces ethernet %s firewall %s name %s " % (fwinfo['ethernet'], fwinfo['inout'], fwname))
