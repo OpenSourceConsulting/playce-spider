@@ -213,11 +213,12 @@ def parseElements(attr):
 						result[prop[0]] = prop[1]
 			else:
 				temp = parseElements(prop[2])
+				temp['key_name'] = prop[1]
 				
 				if prop[0] not in result:
-					result[prop[0]] = {}
+					result[prop[0]] = []
 
-				result[prop[0]][prop[1]] = temp
+				result[prop[0]].append(temp)
 	
 	return result
 
