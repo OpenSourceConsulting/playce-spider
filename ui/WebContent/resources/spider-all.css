@@ -13738,6 +13738,28 @@ textarea.x-form-empty-field {
   overflow: hidden;
 }
 
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/form/field/Radio.scss */
+.x-form-radio {
+  width: 15px;
+  height: 15px;
+  background: url(images/form/radio.png) no-repeat;
+}
+
+/* line 7, ../../../../ext/packages/ext-theme-neutral/sass/src/form/field/Radio.scss */
+.x-form-cb-checked .x-form-radio {
+  background-position: 0 -15px;
+}
+
+/* line 11, ../../../../ext/packages/ext-theme-neutral/sass/src/form/field/Radio.scss */
+.x-form-radio-focus {
+  background-position: -15px 0;
+}
+
+/* line 15, ../../../../ext/packages/ext-theme-neutral/sass/src/form/field/Radio.scss */
+.x-form-cb-checked .x-form-radio-focus {
+  background-position: -15px -15px;
+}
+
 /* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/form/field/Trigger.scss */
 .x-form-trigger {
   background: url(images/form/trigger.png);
