@@ -25,7 +25,8 @@
             "VmBondingModel",
             "VmNatModel",
             "UserModel",
-            "VmFirewallModel"
+            "VmFirewallModel",
+            "VmDhcpModel"
         ],
         "name": "spider",
         "requires": [

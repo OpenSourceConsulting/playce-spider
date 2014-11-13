@@ -33,7 +33,8 @@ Ext.application({
         'VmBondingModel',
         'VmNatModel',
         'UserModel',
-        'VmFirewallModel'
+        'VmFirewallModel',
+        'VmDhcpModel'
     ],
     stores: [
         'SampleStore',

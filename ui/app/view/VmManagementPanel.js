@@ -2674,7 +2674,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 {
                                                     xtype: 'fieldset',
                                                     margin: '10 30 0 30',
-                                                    title: 'Bounding',
+                                                    title: 'Binding',
                                                     items: [
                                                         {
                                                             xtype: 'fieldcontainer',

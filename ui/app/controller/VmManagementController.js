@@ -133,10 +133,10 @@ Ext.define('spider.controller.VmManagementController', {
         var form = Ext.getCmp("viewFirewallForm");
         form.getForm().reset();
 
-        form.down('#saveBtn').hide();
-        form.down('#deleteBtn').hide();
-
         if(firewallName != "") {
+
+            form.down('#saveBtn').hide();
+            form.down('#deleteBtn').show();
 
             var recordData = [];
             Ext.each(vmConstants.vmFirewallRecords, function(record) {
@@ -153,6 +153,11 @@ Ext.define('spider.controller.VmManagementController', {
 
             ruleField.bindStore(store);
 
+        } else {
+
+            form.down('#saveBtn').hide();
+            form.down('#deleteBtn').hide();
+
         }
 
     },
@@ -163,9 +168,6 @@ Ext.define('spider.controller.VmManagementController', {
 
         var form = Ext.getCmp("viewFirewallForm");
         form.getForm().reset();
-
-        form.down('#saveBtn').hide();
-        form.down('#deleteBtn').hide();
 
         if(firewall.getValue() != "" && ruleName != "") {
 
@@ -2573,6 +2575,14 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     deleteVMFirewall: function(button) {
+
+        var ruleField = Ext.getCmp("comboFirewallRuleName");
+        if(ruleField.getStore().getCount() > 0 && (ruleField.getValue() == null || ruleField.getValue() == "") ) {
+
+            Ext.Msg.alert('Failure', "해당 Firewall 에 Rule 정보가 한 건 이상 존재할 경우 <br/> Rule 을 선택한 후에 삭제하시기 바랍니다.");
+            return;
+        }
+
         Ext.MessageBox.confirm('Confirm', '해당 Firewall 정보를 삭제하시겠습니까?', function(btn){
 
             if(btn == "yes"){
@@ -2580,7 +2590,7 @@ Ext.define('spider.controller.VmManagementController', {
                 var viewFirewallForm = Ext.getCmp("viewFirewallForm");
                 var formData = viewFirewallForm.getForm().getFieldValues();
 
-                var sendData;
+                var sendData = {rule : ruleField.getValue()};
                 Ext.each(vmConstants.vmFirewallRecords, function(record) {
 
                     if(record.name === formData.name) {
@@ -2597,7 +2607,7 @@ Ext.define('spider.controller.VmManagementController', {
                 });
 
                 Ext.Ajax.request({
-                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/firewall/" + formData.name,
+                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/firewall/" + Ext.getCmp("comboFirewallName").getValue(),
                     method: "DELETE",
                     headers : {
                         "Content-Type" : "application/json"

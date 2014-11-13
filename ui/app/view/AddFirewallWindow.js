@@ -241,7 +241,7 @@ Ext.define('spider.view.AddFirewallWindow', {
                         {
                             xtype: 'fieldset',
                             margin: '10 10 0 10',
-                            title: 'Bounding',
+                            title: 'Binding',
                             items: [
                                 {
                                     xtype: 'fieldcontainer',

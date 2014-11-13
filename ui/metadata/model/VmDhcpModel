@@ -1,0 +1,50 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmDhcpModel"
+    },
+    "designerId": "161d63b6-916c-456f-9de6-9c066d7604ec",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "authoritative"
+            },
+            "designerId": "e7f0f70a-f701-4270-b31d-5552c7d948ba"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "subnet"
+            },
+            "designerId": "3329e78f-a7b4-460d-8252-640225b8f1d7"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "key_name"
+            },
+            "designerId": "b1c2e355-6a50-4034-819e-5a486f4d1a96"
+        }
+    ]
+}
