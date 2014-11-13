@@ -36,7 +36,7 @@ mainDir = os.path.dirname(os.path.abspath(__file__))
 
 keywords = CaselessKeyword('interfaces') | CaselessKeyword('nat') | CaselessKeyword('service') | CaselessKeyword('system')
 elementList = Forward()
-string = Word( alphanums+'_-:/.+@$' )
+string = Word( alphanums+'_-:/.+@$!' )
 number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) +
                    Optional( '.' + Word(nums) ) +
                    Optional( Word('eE',exact=1) + Word(nums+'+-',nums) ) )
