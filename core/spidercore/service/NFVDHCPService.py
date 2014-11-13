@@ -51,10 +51,10 @@ def get_dhcp(vmid):
     return result
 
 def set_dhcp_global_task(dhcpinfo):
-    if 'disable' in dhcpinfo:
-        disable = dhcpinfo['disable']
+    if 'disabled' in dhcpinfo:
+        disabled = dhcpinfo['disabled']
     else:
-        disable = None
+        disabled = None
     
     if 'dynamic_dns_update' in dhcpinfo:
         dynamic_dns_update = dhcpinfo['dynamic_dns_update']
@@ -68,10 +68,10 @@ def set_dhcp_global_task(dhcpinfo):
         
     commands = []
     
-    if disable and (disable == True or disable == 'true'):
-        commands.append("$SET service dhcp-server disable true")
+    if disabled and (disabled == True or disabled == 'true'):
+        commands.append("$SET service dhcp-server disabled true")
     else:
-        commands.append("$SET service dhcp-server disable false")
+        commands.append("$SET service dhcp-server disabled false")
         
     if dynamic_dns_update and (dynamic_dns_update == True or dynamic_dns_update == 'true'):
         commands.append("$SET service dhcp-server dynamic-dns-update enable true")
@@ -183,8 +183,8 @@ def set_dhcp_task(dhcpinfo):
             
             if static_mapping:
                 for mapping in static_mapping:
-                    commands.append("$SET service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " static-mapping " 
-                        + mapping['map_name'] + " ip-address " + mapping['map_ip'] + " mac-address " + mapping['map_mac'])
+                    commands.append("$SET service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " static-mapping " + mapping['map_name'] + " ip-address " + mapping['map_ip'])
+                    commands.append("$SET service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " static-mapping " + mapping['map_name'] + " mac-address " + mapping['map_mac'])
             
         # 6. Set or Delete authoritative
         if authoritative and (authoritative == True or authoritative == 'true'):
@@ -220,10 +220,18 @@ def delete_dhcp_task(dhcpinfo):
     else:
         shared_network_name = None
         
+    if 'is_last' in dhcpinfo:
+        is_last = dhcpinfo['is_last']
+    else:
+        is_last = None
+        
     commands = []
     
-    if shared_network_name:
-        commands.append("$DELETE service dhcp-server shared-network-name " + shared_network_name)
+    if is_last and (is_last == True or is_last == 'true'):
+        commands.append("$DELETE service dhcp-server")
+    else:
+        if shared_network_name:
+            commands.append("$DELETE service dhcp-server shared-network-name " + shared_network_name)
             
     return FabricUtilNFV.send_vyatta_command(commands)
 

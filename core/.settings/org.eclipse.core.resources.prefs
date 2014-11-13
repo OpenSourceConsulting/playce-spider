@@ -3,6 +3,7 @@ encoding//spidercore/BongTest.py=utf-8
 encoding//spidercore/FabricUtilNFV.py=utf-8
 encoding//spidercore/FlaskMainNFV.py=utf-8
 encoding//spidercore/service/NFVBondingService.py=utf-8
+encoding//spidercore/service/NFVDHCPService.py=utf-8
 encoding//spidercore/service/NFVFirewallService.py=utf-8
 encoding//spidercore/service/NFVNATService.py=utf-8
 encoding//spidercore/service/NFVNICService.py=utf-8
