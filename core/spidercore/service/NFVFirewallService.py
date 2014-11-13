@@ -166,14 +166,24 @@ def update_firewall_task(fwname, fwinfo):
 		else:
 			_key = key
 			
-		if key == 'before_eths':
+		if key in ['rule','before_eth','name','before_inout']:
 			continue # 앞에서 처리했음으로.. pass.
 		
 			
 			
 		if key == 'ethernet':
-			for eth in fwinfo[key]:
-				commands.append("$SET interfaces ethernet %s firewall %s %s" % (eth, fwinfo['inout'], fwname))
+			
+			if 'inout' in fwinfo:
+				inout = fwinfo['inout']
+			else:
+				inout = fwinfo['before_inout']  # eth 만 변경된경우
+			
+			commands.append("$SET interfaces ethernet %s firewall %s name %s" % (fwinfo[key], inout, fwname))
+			
+		elif key == 'inout' and not 'ethernet' in fwinfo:
+			# inout 만 변경된 상태
+			commands.append("$DELETE interfaces ethernet %s firewall" % fwinfo['before_eth'])
+			commands.append("$SET interfaces ethernet %s firewall %s name %s" % (fwinfo['before_eth'], fwinfo[key], fwname))
 		else:
 			commands.append("$DELETE firewall name %s rule %s %s" % (fwname, rule_num, _key))
 			if len(fwinfo[key]) > 0:
@@ -188,6 +198,7 @@ def update_firewall(vmid, params):
 	
 	diff['rule'] = params['before']['rule'] # rule number
 	diff['before_eth'] = params['before']['ethernet']
+	diff['before_inout'] = params['before']['inout']
 	
 	if len(diff) == 0:
 		logger.debug("firewall 수정사항이 없습니다.")

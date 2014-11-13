@@ -516,9 +516,12 @@ def vmfirewall(id=None, fwname=None):
 		logger.debug(json.dumps(jsonParams, indent=4))
 	
 	try:
-		NFVFirewallService.validate_params(jsonParams['after'])
+		if request.method == 'PUT':
+			if len(jsonParams['before']) != len(jsonParams['after']):
+				return "before 와 after 중 누락된 항목이 존재합니다.", 500
+			NFVFirewallService.validate_params(jsonParams['after'])
 	except ValueError as e:
-		return e, 500
+		return e.message, 500
 		
 	
 	if request.method == 'GET':
@@ -526,8 +529,6 @@ def vmfirewall(id=None, fwname=None):
 	elif request.method == 'POST':
 		result = NFVFirewallService.create_firewall(id, jsonParams)
 	elif request.method == 'PUT':
-		if len(jsonParams['before']) != len(jsonParams['after']):
-			return "before 와 after 중 누락된 항목이 존재합니다.", 500
 		result = NFVFirewallService.update_firewall(id, jsonParams)
 	else:
 		result = NFVFirewallService.delete_firewall(id, jsonParams)
