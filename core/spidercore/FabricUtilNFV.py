@@ -80,6 +80,10 @@ def show_interfaces_with_configure(filter):
 	
 	nics =[]
 	for eth in results.asList():
+		
+		if eth[1] == 'loopback':
+			continue
+		
 		nic = {'ethName': eth[1]}
 		
 		for attr in eth[2]:

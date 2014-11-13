@@ -119,7 +119,7 @@ def all_firewall(vmid):
 	logger.debug(json.dumps(fws, indent=4))
 		
 	
-	return {"success":"success","msg":fws}
+	return fws
 	
 def update_firewall_task(fwname, fwinfo):
 	commands = []
