@@ -89,6 +89,8 @@ def show_interfaces_with_configure(filter):
 		for attr in eth[2]:
 			if len(attr) == 1:
 				nic[attr[0]] = True
+			elif 'firewall' == attr[0]:
+				nic[attr[0]] = [attr[1][0][0], attr[1][0][1][0][1]] #"firewall": [["in", [["name", "test-firewall2"]]]]
 			else:
 				nic[attr[0]] = attr[1]
 		

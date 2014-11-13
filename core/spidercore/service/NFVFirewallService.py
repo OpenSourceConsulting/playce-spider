@@ -35,6 +35,10 @@ logger = logging.getLogger(__name__)
 
 def validate_params(params):
 	
+	for key in params:
+		if 'protocol' == key and params['protocol'].lower() in ['tcp','udp']:
+			if len(params['source_port']) == 0 and len(params['source_port']) == 0:
+				raise ValueError('protocol 이 TCP, UDP 일때는 port 도 지정해야 합니다.')
 	
 	return None
 
@@ -87,6 +91,16 @@ def create_firewall(vmid, params):
 
 	return results[addr]
 	
+def get_firewall_nic(nics, fwname):
+	
+	result = {}
+	for nic in nics:
+		if 'firewall' in nic and nic['firewall'][1] == fwname:
+			result['ethernet'] = nic['ethName']
+			result['inout'] = nic['firewall'][0]
+	
+	return result
+
 def all_firewall(vmid):
 	
 	result = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW firewall name")
@@ -95,11 +109,17 @@ def all_firewall(vmid):
 	results = elementList.parseString(result)
 	pprint.pprint( results.asList() )
 	
+	
+	vm = get_vm(vmid)
+	nics = FabricUtilNFV.getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], 'ethernet')
+	
 	print '------------------------------'
 	
 	fws = []
 	for depth1 in results.asList():
 		fw = {depth1[0]: depth1[1], 'rules':[]} # {'name':'FWTEST-1', 'rules':[]}
+		
+		fw.update(get_firewall_nic(nics, depth1[1]))
 		
 		for depth2 in depth1[2]:
 			rule = {}
