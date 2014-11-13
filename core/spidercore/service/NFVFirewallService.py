@@ -156,8 +156,8 @@ def update_firewall_task(fwname, fwinfo):
 	rule_num = fwinfo['rule']
 	
 	# 이전 ethernet 삭제
-	if 'ethernet' in fwinfo and len(fwinfo['ethernet']) > 0:
-		if 'before_eth' in fwinfo:
+	if 'ethernet' in fwinfo:
+		if 'before_eth' in fwinfo and len(fwinfo['before_eth']) > 0:
 			commands.append("$DELETE interfaces ethernet %s firewall" % fwinfo['before_eth'])
 	
 	for key in fwinfo:
@@ -178,7 +178,8 @@ def update_firewall_task(fwname, fwinfo):
 			else:
 				inout = fwinfo['before_inout']  # eth 만 변경된경우
 			
-			commands.append("$SET interfaces ethernet %s firewall %s name %s" % (fwinfo[key], inout, fwname))
+			if len(fwinfo[key]) > 0:
+				commands.append("$SET interfaces ethernet %s firewall %s name %s" % (fwinfo[key], inout, fwname))
 			
 		elif key == 'inout' and not 'ethernet' in fwinfo:
 			# inout 만 변경된 상태
