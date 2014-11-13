@@ -3670,7 +3670,7 @@
                                                 "displayField": "rule",
                                                 "editable": false,
                                                 "fieldLabel": "Shared Network",
-                                                "id": "comboRuleName1",
+                                                "id": "comboDhcpNetworkName",
                                                 "labelWidth": 110,
                                                 "layout|flex": null,
                                                 "margin": "0 0 0 10",
@@ -3724,7 +3724,7 @@
                                                         ],
                                                         "fn": "handler",
                                                         "implHandler": [
-                                                            "vmConstants.me.popVmNatWindow();"
+                                                            "vmConstants.me.popVmDhcpWindow();"
                                                         ]
                                                     },
                                                     "designerId": "c0174de5-ed54-413a-9662-a1046d93c9f9"
@@ -3808,7 +3808,28 @@
                                                                 "padding": "3 8 3 8",
                                                                 "text": "저장"
                                                             },
-                                                            "designerId": "f31951c4-a056-4458-91d9-0638b09f28a1"
+                                                            "designerId": "f31951c4-a056-4458-91d9-0638b09f28a1",
+                                                            "cn": [
+                                                                {
+                                                                    "type": "fixedfunction",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "designer|params": [
+                                                                            "button",
+                                                                            "e"
+                                                                        ],
+                                                                        "fn": "handler",
+                                                                        "implHandler": [
+                                                                            "vmConstants.me.saveVmDhcpGlobal();"
+                                                                        ]
+                                                                    },
+                                                                    "designerId": "81a68751-b633-4ec9-a280-aef6e3c9680e"
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -3862,9 +3883,11 @@
                                                                     "codeClass": null,
                                                                     "userConfig": {
                                                                         "boxLabel": "Disable",
+                                                                        "checked": true,
                                                                         "fieldLabel": null,
                                                                         "labelWidth": null,
                                                                         "margin": null,
+                                                                        "name": "disabled",
                                                                         "padding": null,
                                                                         "width": null
                                                                     },
@@ -3880,6 +3903,7 @@
                                                                     "userConfig": {
                                                                         "boxLabel": "Dynamic DNS Update",
                                                                         "fieldLabel": null,
+                                                                        "name": "dynamic_dns_update",
                                                                         "padding": "0 0 0 20"
                                                                     },
                                                                     "designerId": "673109b2-666c-47cd-9903-2b765a5287ae"
@@ -3935,7 +3959,8 @@
                                                             "userConfig": {
                                                                 "fieldLabel": "Parameters",
                                                                 "layout|flex": 1,
-                                                                "margin": null
+                                                                "margin": null,
+                                                                "name": "parameters"
                                                             },
                                                             "designerId": "85ca684c-11f7-4738-9505-c97e3f56b21d"
                                                         }
@@ -3993,7 +4018,28 @@
                                                                 "padding": "3 8 3 8",
                                                                 "text": "저장"
                                                             },
-                                                            "designerId": "5642bfd9-755b-40e7-983a-db1255bf2002"
+                                                            "designerId": "5642bfd9-755b-40e7-983a-db1255bf2002",
+                                                            "cn": [
+                                                                {
+                                                                    "type": "fixedfunction",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "designer|params": [
+                                                                            "button",
+                                                                            "e"
+                                                                        ],
+                                                                        "fn": "handler",
+                                                                        "implHandler": [
+                                                                            "vmConstants.me.saveVmDhcpSharednet();"
+                                                                        ]
+                                                                    },
+                                                                    "designerId": "4bc0b2c3-9fdc-4b65-82c1-331670f07deb"
+                                                                }
+                                                            ]
                                                         },
                                                         {
                                                             "type": "Ext.button.Button",
@@ -4007,7 +4053,28 @@
                                                                 "padding": "3 8 3 8",
                                                                 "text": "삭제"
                                                             },
-                                                            "designerId": "32b71dc6-bd5a-4052-8e8d-941cd65f0c53"
+                                                            "designerId": "32b71dc6-bd5a-4052-8e8d-941cd65f0c53",
+                                                            "cn": [
+                                                                {
+                                                                    "type": "fixedfunction",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "designer|params": [
+                                                                            "button",
+                                                                            "e"
+                                                                        ],
+                                                                        "fn": "handler",
+                                                                        "implHandler": [
+                                                                            "vmConstants.me.deleteVmDhcpSharednet();"
+                                                                        ]
+                                                                    },
+                                                                    "designerId": "93cdb84b-5657-427b-80d6-bb42aff54970"
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -4045,7 +4112,9 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "fieldLabel": "IP/Subnet",
-                                                                "layout|flex": 1
+                                                                "layout|flex": 1,
+                                                                "name": "subnet_ipv4net",
+                                                                "readOnly": true
                                                             },
                                                             "designerId": "6b5e3b17-6ed4-4e95-84c1-0c2ddf951cc9"
                                                         },
@@ -4072,7 +4141,8 @@
                                                                     "codeClass": null,
                                                                     "userConfig": {
                                                                         "boxLabel": "Authoritative",
-                                                                        "fieldLabel": null
+                                                                        "fieldLabel": null,
+                                                                        "name": "authoritative"
                                                                     },
                                                                     "designerId": "43a5e67a-fc42-4b76-82f5-4995731e0177"
                                                                 },
@@ -4085,7 +4155,8 @@
                                                                     "codeClass": null,
                                                                     "userConfig": {
                                                                         "boxLabel": "Disable",
-                                                                        "fieldLabel": null
+                                                                        "fieldLabel": null,
+                                                                        "name": "disable"
                                                                     },
                                                                     "designerId": "1a7fc5f5-1442-4ef7-8072-e2269cbc7959"
                                                                 }
@@ -4127,7 +4198,8 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "fieldLabel": "Start IP Address",
-                                                                "layout|flex": 1
+                                                                "layout|flex": 1,
+                                                                "name": "start_ip"
                                                             },
                                                             "designerId": "0e5ed9d3-ab28-4e0e-a3eb-a5326b06dd37"
                                                         },
@@ -4140,7 +4212,8 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "fieldLabel": "Stop IP Address",
-                                                                "layout|flex": 1
+                                                                "layout|flex": 1,
+                                                                "name": "stop_ip"
                                                             },
                                                             "designerId": "4ea2fcd4-4055-4086-aac3-58b40d5928ac"
                                                         }
@@ -4180,7 +4253,8 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "fieldLabel": "Default Router",
-                                                                "layout|flex": 1
+                                                                "layout|flex": 1,
+                                                                "name": "default_router"
                                                             },
                                                             "designerId": "6d23a51b-c8c0-4ae3-8c79-95989b7e3c90"
                                                         },
@@ -4193,7 +4267,8 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "fieldLabel": "DNS Server",
-                                                                "layout|flex": 1
+                                                                "layout|flex": 1,
+                                                                "name": "dns_server"
                                                             },
                                                             "designerId": "1ee38d0b-3133-495c-b196-56df65ef336f"
                                                         }
@@ -4234,7 +4309,8 @@
                                                             "userConfig": {
                                                                 "fieldLabel": "Domain Name",
                                                                 "layout|flex": 1,
-                                                                "margin": "0 20 0 0"
+                                                                "margin": "0 20 0 0",
+                                                                "name": "domain_name"
                                                             },
                                                             "designerId": "97ecce5a-de4c-4e9b-8f45-99480dc39911"
                                                         },
@@ -4264,64 +4340,14 @@
                                                         "forceFit": true,
                                                         "header": false,
                                                         "height": 150,
+                                                        "id": "viewDhcpMappingGrid",
                                                         "margin": "5 10 10 30",
                                                         "overflowY": "auto",
+                                                        "store": "VmDhcpMappingStore",
                                                         "title": "My Grid Panel"
                                                     },
                                                     "designerId": "5f483ecc-31ec-4f77-bde7-e5caa86c8bc5",
                                                     "cn": [
-                                                        {
-                                                            "type": "Ext.grid.column.Column",
-                                                            "reference": {
-                                                                "name": "columns",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "dataIndex": "string",
-                                                                "text": "String"
-                                                            },
-                                                            "designerId": "27ef4a4e-1ed2-4f67-9665-c8fdf837ba38"
-                                                        },
-                                                        {
-                                                            "type": "Ext.grid.column.Number",
-                                                            "reference": {
-                                                                "name": "columns",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "dataIndex": "number",
-                                                                "text": "Number"
-                                                            },
-                                                            "designerId": "419e5bd0-8e2d-4843-a47a-fbdb8ff0bc08"
-                                                        },
-                                                        {
-                                                            "type": "Ext.grid.column.Date",
-                                                            "reference": {
-                                                                "name": "columns",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "dataIndex": "date",
-                                                                "text": "Date"
-                                                            },
-                                                            "designerId": "b34462a8-1417-4a75-a2c3-c8ba4174eb94"
-                                                        },
-                                                        {
-                                                            "type": "Ext.grid.column.Boolean",
-                                                            "reference": {
-                                                                "name": "columns",
-                                                                "type": "array"
-                                                            },
-                                                            "codeClass": null,
-                                                            "userConfig": {
-                                                                "dataIndex": "bool",
-                                                                "text": "Boolean"
-                                                            },
-                                                            "designerId": "d642b782-bc0c-453c-91c9-76bb908e1caf"
-                                                        },
                                                         {
                                                             "type": "Ext.grid.View",
                                                             "reference": {
@@ -4387,7 +4413,106 @@
                                                                         "padding": "3 8 3 8",
                                                                         "text": "추가"
                                                                     },
-                                                                    "designerId": "2d686201-e579-470e-9740-e325c5cf0955"
+                                                                    "designerId": "2d686201-e579-470e-9740-e325c5cf0955",
+                                                                    "cn": [
+                                                                        {
+                                                                            "type": "fixedfunction",
+                                                                            "reference": {
+                                                                                "name": "items",
+                                                                                "type": "array"
+                                                                            },
+                                                                            "codeClass": null,
+                                                                            "userConfig": {
+                                                                                "designer|params": [
+                                                                                    "button",
+                                                                                    "e"
+                                                                                ],
+                                                                                "fn": "handler",
+                                                                                "implHandler": null
+                                                                            },
+                                                                            "designerId": "f4441faa-8a7a-4a72-91a5-7528843fa2f9"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "Ext.grid.column.Column",
+                                                            "reference": {
+                                                                "name": "columns",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "dataIndex": "map_name",
+                                                                "text": "Mapping Name"
+                                                            },
+                                                            "designerId": "33f50391-b131-4bf7-851f-cb30ca934a73"
+                                                        },
+                                                        {
+                                                            "type": "Ext.grid.column.Column",
+                                                            "reference": {
+                                                                "name": "columns",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "dataIndex": "map_ip",
+                                                                "text": "IP Address"
+                                                            },
+                                                            "designerId": "4a665a0f-2909-4617-9ecb-b9ebd89948eb"
+                                                        },
+                                                        {
+                                                            "type": "Ext.grid.column.Column",
+                                                            "reference": {
+                                                                "name": "columns",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "dataIndex": "map_mac",
+                                                                "text": "Mac Address"
+                                                            },
+                                                            "designerId": "f9e9092a-f777-4ed3-9343-0029d241e54e"
+                                                        },
+                                                        {
+                                                            "type": "Ext.grid.column.Action",
+                                                            "reference": {
+                                                                "name": "columns",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "hideable": false,
+                                                                "maxWidth": 80,
+                                                                "minWidth": 80,
+                                                                "style": "text-align:center;",
+                                                                "text": "Delete",
+                                                                "width": null
+                                                            },
+                                                            "configAlternates": {
+                                                                "style": "string"
+                                                            },
+                                                            "designerId": "ffd15b03-aa93-4da8-884a-2c684059891a",
+                                                            "customConfigs": [
+                                                                {
+                                                                    "group": "(Custom Properties)",
+                                                                    "name": "text",
+                                                                    "type": "string"
+                                                                }
+                                                            ],
+                                                            "cn": [
+                                                                {
+                                                                    "type": "actioncolumnitem",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "icon": "resources/images/icons/delete.png"
+                                                                    },
+                                                                    "designerId": "87f376eb-daca-4ad7-bf7a-90550da5aa25"
                                                                 }
                                                             ]
                                                         }
@@ -5577,6 +5702,7 @@
                                                         "cls": "deleteBtn",
                                                         "itemId": "deleteBtn",
                                                         "layout|flex": null,
+                                                        "margin": "0 20 0 0",
                                                         "padding": "3 8 3 8",
                                                         "text": "삭제"
                                                     },
@@ -5638,71 +5764,6 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "displayField": "ethName",
-                                                        "editable": false,
-                                                        "emptyText": "Default",
-                                                        "fieldLabel": "NIC",
-                                                        "layout|flex": 0.8,
-                                                        "margin": "0 40 0 0",
-                                                        "name": "ethernet",
-                                                        "padding": null,
-                                                        "queryMode": "local",
-                                                        "store": null,
-                                                        "valueField": "ethName",
-                                                        "valueNotFoundText": "해당없음"
-                                                    },
-                                                    "configAlternates": {
-                                                        "store": "array"
-                                                    },
-                                                    "designerId": "2322b287-739d-4ccc-bf21-d133f5f16efb"
-                                                },
-                                                {
-                                                    "type": "Ext.toolbar.Spacer",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": 1.2
-                                                    },
-                                                    "designerId": "5efe1da7-0963-408c-95db-3cbeb21b116f"
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "type": "Ext.form.FieldContainer",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "container|align": "middle",
-                                                "fieldLabel": "Label",
-                                                "flex": "1",
-                                                "height": 35,
-                                                "hideLabel": true,
-                                                "layout": "hbox",
-                                                "margin": null
-                                            },
-                                            "designerId": "856b3368-2b72-46aa-91f2-283fcb5512c5",
-                                            "customConfigs": [
-                                                {
-                                                    "group": "(Custom Properties)",
-                                                    "name": "flex",
-                                                    "type": "string"
-                                                }
-                                            ],
-                                            "cn": [
-                                                {
-                                                    "type": "Ext.form.field.ComboBox",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
                                                         "allowBlank": false,
                                                         "displayField": "ethName",
                                                         "editable": false,
@@ -5710,7 +5771,7 @@
                                                         "fieldLabel": "동작",
                                                         "labelWidth": null,
                                                         "layout|flex": 0.8,
-                                                        "margin": "0 20 0 0",
+                                                        "margin": "0 40 0 0",
                                                         "name": "action",
                                                         "padding": null,
                                                         "queryMode": "local",
@@ -5736,54 +5797,9 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "layout|flex": 0.2,
-                                                        "margin": null
+                                                        "layout|flex": 1.2
                                                     },
-                                                    "designerId": "de190c37-1dc5-4a85-8951-b3d7ae0a7179"
-                                                },
-                                                {
-                                                    "type": "Ext.form.field.ComboBox",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "displayField": "ethName",
-                                                        "editable": false,
-                                                        "emptyText": "Default",
-                                                        "fieldLabel": "동작 위치",
-                                                        "labelWidth": null,
-                                                        "layout|flex": 0.8,
-                                                        "margin": "0 20 0 0",
-                                                        "name": "inout",
-                                                        "queryMode": "local",
-                                                        "store": [
-                                                            "[",
-                                                            "    \"in\",",
-                                                            "    \"out\",",
-                                                            "    \"local\"",
-                                                            "]"
-                                                        ],
-                                                        "valueField": "ethName"
-                                                    },
-                                                    "configAlternates": {
-                                                        "store": "array"
-                                                    },
-                                                    "designerId": "4c6fef0b-b276-4277-9ffd-e633122643b9"
-                                                },
-                                                {
-                                                    "type": "Ext.toolbar.Spacer",
-                                                    "reference": {
-                                                        "name": "items",
-                                                        "type": "array"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "layout|flex": 0.2,
-                                                        "margin": null
-                                                    },
-                                                    "designerId": "1c66c66e-06c6-4db2-895f-54f64e5c82f9"
+                                                    "designerId": "5efe1da7-0963-408c-95db-3cbeb21b116f"
                                                 }
                                             ]
                                         },
@@ -6048,6 +6064,132 @@
                                                         "layout|flex": 0.2
                                                     },
                                                     "designerId": "86fc87e9-4ed7-4239-98bf-e3c4c7ae4669"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Ext.form.FieldSet",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "margin": "10 30 0 30",
+                                                "title": "Bounding"
+                                            },
+                                            "designerId": "421d8254-1222-4042-8bbd-1eca69906d31",
+                                            "cn": [
+                                                {
+                                                    "type": "Ext.form.FieldContainer",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "container|align": "middle",
+                                                        "fieldLabel": "Label",
+                                                        "flex": "1",
+                                                        "height": 35,
+                                                        "hideLabel": true,
+                                                        "layout": "hbox",
+                                                        "margin": "0 0 10 0"
+                                                    },
+                                                    "designerId": "d9deb689-be99-41de-8ba2-6e1de878e467",
+                                                    "customConfigs": [
+                                                        {
+                                                            "group": "(Custom Properties)",
+                                                            "name": "flex",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "cn": [
+                                                        {
+                                                            "type": "Ext.form.field.ComboBox",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "displayField": "ethName",
+                                                                "editable": false,
+                                                                "emptyText": "Default",
+                                                                "fieldLabel": "NIC",
+                                                                "labelWidth": 105,
+                                                                "layout|flex": 0.8,
+                                                                "margin": "0 40 0 0",
+                                                                "name": "ethernet",
+                                                                "padding": null,
+                                                                "queryMode": "local",
+                                                                "store": null,
+                                                                "valueField": "ethName"
+                                                            },
+                                                            "configAlternates": {
+                                                                "store": "array"
+                                                            },
+                                                            "designerId": "6238c9f8-d35f-4a96-b341-27fbf334330e"
+                                                        },
+                                                        {
+                                                            "type": "Ext.toolbar.Spacer",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "layout|flex": 0.2,
+                                                                "layout|margins": "10",
+                                                                "margin": null
+                                                            },
+                                                            "designerId": "05a593b4-8caf-46fc-81a6-625a3cbd2c32"
+                                                        },
+                                                        {
+                                                            "type": "Ext.form.field.ComboBox",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "displayField": null,
+                                                                "editable": false,
+                                                                "emptyText": "Default",
+                                                                "fieldLabel": "동작 위치",
+                                                                "labelWidth": 105,
+                                                                "layout|flex": 0.8,
+                                                                "margin": "0 0 0 10",
+                                                                "name": "inout",
+                                                                "queryMode": "local",
+                                                                "store": [
+                                                                    "[",
+                                                                    "    \"in\",",
+                                                                    "    \"out\",",
+                                                                    "    \"local\"",
+                                                                    "]"
+                                                                ],
+                                                                "valueField": null
+                                                            },
+                                                            "configAlternates": {
+                                                                "store": "array"
+                                                            },
+                                                            "designerId": "68ba7afc-ca6d-497c-932d-6962f6758d20"
+                                                        },
+                                                        {
+                                                            "type": "Ext.toolbar.Spacer",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "layout|flex": 0.2,
+                                                                "layout|margins": null
+                                                            },
+                                                            "designerId": "d8f777ba-f675-4d96-ac00-ffca2ada30aa"
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         },

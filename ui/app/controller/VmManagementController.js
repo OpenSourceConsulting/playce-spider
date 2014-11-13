@@ -47,6 +47,10 @@ Ext.define('spider.controller.VmManagementController', {
 
             this.setNat();
 
+        } else if(newCard.title === "DHCP(Service)") {
+
+            this.setDhcp();
+
         } else if(newCard.title === "HTTPS/SSH(Service)") {
 
             this.setHttpsSsh();
@@ -129,6 +133,9 @@ Ext.define('spider.controller.VmManagementController', {
         var form = Ext.getCmp("viewFirewallForm");
         form.getForm().reset();
 
+        form.down('#saveBtn').hide();
+        form.down('#deleteBtn').hide();
+
         if(firewallName != "") {
 
             var recordData = [];
@@ -146,24 +153,25 @@ Ext.define('spider.controller.VmManagementController', {
 
             ruleField.bindStore(store);
 
-        } else {
-
-            form.down('#saveBtn').hide();
-            form.down('#deleteBtn').hide();
-
         }
+
     },
 
     onComboFirewallRuleNameChange: function(field, newValue, oldValue, eOpts) {
         var firewall = field.up('form').getForm().findField("comboFirewallName"),
             ruleName = newValue;
 
+        var form = Ext.getCmp("viewFirewallForm");
+        form.getForm().reset();
+
+        form.down('#saveBtn').hide();
+        form.down('#deleteBtn').hide();
+
         if(firewall.getValue() != "" && ruleName != "") {
 
             this.changeFirewallData(firewall.getValue(), ruleName);
 
         }
-
     },
 
     initVmManagement: function(record, tabIndex) {
@@ -1978,6 +1986,88 @@ Ext.define('spider.controller.VmManagementController', {
         });
     },
 
+    setDhcp: function() {
+
+        Ext.getCmp("viewDhcpForm").getForm().reset();
+        Ext.getCmp("comboDhcpNetworkName").setValue("");
+
+        setDhcpNetworkData();
+    },
+
+    setDhcpNetworkData: function(comboValue) {
+        var store;
+        var form = Ext.getCmp("viewDhcpForm");
+
+        form.getForm().reset();
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/dhcp',
+            method : "GET",
+            disableCaching : true,
+            waitMsg: 'Loading...',
+            waitMsgTarget : form.up('panel').getEl(),
+            success: function(response){
+
+                if(response.status == 200) {
+
+                    var data = Ext.decode(response.responseText);
+
+                    if(data["shared-network-name"] != null) {
+
+                        form.getForm().setValues(data);
+                        form.getForm().findField("parameters").setValue(data["global-parameters"].replace(/(?:\r,|\r|,)/g, '\n'));
+
+                        var recordData = data["shared-network-name"];
+
+                        store = Ext.create('Ext.data.Store', {
+                            model: 'spider.model.VmDhcpModel',
+                            data: recordData
+                        });
+
+                        Ext.getCmp("comboDhcpName").bindStore(store);
+                    }
+
+                    var recordData = [];
+                    Ext.each(datas, function (record){
+
+                        var addFlag = true;
+
+                        Ext.each(recordData, function(rData) {
+
+                            if(record.name === rData.name) {
+
+                                addFlag = false;
+                                return false;
+                            }
+                        });
+
+                        if(addFlag) {
+                            recordData.push(record);
+                        }
+
+                    });
+
+                    store = Ext.create('Ext.data.Store', {
+                        model: 'spider.model.VmFirewallModel',
+                        data: recordData
+                    });
+
+                    Ext.getCmp("comboFirewallName").bindStore(store);
+                    Ext.getCmp("comboFirewallRuleName").getStore().removeAll();
+
+                    if(comboValue != null) {
+
+                        vmConstants.me.changeFirewallData(comboValue, ruleValue);
+
+                    }
+
+                }
+
+            }
+        });
+
+    },
+
     setHttpsSsh: function() {
         var store;
         var form = Ext.getCmp("viewHttpsSshForm");
@@ -2119,7 +2209,7 @@ Ext.define('spider.controller.VmManagementController', {
             disableCaching : true,
             waitMsg: 'Loading...',
             waitMsgTarget : form.up('panel').getEl(),
-            async  : false,
+            //async  : false,
             success: function(response){
 
                 if(response.status == 200) {
@@ -2158,7 +2248,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                     if(comboValue != null) {
 
-                        //vmConstants.me.changeNatData(comboValue, radioValue);
+                        vmConstants.me.changeFirewallData(comboValue, ruleValue);
 
                     }
                 }
@@ -2176,6 +2266,9 @@ Ext.define('spider.controller.VmManagementController', {
             return;
         }
 
+        form.down('#saveBtn').show();
+        form.down('#deleteBtn').show();
+
         Ext.each(vmConstants.vmFirewallRecords, function(record) {
 
             if(record.name === firewallName) {
@@ -2183,6 +2276,10 @@ Ext.define('spider.controller.VmManagementController', {
                 Ext.each(record.rules, function(rule) {
 
                     if(rule.rule === ruleName) {
+                        rule.name = firewallName;
+                        rule.ethernet = record.ethernet;
+                        rule.inout = record.inout;
+
                         data = rule;
                     }
                 });
@@ -2377,37 +2474,37 @@ Ext.define('spider.controller.VmManagementController', {
 
             }
 
-            var chkField = addFirewallForm.getForm().findField("source_address").nextNode('checkboxfield');
+            var chkField = viewFirewallForm.getForm().findField("source_address").nextNode('checkboxfield');
             if(formData.source_address !== "" && chkField.getValue() === true) {
                 formData.source_address = "!" + formData.source_address;
             }
             delete formData[chkField.getName()];
 
-            var chkField = addFirewallForm.getForm().findField("destination_address").nextNode('checkboxfield');
+            var chkField = viewFirewallForm.getForm().findField("destination_address").nextNode('checkboxfield');
             if(formData.destination_address !== "" && chkField.getValue() === true) {
                 formData.destination_address = "!" + formData.destination_address;
             }
             delete formData[chkField.getName()];
 
-            var chkField = addFirewallForm.getForm().findField("source_port").nextNode('checkboxfield');
+            var chkField = viewFirewallForm.getForm().findField("source_port").nextNode('checkboxfield');
             if(formData.source_port !== "" && chkField.getValue() === true) {
                 formData.source_port = "!" + formData.source_port;
             }
             delete formData[chkField.getName()];
 
-            var chkField = addFirewallForm.getForm().findField("destination_port").nextNode('checkboxfield');
+            var chkField = viewFirewallForm.getForm().findField("destination_port").nextNode('checkboxfield');
             if(formData.destination_port !== "" && chkField.getValue() === true) {
                 formData.destination_port = "!" + formData.destination_port;
             }
             delete formData[chkField.getName()];
 
-            var chkField = addFirewallForm.getForm().findField("protocol").nextNode('checkboxfield');
+            var chkField = viewFirewallForm.getForm().findField("protocol").nextNode('checkboxfield');
             if(formData.protocol !== "" && chkField.getValue() === true) {
                 formData.protocol = "!" + formData.protocol;
             }
             delete formData[chkField.getName()];
 
-            var chkField = addFirewallForm.getForm().findField("source_mac-address").nextNode('checkboxfield');
+            var chkField = viewFirewallForm.getForm().findField("source_mac-address").nextNode('checkboxfield');
             if(formData["source_mac-address"] !== "" && chkField.getValue() === true) {
                 formData["source_mac-address"] = "!" + formData["source_mac-address"];
             }
@@ -2423,12 +2520,25 @@ Ext.define('spider.controller.VmManagementController', {
                     Ext.each(record.rules, function(rule) {
 
                         if(rule.rule === formData.rule) {
+
+                            if(rule.action == null)					rule.action = "";
+                            if(rule.destination_address == null)	rule.destination_address = "";
+                            if(rule.destination_port == null)		rule.destination_port = "";
+                            if(rule.ethernet == null)				rule.ethernet = "";
+                            if(rule.inout == null)					rule.inout = "";
+                            if(rule.name == null)					rule.name = "";
+                            if(rule.protocol == null)				rule.protocol = "";
+                            if(rule.rule == null)					rule.rule = "";
+                            if(rule["source_mac-address"] == null)	rule["source_mac-address"] = "";
+                            if(rule.source_port == null)			rule.source_port = "";
+
                             sendData.before = rule;
                         }
                     });
 
                 }
             });
+
 
             Ext.Ajax.request({
                  url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/firewall/" + formData.name,
@@ -2473,8 +2583,16 @@ Ext.define('spider.controller.VmManagementController', {
                 var sendData;
                 Ext.each(vmConstants.vmFirewallRecords, function(record) {
 
-                    if(record.name === formData.name && record.rule === formData.rule) {
-                        sendData = record;
+                    if(record.name === formData.name) {
+
+                        Ext.each(record.rules, function(rule) {
+
+                            if(rule.rule === formData.rule) {
+
+                                sendData = rule;
+                            }
+                        });
+
                     }
                 });
 

@@ -47,7 +47,8 @@ Ext.application({
         'VmInterfaceStore',
         'SessionStore',
         'VmBondingStore',
-        'UserStore'
+        'UserStore',
+        'VmDhcpMappingStore'
     ],
     views: [
         'AthenaSpider',

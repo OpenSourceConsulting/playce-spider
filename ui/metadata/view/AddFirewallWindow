@@ -8,7 +8,7 @@
     "userConfig": {
         "designer|userAlias": "AddFirewallWindow",
         "designer|userClassName": "AddFirewallWindow",
-        "height": 325,
+        "height": 365,
         "id": "AddBondingWindow2",
         "itemId": null,
         "modal": true,
@@ -178,70 +178,6 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "displayField": "ethName",
-                                "editable": false,
-                                "emptyText": null,
-                                "fieldLabel": "NIC",
-                                "layout|flex": 0.8,
-                                "margin": "0 40 0 0",
-                                "name": "ethernet",
-                                "padding": null,
-                                "queryMode": "local",
-                                "store": null,
-                                "valueField": "ethName"
-                            },
-                            "configAlternates": {
-                                "store": "array"
-                            },
-                            "designerId": "6117e4e3-263f-4a20-887d-ebbe58318f60"
-                        },
-                        {
-                            "type": "Ext.toolbar.Spacer",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "layout|flex": 1.2
-                            },
-                            "designerId": "23187bbe-852f-42a2-8cbe-74667d8e6210"
-                        }
-                    ]
-                },
-                {
-                    "type": "Ext.form.FieldContainer",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "container|align": "middle",
-                        "fieldLabel": "Label",
-                        "flex": "1",
-                        "height": 35,
-                        "hideLabel": true,
-                        "layout": "hbox",
-                        "margin": null
-                    },
-                    "designerId": "433766ae-d7cb-4629-8b35-fb1eb5cc15c9",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "flex",
-                            "type": "string"
-                        }
-                    ],
-                    "cn": [
-                        {
-                            "type": "Ext.form.field.ComboBox",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
                                 "allowBlank": false,
                                 "displayField": null,
                                 "editable": false,
@@ -249,7 +185,7 @@
                                 "fieldLabel": "동작",
                                 "labelWidth": null,
                                 "layout|flex": 0.8,
-                                "margin": "0 20 0 0",
+                                "margin": "0 40 0 0",
                                 "name": "action",
                                 "padding": null,
                                 "queryMode": "local",
@@ -275,54 +211,9 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "layout|flex": 0.2,
-                                "margin": null
+                                "layout|flex": 1.2
                             },
-                            "designerId": "803b58b0-01d5-42e1-bf45-ab41fc7c2a0f"
-                        },
-                        {
-                            "type": "Ext.form.field.ComboBox",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "displayField": null,
-                                "editable": false,
-                                "emptyText": null,
-                                "fieldLabel": "동작 위치",
-                                "labelWidth": null,
-                                "layout|flex": 0.8,
-                                "margin": "0 20 0 0",
-                                "name": "inout",
-                                "queryMode": "local",
-                                "store": [
-                                    "[",
-                                    "    \"in\",",
-                                    "    \"out\",",
-                                    "    \"local\"",
-                                    "]"
-                                ],
-                                "valueField": null
-                            },
-                            "configAlternates": {
-                                "store": "array"
-                            },
-                            "designerId": "38fcd4d5-0b1f-41f3-aee9-557d5ab18170"
-                        },
-                        {
-                            "type": "Ext.toolbar.Spacer",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "layout|flex": 0.2,
-                                "margin": null
-                            },
-                            "designerId": "146c3666-cb05-4c47-a143-e3185154729f"
+                            "designerId": "23187bbe-852f-42a2-8cbe-74667d8e6210"
                         }
                     ]
                 },
@@ -587,6 +478,130 @@
                                 "layout|flex": 0.2
                             },
                             "designerId": "4e218f40-d59a-472b-8dd4-80e4e584096a"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.form.FieldSet",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "margin": "10 10 0 10",
+                        "title": "Bounding"
+                    },
+                    "designerId": "3225f80b-dd8a-4069-bddb-de27fcda36b0",
+                    "cn": [
+                        {
+                            "type": "Ext.form.FieldContainer",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "container|align": "middle",
+                                "fieldLabel": "Label",
+                                "flex": "1",
+                                "height": 35,
+                                "hideLabel": true,
+                                "layout": "hbox",
+                                "margin": "0 0 10 0"
+                            },
+                            "designerId": "054fc223-612a-458a-9fc8-5a7c6d47cd49",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "flex",
+                                    "type": "string"
+                                }
+                            ],
+                            "cn": [
+                                {
+                                    "type": "Ext.form.field.ComboBox",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "displayField": "ethName",
+                                        "editable": false,
+                                        "emptyText": null,
+                                        "fieldLabel": "NIC",
+                                        "labelWidth": 125,
+                                        "layout|flex": 0.8,
+                                        "margin": "0 40 0 0",
+                                        "name": "ethernet",
+                                        "padding": null,
+                                        "queryMode": "local",
+                                        "store": null,
+                                        "valueField": "ethName"
+                                    },
+                                    "configAlternates": {
+                                        "store": "array"
+                                    },
+                                    "designerId": "89da2874-4ddd-4715-bbbe-3c6c1e565674"
+                                },
+                                {
+                                    "type": "Ext.toolbar.Spacer",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 0.2,
+                                        "margin": null
+                                    },
+                                    "designerId": "d644c425-01cc-4185-bc64-f88a70340d60"
+                                },
+                                {
+                                    "type": "Ext.form.field.ComboBox",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "displayField": null,
+                                        "editable": false,
+                                        "emptyText": null,
+                                        "fieldLabel": "동작 위치",
+                                        "labelWidth": 125,
+                                        "layout|flex": 0.8,
+                                        "margin": null,
+                                        "name": "inout",
+                                        "queryMode": "local",
+                                        "store": [
+                                            "[",
+                                            "    \"in\",",
+                                            "    \"out\",",
+                                            "    \"local\"",
+                                            "]"
+                                        ],
+                                        "valueField": null
+                                    },
+                                    "configAlternates": {
+                                        "store": "array"
+                                    },
+                                    "designerId": "42cdea64-0ab5-4590-9e18-217f67a8776a"
+                                },
+                                {
+                                    "type": "Ext.toolbar.Spacer",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "layout|flex": 0.2
+                                    },
+                                    "designerId": "1d28b4c6-0f52-4178-9fdc-f03069fac6bb"
+                                }
+                            ]
                         }
                     ]
                 },

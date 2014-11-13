@@ -24,11 +24,12 @@ Ext.define('spider.view.AddFirewallWindow', {
         'Ext.toolbar.Spacer',
         'Ext.form.field.Number',
         'Ext.form.field.Checkbox',
+        'Ext.form.FieldSet',
         'Ext.toolbar.Toolbar',
         'Ext.button.Button'
     ],
 
-    height: 325,
+    height: 365,
     id: 'AddBondingWindow2',
     width: 800,
     resizable: false,
@@ -109,34 +110,6 @@ Ext.define('spider.view.AddFirewallWindow', {
                                     xtype: 'combobox',
                                     flex: 0.8,
                                     margin: '0 40 0 0',
-                                    fieldLabel: 'NIC',
-                                    name: 'ethernet',
-                                    editable: false,
-                                    displayField: 'ethName',
-                                    queryMode: 'local',
-                                    valueField: 'ethName'
-                                },
-                                {
-                                    xtype: 'tbspacer',
-                                    flex: 1.2
-                                }
-                            ]
-                        },
-                        {
-                            xtype: 'fieldcontainer',
-                            flex: '1',
-                            height: 35,
-                            fieldLabel: 'Label',
-                            hideLabel: true,
-                            layout: {
-                                type: 'hbox',
-                                align: 'middle'
-                            },
-                            items: [
-                                {
-                                    xtype: 'combobox',
-                                    flex: 0.8,
-                                    margin: '0 20 0 0',
                                     fieldLabel: '동작',
                                     name: 'action',
                                     allowBlank: false,
@@ -150,25 +123,7 @@ Ext.define('spider.view.AddFirewallWindow', {
                                 },
                                 {
                                     xtype: 'tbspacer',
-                                    flex: 0.2
-                                },
-                                {
-                                    xtype: 'combobox',
-                                    flex: 0.8,
-                                    margin: '0 20 0 0',
-                                    fieldLabel: '동작 위치',
-                                    name: 'inout',
-                                    editable: false,
-                                    queryMode: 'local',
-                                    store: [
-                                        'in',
-                                        'out',
-                                        'local'
-                                    ]
-                                },
-                                {
-                                    xtype: 'tbspacer',
-                                    flex: 0.2
+                                    flex: 1.2
                                 }
                             ]
                         },
@@ -280,6 +235,61 @@ Ext.define('spider.view.AddFirewallWindow', {
                                     flex: 0.2,
                                     fieldLabel: '',
                                     boxLabel: 'Exclude'
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'fieldset',
+                            margin: '10 10 0 10',
+                            title: 'Bounding',
+                            items: [
+                                {
+                                    xtype: 'fieldcontainer',
+                                    flex: '1',
+                                    height: 35,
+                                    margin: '0 0 10 0',
+                                    fieldLabel: 'Label',
+                                    hideLabel: true,
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'middle'
+                                    },
+                                    items: [
+                                        {
+                                            xtype: 'combobox',
+                                            flex: 0.8,
+                                            margin: '0 40 0 0',
+                                            fieldLabel: 'NIC',
+                                            labelWidth: 125,
+                                            name: 'ethernet',
+                                            editable: false,
+                                            displayField: 'ethName',
+                                            queryMode: 'local',
+                                            valueField: 'ethName'
+                                        },
+                                        {
+                                            xtype: 'tbspacer',
+                                            flex: 0.2
+                                        },
+                                        {
+                                            xtype: 'combobox',
+                                            flex: 0.8,
+                                            fieldLabel: '동작 위치',
+                                            labelWidth: 125,
+                                            name: 'inout',
+                                            editable: false,
+                                            queryMode: 'local',
+                                            store: [
+                                                'in',
+                                                'out',
+                                                'local'
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'tbspacer',
+                                            flex: 0.2
+                                        }
+                                    ]
                                 }
                             ]
                         }

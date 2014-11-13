@@ -198,7 +198,7 @@ Ext.define('spider.view.AthenaSpider', {
                                                     xtype: 'label',
                                                     padding: '20 0 0 5',
                                                     width: 120,
-                                                    text: 'Version : 0.07'
+                                                    text: 'Version : 0.08'
                                                 },
                                                 {
                                                     xtype: 'tbspacer',
