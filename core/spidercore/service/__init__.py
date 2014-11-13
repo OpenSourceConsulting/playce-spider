@@ -21,4 +21,4 @@
 # ##############################################################################################
 
 # 아래에 등록하면 from spidercore.service import * 사용가능
-__all__ = ['NFVNICService','NFVBondingService','NFVNATService','NFVFirewallService','NFVRemoteService']
+__all__ = ['NFVNICService','NFVBondingService','NFVNATService','NFVFirewallService','NFVRemoteService','NFVDHCPService']

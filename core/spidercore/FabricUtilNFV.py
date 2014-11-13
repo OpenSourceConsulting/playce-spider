@@ -186,25 +186,38 @@ def show_service_with_configure():
 	results = elementList.parseString(result)
 	pprint.pprint( results.asList() )
 	
-	services =[]
-	for svc in results.asList():
-		print svc
-		service = {'service': svc[0]}
-		
-		for attr in svc[1]:
-			if len(attr) > 2:
-				service[attr[0]] = [attr[1], attr[2]]
-			elif len(attr) > 1:
-				if attr[0] in service:
-					service[attr[0]] = service[attr[0]] + "," + attr[1]
-				else:
-					service[attr[0]] = attr[1]
-			else:
-				service[attr[0]] = True
-		
+	services = []
+	for svc in results.asList():		
+		service = parseElements(svc[1])
+		service['service'] = svc[0]
 		services.append(service)
 	
 	return services
+
+def parseElements(attr):
+	result = {}
+	
+	if type(attr) == list:
+		for prop in attr:
+			if len(prop) == 1:
+				result[prop[0]] = True
+			elif len(prop) == 2:
+				if type(prop[1]) == list:
+					result[prop[0]] = parseElements(prop[1])
+				else:
+					if prop[0] in result:
+						result[prop[0]] = result[prop[0]] + "," + prop[1]
+					else:
+						result[prop[0]] = prop[1]
+			else:
+				temp = parseElements(prop[2])
+				
+				if prop[0] not in result:
+					result[prop[0]] = {}
+
+				result[prop[0]][prop[1]] = temp
+	
+	return result
 
 def getServices(addr, sshid, sshpw):
 	env.hosts = [ addr ]

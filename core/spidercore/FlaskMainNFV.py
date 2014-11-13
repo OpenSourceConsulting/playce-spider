@@ -328,9 +328,7 @@ def vmbondingall(id=None):
 # read / create / update / delete nat
 @app.route("/nfv/<vmid>/nat", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def vmnatsave(vmid=None):
-	
 	logger.debug("%s /nfv/%s/nat" % (request.method, vmid))
-	#logger.debug("request.data : "+request.data.decode("utf-8"))
 	
 	if request.method != 'GET':
 		jsonParams = json.loads(request.data)	
@@ -358,7 +356,6 @@ def vmnatsave(vmid=None):
 # HTTPS(Web GUI), SSH Remote Service Control
 @app.route("/nfv/<vmid>/remote", methods=['GET', 'PUT'])
 def vmremoteservice(vmid=None):
-	
 	logger.debug("%s /nfv/%s/remote" % (request.method, vmid))
 	
 	if request.method != 'GET':
@@ -370,6 +367,53 @@ def vmremoteservice(vmid=None):
 		return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
 	else:
 		result = NFVRemoteService.update_remote_service(vmid, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		if 'already exists' in result['errmsg']:
+			return "OK", 200
+		else:
+			return result['errmsg'], 500
+
+# DHCP Service Information Show(Include Global Information and Shared Network Information)
+@app.route("/nfv/<vmid>/dhcp", methods=['GET'])
+def vmdhcpservice(vmid=None):
+	logger.debug("%s /nfv/%s/dhcp" % (request.method, vmid))
+	
+	result = NFVDHCPService.get_dhcp(vmid)
+	return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
+
+# DHCP Service Global Options & Parameters Control
+@app.route("/nfv/<vmid>/dhcp/global", methods=['POST', 'PUT'])
+def vmdhcpglobalservice(vmid=None):
+	logger.debug("%s /nfv/%s/dhcp/global" % (request.method, vmid))
+	
+	jsonParams = json.loads(request.data)	
+	logger.debug(json.dumps(jsonParams, indent=4))
+	
+	result = NFVDHCPService.set_dhcp_global(vmid, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		if 'already exists' in result['errmsg']:
+			return "OK", 200
+		else:
+			return result['errmsg'], 500
+
+# DHCP Service Shared Network Information Control
+@app.route("/nfv/<vmid>/dhcp/sharednetwork", methods=['PUT', 'DELETE'])
+def vmdhcpsharednetworkservice(vmid=None):
+	logger.debug("%s /nfv/%s/dhcp/sharednetwork" % (request.method, vmid))
+	
+	jsonParams = json.loads(request.data)	
+	logger.debug(json.dumps(jsonParams, indent=4))
+	
+	if request.method == 'POST' or request.method == 'PUT':
+		result = NFVDHCPService.set_dhcp(vmid, jsonParams)
+	else:
+		result = NFVDHCPService.delete_dhcp(vmid, jsonParams)
 		
 	if result['success'] == 'success':
 		return "OK", 200
