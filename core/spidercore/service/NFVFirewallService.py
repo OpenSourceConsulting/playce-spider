@@ -71,7 +71,7 @@ def create_firewall_task(fwinfo):
 		if len(fwinfo[key]) > 0:
 			commands.append("$SET firewall name %s rule %s %s %s " % (fwname, rule_num, _key, fwinfo[key]))
 		
-	if 'ethernet' in fwinfo:
+	if 'ethernet' in fwinfo and len(fwinfo['ethernet']) > 0:
 		commands.append("$SET interfaces ethernet %s firewall %s name %s " % (fwinfo['ethernet'], fwinfo['inout'], fwname))
 	
 	return FabricUtilNFV.send_vyatta_command(commands)
