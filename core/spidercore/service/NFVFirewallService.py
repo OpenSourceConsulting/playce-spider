@@ -222,7 +222,10 @@ def delete_firewall_task(fwinfo):
 	if 'ethernet' in fwinfo and len(fwinfo['ethernet']) > 0:
 		commands.append("$DELETE interfaces ethernet %s firewall" % fwinfo['ethernet'])
 	
-	commands.append("$DELETE firewall name %s rule %s " % (fwname, fwinfo['rule']))
+	if 'rule' in fwinfo and len(fwinfo['rule']) > 0:
+		commands.append("$DELETE firewall name %s rule %s " % (fwname, fwinfo['rule']))
+	else:
+		commands.append("$DELETE firewall name %s " % fwname)
 		
 	return FabricUtilNFV.send_vyatta_command(commands)
 	
