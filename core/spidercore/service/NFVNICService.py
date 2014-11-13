@@ -100,10 +100,13 @@ def update_nic(vmid, params):
 	# vms.json 파일도 변경해주기.
 	modified = False
 	for key in pdiff:
+		if "disable" == key:
+			vm["interfaces"][pEthName]["disable"] = pdiff[key]
+			modified = True
 		if "hw-id" == key:
 			vm["interfaces"][pEthName]["macaddr"] = pdiff[key]
 			modified = True
-		elif "address" == key:
+		if "address" == key:
 			modified = True
 			if pdiff[key] == "dhcp":
 				nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], pEthName)
