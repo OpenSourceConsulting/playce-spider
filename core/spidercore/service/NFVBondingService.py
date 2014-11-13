@@ -173,7 +173,15 @@ def update_bonding(vmid, params):
 		logger.debug("bondging 수정사항이 없습니다.")
 		return {"success": "success", "msg": "수정 사항이 없습니다."}
 	
-	vm = get_vm(vmid)
+	vms = read_repository("vms")
+	
+	for vm in vms:
+		print vm['_id'] + " : " + vmid
+		if '_id' in vm and vmid == vm['_id']:
+			break
+	if vm == None:
+		raise ValueError("get_vm not found: " + vmid)
+	
 	addr = vm['mgraddr']
 	
 	env.hosts = [ addr ]
@@ -181,6 +189,19 @@ def update_bonding(vmid, params):
 	env.password = vm['sshpw']
 	env.shell = '/bin/vbash -ic'
 	results = execute(update_bonding_task, hosts=[addr], bondid=params['bondid'], bondinfo = diff)
+	
+	
+	# vms.json 파일도 변경해주기.
+	pEthName = params['after']['ethName']
+	modified = False
+	for key in diff:
+		if "disable" == key:
+			vm["interfaces"][pEthName]["disable"] = diff[key]
+			modified = True
+		
+	
+	if modified:
+		write_repository('vms', vms)
 	
 	return results[addr]
 	
