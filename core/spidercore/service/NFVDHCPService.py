@@ -166,11 +166,13 @@ def set_dhcp_task(dhcpinfo):
             else:
                 commands.append("$DELETE service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " default-router")
             
-            # 3. Set or Delete dns-server
+            # 3. Delete and Set dns-server
+            commands.append("$DELETE service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " dns-server")
             if dns_server:
-                commands.append("$SET service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " dns-server " + dns_server)
-            else:
-                commands.append("$DELETE service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " dns-server")
+                dnsservers = dns_server.split(',')
+                
+                for dnsserver in dnsservers:
+                    commands.append("$SET service dhcp-server shared-network-name " + shared_network_name + " subnet " + subnet_ipv4net + " dns-server " + dnsserver)
             
             # 4. Set of Delete domain-name
             if domain_name:
