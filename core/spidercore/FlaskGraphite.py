@@ -53,7 +53,7 @@ def mon_graphite_cpu(vmid=None):
 	# hours, days, minutes, seconds
 	timespan = request.args.get('timespan')
 	timeunit = request.args.get('timeunit')
-	result = requests.get("http://192.168.0.130:8000/render/?width=786&height=508&from=-%s%s&areaMode=stacked&yMax=100&yMin=0&target=averageSeries%28%s.cpu.*.cpu.system.value%29&target=averageSeries%28%s.cpu.*.cpu.user.value%29&format=json" % (timespan, timeunit, vmid, vmid)).json()
+	result = requests.get("http://192.168.0.130:8000/render/?width=786&height=508&from=-%s%s&areaMode=stacked&yMax=100&yMin=0&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)&format=json" % (timespan, timeunit, vmid, vmid)).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
 # 		newDatapoints = []
