@@ -111,7 +111,7 @@ def all_firewall(vmid):
 	
 	
 	vm = get_vm(vmid)
-	nics = FabricUtilNFV.getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], 'ethernet')
+	nics = FabricUtilNFV.getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], None)
 	
 	print '------------------------------'
 	
@@ -155,13 +155,25 @@ def update_firewall_task(fwname, fwinfo):
 	
 	rule_num = fwinfo['rule']
 	
-	# nic가 변경되었으면 이전 ethernet 삭제
-	if 'ethernet' in fwinfo:
+	# eth or nic가 변경되었으면 이전 ethernet 삭제
+	if 'ethernet' in fwinfo or 'inout' in fwinfo:
 		if 'before_eth' in fwinfo and len(fwinfo['before_eth']) > 0:
 			if fwinfo['before_eth'].startswith('bond'):
 				commands.append("$DELETE interfaces bonding %s firewall" % fwinfo['before_eth'])
 			else:
 				commands.append("$DELETE interfaces ethernet %s firewall" % fwinfo['before_eth'])
+				
+	if 'ethernet' in fwinfo:
+		eth = fwinfo['ethernet']
+	else:
+		eth = fwinfo['before_eth']
+		
+	if 'inout' in fwinfo:
+		inout = fwinfo['inout']
+	else:
+		inout = fwinfo['before_inout']
+		
+	eth_binding = False
 	
 	for key in fwinfo:
 		if '_' in key:
@@ -172,25 +184,18 @@ def update_firewall_task(fwname, fwinfo):
 		if key in ['rule','before_eth','name','before_inout']:
 			continue # 앞에서 처리했음으로.. pass.
 		
+		#print "key : --%s--- %s" % (key, (not eth_binding) and (key == 'ethernet' or key == 'inout'))
+		if key == 'ethernet' or key == 'inout':
 			
+			if eth_binding:
+				continue
 			
-		if key == 'ethernet':
-			
-			if 'inout' in fwinfo:
-				inout = fwinfo['inout']
-			else:
-				inout = fwinfo['before_inout']  # eth 만 변경된경우
-			
-			if len(fwinfo[key]) > 0:
-				if fwinfo[key].startswith('bond'):
-					commands.append("$SET interfaces bonding %s firewall %s name %s" % (fwinfo[key], inout, fwname))
+			if len(eth) > 0:
+				if eth.startswith('bond'):
+					commands.append("$SET interfaces bonding %s firewall %s name %s" % (eth, inout, fwname))
 				else:
-					commands.append("$SET interfaces ethernet %s firewall %s name %s" % (fwinfo[key], inout, fwname))
-			
-		elif key == 'inout' and not 'ethernet' in fwinfo:
-			# inout 만 변경된 상태
-			commands.append("$DELETE interfaces ethernet %s firewall" % fwinfo['before_eth'])
-			commands.append("$SET interfaces ethernet %s firewall %s name %s" % (fwinfo['before_eth'], fwinfo[key], fwname))
+					commands.append("$SET interfaces ethernet %s firewall %s name %s" % (eth, inout, fwname))
+				eth_binding = True
 		else:
 			commands.append("$DELETE firewall name %s rule %s %s" % (fwname, rule_num, _key))
 			if len(fwinfo[key]) > 0:
