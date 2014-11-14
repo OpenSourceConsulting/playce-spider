@@ -19,7 +19,18 @@
 # along with athena-spider. If not, see <http://www.gnu.org/licenses/>.                        #
 #                                                                                              #
 # ##############################################################################################
+'''
+Created on 2014. 11. 14.
 
-# 아래에 등록하면 from spidercore.service import * 사용가능
-__all__ = ['NFVNICService','NFVBondingService','NFVNATService','NFVFirewallService',
-           'NFVRemoteService','NFVDHCPService','NFVStaticRoutingService']
+Vyatta Static Routing 제어 모듈
+
+@author: Sang-Cheon Park
+'''
+
+from spidercore import *
+from fabric.api import env
+from fabric.tasks import execute
+from spidercore import FabricUtilNFV
+
+logger = logging.getLogger(__name__)
+
