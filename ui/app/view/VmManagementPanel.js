@@ -36,7 +36,8 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.RadioGroup',
         'Ext.form.field.Radio',
         'Ext.grid.View',
-        'Ext.grid.column.Action'
+        'Ext.grid.column.Action',
+        'Ext.grid.plugin.CellEditing'
     ],
 
     id: 'VmManagementPanel',
@@ -1664,9 +1665,9 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     fieldLabel: 'Shared Network',
                                                     labelWidth: 110,
                                                     editable: false,
-                                                    displayField: 'rule',
+                                                    displayField: 'key_name',
                                                     queryMode: 'local',
-                                                    valueField: 'rule'
+                                                    valueField: 'key_name'
                                                 },
                                                 {
                                                     xtype: 'tbspacer',
@@ -1688,7 +1689,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                             xtype: 'form',
                                             id: 'viewDhcpForm',
                                             autoScroll: true,
-                                            bodyPadding: 10,
+                                            bodyPadding: '10 10 0 10',
                                             header: false,
                                             title: 'My Form',
                                             fieldDefaults: {
@@ -1717,6 +1718,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     handler: function(button, e) {
                                                                         vmConstants.me.saveVmDhcpGlobal();
                                                                     },
+                                                                    itemId: 'saveBtn',
                                                                     padding: '3 8 3 8',
                                                                     text: '저장'
                                                                 }
@@ -1782,11 +1784,28 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             ]
                                                         }
                                                     ]
-                                                },
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'form',
+                                            id: 'viewDhcpNetworkForm',
+                                            autoScroll: true,
+                                            bodyPadding: '0 10 10 10',
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 0 0',
+                                                labelWidth: 140
+                                            },
+                                            items: [
                                                 {
                                                     xtype: 'fieldset',
                                                     margin: '10 20 10 20',
-                                                    title: 'MYLAN1',
+                                                    title: '',
                                                     items: [
                                                         {
                                                             xtype: 'toolbar',
@@ -1801,6 +1820,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     handler: function(button, e) {
                                                                         vmConstants.me.saveVmDhcpSharednet();
                                                                     },
+                                                                    itemId: 'saveBtn',
                                                                     padding: '3 8 3 8',
                                                                     text: '저장'
                                                                 },
@@ -1809,6 +1829,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     handler: function(button, e) {
                                                                         vmConstants.me.deleteVmDhcpSharednet();
                                                                     },
+                                                                    itemId: 'deleteBtn',
                                                                     padding: '3 8 3 8',
                                                                     text: '삭제'
                                                                 }
@@ -1830,7 +1851,9 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     flex: 1,
                                                                     fieldLabel: 'IP/Subnet',
                                                                     name: 'subnet_ipv4net',
-                                                                    readOnly: true
+                                                                    readOnly: true,
+                                                                    allowBlank: false,
+                                                                    emptyText: 'Default'
                                                                 },
                                                                 {
                                                                     xtype: 'checkboxgroup',
@@ -1864,16 +1887,20 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             },
                                                             items: [
                                                                 {
-                                                                    xtype: 'combobox',
+                                                                    xtype: 'textfield',
                                                                     flex: 1,
                                                                     fieldLabel: 'Start IP Address',
-                                                                    name: 'start_ip'
+                                                                    name: 'start_ip',
+                                                                    allowBlank: false,
+                                                                    emptyText: 'Default'
                                                                 },
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
                                                                     fieldLabel: 'Stop IP Address',
-                                                                    name: 'stop_ip'
+                                                                    name: 'stop_ip',
+                                                                    allowBlank: false,
+                                                                    emptyText: 'Default'
                                                                 }
                                                             ]
                                                         },
@@ -1889,16 +1916,18 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             },
                                                             items: [
                                                                 {
-                                                                    xtype: 'combobox',
+                                                                    xtype: 'textfield',
                                                                     flex: 1,
                                                                     fieldLabel: 'Default Router',
-                                                                    name: 'default_router'
+                                                                    name: 'default_router',
+                                                                    emptyText: 'Default'
                                                                 },
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
                                                                     fieldLabel: 'DNS Server',
-                                                                    name: 'dns_server'
+                                                                    name: 'dns_server',
+                                                                    emptyText: 'Default'
                                                                 }
                                                             ]
                                                         },
@@ -1918,7 +1947,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     flex: 1,
                                                                     margin: '0 20 0 0',
                                                                     fieldLabel: 'Domain Name',
-                                                                    name: 'domain_name'
+                                                                    name: 'domain_name',
+                                                                    emptyText: 'Default'
                                                                 },
                                                                 {
                                                                     xtype: 'tbspacer',
@@ -1956,8 +1986,9 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                         {
                                                                             xtype: 'button',
                                                                             handler: function(button, e) {
-
+                                                                                Ext.getStore("VmDhcpMappingStore").insert(0, {});
                                                                             },
+                                                                            itemId: 'addBtn',
                                                                             padding: '3 8 3 8',
                                                                             text: '추가'
                                                                         }
@@ -1968,17 +1999,26 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     xtype: 'gridcolumn',
                                                                     dataIndex: 'map_name',
-                                                                    text: 'Mapping Name'
+                                                                    text: 'Mapping Name',
+                                                                    editor: {
+                                                                        xtype: 'textfield'
+                                                                    }
                                                                 },
                                                                 {
                                                                     xtype: 'gridcolumn',
                                                                     dataIndex: 'map_ip',
-                                                                    text: 'IP Address'
+                                                                    text: 'IP Address',
+                                                                    editor: {
+                                                                        xtype: 'textfield'
+                                                                    }
                                                                 },
                                                                 {
                                                                     xtype: 'gridcolumn',
                                                                     dataIndex: 'map_mac',
-                                                                    text: 'Mac Address'
+                                                                    text: 'Mac Address',
+                                                                    editor: {
+                                                                        xtype: 'textfield'
+                                                                    }
                                                                 },
                                                                 {
                                                                     xtype: 'actioncolumn',
@@ -1986,16 +2026,31 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     maxWidth: 80,
                                                                     minWidth: 80,
                                                                     style: 'text-align:center;',
+                                                                    align: 'center',
                                                                     hideable: false,
                                                                     items: [
                                                                         {
+                                                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                                                view.getStore().removeAt(rowIndex);
+                                                                            },
                                                                             icon: 'resources/images/icons/delete.png'
                                                                         }
                                                                     ]
                                                                 }
+                                                            ],
+                                                            plugins: [
+                                                                Ext.create('Ext.grid.plugin.CellEditing', {
+                                                                    clicksToEdit: 1
+                                                                })
                                                             ]
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    xtype: 'hiddenfield',
+                                                    anchor: '100%',
+                                                    fieldLabel: 'Label',
+                                                    name: 'shared_network_name'
                                                 }
                                             ]
                                         }

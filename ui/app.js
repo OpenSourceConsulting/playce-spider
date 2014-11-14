@@ -49,7 +49,8 @@ Ext.application({
         'SessionStore',
         'VmBondingStore',
         'UserStore',
-        'VmDhcpMappingStore'
+        'VmDhcpMappingStore',
+        'addDhcpMappingStore'
     ],
     views: [
         'AthenaSpider',

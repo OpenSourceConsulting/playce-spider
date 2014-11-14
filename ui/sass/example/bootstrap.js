@@ -910,6 +910,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.store.addDhcpMappingStore": [],
   "spider.view.AddBondingWindow": [],
   "spider.view.AddDhcpWindow": [],
   "spider.view.AddFirewallWindow": [],
@@ -1974,6 +1975,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.store.addDhcpMappingStore": [],
   "spider.view.AddBondingWindow": [
     "widget.AddBondingWindow"
   ],

@@ -45,6 +45,18 @@
                 "name": "key_name"
             },
             "designerId": "b1c2e355-6a50-4034-819e-5a486f4d1a96"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "disable"
+            },
+            "designerId": "8daa563d-71bb-4b45-b0cd-48c97bcdeb70"
         }
     ]
 }

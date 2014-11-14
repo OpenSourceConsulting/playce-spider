@@ -19,21 +19,20 @@ Ext.define('spider.view.AddDhcpWindow', {
 
     requires: [
         'Ext.form.Panel',
+        'Ext.form.field.Text',
         'Ext.toolbar.Spacer',
         'Ext.form.CheckboxGroup',
         'Ext.form.field.Checkbox',
-        'Ext.form.field.ComboBox',
         'Ext.grid.Panel',
-        'Ext.grid.column.Number',
-        'Ext.grid.column.Date',
-        'Ext.grid.column.Boolean',
-        'Ext.grid.View',
         'Ext.toolbar.Toolbar',
         'Ext.form.field.Display',
-        'Ext.button.Button'
+        'Ext.button.Button',
+        'Ext.grid.View',
+        'Ext.grid.column.Action',
+        'Ext.grid.plugin.CellEditing'
     ],
 
-    height: 435,
+    height: 455,
     id: 'AddBondingWindow3',
     width: 700,
     resizable: false,
@@ -49,7 +48,7 @@ Ext.define('spider.view.AddDhcpWindow', {
                     xtype: 'form',
                     id: 'addDhcpForm',
                     autoScroll: true,
-                    bodyPadding: 10,
+                    bodyPadding: 20,
                     header: false,
                     title: 'My Form',
                     fieldDefaults: {
@@ -76,6 +75,7 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     flex: 1,
                                     margin: '0 20 0 0',
                                     fieldLabel: 'Shared Network',
+                                    name: 'shared_network_name',
                                     allowBlank: false
                                 },
                                 {
@@ -99,6 +99,7 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     xtype: 'textfield',
                                     flex: 1,
                                     fieldLabel: 'IP/Subnet',
+                                    name: 'subnet_ipv4net',
                                     allowBlank: false
                                 },
                                 {
@@ -113,10 +114,12 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     items: [
                                         {
                                             xtype: 'checkboxfield',
+                                            name: 'authoritative',
                                             boxLabel: 'Authoritative'
                                         },
                                         {
                                             xtype: 'checkboxfield',
+                                            name: 'disable',
                                             boxLabel: 'Disable'
                                         }
                                     ]
@@ -135,15 +138,17 @@ Ext.define('spider.view.AddDhcpWindow', {
                             },
                             items: [
                                 {
-                                    xtype: 'combobox',
+                                    xtype: 'textfield',
                                     flex: 1,
                                     fieldLabel: 'Start IP Address',
+                                    name: 'start_ip',
                                     allowBlank: false
                                 },
                                 {
                                     xtype: 'textfield',
                                     flex: 1,
                                     fieldLabel: 'Stop IP Address',
+                                    name: 'stop_ip',
                                     allowBlank: false
                                 }
                             ]
@@ -160,14 +165,16 @@ Ext.define('spider.view.AddDhcpWindow', {
                             },
                             items: [
                                 {
-                                    xtype: 'combobox',
+                                    xtype: 'textfield',
                                     flex: 1,
-                                    fieldLabel: 'Default Router'
+                                    fieldLabel: 'Default Router',
+                                    name: 'default_router'
                                 },
                                 {
                                     xtype: 'textfield',
                                     flex: 1,
-                                    fieldLabel: 'DNS Server'
+                                    fieldLabel: 'DNS Server',
+                                    name: 'dns_server'
                                 }
                             ]
                         },
@@ -186,7 +193,8 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     xtype: 'textfield',
                                     flex: 1,
                                     margin: '0 20 0 0',
-                                    fieldLabel: 'Domain Name'
+                                    fieldLabel: 'Domain Name',
+                                    name: 'domain_name'
                                 },
                                 {
                                     xtype: 'tbspacer',
@@ -197,37 +205,14 @@ Ext.define('spider.view.AddDhcpWindow', {
                         {
                             xtype: 'gridpanel',
                             height: 150,
+                            id: 'addDhcpMappingGrid',
                             margin: '5 10 10 10',
                             overflowY: 'auto',
                             header: false,
                             title: 'My Grid Panel',
                             columnLines: true,
                             forceFit: true,
-                            columns: [
-                                {
-                                    xtype: 'gridcolumn',
-                                    dataIndex: 'string',
-                                    text: 'String'
-                                },
-                                {
-                                    xtype: 'numbercolumn',
-                                    dataIndex: 'number',
-                                    text: 'Number'
-                                },
-                                {
-                                    xtype: 'datecolumn',
-                                    dataIndex: 'date',
-                                    text: 'Date'
-                                },
-                                {
-                                    xtype: 'booleancolumn',
-                                    dataIndex: 'bool',
-                                    text: 'Boolean'
-                                }
-                            ],
-                            viewConfig: {
-                                overflowY: 'auto'
-                            },
+                            store: 'addDhcpMappingStore',
                             dockedItems: [
                                 {
                                     xtype: 'toolbar',
@@ -246,11 +231,68 @@ Ext.define('spider.view.AddDhcpWindow', {
                                         },
                                         {
                                             xtype: 'button',
+                                            handler: function(button, e) {
+                                                Ext.getStore("addDhcpMappingStore").insert(0, {});
+                                            },
                                             padding: '3 8 3 8',
                                             text: '추가'
                                         }
                                     ]
                                 }
+                            ],
+                            viewConfig: {
+                                overflowY: 'auto'
+                            },
+                            columns: [
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'map_name',
+                                    text: 'Mapping Name',
+                                    editor: {
+                                        xtype: 'textfield',
+                                        allowBlank: false
+                                    }
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'map_ip',
+                                    text: 'IP Address',
+                                    editor: {
+                                        xtype: 'textfield',
+                                        allowBlank: false
+                                    }
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'map_mac',
+                                    text: 'Mac Address',
+                                    editor: {
+                                        xtype: 'textfield',
+                                        allowBlank: false
+                                    }
+                                },
+                                {
+                                    xtype: 'actioncolumn',
+                                    text: 'Delete',
+                                    maxWidth: 80,
+                                    minWidth: 80,
+                                    style: 'text-align:center;',
+                                    align: 'center',
+                                    hideable: false,
+                                    items: [
+                                        {
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                view.getStore().removeAt(rowIndex);
+                                            },
+                                            icon: 'resources/images/icons/delete.png'
+                                        }
+                                    ]
+                                }
+                            ],
+                            plugins: [
+                                Ext.create('Ext.grid.plugin.CellEditing', {
+                                    clicksToEdit: 1
+                                })
                             ]
                         }
                     ],
@@ -267,7 +309,7 @@ Ext.define('spider.view.AddDhcpWindow', {
                                 {
                                     xtype: 'button',
                                     handler: function(button, e) {
-                                        vmConstants.me.createVMNat(button);
+                                        vmConstants.me.createVMDhcp(button);
                                     },
                                     padding: '3 8 3 8',
                                     text: '저장'
