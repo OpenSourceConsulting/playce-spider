@@ -34,7 +34,23 @@ logger = logging.getLogger(__name__)
 
 def get_ospf(vmid):
 	
-	logger.debug("get!!")
+	result = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW protocols ospf")
+	
+	import pprint
+	results = elementList.parseString(result)
+	pprint.pprint( results.asList() )
+	
+	print '------------------------------'
+	
+	result = {}
+	for depth1 in results.asList():
+		if depth1[0] in ['auto-cost','parameters']:
+			result[depth1[0] + "_" + depth1[1][0][0]] = depth1[1][0][1]
+		else:
+			result[depth1[0]] = depth1[1]
+			
+		
+	return {"success":"success", "msg":json.dumps(result)}
 
 def save_ospf_task(ospf):
 	commands = []
