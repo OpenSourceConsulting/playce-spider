@@ -44,6 +44,24 @@ def mon_graphite():
 		metric['datapoints'] = newDatapoints
 	return json.dumps(result) + '\n'
 
+@app.route("/mon/graphite/cpu/<vmid>", methods=['GET'])
+def mon_graphite_cpu(vmid=None):
+	if id == None:
+		return "No id for VM", 404
+
+	# hours, days, minutes, seconds
+	timespan = request.args.get('timespan')
+	timeunit = request.args.get('timeunit')
+	result = requests.get("http://192.168.0.130:8000/render/?width=786&height=508&from=-%s%s&areaMode=stacked&yMax=100&yMin=0&target=averageSeries%28%s.cpu.*.cpu.system.value%29&target=averageSeries%28%s.cpu.*.cpu.user.value%29&format=json" % (timespan, timeunit, vmid, vmid)).json()
+# 	for metric in result:
+# 		datapoints = metric['datapoints']
+# 		newDatapoints = []
+# 		for val in datapoints:
+# 			newVal = { "value": val[0], "date": val[1]}
+# 			newDatapoints.append(newVal)
+# 		metric['datapoints'] = newDatapoints
+	return json.dumps(result) + '\n'
+
 @app.route("/mon/ping", methods=['GET'])
 def mon_ping():
 	return json.dumps({ 'result': 'ok'})
