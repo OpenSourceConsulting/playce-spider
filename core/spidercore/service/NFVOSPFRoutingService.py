@@ -49,7 +49,7 @@ def save_ospf_task(ospf):
 		if len(ospf[key]) > 0:
 			
 			if key == 'parameters_router-id':
-				commands.append("$SET interfaces loopback lo address %s" % ospf[key] )
+				commands.append("$SET interfaces loopback lo address %s/24" % ospf[key] )
 			
 			commands.append("$SET protocols ospf %s %s" % (_key, ospf[key]) )
 		else:
@@ -80,7 +80,7 @@ def save_ospf(vmid, params):
 	env.user = vm['sshid']
 	env.password = vm['sshpw']
 	env.shell = '/bin/vbash -ic'
-	results = execute(save_ospf_task, hosts=[addr], fwname=params['name'], ospf = diff)
+	results = execute(save_ospf_task, hosts=[addr], ospf = diff)
 	
 	return results[addr]
 	
