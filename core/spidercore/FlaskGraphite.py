@@ -75,13 +75,16 @@ def mon_graphite_interface(vmid=None):
 	timespan = request.args.get('timespan')
 	timeunit = request.args.get('timeunit')
 	mode = request.args.get('mode')
+	nic = request.args.get('nic')
 	if mode == None or mode == '':
 		mode = 'both'
+	if nic == None or nic == '':
+		nic = 'eth*'
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 	if mode == 'txonly' or mode == 'both':
-		url += "&target=%s.interface.if_octets.eth*.tx" % (vmid)
+		url += "&target=%s.interface.if_octets.%s.tx" % (vmid, nic)
 	if mode == 'rxonly' or mode == 'both':
-		url += "&target=%s.interface.if_octets.eth*.rx" % (vmid)
+		url += "&target=%s.interface.if_octets.%s.rx" % (vmid, nic)
 	result = requests.get(url).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
