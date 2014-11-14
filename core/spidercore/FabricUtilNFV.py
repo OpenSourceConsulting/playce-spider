@@ -81,9 +81,6 @@ def show_interfaces_with_configure(filter):
 	nics =[]
 	for eth in results.asList():
 		
-		if eth[0] == 'loopback':
-			continue
-		
 		nic = {'ethName': eth[1]}
 		
 		for attr in eth[2]:
@@ -95,7 +92,13 @@ def show_interfaces_with_configure(filter):
 				nic[attr[0]] = attr[1]
 		
 		if filter == None:
+			if eth[0] == 'loopback':
+				continue
 			nics.append(nic)
+		elif filter == 'all':
+			nics.append(nic)
+		elif filter.startswith("!") and filter[1:] == eth[0]:
+			continue # exclude
 		elif filter == eth[0]:
 			nics.append(nic)
 			
