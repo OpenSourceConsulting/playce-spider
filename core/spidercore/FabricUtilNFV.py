@@ -105,6 +105,12 @@ def show_interfaces_with_configure(filter):
 	return nics
 
 def getInterfaces(addr, sshid, sshpw, pfilter):
+	'''
+		show interfaces 결과 가져오기
+		pfilter는 [None|bonding|ethernet|loopback|all] 중 하나를 줄수있다.
+		- None 는 기본적으로 loopback 을 제외하고 가져온다.
+		- all 은 모든 interfaces 를 가져온다.
+	'''
 	env.hosts = [ addr ]
 	env.user = sshid
 	env.password = sshpw
