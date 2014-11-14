@@ -44,6 +44,7 @@ def mon_graphite():
 		metric['datapoints'] = newDatapoints
 	return json.dumps(result) + '\n'
 
+
 @app.route("/mon/graphite/cpu/<vmid>", methods=['GET'])
 def mon_graphite_cpu(vmid=None):
 	if id == None:
