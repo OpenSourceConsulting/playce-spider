@@ -7,6 +7,7 @@ encoding//spidercore/service/NFVDHCPService.py=utf-8
 encoding//spidercore/service/NFVFirewallService.py=utf-8
 encoding//spidercore/service/NFVNATService.py=utf-8
 encoding//spidercore/service/NFVNICService.py=utf-8
+encoding//spidercore/service/NFVOSPFRoutingService.py=utf-8
 encoding//spidercore/service/NFVRemoteService.py=utf-8
 encoding//spidercore/service/NFVStaticRoutingService.py=utf-8
 encoding//spidercore/service/__init__.py=utf-8

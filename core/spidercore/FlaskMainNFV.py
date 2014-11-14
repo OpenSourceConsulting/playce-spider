@@ -574,3 +574,30 @@ def vmfirewallall(id=None):
 	result = NFVFirewallService.all_firewall(id)
 	
 	return json.dumps(result), 200
+
+
+# router/ospf save
+@app.route("/nfv/<id>/routing/ospf", methods=['PUT','GET'])
+def vmrouting_ospf(id=None):
+	
+	logger.debug("%s /nfv/%s/router/ospf" % (request.method, id))
+	#logger.debug("request.data : "+request.data)
+	
+	if request.data:
+		jsonParams = json.loads(request.data)
+		logger.debug(json.dumps(jsonParams, indent=4))
+		
+	if request.method == 'PUT' and len(jsonParams['before']) != len(jsonParams['after']):
+		return "before 와 after 중 누락된 항목이 존재합니다.", 500
+	
+	if request.method == 'GET':
+		result = NFVOSPFRoutingService.get_ospf(id)
+	else:
+		result = NFVOSPFRoutingService.save_ospf(id, jsonParams)
+		
+	if result['success'] == 'success' and request.method == 'GET':
+		return result['msg'], 200
+	elif result['success'] == 'success':
+		return "OK", 200
+	else:
+		return result['errmsg'], 500
