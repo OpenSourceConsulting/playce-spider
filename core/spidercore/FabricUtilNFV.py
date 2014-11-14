@@ -205,6 +205,52 @@ def show_service_with_configure():
 	
 	return services
 
+def getServices(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/vbash -ic'
+	results = execute(show_service_with_configure, hosts=[addr])
+	return results[addr]
+
+def show_protocols_with_configure():
+	f = open(mainDir + '/commands.txt', 'w')
+	commands = [
+# 			'$SET interfaces loopback lo address 127.0.0.5/24',
+# 			'$COMMIT',
+			'$SHOW protocols'
+			]
+	f.write("; ".join(commands))
+	f.close()
+	run('mkdir -p .spider')
+	with cd('.spider'):
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		result = run('./cli.sh', pty=False)
+	lines = result.split('\n')
+	for line in lines:
+		print "LINE: " + line
+
+	import pprint
+	results = elementList.parseString(result)
+	pprint.pprint( results.asList() )
+	
+	protocols = []
+	for item in results.asList():		
+		protocol = parseElements(item[1])
+		protocol['protocol'] = item[0]
+		protocols.append(protocol)
+	
+	return protocols
+
+def getProtocols(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/vbash -ic'
+	results = execute(show_protocols_with_configure, hosts=[addr])
+	return results[addr]
+
 def parseElements(attr):
 	result = {}
 	
@@ -230,14 +276,6 @@ def parseElements(attr):
 				result[prop[0]].append(temp)
 	
 	return result
-
-def getServices(addr, sshid, sshpw):
-	env.hosts = [ addr ]
-	env.user = sshid
-	env.password = sshpw
-	env.shell = '/bin/vbash -ic'
-	results = execute(show_service_with_configure, hosts=[addr])
-	return results[addr]
 
 def assignIdToCollectD(vmId):
 	#	Uncomment Hostname and assign vmhostId as Hostname to /etc/collectd/collectd.conf

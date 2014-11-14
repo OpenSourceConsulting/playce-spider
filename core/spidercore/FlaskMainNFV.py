@@ -428,16 +428,22 @@ def vmdhcpsharednetworkservice(vmid=None):
 def vmstaticrouting(vmid=None):
 	logger.debug("%s /nfv/%s/routing/static" % (request.method, vmid))
 	
-	'''
-	GET routing/static/_flush 호출 시 Flush 실행
+	if request.method != 'GET':
+		jsonParams = json.loads(request.data)	
+		logger.debug(json.dumps(jsonParams, indent=4))
 	
-	jsonParams = json.loads(request.data)	
-	logger.debug(json.dumps(jsonParams, indent=4))
-	
-	if request.method == 'POST' or request.method == 'PUT':
-		result = NFVDHCPService.set_dhcp(vmid, jsonParams)
+	if request.method == 'GET':
+		flush = request.args.get('flush')
+		
+		if flush and (flush == True or flush == "true"):
+			result = NFVStaticRoutingService.flush_static_routing(vmid)
+		else:	
+			result = NFVStaticRoutingService.get_static_routing(vmid)
+			return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
+	elif request.method == 'POST' or request.method == 'PUT':
+		result = NFVStaticRoutingService.set_static_routing(vmid, jsonParams)
 	else:
-		result = NFVDHCPService.delete_dhcp(vmid, jsonParams)
+		result = NFVStaticRoutingService.delete_static_routing(vmid, jsonParams)
 		
 	if result['success'] == 'success':
 		return "OK", 200
@@ -446,9 +452,6 @@ def vmstaticrouting(vmid=None):
 			return "OK", 200
 		else:
 			return result['errmsg'], 500
-	'''
-	
-	return "OK", 200
 
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])

@@ -34,9 +34,6 @@ from spidercore import FabricUtilNFV
 
 logger = logging.getLogger(__name__)
 
-def get_dhcp_task():        
-    return ""
-
 def get_dhcp(vmid): 
     logger.debug("get_dhcp call!!")
     
