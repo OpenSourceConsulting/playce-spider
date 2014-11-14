@@ -1,0 +1,51 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "addDhcpMappingStore",
+        "storeId": "addDhcpMappingStore"
+    },
+    "designerId": "05c1c924-330a-4c2a-bb11-ec3b15ccc8a4",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "map_name"
+            },
+            "designerId": "e28b55f7-2fab-415a-a2f4-0a2cada270ae"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "map_ip"
+            },
+            "designerId": "0b207042-4d86-4716-bf80-0f36b0d080c0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "map_mac"
+            },
+            "designerId": "26d0841a-cea8-45db-906e-982e77d3ac61"
+        }
+    ]
+}

@@ -8,7 +8,7 @@
     "userConfig": {
         "designer|userAlias": "AddDhcpWindow",
         "designer|userClassName": "AddDhcpWindow",
-        "height": 435,
+        "height": 455,
         "id": "AddBondingWindow3",
         "itemId": null,
         "modal": true,
@@ -30,7 +30,7 @@
             "codeClass": null,
             "userConfig": {
                 "autoScroll": true,
-                "bodyPadding": 10,
+                "bodyPadding": 20,
                 "fieldDefaults": [
                     "{",
                     "    msgTarget: 'side',",
@@ -82,7 +82,8 @@
                                 "allowBlank": false,
                                 "fieldLabel": "Shared Network",
                                 "layout|flex": 1,
-                                "margin": "0 20 0 0"
+                                "margin": "0 20 0 0",
+                                "name": "shared_network_name"
                             },
                             "designerId": "0bd475b7-d9e6-4aab-b679-0054427997db"
                         },
@@ -135,7 +136,8 @@
                             "userConfig": {
                                 "allowBlank": false,
                                 "fieldLabel": "IP/Subnet",
-                                "layout|flex": 1
+                                "layout|flex": 1,
+                                "name": "subnet_ipv4net"
                             },
                             "designerId": "29e516e0-ee67-45dc-909b-0af491f98772"
                         },
@@ -163,7 +165,8 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "boxLabel": "Authoritative",
-                                        "fieldLabel": null
+                                        "fieldLabel": null,
+                                        "name": "authoritative"
                                     },
                                     "designerId": "79e353ca-a312-4f7f-9a04-a57338c0f969"
                                 },
@@ -176,7 +179,8 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "boxLabel": "Disable",
-                                        "fieldLabel": null
+                                        "fieldLabel": null,
+                                        "name": "disable"
                                     },
                                     "designerId": "41cd666f-2247-4ad8-a757-3267eccac99a"
                                 }
@@ -210,7 +214,7 @@
                     ],
                     "cn": [
                         {
-                            "type": "Ext.form.field.ComboBox",
+                            "type": "Ext.form.field.Text",
                             "reference": {
                                 "name": "items",
                                 "type": "array"
@@ -219,7 +223,8 @@
                             "userConfig": {
                                 "allowBlank": false,
                                 "fieldLabel": "Start IP Address",
-                                "layout|flex": 1
+                                "layout|flex": 1,
+                                "name": "start_ip"
                             },
                             "designerId": "789e17ba-6232-400e-9f00-f492947c79e1"
                         },
@@ -233,7 +238,8 @@
                             "userConfig": {
                                 "allowBlank": false,
                                 "fieldLabel": "Stop IP Address",
-                                "layout|flex": 1
+                                "layout|flex": 1,
+                                "name": "stop_ip"
                             },
                             "designerId": "f01da5d7-b759-408d-9bea-608fe859939f"
                         }
@@ -265,7 +271,7 @@
                     ],
                     "cn": [
                         {
-                            "type": "Ext.form.field.ComboBox",
+                            "type": "Ext.form.field.Text",
                             "reference": {
                                 "name": "items",
                                 "type": "array"
@@ -273,7 +279,8 @@
                             "codeClass": null,
                             "userConfig": {
                                 "fieldLabel": "Default Router",
-                                "layout|flex": 1
+                                "layout|flex": 1,
+                                "name": "default_router"
                             },
                             "designerId": "59ed7b1d-f3d7-4f4d-aa0e-b9f78b6a4c06"
                         },
@@ -286,7 +293,8 @@
                             "codeClass": null,
                             "userConfig": {
                                 "fieldLabel": "DNS Server",
-                                "layout|flex": 1
+                                "layout|flex": 1,
+                                "name": "dns_server"
                             },
                             "designerId": "5a65ac2b-1f87-484e-87d7-17a78f69ed33"
                         }
@@ -327,7 +335,8 @@
                             "userConfig": {
                                 "fieldLabel": "Domain Name",
                                 "layout|flex": 1,
-                                "margin": "0 20 0 0"
+                                "margin": "0 20 0 0",
+                                "name": "domain_name"
                             },
                             "designerId": "65f7ac76-8c4f-4aa5-b716-8786b3f112ca"
                         },
@@ -357,77 +366,14 @@
                         "forceFit": true,
                         "header": false,
                         "height": 150,
+                        "id": "addDhcpMappingGrid",
                         "margin": "5 10 10 10",
                         "overflowY": "auto",
+                        "store": "addDhcpMappingStore",
                         "title": "My Grid Panel"
                     },
                     "designerId": "86d29c8f-0336-441c-85e8-aa8c0c75c952",
                     "cn": [
-                        {
-                            "type": "Ext.grid.column.Column",
-                            "reference": {
-                                "name": "columns",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "dataIndex": "string",
-                                "text": "String"
-                            },
-                            "designerId": "00c75626-1306-491b-8291-7d1b32142cb0"
-                        },
-                        {
-                            "type": "Ext.grid.column.Number",
-                            "reference": {
-                                "name": "columns",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "dataIndex": "number",
-                                "text": "Number"
-                            },
-                            "designerId": "1d843d69-aa57-44cd-89fd-5fff9bb33d0d"
-                        },
-                        {
-                            "type": "Ext.grid.column.Date",
-                            "reference": {
-                                "name": "columns",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "dataIndex": "date",
-                                "text": "Date"
-                            },
-                            "designerId": "717170f5-e7d8-45f5-ab29-9153e19c8f2a"
-                        },
-                        {
-                            "type": "Ext.grid.column.Boolean",
-                            "reference": {
-                                "name": "columns",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "dataIndex": "bool",
-                                "text": "Boolean"
-                            },
-                            "designerId": "a847375c-8a01-413d-b03d-e8e156232cea"
-                        },
-                        {
-                            "type": "Ext.grid.View",
-                            "reference": {
-                                "name": "viewConfig",
-                                "type": "object"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "border": null,
-                                "overflowY": "auto"
-                            },
-                            "designerId": "40b78145-c0c1-4d4f-b6df-d1fd21e312c2"
-                        },
                         {
                             "type": "Ext.toolbar.Toolbar",
                             "reference": {
@@ -481,9 +427,204 @@
                                         "padding": "3 8 3 8",
                                         "text": "추가"
                                     },
-                                    "designerId": "183032e4-52d9-4db9-a0cf-667d5d97a111"
+                                    "designerId": "183032e4-52d9-4db9-a0cf-667d5d97a111",
+                                    "cn": [
+                                        {
+                                            "type": "fixedfunction",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "designer|params": [
+                                                    "button",
+                                                    "e"
+                                                ],
+                                                "fn": "handler",
+                                                "implHandler": [
+                                                    "Ext.getStore(\"addDhcpMappingStore\").insert(0, {});"
+                                                ]
+                                            },
+                                            "designerId": "bfb16453-435f-4037-a7e6-94700af2b486"
+                                        }
+                                    ]
                                 }
                             ]
+                        },
+                        {
+                            "type": "Ext.grid.View",
+                            "reference": {
+                                "name": "viewConfig",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "border": null,
+                                "overflowY": "auto"
+                            },
+                            "designerId": "40b78145-c0c1-4d4f-b6df-d1fd21e312c2"
+                        },
+                        {
+                            "type": "Ext.grid.column.Column",
+                            "reference": {
+                                "name": "columns",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "dataIndex": "map_name",
+                                "text": "Mapping Name"
+                            },
+                            "designerId": "d8cd3252-d518-4bb1-962d-b74fd4885d9b",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.field.Text",
+                                    "reference": {
+                                        "name": "editor",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "allowBlank": false
+                                    },
+                                    "designerId": "05295b1b-4f70-486f-9ef3-3e72c20d0a1d"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.grid.column.Column",
+                            "reference": {
+                                "name": "columns",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "dataIndex": "map_ip",
+                                "text": "IP Address"
+                            },
+                            "designerId": "a386de95-ee46-44cc-9d7d-b9768a61880a",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.field.Text",
+                                    "reference": {
+                                        "name": "editor",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "allowBlank": false
+                                    },
+                                    "designerId": "023699da-e15d-461a-8c8b-06c4a9434efc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.grid.column.Column",
+                            "reference": {
+                                "name": "columns",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "dataIndex": "map_mac",
+                                "text": "Mac Address"
+                            },
+                            "designerId": "e2e95e36-6928-474b-abb0-c7ac2a2f2e47",
+                            "cn": [
+                                {
+                                    "type": "Ext.form.field.Text",
+                                    "reference": {
+                                        "name": "editor",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "allowBlank": false
+                                    },
+                                    "designerId": "9ff5e247-aece-4313-9270-b12bb78caa94"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.grid.column.Action",
+                            "reference": {
+                                "name": "columns",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "align": "center",
+                                "hideable": false,
+                                "maxWidth": 80,
+                                "minWidth": 80,
+                                "style": "text-align:center;",
+                                "text": "Delete",
+                                "width": null
+                            },
+                            "configAlternates": {
+                                "style": "string"
+                            },
+                            "designerId": "c49a3475-0926-45b0-a9c9-a5eba603c466",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "text",
+                                    "type": "string"
+                                }
+                            ],
+                            "cn": [
+                                {
+                                    "type": "actioncolumnitem",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "icon": "resources/images/icons/delete.png"
+                                    },
+                                    "designerId": "97868919-188d-46ae-99f6-00052254520f",
+                                    "cn": [
+                                        {
+                                            "type": "fixedfunction",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "designer|params": [
+                                                    "view",
+                                                    "rowIndex",
+                                                    "colIndex",
+                                                    "item",
+                                                    "e",
+                                                    "record",
+                                                    "row"
+                                                ],
+                                                "fn": "handler",
+                                                "implHandler": [
+                                                    "view.getStore().removeAt(rowIndex);"
+                                                ]
+                                            },
+                                            "designerId": "3275c87b-fe8a-45af-828e-3fb83a9880ac"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.grid.plugin.CellEditing",
+                            "reference": {
+                                "name": "plugins",
+                                "type": "array"
+                            },
+                            "codeClass": "Ext.grid.plugin.CellEditing",
+                            "userConfig": {
+                                "clicksToEdit": 1
+                            },
+                            "designerId": "f05d0501-a0ea-45f6-bb68-b83ff97598b3"
                         }
                     ]
                 },
@@ -530,7 +671,7 @@
                                         ],
                                         "fn": "handler",
                                         "implHandler": [
-                                            "vmConstants.me.createVMNat(button);"
+                                            "vmConstants.me.createVMDhcp(button);"
                                         ]
                                     },
                                     "designerId": "c4ba3fa8-fdfc-4004-9039-026af41e50f0"

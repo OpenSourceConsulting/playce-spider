@@ -4175,6 +4175,11 @@ img {
   top: 0;
 }
 
+/* line 4, ../../../../ext/packages/ext-theme-base/sass/src/Editor.scss */
+div.x-editor {
+  overflow: visible;
+}
+
 /* line 1, ../../../../ext/packages/ext-theme-base/sass/src/LoadMask.scss */
 .x-mask {
   z-index: 100;
@@ -5033,6 +5038,12 @@ svg, vml {
   text-align: center;
 }
 
+/* line 1, ../../../../ext/packages/ext-theme-base/sass/src/grid/column/Action.scss */
+.x-grid-cell-inner-action-col {
+  line-height: 0;
+  font-size: 0;
+}
+
 /* line 2, ../../../../ext/packages/ext-theme-base/sass/src/grid/plugin/Editing.scss */
 .x-grid-editor .x-form-cb-wrap {
   text-align: center;
@@ -5043,6 +5054,10 @@ svg, vml {
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
+}
+/* line 17, ../../../../ext/packages/ext-theme-base/sass/src/grid/plugin/Editing.scss */
+.x-grid-editor div.x-form-action-col-field {
+  line-height: 0;
 }
 
 /* line 1, ../../../../ext/packages/ext-theme-base/sass/src/grid/plugin/RowEditing.scss */
@@ -5421,6 +5436,11 @@ a.x-tab {
 .x-animating-size,
 .x-collapsed {
   overflow: hidden!important;
+}
+
+/* line 2, ../../../../ext/packages/ext-theme-neutral/sass/src/Editor.scss */
+.x-editor .x-form-item-body {
+  padding-bottom: 0;
 }
 
 /* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/FocusManager.scss */
@@ -14197,6 +14217,24 @@ div.x-form-spinner-down {
   background-image: url(images/grid/sort_desc.png);
 }
 
+/* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Action.scss */
+.x-grid-cell-inner-action-col {
+  padding: 4px 4px 4px 4px;
+}
+
+/* line 12, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Action.scss */
+.x-action-col-cell .x-item-disabled {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+}
+
+/* line 16, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/column/Action.scss */
+.x-action-col-icon {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+}
+
 /* line 1, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/locking/Lockable.scss */
 .x-grid-locked .x-grid-inner-locked {
   border-width: 0 1px 0 0;
@@ -14239,6 +14277,21 @@ div.x-form-spinner-down {
   padding: 5px 10px 4px 10px;
   text-overflow: ellipsis;
 }
+/* line 73, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/Editing.scss */
+.x-grid-editor .x-form-action-col-field {
+  padding: 4px 4px 4px 4px;
+}
+
+/* line 3, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/CellEditing.scss */
+.x-tree-cell-editor .x-form-text {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+/* line 8, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/CellEditing.scss */
+.x-gecko .x-tree-cell-editor .x-form-text {
+  padding-left: 2px;
+  padding-right: 2px;
+}
 
 /* line 2, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/RowEditing.scss */
 .x-grid-row-editor .x-field {
@@ -14247,6 +14300,10 @@ div.x-form-spinner-down {
 /* line 7, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/RowEditing.scss */
 .x-grid-row-editor .x-form-display-field {
   padding: 5px 7px 4px 8px;
+}
+/* line 16, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/RowEditing.scss */
+.x-grid-row-editor .x-form-action-col-field {
+  padding: 4px 1px 4px 2px;
 }
 /* line 27, ../../../../ext/packages/ext-theme-neutral/sass/src/grid/plugin/RowEditing.scss */
 .x-grid-row-editor .x-form-text {

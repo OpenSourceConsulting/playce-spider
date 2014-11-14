@@ -29,6 +29,9 @@ Ext.define('spider.model.VmDhcpModel', {
         },
         {
             name: 'key_name'
+        },
+        {
+            name: 'disable'
         }
     ]
 });
