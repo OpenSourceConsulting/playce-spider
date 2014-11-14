@@ -53,7 +53,29 @@ def mon_graphite_cpu(vmid=None):
 	# hours, days, minutes, seconds
 	timespan = request.args.get('timespan')
 	timeunit = request.args.get('timeunit')
-	result = requests.get("http://192.168.0.130:8000/render/?width=786&height=508&from=-%s%s&areaMode=stacked&yMax=100&yMin=0&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)&format=json" % (timespan, timeunit, vmid, vmid)).json()
+	url = "http://192.168.0.130:8000/render/?width=500&height=500&from=%s%s&format=json" % (timespan, timeunit)
+	url += "target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
+	result = requests.get(url).json()
+# 	for metric in result:
+# 		datapoints = metric['datapoints']
+# 		newDatapoints = []
+# 		for val in datapoints:
+# 			newVal = { "value": val[0], "date": val[1]}
+# 			newDatapoints.append(newVal)
+# 		metric['datapoints'] = newDatapoints
+	return json.dumps(result) + '\n'
+
+@app.route("/mon/graphite/interface/<vmid>", methods=['GET'])
+def mon_graphite_interface(vmid=None):
+	if id == None:
+		return "No id for VM", 404
+
+	# hours, days, minutes, seconds
+	timespan = request.args.get('timespan')
+	timeunit = request.args.get('timeunit')
+	url = "http://192.168.0.130:8000/render/?width=500&height=500&from=%s%s&format=json" % (timespan, timeunit)
+	url += "&target=%s.interface.if_octets.eth*.tx&target=%s.interface.if_octets.eth*.rx" % (vmid, vmid)
+	result = requests.get(url).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
 # 		newDatapoints = []
