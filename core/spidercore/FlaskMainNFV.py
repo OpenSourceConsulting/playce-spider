@@ -422,6 +422,33 @@ def vmdhcpsharednetworkservice(vmid=None):
 			return "OK", 200
 		else:
 			return result['errmsg'], 500
+		
+# Basic Routing Protocol Control
+@app.route("/nfv/<vmid>/routing/static", methods=['GET', 'POST', 'PUT', 'DELETE'])
+def vmstaticrouting(vmid=None):
+	logger.debug("%s /nfv/%s/routing/static" % (request.method, vmid))
+	
+	'''
+	GET routing/static/_flush 호출 시 Flush 실행
+	
+	jsonParams = json.loads(request.data)	
+	logger.debug(json.dumps(jsonParams, indent=4))
+	
+	if request.method == 'POST' or request.method == 'PUT':
+		result = NFVDHCPService.set_dhcp(vmid, jsonParams)
+	else:
+		result = NFVDHCPService.delete_dhcp(vmid, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		if 'already exists' in result['errmsg'] and 'Commit failed' not in result['errmsg']:
+			return "OK", 200
+		else:
+			return result['errmsg'], 500
+	'''
+	
+	return "OK", 200
 
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
