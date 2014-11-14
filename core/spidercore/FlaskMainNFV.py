@@ -371,7 +371,7 @@ def vmremoteservice(vmid=None):
 	if result['success'] == 'success':
 		return "OK", 200
 	else:
-		if 'already exists' in result['errmsg']:
+		if 'already exists' in result['errmsg'] and 'Commit failed' not in result['errmsg']:
 			return "OK", 200
 		else:
 			return result['errmsg'], 500
@@ -397,7 +397,7 @@ def vmdhcpglobalservice(vmid=None):
 	if result['success'] == 'success':
 		return "OK", 200
 	else:
-		if 'already exists' in result['errmsg']:
+		if 'already exists' in result['errmsg'] and 'Commit failed' not in result['errmsg']:
 			return "OK", 200
 		else:
 			return result['errmsg'], 500
@@ -418,7 +418,7 @@ def vmdhcpsharednetworkservice(vmid=None):
 	if result['success'] == 'success':
 		return "OK", 200
 	else:
-		if 'already exists' in result['errmsg']:
+		if 'already exists' in result['errmsg'] and 'Commit failed' not in result['errmsg']:
 			return "OK", 200
 		else:
 			return result['errmsg'], 500
