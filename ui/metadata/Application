@@ -26,7 +26,8 @@
             "VmNatModel",
             "UserModel",
             "VmFirewallModel",
-            "VmDhcpModel"
+            "VmDhcpModel",
+            "VmRoutingModel"
         ],
         "name": "spider",
         "requires": [
@@ -46,7 +47,9 @@
             "VmBondingStore",
             "UserStore",
             "VmDhcpMappingStore",
-            "addDhcpMappingStore"
+            "addDhcpMappingStore",
+            "VmRoutingStaticGrid",
+            "VmBoundChartStore"
         ],
         "views": [
             "AthenaSpider",
@@ -60,7 +63,8 @@
             "AddUserWindow",
             "UserManagementPanel",
             "AddFirewallWindow",
-            "AddDhcpWindow"
+            "AddDhcpWindow",
+            "AddRoutingWindow"
         ]
     },
     "designerId": "application"

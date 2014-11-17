@@ -1,0 +1,39 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmBoundChartStore",
+        "storeId": "VmBoundChartStore"
+    },
+    "designerId": "cd017f87-f452-43dd-ab37-6d788c365b66",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "date"
+            },
+            "designerId": "fc0f2ccf-78f8-45b1-bade-3dc7630609e7"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "network"
+            },
+            "designerId": "1f0ee2b8-b6b5-4f73-9c96-c8fcacc0524c"
+        }
+    ]
+}

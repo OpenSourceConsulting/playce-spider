@@ -34,7 +34,8 @@ Ext.application({
         'VmNatModel',
         'UserModel',
         'VmFirewallModel',
-        'VmDhcpModel'
+        'VmDhcpModel',
+        'VmRoutingModel'
     ],
     stores: [
         'SampleStore',
@@ -50,7 +51,9 @@ Ext.application({
         'VmBondingStore',
         'UserStore',
         'VmDhcpMappingStore',
-        'addDhcpMappingStore'
+        'addDhcpMappingStore',
+        'VmRoutingStaticGrid',
+        'VmBoundChartStore'
     ],
     views: [
         'AthenaSpider',
@@ -64,7 +67,8 @@ Ext.application({
         'AddUserWindow',
         'UserManagementPanel',
         'AddFirewallWindow',
-        'AddDhcpWindow'
+        'AddDhcpWindow',
+        'AddRoutingWindow'
     ],
     controllers: [
         'HeaderController',

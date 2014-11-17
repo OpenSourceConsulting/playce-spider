@@ -1,0 +1,14 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmRoutingStaticGrid",
+        "model": "VmRoutingModel",
+        "storeId": "VmRoutingStaticGrid"
+    },
+    "designerId": "ed2b4d1d-f9a9-400e-9300-9943b1ef2301"
+}

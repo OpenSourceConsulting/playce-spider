@@ -27,7 +27,15 @@ Ext.define('spider.store.ChartDataStore', {
             storeId: 'ChartDataStore',
             data: [
                 {
-                    date: 1,
+                    date: '111',
+                    cpu: 1,
+                    memory: 1,
+                    network: 1,
+                    cur_in: 1,
+                    cur_out: 1
+                },
+                {
+                    date: '222',
                     cpu: 1,
                     memory: 1,
                     network: 1,

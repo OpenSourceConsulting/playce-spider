@@ -31,9 +31,21 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "cpu"
+                "name": "user_cpu"
             },
             "designerId": "dd57c6e8-53e5-4e7a-bc00-5facbe288770"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "system_cpu"
+            },
+            "designerId": "4a0abea3-4d88-4f14-b3d3-59dedfffed14"
         }
     ]
 }

@@ -895,6 +895,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.model.VmHostModel": [],
   "spider.model.VmNatModel": [],
   "spider.model.VmNicModel": [],
+  "spider.model.VmRoutingModel": [],
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
@@ -902,6 +903,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.SessionStore": [],
   "spider.store.UserStore": [],
   "spider.store.VmBondingStore": [],
+  "spider.store.VmBoundChartStore": [],
   "spider.store.VmCpuChartStore": [],
   "spider.store.VmDhcpMappingStore": [],
   "spider.store.VmHostChartStore": [],
@@ -910,11 +912,13 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.store.VmRoutingStaticGrid": [],
   "spider.store.addDhcpMappingStore": [],
   "spider.view.AddBondingWindow": [],
   "spider.view.AddDhcpWindow": [],
   "spider.view.AddFirewallWindow": [],
   "spider.view.AddNatWindow": [],
+  "spider.view.AddRoutingWindow": [],
   "spider.view.AddUserWindow": [],
   "spider.view.AddVmHostWindow": [],
   "spider.view.AddVmWindow": [],
@@ -1960,6 +1964,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.model.VmHostModel": [],
   "spider.model.VmNatModel": [],
   "spider.model.VmNicModel": [],
+  "spider.model.VmRoutingModel": [],
   "spider.model.VmTemplateModel": [],
   "spider.store.ChartDataStore": [],
   "spider.store.ComboVmTemplateStore": [],
@@ -1967,6 +1972,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.SessionStore": [],
   "spider.store.UserStore": [],
   "spider.store.VmBondingStore": [],
+  "spider.store.VmBoundChartStore": [],
   "spider.store.VmCpuChartStore": [],
   "spider.store.VmDhcpMappingStore": [],
   "spider.store.VmHostChartStore": [],
@@ -1975,6 +1981,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.store.VmRoutingStaticGrid": [],
   "spider.store.addDhcpMappingStore": [],
   "spider.view.AddBondingWindow": [
     "widget.AddBondingWindow"
@@ -1987,6 +1994,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "spider.view.AddNatWindow": [
     "widget.AddNatWindow"
+  ],
+  "spider.view.AddRoutingWindow": [
+    "widget.AddRoutingWindow"
   ],
   "spider.view.AddUserWindow": [
     "widget.AddUserWindow"

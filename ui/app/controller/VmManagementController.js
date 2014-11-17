@@ -43,6 +43,10 @@ Ext.define('spider.controller.VmManagementController', {
 
             this.setBonding();
 
+        } else if(newCard.title === "Routing") {
+
+            this.setRouting();
+
         } else if(newCard.title === "NAT") {
 
             this.setNat();
@@ -97,6 +101,12 @@ Ext.define('spider.controller.VmManagementController', {
 
         }
 
+    },
+
+    onComboRoutingTypeChange: function(field, newValue, oldValue, eOpts) {
+        if(newValue != "") {
+            this.changeRoutingMethod(newValue);
+        }
     },
 
     onComboRuleNameChange: function(field, newValue, oldValue, eOpts) {
@@ -302,6 +312,9 @@ Ext.define('spider.controller.VmManagementController', {
             },
             "#comboBondingName": {
                 change: this.onComboBondingNameChange
+            },
+            "#comboRoutingType": {
+                change: this.onComboRoutingTypeChange
             },
             "#comboRuleName": {
                 change: this.onComboRuleNameChange
@@ -942,26 +955,45 @@ Ext.define('spider.controller.VmManagementController', {
 
         //CPU
         Ext.Ajax.request({
-            url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414488656.039&target='
-                    + vmConstants.selectRecord.get("id") + '.cpu.0.cpu.user.value&from=-1minutes&format=json',
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/cpu/' +vmConstants.selectRecord.get("id") + '?timespan=1&timeunit=minutes',
             disableCaching : true,
             success: function(response){
 
                 var columnData = Ext.decode(response.responseText);
 
                 if(columnData.length > 0) {
+
                     var data = columnData[0];
+                    var chartList = [];
+
+                    Ext.each(data.datapoints, function (chartData, dateIdx) {
+                        var chartCol = {};
+
+                        chartCol.date = new Date(chartData.date*1000);
+                        if(data.target.indexOf("user") >= 0) {
+                            chartCol.user_cpu = chartData.value;
+                        } else {
+                            chartCol.system_cpu = chartData.value;
+                        }
+
+
+                        for(var i=1; i<columnData.length; i++) {
+                            if(columnData[i].target.indexOf("user") >= 0) {
+                                chartCol.user_cpu = columnData[i].datapoints[dateIdx].value;
+                            } else {
+                                chartCol.system_cpu = columnData[i].datapoints[dateIdx].value;
+                            }
+                        }
+
+                        if(chartCol.user_cpu != null && chartCol.system_cpu != null) {
+                            chartCol.system_cpu += chartCol.user_cpu;
+                            chartList.push(chartCol);
+                        }
+                    });
+
 
                     // Get the quality field from record
                     // Update chart with data
-                    var chartList = [];
-                    Ext.each(data.datapoints, function (chartData, aaa) {
-                        var chartCol = {};
-                        chartCol.cpu = chartData.value;
-                        chartCol.date = new Date(chartData.date*1000);
-
-                        chartList.push(chartCol);
-                    });
 
                     //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
 
@@ -1001,8 +1033,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         //Network
         Ext.Ajax.request({
-            url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414489467.473&target='
-                    + vmConstants.selectRecord.get("id") + '.interface.if_packets.eth0.tx&from=-1minutes&format=json',
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/interface/' +vmConstants.selectRecord.get("id") + '?timespan=1&timeunit=minutes',
             disableCaching : true,
             success: function(response){
 
@@ -1028,6 +1059,52 @@ Ext.define('spider.controller.VmManagementController', {
                 }
             }
         });
+
+
+        /*
+        var columnData = Ext.decode(response.responseText);
+
+        if(columnData.length > 0) {
+
+            var data = columnData[0];
+            var chartList = [];
+
+            Ext.each(data.datapoints, function (chartData, dateIdx) {
+                var chartCol = {};
+
+                chartCol.date = new Date(chartData.date*1000);
+                if(data.target.indexOf("user") >= 0) {
+                    chartCol.user_cpu = chartData.value;
+                } else {
+                    chartCol.system_cpu = chartData.value;
+                }
+
+
+                for(var i=1; i<columnData.length; i++) {
+                    if(columnData[i].target.indexOf("user") >= 0) {
+                        chartCol.user_cpu = columnData[i].datapoints[dateIdx].value;
+                    } else {
+                        chartCol.system_cpu = columnData[i].datapoints[dateIdx].value;
+                    }
+                }
+
+                if(chartCol.user_cpu != null && chartCol.system_cpu != null) {
+                    chartCol.system_cpu += chartCol.user_cpu;
+                    chartList.push(chartCol);
+                }
+            });
+
+
+            // Get the quality field from record
+            // Update chart with data
+
+            //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+
+            Ext.getStore('VmCpuChartStore').loadData(chartList, false);
+        }
+
+        */
+
 
 
 
@@ -1089,7 +1166,7 @@ Ext.define('spider.controller.VmManagementController', {
             Ext.getCmp("checkNicDisable").setValue(true);
         }
 
-        form.findField("ipaddr").setReadOnly(readOnlyFlag);
+        form.findField("address").setReadOnly(readOnlyFlag);
         form.findField("ipv6_address").setReadOnly(readOnlyFlag);
 
     },
@@ -1106,7 +1183,9 @@ Ext.define('spider.controller.VmManagementController', {
 
         if(viewNicForm.isValid()) {
 
-            if(formData.ipaddr == vmConstants.selectRecord.get("mgraddr")) {
+            if(record.get("ipaddr") != vmConstants.selectRecord.get("mgraddr") && record.get("address") != vmConstants.selectRecord.get("mgraddr") &&
+                formData.address == vmConstants.selectRecord.get("mgraddr")) {
+
                 Ext.Msg.alert('Failure', "NIC의 IP 주소는 VM의 IP 주소와 동일하지 않도록 설정하셔야 합니다.");
                 return;
             }
@@ -1116,15 +1195,10 @@ Ext.define('spider.controller.VmManagementController', {
 
             sendData.after = formData;
             sendData.after.disable = (!Ext.getCmp("checkNicDisable").getValue());
-            if(Ext.getCmp("checkNicDhcp").getValue() == true) {
-                sendData.after.address = "dhcp";
-            } else {
-                sendData.after.address = "";
-            }
 
             sendData.before = {
                 "address"		: (record.get("address") == null ? "" : record.get("address")),
-                "ipaddr"		: (record.get("ipaddr") == null ? "" : record.get("ipaddr")),
+               // "ipaddr"		: (record.get("ipaddr") == null ? "" : record.get("ipaddr")),
                 "ipv6_address"	: (record.get("ipv6_address") == null ? "" : record.get("ipv6_address")),
                 "duplex"		: (record.get("duplex") == null ? "" : record.get("duplex")),
                 "hw-id"			: (record.get("hw-id") == null ? "" : record.get("hw-id")),
@@ -1480,6 +1554,44 @@ Ext.define('spider.controller.VmManagementController', {
 
         });
 
+    },
+
+    setRouting: function() {
+        var store;
+        var form = Ext.getCmp("viewRoutingStaticForm");
+
+        Ext.getCmp("comboRoutingType").setValue("static");
+
+        form.getForm().reset();
+
+        this.renderNicComboBox([form.getForm().findField("next_hop2")], form.up('panel').getEl());
+    },
+
+    changeRoutingMethod: function(comboValue) {
+
+        if(comboValue == "static") {
+
+            Ext.getCmp("comboRoutingType").up('panel').layout.setActiveItem(0);
+
+            Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
+
+        } else {
+
+            Ext.getCmp("comboRoutingType").layout.setActiveItem(1);
+        }
+    },
+
+    popVmRoutingWindow: function(method) {
+        //VM Host 생성 팝업 호출
+        var popWindow = Ext.create("widget.AddRoutingWindow");
+        popWindow.show();
+
+        var form = Ext.getCmp("addRoutingStaticForm");
+
+        form.getForm().findField("method").setValue(method);
+        form.getForm().findField("type").setValue("route");
+
+        this.renderNicComboBox([form.getForm().findField("next_hop2")], form.getEl());
     },
 
     renderNicCheckbox: function(component, msgTarget) {
@@ -2938,6 +3050,18 @@ Ext.define('spider.controller.VmManagementController', {
 
 
         });
+    },
+
+    createVmRouting: function() {
+
+    },
+
+    saveVmRoutingStatic: function() {
+
+    },
+
+    deleteVmRoutingStatic: function() {
+
     }
 
 });

@@ -30,7 +30,10 @@ Ext.define('spider.store.VmCpuChartStore', {
                     name: 'date'
                 },
                 {
-                    name: 'cpu'
+                    name: 'user_cpu'
+                },
+                {
+                    name: 'system_cpu'
                 }
             ]
         }, cfg)]);

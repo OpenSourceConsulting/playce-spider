@@ -42,7 +42,7 @@
                     "    vmConstants.vmNatRecords = null;",
                     "    vmConstants.vmIfAllRecords = null;",
                     "    vmConstants.vmFirewallRecords = null;",
-                    "    ",
+                    "",
                     "    vmConstants.selectRecord = record;",
                     "    vmConstants.selectVmId = record.get(\"id\");",
                     "",
@@ -564,6 +564,10 @@
                     "",
                     "    this.setBonding();",
                     "",
+                    "} else if(newCard.title === \"Routing\") {",
+                    "",
+                    "    this.setRouting();",
+                    "",
                     "} else if(newCard.title === \"NAT\") {",
                     "",
                     "    this.setNat();",
@@ -897,26 +901,45 @@
                     "",
                     "//CPU",
                     "Ext.Ajax.request({",
-                    "    url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414488656.039&target='",
-                    "            + vmConstants.selectRecord.get(\"id\") + '.cpu.0.cpu.user.value&from=-1minutes&format=json',",
+                    "    url : GLOBAL.apiUrlPrefix + 'mon/graphite/cpu/' +vmConstants.selectRecord.get(\"id\") + '?timespan=1&timeunit=minutes',",
                     "    disableCaching : true,",
                     "    success: function(response){",
                     "",
                     "        var columnData = Ext.decode(response.responseText);",
                     "",
                     "        if(columnData.length > 0) {",
+                    "",
                     "            var data = columnData[0];",
+                    "            var chartList = [];",
+                    "",
+                    "            Ext.each(data.datapoints, function (chartData, dateIdx) {",
+                    "                var chartCol = {};",
+                    "",
+                    "                chartCol.date = new Date(chartData.date*1000);",
+                    "                if(data.target.indexOf(\"user\") >= 0) {",
+                    "                    chartCol.user_cpu = chartData.value;",
+                    "                } else {",
+                    "                    chartCol.system_cpu = chartData.value;",
+                    "                }",
+                    "",
+                    "",
+                    "                for(var i=1; i<columnData.length; i++) {",
+                    "                    if(columnData[i].target.indexOf(\"user\") >= 0) {",
+                    "                        chartCol.user_cpu = columnData[i].datapoints[dateIdx].value;",
+                    "                    } else {",
+                    "                        chartCol.system_cpu = columnData[i].datapoints[dateIdx].value;",
+                    "                    }",
+                    "                }",
+                    "",
+                    "                if(chartCol.user_cpu != null && chartCol.system_cpu != null) {",
+                    "                    chartCol.system_cpu += chartCol.user_cpu;",
+                    "                    chartList.push(chartCol);",
+                    "                }",
+                    "            });",
+                    "",
                     "",
                     "            // Get the quality field from record",
                     "            // Update chart with data",
-                    "            var chartList = [];",
-                    "            Ext.each(data.datapoints, function (chartData, aaa) {",
-                    "                var chartCol = {};",
-                    "                chartCol.cpu = chartData.value;",
-                    "                chartCol.date = new Date(chartData.date*1000);",
-                    "",
-                    "                chartList.push(chartCol);",
-                    "            });",
                     "",
                     "            //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);",
                     "",
@@ -956,8 +979,7 @@
                     "",
                     "//Network",
                     "Ext.Ajax.request({",
-                    "    url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414489467.473&target='",
-                    "            + vmConstants.selectRecord.get(\"id\") + '.interface.if_packets.eth0.tx&from=-1minutes&format=json',",
+                    "    url : GLOBAL.apiUrlPrefix + 'mon/graphite/interface/' +vmConstants.selectRecord.get(\"id\") + '?timespan=1&timeunit=minutes',",
                     "    disableCaching : true,",
                     "    success: function(response){",
                     "",
@@ -983,6 +1005,52 @@
                     "        }",
                     "    }",
                     "});",
+                    "",
+                    "",
+                    "/*",
+                    "var columnData = Ext.decode(response.responseText);",
+                    "",
+                    "if(columnData.length > 0) {",
+                    "    ",
+                    "    var data = columnData[0];",
+                    "    var chartList = [];",
+                    "    ",
+                    "    Ext.each(data.datapoints, function (chartData, dateIdx) {",
+                    "        var chartCol = {};",
+                    "        ",
+                    "        chartCol.date = new Date(chartData.date*1000);",
+                    "        if(data.target.indexOf(\"user\") >= 0) {",
+                    "            chartCol.user_cpu = chartData.value;",
+                    "        } else {",
+                    "            chartCol.system_cpu = chartData.value;",
+                    "        }",
+                    "        ",
+                    "        ",
+                    "        for(var i=1; i<columnData.length; i++) {",
+                    "            if(columnData[i].target.indexOf(\"user\") >= 0) {",
+                    "                chartCol.user_cpu = columnData[i].datapoints[dateIdx].value;",
+                    "            } else {",
+                    "                chartCol.system_cpu = columnData[i].datapoints[dateIdx].value;",
+                    "            }",
+                    "        }",
+                    "        ",
+                    "        if(chartCol.user_cpu != null && chartCol.system_cpu != null) {",
+                    "            chartCol.system_cpu += chartCol.user_cpu;",
+                    "            chartList.push(chartCol);",
+                    "        }",
+                    "    });",
+                    "    ",
+                    "    ",
+                    "    // Get the quality field from record",
+                    "    // Update chart with data",
+                    "    ",
+                    "    //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);",
+                    "    ",
+                    "    Ext.getStore('VmCpuChartStore').loadData(chartList, false);",
+                    "}",
+                    "",
+                    "*/",
+                    "",
                     "",
                     "",
                     "",
@@ -1110,7 +1178,7 @@
                     "    Ext.getCmp(\"checkNicDisable\").setValue(true);",
                     "}",
                     "",
-                    "form.findField(\"ipaddr\").setReadOnly(readOnlyFlag);",
+                    "form.findField(\"address\").setReadOnly(readOnlyFlag);",
                     "form.findField(\"ipv6_address\").setReadOnly(readOnlyFlag);",
                     ""
                 ]
@@ -1141,7 +1209,9 @@
                     "",
                     "if(viewNicForm.isValid()) {",
                     "",
-                    "    if(formData.ipaddr == vmConstants.selectRecord.get(\"mgraddr\")) {",
+                    "    if(record.get(\"ipaddr\") != vmConstants.selectRecord.get(\"mgraddr\") && record.get(\"address\") != vmConstants.selectRecord.get(\"mgraddr\") &&",
+                    "        formData.address == vmConstants.selectRecord.get(\"mgraddr\")) {",
+                    "        ",
                     "        Ext.Msg.alert('Failure', \"NIC의 IP 주소는 VM의 IP 주소와 동일하지 않도록 설정하셔야 합니다.\");",
                     "        return;",
                     "    }",
@@ -1151,15 +1221,10 @@
                     "",
                     "    sendData.after = formData;",
                     "    sendData.after.disable = (!Ext.getCmp(\"checkNicDisable\").getValue());",
-                    "    if(Ext.getCmp(\"checkNicDhcp\").getValue() == true) {",
-                    "        sendData.after.address = \"dhcp\";",
-                    "    } else {",
-                    "        sendData.after.address = \"\";",
-                    "    }",
-                    "",
+                    "    ",
                     "    sendData.before = {",
                     "        \"address\"\t\t: (record.get(\"address\") == null ? \"\" : record.get(\"address\")),",
-                    "        \"ipaddr\"\t\t: (record.get(\"ipaddr\") == null ? \"\" : record.get(\"ipaddr\")),",
+                    "       // \"ipaddr\"\t\t: (record.get(\"ipaddr\") == null ? \"\" : record.get(\"ipaddr\")),",
                     "        \"ipv6_address\"\t: (record.get(\"ipv6_address\") == null ? \"\" : record.get(\"ipv6_address\")),",
                     "        \"duplex\"\t\t: (record.get(\"duplex\") == null ? \"\" : record.get(\"duplex\")),",
                     "        \"hw-id\"\t\t\t: (record.get(\"hw-id\") == null ? \"\" : record.get(\"hw-id\")),",
@@ -1596,6 +1661,83 @@
                 ]
             },
             "designerId": "4c6694d0-86ea-4912-bb0b-67ada2c198d9"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "setRouting",
+                "implHandler": [
+                    "var store;",
+                    "var form = Ext.getCmp(\"viewRoutingStaticForm\");",
+                    "",
+                    "Ext.getCmp(\"comboRoutingType\").setValue(\"static\");",
+                    "",
+                    "form.getForm().reset();",
+                    "",
+                    "this.renderNicComboBox([form.getForm().findField(\"next_hop2\")], form.up('panel').getEl());"
+                ]
+            },
+            "designerId": "d934364f-bc0a-4145-b069-b5066f749bf2"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "comboValue"
+                ],
+                "fn": "changeRoutingMethod",
+                "implHandler": [
+                    "",
+                    "if(comboValue == \"static\") {",
+                    "",
+                    "    Ext.getCmp(\"comboRoutingType\").up('panel').layout.setActiveItem(0);",
+                    "",
+                    "    Ext.getCmp(\"viewRoutingStaticForm\").down('#formSet').hide();",
+                    "",
+                    "} else {",
+                    "",
+                    "    Ext.getCmp(\"comboRoutingType\").layout.setActiveItem(1);",
+                    "}"
+                ]
+            },
+            "designerId": "49b86b4a-7e4a-4861-938c-0f21fc803340"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "method"
+                ],
+                "fn": "popVmRoutingWindow",
+                "implHandler": [
+                    "//VM Host 생성 팝업 호출",
+                    "var popWindow = Ext.create(\"widget.AddRoutingWindow\");",
+                    "popWindow.show();",
+                    "",
+                    "var form = Ext.getCmp(\"addRoutingStaticForm\");",
+                    "",
+                    "form.getForm().findField(\"method\").setValue(method);",
+                    "form.getForm().findField(\"type\").setValue(\"route\");",
+                    "",
+                    "this.renderNicComboBox([form.getForm().findField(\"next_hop2\")], form.getEl());"
+                ]
+            },
+            "designerId": "21e331c6-848e-4619-be2a-b50a7532e312"
         },
         {
             "type": "basicfunction",
@@ -2178,6 +2320,27 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "#comboRoutingType",
+                "designer|targetType": "Ext.form.field.ComboBox",
+                "fn": "onComboRoutingTypeChange",
+                "implHandler": [
+                    "if(newValue != \"\") {",
+                    "    this.changeRoutingMethod(newValue);",
+                    "}"
+                ],
+                "name": "change",
+                "scope": "me"
+            },
+            "designerId": "624e4e19-88bb-47d9-9a7a-fb232f26a137"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "designer|controlQuery": "#comboRuleName",
                 "designer|targetType": "Ext.form.field.ComboBox",
                 "fn": "onComboRuleNameChange",
@@ -2392,19 +2555,19 @@
                     "    success: function(response){",
                     "",
                     "        if(response.status == 200) {",
-                    " ",
+                    "",
                     "            var data = Ext.decode(response.responseText);",
                     "",
                     "            if(data[\"shared-network-name\"] != null) {",
-                    "                ",
+                    "",
                     "                grobalForm.down('#saveBtn').show();",
                     "",
                     "                grobalForm.getForm().setValues(data);",
-                    "                ",
+                    "",
                     "                if(data[\"dynamic-dns-update\"] != null) {",
                     "                    grobalForm.getForm().findField(\"dynamic_dns_update\").setValue(data[\"dynamic-dns-update\"][\"enable\"]);",
                     "                }",
-                    "                ",
+                    "",
                     "                if(data[\"global-parameters\"] != null) {",
                     "                    grobalForm.getForm().findField(\"parameters\").setValue(data[\"global-parameters\"].replace(/(?:\\r,|\\r|,)/g, '\\n'));",
                     "                }",
@@ -2417,14 +2580,14 @@
                     "                });",
                     "",
                     "                Ext.getCmp(\"comboDhcpNetworkName\").bindStore(store);",
-                    "                ",
+                    "",
                     "                if(comboValue != null) {",
-                    "                    ",
+                    "",
                     "                    vmConstants.me.changeDhcpNetworkData(comboValue);",
                     "                }",
-                    "                ",
+                    "",
                     "            } else {",
-                    "                ",
+                    "",
                     "                store = Ext.create('Ext.data.Store', {",
                     "                    model: 'spider.model.VmDhcpModel',",
                     "                    data: []",
@@ -2755,7 +2918,7 @@
                     "        if(Ext.getCmp(\"comboDhcpNetworkName\").getStore().getCount() < 2) {",
                     "            is_last = true;",
                     "        }",
-                    "        ",
+                    "",
                     "        var sendData = {",
                     "            \"shared_network_name\" : formData.shared_network_name,",
                     "            \"is_last\" : is_last",
@@ -3604,6 +3767,51 @@
                 ]
             },
             "designerId": "b5e137f8-6bf6-49a0-ba95-858bea7511b8"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "createVmRouting",
+                "implHandler": [
+                    ""
+                ]
+            },
+            "designerId": "5f9ebf8e-314f-4a9f-aa4b-87e42e22c366"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "saveVmRoutingStatic",
+                "implHandler": [
+                    ""
+                ]
+            },
+            "designerId": "a7e81355-cc92-4022-bc1d-7139a1b1a6cf"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "deleteVmRoutingStatic",
+                "implHandler": [
+                    ""
+                ]
+            },
+            "designerId": "2f6a14ca-341f-4007-8341-4176c5c6869d"
         }
     ]
 }
