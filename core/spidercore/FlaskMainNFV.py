@@ -604,3 +604,35 @@ def vmrouting_ospf(id=None):
 		return "OK", 200
 	else:
 		return result['errmsg'], 500
+	
+# router/ospf save
+@app.route("/nfv/<id>/routing/ospf/<atype>", methods=['POST','DELETE'])
+def vmrouting_ospf_area(id=None, atype=None):
+	
+	logger.debug("%s /nfv/%s/routing/ospf/area/%s" % (request.method, id, atype))
+	#logger.debug("request.data : "+request.data)
+	
+	if request.data:
+		jsonParams = json.loads(request.data)
+		logger.debug(json.dumps(jsonParams, indent=4))
+	
+	
+	if request.method == 'POST':
+		if atype == 'area':
+			result = NFVOSPFRoutingService.add_area(id, jsonParams)
+		elif atype == 'access':
+			result = NFVOSPFRoutingService.add_access(id, jsonParams)
+		elif atype == 'redist':
+			result = NFVOSPFRoutingService.add_redist(id, jsonParams)
+		
+	elif atype == 'area':
+		result = NFVOSPFRoutingService.del_area(id, jsonParams)
+	elif atype == 'access':
+		result = NFVOSPFRoutingService.del_access(id, jsonParams)
+	elif atype == 'redist':
+		result = NFVOSPFRoutingService.del_redist(id, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		return result['errmsg'], 500

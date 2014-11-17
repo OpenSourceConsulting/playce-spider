@@ -100,24 +100,27 @@ def save_ospf(vmid, params):
 	
 	return results[addr]
 	
-def add_area(vmid):
+def add_area(vmid, params):
 	
 	logger.debug("add_area!!")
 	
-def del_area(vmid):
+def del_area(vmid, params):
 	
 	logger.debug("add_area!!")
 	
-'''	
+
 def add_access(vmid, params):
 	
 	logger.debug("add_access!!")
 	
-def add_access(vmid, params):
+def del_access(vmid, params):
 	
 	logger.debug("add_access!!")
 	
 def add_redist(vmid, params):
 	
 	logger.debug("add_redist!!")
-'''
+	
+def del_redist(vmid, params):
+	
+	logger.debug("add_redist!!")
