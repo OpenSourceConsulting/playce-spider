@@ -49,7 +49,7 @@ def get_bonding(vmid, bondid):
 		if bondid == nic['ethName']:
 			nic['config'] = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW interfaces")
 			
-			if nic["address"] == 'dhcp':
+			if "address" in nic and nic["address"] == 'dhcp':
 				nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], nic['ethName'])
 				for kk in nicinfo:
 					nic[kk] = nicinfo[kk]
@@ -118,7 +118,7 @@ def all_bonding(vmid):
 	
 	#bonging 정보만 추출.
 	for nic in nics:
-		if nic["address"] == 'dhcp':
+		if "address" in nic and nic["address"] == 'dhcp':
 			nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], nic['ethName'])
 			for kk in nicinfo:
 				nic[kk] = nicinfo[kk]
