@@ -48,6 +48,12 @@ def get_bonding(vmid, bondid):
 		logger.debug(bondid + ": " + nic['ethName'])
 		if bondid == nic['ethName']:
 			nic['config'] = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW interfaces")
+			
+			if "address" in nic and nic["address"] == 'dhcp':
+				nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], nic['ethName'])
+				for kk in nicinfo:
+					nic[kk] = nicinfo[kk]
+			
 			bonding[bondid] = nic
 			bonding['ethernets'] = []
 			bonding['disables'] = []
@@ -112,12 +118,18 @@ def all_bonding(vmid):
 	
 	#bonging 정보만 추출.
 	for nic in nics:
+		if "address" in nic and nic["address"] == 'dhcp':
+			nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], nic['ethName'])
+			for kk in nicinfo:
+				nic[kk] = nicinfo[kk]
+		
 		if nic["ethName"].startswith("bond"):
 			nic['ethernets'] = []
 			nic['config'] = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW interfaces")
 			bond_dic[nic["ethName"]] = nic
 		elif nic.has_key('bond-group'):
 			bond_dic[nic["bond-group"]]['ethernets'].append(nic["ethName"])
+			
 	
 	for bond_id in bond_dic:
 		result.append(bond_dic[bond_id])
@@ -140,8 +152,8 @@ def update_bonding_task(bondid, bondinfo):
 		else:
 			_key = key
 			
-		if key == 'before_eths':
-			continue  # 앞에서 처리했음으로.. pass.
+		if key in ['before_eths','ipaddr']:
+			continue
 		elif key == "disable" and bondinfo[key] == False:
 			bondinfo[key] = '' # delete 만 하기 위해.
 			

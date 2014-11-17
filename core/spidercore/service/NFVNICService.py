@@ -55,6 +55,8 @@ def update_nic_task(ethName, diff):
 		
 		if '_' in key:
 			_key = key.replace('_',' ')
+		elif 'ipaddr' == key:
+			continue
 		else:
 			_key = key
 			
