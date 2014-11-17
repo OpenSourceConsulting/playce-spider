@@ -84,10 +84,11 @@ def update_remote_service_task(serviceinfo):
         commands.append("$SET service https")
         commands.append("$DELETE service https listen-address")
         
-        addrs = httpsaddr.split(',')
+        if httpsaddr and httpsaddr != "":
+            addrs = httpsaddr.split(',')
         
-        for addr in addrs:
-            commands.append("$SET service https listen-address " + addr)
+            for addr in addrs:
+                commands.append("$SET service https listen-address " + addr)
     else:
         commands.append("$DELETE service https")
         
