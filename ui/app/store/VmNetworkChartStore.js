@@ -30,7 +30,40 @@ Ext.define('spider.store.VmNetworkChartStore', {
                     name: 'date'
                 },
                 {
-                    name: 'network'
+                    name: 'col_0'
+                },
+                {
+                    name: 'col_1'
+                },
+                {
+                    name: 'col_2'
+                },
+                {
+                    name: 'col_3'
+                },
+                {
+                    name: 'col_4'
+                },
+                {
+                    name: 'col_5'
+                },
+                {
+                    name: 'col_6'
+                },
+                {
+                    name: 'col_7'
+                },
+                {
+                    name: 'col_8'
+                },
+                {
+                    name: 'col_9'
+                },
+                {
+                    name: 'col_10'
+                },
+                {
+                    name: 'col_11'
                 }
             ]
         }, cfg)]);

@@ -901,7 +901,6 @@ Ext.define('spider.controller.VmManagementController', {
             success: function(response){
 
                 var data = Ext.JSON.decode(response.responseText);
-
                 if(data.length > 0) {
 
                     var vmData = data[0];
@@ -910,9 +909,10 @@ Ext.define('spider.controller.VmManagementController', {
                     form.setValues(vmData);
 
                     var gridData = [];
+                    var nics = [];
                     var interfaceKey = Object.keys(vmData.interfaces);
 
-                    Ext.each(interfaceKey, function(nic) {
+                    Ext.each(interfaceKey, function(nic, nIdx) {
 
                         var ip = vmData.interfaces[nic].ipaddr;
                         if(ip == null) {
@@ -922,6 +922,8 @@ Ext.define('spider.controller.VmManagementController', {
                         if(vmData.interfaces[nic].disable == true) {
                             ip += "(disable)";
                         }
+
+                        nics.splice(0, 0, {ethName : nic});
 
                         gridData.push({
                             name : nic,
@@ -935,6 +937,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                     Ext.getStore("VmInterfaceStore").loadData(gridData, false);
 
+                    vmConstants.me.setInstanceDashboardNics(nics);
 
                 }
             }
@@ -986,16 +989,10 @@ Ext.define('spider.controller.VmManagementController', {
                         }
 
                         if(chartCol.user_cpu != null && chartCol.system_cpu != null) {
-                            chartCol.system_cpu += chartCol.user_cpu;
+                            chartCol.user_cpu += chartCol.system_cpu;
                             chartList.push(chartCol);
                         }
                     });
-
-
-                    // Get the quality field from record
-                    // Update chart with data
-
-                    //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
 
                     Ext.getStore('VmCpuChartStore').loadData(chartList, false);
                 }
@@ -1004,8 +1001,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         //Memory
         Ext.Ajax.request({
-            url: GLOBAL.graphiteUrlPrefix + 'render/?_salt=1414489011.422&target='
-                    + vmConstants.selectRecord.get("id") + '.memory.memory.free.value&from=-1minutes&format=json',
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/memory/' +vmConstants.selectRecord.get("id") + '?timespan=1&timeunit=minutes',
             disableCaching : true,
             success: function(response){
 
@@ -1021,10 +1017,12 @@ Ext.define('spider.controller.VmManagementController', {
                         var chartCol = {};
                         chartCol.memory = chartData.value;
                         chartCol.date = new Date(chartData.date*1000);
-                        chartList.push(chartCol);
-                    });
 
-                    //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+                        if(chartCol.memory != null) {
+                            chartList.push(chartCol);
+                        }
+
+                    });
 
                     Ext.getStore('VmMemoryChartStore').loadData(chartList, false);
                 }
@@ -1042,70 +1040,50 @@ Ext.define('spider.controller.VmManagementController', {
                 if(columnData.length > 0) {
 
                     var data = columnData[0];
-
-                    // Get the quality field from record
-                    // Update chart with data
                     var chartList = [];
-                    Ext.each(data.datapoints, function (chartData) {
+                    var colNames = [];
+                    /*
+                    for(var i=0; i<2; i++) {
+                        var name = columnData[i].target;
+                        //Ext.getCmp('networkChart').series.getAt(i).setTitle(name.substring(name.substring(0, name.lastIndexOf('.')).lastIndexOf('.'), name.length));
+                        Ext.getCmp('networkChart').series.getAt(i).setTitle(name.substring(name.lastIndexOf('.')+1, name.length));
+                    }
+                    */
+                    Ext.each(data.datapoints, function (chartData, dateIdx) {
                         var chartCol = {};
-                        chartCol.network = chartData.value;
-                        chartCol.date = new Date(chartData.date*1000);
-                        chartList.push(chartCol);
-                    });
+                        var txValue = 0;
+                        var rxValue = 0;
 
-                    //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
+                        chartCol.date = new Date(chartData.date*1000);
+
+                        if(data.target.indexOf(".tx") > 0) {
+                            txValue += chartData.value;
+                        } else {
+                            rxValue += chartData.value;
+                        }
+
+                        for(var i=1; i<columnData.length; i++) {
+
+
+                            if(columnData[i].target.indexOf(".tx") > 0) {
+                                txValue += columnData[i].datapoints[dateIdx].value;
+                            } else {
+                                rxValue += columnData[i].datapoints[dateIdx].value;
+                            }
+
+                            chartCol["col_0"] = txValue;
+                            chartCol["col_1"] = rxValue;
+
+                        }
+
+                        chartList.push(chartCol);
+
+                    });
 
                     Ext.getStore('VmNetworkChartStore').loadData(chartList, false);
                 }
             }
         });
-
-
-        /*
-        var columnData = Ext.decode(response.responseText);
-
-        if(columnData.length > 0) {
-
-            var data = columnData[0];
-            var chartList = [];
-
-            Ext.each(data.datapoints, function (chartData, dateIdx) {
-                var chartCol = {};
-
-                chartCol.date = new Date(chartData.date*1000);
-                if(data.target.indexOf("user") >= 0) {
-                    chartCol.user_cpu = chartData.value;
-                } else {
-                    chartCol.system_cpu = chartData.value;
-                }
-
-
-                for(var i=1; i<columnData.length; i++) {
-                    if(columnData[i].target.indexOf("user") >= 0) {
-                        chartCol.user_cpu = columnData[i].datapoints[dateIdx].value;
-                    } else {
-                        chartCol.system_cpu = columnData[i].datapoints[dateIdx].value;
-                    }
-                }
-
-                if(chartCol.user_cpu != null && chartCol.system_cpu != null) {
-                    chartCol.system_cpu += chartCol.user_cpu;
-                    chartList.push(chartCol);
-                }
-            });
-
-
-            // Get the quality field from record
-            // Update chart with data
-
-            //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
-
-            Ext.getStore('VmCpuChartStore').loadData(chartList, false);
-        }
-
-        */
-
-
 
 
         // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
@@ -1115,6 +1093,64 @@ Ext.define('spider.controller.VmManagementController', {
             vmConstants.me.setInstanceDashboardChart();
 
         }, 5000);
+
+    },
+
+    setInstanceDashboardNics: function(nics) {
+
+        var store = Ext.create('Ext.data.Store', {
+            fields: ['ethName'],
+            data: nics
+        });
+
+        Ext.getCmp("comboNetworkChartNicName").bindStore(store);
+        Ext.getCmp("comboNetworkChartNicName").setValue(nics[0].ethName);
+        Ext.getCmp("comboNetworkChartTime").setValue("1");
+    },
+
+    changeNicNetworkChart: function(nicName, time) {
+
+        Ext.Ajax.request({
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/interface/' +vmConstants.selectRecord.get("id") + '?nic='+nicName+'&timespan='+time+'&timeunit=minutes',
+            disableCaching : true,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+
+                if(columnData.length > 0) {
+
+                    var data = columnData[0];
+                    var chartList = [];
+
+                    Ext.each(data.datapoints, function (chartData, dateIdx) {
+                        var chartCol = {};
+
+                        chartCol.date = new Date(chartData.date*1000);
+                        if(data.target.indexOf("tx") >= 0) {
+                            chartCol.tx_network = chartData.value;
+                        } else {
+                            chartCol.rx_network = chartData.value;
+                        }
+
+
+                        for(var i=1; i<columnData.length; i++) {
+                            if(columnData[i].target.indexOf("tx") >= 0) {
+                                chartCol.tx_network = columnData[i].datapoints[dateIdx].value;
+                            } else {
+                                chartCol.rx_network = columnData[i].datapoints[dateIdx].value;
+                            }
+                        }
+
+                        if(chartCol.tx_network != null && chartCol.rx_network != null) {
+                            //chartCol.system_cpu += chartCol.user_cpu;
+                            chartList.push(chartCol);
+                        }
+                    });
+
+                    Ext.getStore('VmNicNetworkChartStore').loadData(chartList, false);
+                }
+            }
+        });
 
     },
 

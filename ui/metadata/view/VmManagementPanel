@@ -418,6 +418,9 @@
                                                                 "type": "object"
                                                             },
                                                             "codeClass": null,
+                                                            "userConfig": {
+                                                                "padding": 0
+                                                            },
                                                             "designerId": "61cd8100-02f7-4868-bd99-a08f25d101a0"
                                                         }
                                                     ]
@@ -505,6 +508,18 @@
                                                                     "    }",
                                                                     "}"
                                                                 ],
+                                                                "label": [
+                                                                    "{",
+                                                                    "    renderer: function(v) {",
+                                                                    "        ",
+                                                                    "        if(v == null) {",
+                                                                    "            return v;",
+                                                                    "        }",
+                                                                    "        ",
+                                                                    "        return (v/1024/1024).toFixed(3) + \" Mb\";",
+                                                                    "    }",
+                                                                    "}"
+                                                                ],
                                                                 "maximum": null,
                                                                 "minimum": null,
                                                                 "title": null
@@ -555,6 +570,7 @@
                                                                     "left",
                                                                     "bottom"
                                                                 ],
+                                                                "fill": true,
                                                                 "highlight": null,
                                                                 "markerConfig": [
                                                                     "{",
@@ -563,6 +579,10 @@
                                                                     "}"
                                                                 ],
                                                                 "showMarkers": false,
+                                                                "smooth": true,
+                                                                "title": [
+                                                                    "Memory"
+                                                                ],
                                                                 "xField": "date",
                                                                 "yField": [
                                                                     "memory"
@@ -573,6 +593,18 @@
                                                                 "highlight": "boolean"
                                                             },
                                                             "designerId": "292506d3-4695-43f5-b100-f899f8195584"
+                                                        },
+                                                        {
+                                                            "type": "Ext.chart.Legend",
+                                                            "reference": {
+                                                                "name": "legend",
+                                                                "type": "object"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "padding": 0
+                                                            },
+                                                            "designerId": "870a6e3e-2587-44da-9d7d-5639d5efefcf"
                                                         }
                                                     ]
                                                 },
@@ -626,6 +658,7 @@
                                                         "animate": [
                                                             "true"
                                                         ],
+                                                        "cls": "legend3Lines",
                                                         "height": 200,
                                                         "id": "networkChart",
                                                         "insetPadding": 5,
@@ -649,7 +682,8 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "fields": [
-                                                                    "network"
+                                                                    "col_0",
+                                                                    "col_1"
                                                                 ],
                                                                 "grid": [
                                                                     "{",
@@ -660,7 +694,7 @@
                                                                     "    }",
                                                                     "}"
                                                                 ],
-                                                                "maximum": 100,
+                                                                "maximum": null,
                                                                 "minimum": 0,
                                                                 "title": null
                                                             },
@@ -710,6 +744,7 @@
                                                                     "left",
                                                                     "bottom"
                                                                 ],
+                                                                "fill": true,
                                                                 "markerConfig": [
                                                                     "{",
                                                                     "    radius: 3,",
@@ -717,15 +752,90 @@
                                                                     "}"
                                                                 ],
                                                                 "showMarkers": false,
+                                                                "smooth": true,
+                                                                "title": [
+                                                                    "tx"
+                                                                ],
                                                                 "xField": "date",
                                                                 "yField": [
-                                                                    "network"
+                                                                    "col_0"
                                                                 ]
                                                             },
                                                             "configAlternates": {
                                                                 "smooth": "boolean"
                                                             },
                                                             "designerId": "d377b3e3-89b7-45a5-8467-3a1a533fb66a"
+                                                        },
+                                                        {
+                                                            "type": "Ext.chart.series.Line",
+                                                            "reference": {
+                                                                "name": "series",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "axis": [
+                                                                    "left",
+                                                                    "bottom"
+                                                                ],
+                                                                "fill": true,
+                                                                "markerConfig": [
+                                                                    "{",
+                                                                    "    radius: 3,",
+                                                                    "     size: 3",
+                                                                    "}"
+                                                                ],
+                                                                "showMarkers": false,
+                                                                "smooth": true,
+                                                                "title": [
+                                                                    "rx"
+                                                                ],
+                                                                "xField": "date",
+                                                                "yField": [
+                                                                    "col_1"
+                                                                ]
+                                                            },
+                                                            "configAlternates": {
+                                                                "smooth": "boolean"
+                                                            },
+                                                            "designerId": "99cb8f90-7840-40b3-8c57-480fee877cea"
+                                                        },
+                                                        {
+                                                            "type": "Ext.chart.Legend",
+                                                            "reference": {
+                                                                "name": "legend",
+                                                                "type": "object"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "boxStrokeWidth": null,
+                                                                "cls": null,
+                                                                "isVertical": null,
+                                                                "itemSpacing": null,
+                                                                "padding": 0,
+                                                                "style": null
+                                                            },
+                                                            "configAlternates": {
+                                                                "isVertical": "boolean"
+                                                            },
+                                                            "designerId": "ac411a5a-258b-4490-81fa-edada32b5d6c",
+                                                            "customConfigs": [
+                                                                {
+                                                                    "group": "(Custom Properties)",
+                                                                    "name": "isVertical",
+                                                                    "type": "string"
+                                                                },
+                                                                {
+                                                                    "group": "(Custom Properties)",
+                                                                    "name": "cls",
+                                                                    "type": "string"
+                                                                },
+                                                                {
+                                                                    "group": "(Custom Properties)",
+                                                                    "name": "style",
+                                                                    "type": "string"
+                                                                }
+                                                            ]
                                                         }
                                                     ]
                                                 },
@@ -1186,15 +1296,41 @@
                                                             },
                                                             "codeClass": null,
                                                             "userConfig": {
-                                                                "displayField": "name",
+                                                                "displayField": "ethName",
+                                                                "editable": false,
                                                                 "fieldLabel": "NIC ",
-                                                                "id": "interfacesCombo",
-                                                                "itemId": "interfacesCombo",
+                                                                "id": "comboNetworkChartNicName",
+                                                                "itemId": null,
                                                                 "labelWidth": 40,
                                                                 "layout|flex": null,
+                                                                "queryMode": "local",
+                                                                "valueField": "ethName",
                                                                 "width": 110
                                                             },
-                                                            "designerId": "684397fe-6c10-4da0-b99f-7866b2408a0e"
+                                                            "designerId": "684397fe-6c10-4da0-b99f-7866b2408a0e",
+                                                            "cn": [
+                                                                {
+                                                                    "type": "basiceventbinding",
+                                                                    "reference": {
+                                                                        "name": "listeners",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "fn": "onComboNetworkChartNicNameChange",
+                                                                        "implHandler": [
+                                                                            "if(newValue && Ext.getCmp(\"comboNetworkChartTime\").getValue()) {",
+                                                                            "    vmConstants.me.changeNicNetworkChart(newValue, Ext.getCmp(\"comboNetworkChartTime\").getValue());",
+                                                                            "}",
+                                                                            "",
+                                                                            ""
+                                                                        ],
+                                                                        "name": "change",
+                                                                        "scope": "me"
+                                                                    },
+                                                                    "designerId": "357bafef-24c9-47a9-942d-440ba04eea5c"
+                                                                }
+                                                            ]
                                                         },
                                                         {
                                                             "type": "Ext.form.field.ComboBox",
@@ -1205,14 +1341,53 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "displayField": "name",
+                                                                "editable": false,
                                                                 "fieldLabel": "시간 ",
-                                                                "id": "interfacesCombo1",
-                                                                "itemId": "interfacesCombo1",
+                                                                "id": "comboNetworkChartTime",
+                                                                "itemId": null,
                                                                 "labelWidth": 40,
                                                                 "layout|flex": null,
+                                                                "store": [
+                                                                    "[",
+                                                                    "    [\"1\", \"1분\"],",
+                                                                    "    [\"5\", \"5분\"],",
+                                                                    "    [\"10\", \"10분\"],",
+                                                                    "    [\"30\", \"30분\"],",
+                                                                    "    [\"60\", \"1시간\"],",
+                                                                    "    [\"480\", \"8시간\"],",
+                                                                    "    [\"1440\", \"24시간\"]",
+                                                                    "]",
+                                                                    ""
+                                                                ],
                                                                 "width": 110
                                                             },
-                                                            "designerId": "58482a2a-af6c-4c10-83f1-c761790ebf82"
+                                                            "configAlternates": {
+                                                                "store": "array"
+                                                            },
+                                                            "designerId": "58482a2a-af6c-4c10-83f1-c761790ebf82",
+                                                            "cn": [
+                                                                {
+                                                                    "type": "basiceventbinding",
+                                                                    "reference": {
+                                                                        "name": "listeners",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "fn": "onComboNetworkChartTimeChange",
+                                                                        "implHandler": [
+                                                                            "if(newValue && Ext.getCmp(\"comboNetworkChartNicName\").getValue()) {",
+                                                                            "    vmConstants.me.changeNicNetworkChart(Ext.getCmp(\"comboNetworkChartNicName\").getValue(), newValue);",
+                                                                            "}",
+                                                                            "",
+                                                                            ""
+                                                                        ],
+                                                                        "name": "change",
+                                                                        "scope": "me"
+                                                                    },
+                                                                    "designerId": "207f519a-02c2-4dec-b0ba-b04c4cd8ca57"
+                                                                }
+                                                            ]
                                                         },
                                                         {
                                                             "type": "Ext.panel.Panel",
@@ -1262,7 +1437,7 @@
                                                                 "id": "interfaceChart",
                                                                 "insetPadding": 20,
                                                                 "itemId": "interfaceChart",
-                                                                "store": "VmBoundChartStore",
+                                                                "store": "VmNicNetworkChartStore",
                                                                 "width": 400
                                                             },
                                                             "designerId": "aeb4c727-6423-4376-8835-17881c6809a7",
@@ -1279,7 +1454,8 @@
                                                                     "codeClass": null,
                                                                     "userConfig": {
                                                                         "fields": [
-                                                                            "network"
+                                                                            "tx_network",
+                                                                            "rx_network"
                                                                         ],
                                                                         "grid": [
                                                                             "{",
@@ -1290,37 +1466,43 @@
                                                                             "    }",
                                                                             "}"
                                                                         ],
-                                                                        "maximum": 100,
+                                                                        "maximum": null,
                                                                         "minimum": 0,
                                                                         "title": "Usage (kbps)"
                                                                     },
                                                                     "designerId": "7d3608c2-6e60-40a3-a416-3215987121db"
                                                                 },
                                                                 {
-                                                                    "type": "Ext.chart.axis.Category",
+                                                                    "type": "Ext.chart.axis.Time",
                                                                     "reference": {
                                                                         "name": "axes",
                                                                         "type": "array"
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
+                                                                        "dashSize": 0,
+                                                                        "dateFormat": "H:i:s",
                                                                         "fields": [
                                                                             "date"
                                                                         ],
-                                                                        "grid": true,
+                                                                        "grid": false,
                                                                         "label": [
                                                                             "{",
                                                                             "    rotate: {",
-                                                                            "        degrees: 315",
+                                                                            "        degrees: 330",
                                                                             "    }",
                                                                             "}"
+                                                                        ],
+                                                                        "position": "bottom",
+                                                                        "step": [
+                                                                            "[\"s\",1]"
                                                                         ],
                                                                         "title": null
                                                                     },
                                                                     "configAlternates": {
                                                                         "grid": "boolean"
                                                                     },
-                                                                    "designerId": "d71bbe03-f838-450e-a2c2-4c496b9baf84"
+                                                                    "designerId": "0f2b1376-57aa-4d10-81b3-175bc0207e4e"
                                                                 },
                                                                 {
                                                                     "type": "Ext.chart.series.Line",
@@ -1334,21 +1516,61 @@
                                                                             "left",
                                                                             "bottom"
                                                                         ],
+                                                                        "fill": true,
                                                                         "markerConfig": [
                                                                             "{",
                                                                             "    radius: 3,",
                                                                             "     size: 3",
                                                                             "}"
                                                                         ],
+                                                                        "showMarkers": false,
+                                                                        "smooth": true,
+                                                                        "title": [
+                                                                            "Out"
+                                                                        ],
                                                                         "xField": "date",
                                                                         "yField": [
-                                                                            "network"
+                                                                            "tx_network"
                                                                         ]
                                                                     },
                                                                     "configAlternates": {
                                                                         "smooth": "boolean"
                                                                     },
                                                                     "designerId": "72b6f8d7-da6c-4be2-8786-a101b75951bc"
+                                                                },
+                                                                {
+                                                                    "type": "Ext.chart.series.Line",
+                                                                    "reference": {
+                                                                        "name": "series",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "axis": [
+                                                                            "left",
+                                                                            "bottom"
+                                                                        ],
+                                                                        "fill": true,
+                                                                        "markerConfig": [
+                                                                            "{",
+                                                                            "    radius: 3,",
+                                                                            "     size: 3",
+                                                                            "}"
+                                                                        ],
+                                                                        "showMarkers": false,
+                                                                        "smooth": true,
+                                                                        "title": [
+                                                                            "In"
+                                                                        ],
+                                                                        "xField": "date",
+                                                                        "yField": [
+                                                                            "rx_network"
+                                                                        ]
+                                                                    },
+                                                                    "configAlternates": {
+                                                                        "smooth": "boolean"
+                                                                    },
+                                                                    "designerId": "b47719f8-0748-440d-9587-72c1c590ce4d"
                                                                 }
                                                             ]
                                                         }

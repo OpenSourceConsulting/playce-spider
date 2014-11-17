@@ -31,9 +31,141 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "network"
+                "name": "col_0"
             },
             "designerId": "db2cf128-39fc-41d2-b5ed-268a77fc942c"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_1"
+            },
+            "designerId": "2eb23e40-108c-4d50-94a8-634e99de6d8d"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_2"
+            },
+            "designerId": "f0d58b8c-c151-43ed-bb36-95f083cf04a6"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_3"
+            },
+            "designerId": "70b9242e-d836-431f-a333-02ce47a6aea0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_4"
+            },
+            "designerId": "6eeaacd6-85b2-4687-8711-17f437ecf7fb"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_5"
+            },
+            "designerId": "5fd96592-1d7a-4bd1-81bf-1a79cc051910"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_6"
+            },
+            "designerId": "d8109edd-3ef8-4efa-b8b0-e216559b545e"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_7"
+            },
+            "designerId": "fe3502ea-a476-467a-a724-79bd6ea88118"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_8"
+            },
+            "designerId": "bbadf022-b009-49a6-8ce3-803dc26bfe62"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_9"
+            },
+            "designerId": "28fda278-9893-4add-bfab-27d2adb16b92"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_10"
+            },
+            "designerId": "91262b65-8ef8-4395-a6c0-aad8238ab324"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "col_11"
+            },
+            "designerId": "278df91e-0e42-445c-9620-3d1cb2c695cf"
         }
     ]
 }

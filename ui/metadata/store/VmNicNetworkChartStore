@@ -1,0 +1,51 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmNicNetworkChartStore",
+        "storeId": "VmNicNetworkChartStore"
+    },
+    "designerId": "e7aa33ea-625b-4165-9d15-06dce0038805",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "date"
+            },
+            "designerId": "832df601-c06d-4544-bda8-f332c480c166"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "tx_network"
+            },
+            "designerId": "8abd63bd-e005-45b1-b2a4-6188316eed91"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "rx_network"
+            },
+            "designerId": "d75f94b3-b8ec-4f7f-9023-8768c8641378"
+        }
+    ]
+}

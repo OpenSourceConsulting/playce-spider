@@ -31,7 +31,6 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.form.field.ComboBox',
-        'Ext.chart.axis.Category',
         'Ext.toolbar.Spacer',
         'Ext.form.field.TextArea',
         'Ext.form.field.Hidden',
@@ -235,7 +234,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 }
                                                             ],
                                                             legend: {
-
+                                                                padding: 0
                                                             }
                                                         },
                                                         {
@@ -273,6 +272,16 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     fields: [
                                                                         'memory'
                                                                     ],
+                                                                    label: {
+                                                                        renderer: function(v) {
+                                                                            
+                                                                            if(v == null) {
+                                                                                return v;
+                                                                            }
+                                                                            
+                                                                            return (v/1024/1024).toFixed(3) + " Mb";
+                                                                        }
+                                                                    },
                                                                     grid: {
                                                                         odd: {
                                                                             fill: '#dedede',
@@ -305,19 +314,25 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             series: [
                                                                 {
                                                                     type: 'line',
+                                                                    title: 'Memory',
                                                                     axis: [
                                                                         'left',
                                                                         'bottom'
                                                                     ],
                                                                     xField: 'date',
                                                                     yField: 'memory',
+                                                                    fill: true,
                                                                     markerConfig: {
                                                                         radius: 3,
                                                                         size: 3
                                                                     },
-                                                                    showMarkers: false
+                                                                    showMarkers: false,
+                                                                    smooth: true
                                                                 }
-                                                            ]
+                                                            ],
+                                                            legend: {
+                                                                padding: 0
+                                                            }
                                                         },
                                                         {
                                                             xtype: 'label',
@@ -341,6 +356,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     items: [
                                                         {
                                                             xtype: 'chart',
+                                                            cls: 'legend3Lines',
                                                             height: 200,
                                                             id: 'networkChart',
                                                             itemId: 'networkChart',
@@ -353,7 +369,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     type: 'Numeric',
                                                                     fields: [
-                                                                        'network'
+                                                                        'col_0',
+                                                                        'col_1'
                                                                     ],
                                                                     grid: {
                                                                         odd: {
@@ -362,7 +379,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             'stroke-width': 0.5
                                                                         }
                                                                     },
-                                                                    maximum: 100,
                                                                     minimum: 0,
                                                                     position: 'left'
                                                                 },
@@ -389,19 +405,42 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             series: [
                                                                 {
                                                                     type: 'line',
+                                                                    title: 'tx',
                                                                     axis: [
                                                                         'left',
                                                                         'bottom'
                                                                     ],
                                                                     xField: 'date',
-                                                                    yField: 'network',
+                                                                    yField: 'col_0',
+                                                                    fill: true,
                                                                     markerConfig: {
                                                                         radius: 3,
                                                                         size: 3
                                                                     },
-                                                                    showMarkers: false
+                                                                    showMarkers: false,
+                                                                    smooth: true
+                                                                },
+                                                                {
+                                                                    type: 'line',
+                                                                    title: 'rx',
+                                                                    axis: [
+                                                                        'left',
+                                                                        'bottom'
+                                                                    ],
+                                                                    xField: 'date',
+                                                                    yField: 'col_1',
+                                                                    fill: true,
+                                                                    markerConfig: {
+                                                                        radius: 3,
+                                                                        size: 3
+                                                                    },
+                                                                    showMarkers: false,
+                                                                    smooth: true
                                                                 }
-                                                            ]
+                                                            ],
+                                                            legend: {
+                                                                padding: 0
+                                                            }
                                                         },
                                                         {
                                                             xtype: 'label',
@@ -601,21 +640,65 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 },
                                                                 {
                                                                     xtype: 'combobox',
-                                                                    id: 'interfacesCombo',
-                                                                    itemId: 'interfacesCombo',
+                                                                    id: 'comboNetworkChartNicName',
                                                                     width: 110,
                                                                     fieldLabel: 'NIC ',
                                                                     labelWidth: 40,
-                                                                    displayField: 'name'
+                                                                    editable: false,
+                                                                    displayField: 'ethName',
+                                                                    queryMode: 'local',
+                                                                    valueField: 'ethName',
+                                                                    listeners: {
+                                                                        change: {
+                                                                            fn: me.onComboNetworkChartNicNameChange,
+                                                                            scope: me
+                                                                        }
+                                                                    }
                                                                 },
                                                                 {
                                                                     xtype: 'combobox',
-                                                                    id: 'interfacesCombo1',
-                                                                    itemId: 'interfacesCombo1',
+                                                                    id: 'comboNetworkChartTime',
                                                                     width: 110,
                                                                     fieldLabel: '시간 ',
                                                                     labelWidth: 40,
-                                                                    displayField: 'name'
+                                                                    editable: false,
+                                                                    displayField: 'name',
+                                                                    store: [
+                                                                        [
+                                                                            '1',
+                                                                            '1분'
+                                                                        ],
+                                                                        [
+                                                                            '5',
+                                                                            '5분'
+                                                                        ],
+                                                                        [
+                                                                            '10',
+                                                                            '10분'
+                                                                        ],
+                                                                        [
+                                                                            '30',
+                                                                            '30분'
+                                                                        ],
+                                                                        [
+                                                                            '60',
+                                                                            '1시간'
+                                                                        ],
+                                                                        [
+                                                                            '480',
+                                                                            '8시간'
+                                                                        ],
+                                                                        [
+                                                                            '1440',
+                                                                            '24시간'
+                                                                        ]
+                                                                    ],
+                                                                    listeners: {
+                                                                        change: {
+                                                                            fn: me.onComboNetworkChartTimeChange,
+                                                                            scope: me
+                                                                        }
+                                                                    }
                                                                 },
                                                                 {
                                                                     xtype: 'panel',
@@ -640,12 +723,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     width: 400,
                                                                     animate: true,
                                                                     insetPadding: 20,
-                                                                    store: 'VmBoundChartStore',
+                                                                    store: 'VmNicNetworkChartStore',
                                                                     axes: [
                                                                         {
                                                                             type: 'Numeric',
                                                                             fields: [
-                                                                                'network'
+                                                                                'tx_network',
+                                                                                'rx_network'
                                                                             ],
                                                                             grid: {
                                                                                 odd: {
@@ -655,37 +739,63 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                 }
                                                                             },
                                                                             title: 'Usage (kbps)',
-                                                                            maximum: 100,
                                                                             minimum: 0,
                                                                             position: 'left'
                                                                         },
                                                                         {
-                                                                            type: 'Category',
+                                                                            type: 'Time',
                                                                             fields: [
                                                                                 'date'
                                                                             ],
                                                                             label: {
                                                                                 rotate: {
-                                                                                    degrees: 315
+                                                                                    degrees: 330
                                                                                 }
                                                                             },
-                                                                            grid: true,
-                                                                            position: 'bottom'
+                                                                            dashSize: 0,
+                                                                            grid: false,
+                                                                            position: 'bottom',
+                                                                            dateFormat: 'H:i:s',
+                                                                            step: [
+                                                                                's',
+                                                                                1
+                                                                            ]
                                                                         }
                                                                     ],
                                                                     series: [
                                                                         {
                                                                             type: 'line',
+                                                                            title: 'Out',
                                                                             axis: [
                                                                                 'left',
                                                                                 'bottom'
                                                                             ],
                                                                             xField: 'date',
-                                                                            yField: 'network',
+                                                                            yField: 'tx_network',
+                                                                            fill: true,
                                                                             markerConfig: {
                                                                                 radius: 3,
                                                                                 size: 3
-                                                                            }
+                                                                            },
+                                                                            showMarkers: false,
+                                                                            smooth: true
+                                                                        },
+                                                                        {
+                                                                            type: 'line',
+                                                                            title: 'In',
+                                                                            axis: [
+                                                                                'left',
+                                                                                'bottom'
+                                                                            ],
+                                                                            xField: 'date',
+                                                                            yField: 'rx_network',
+                                                                            fill: true,
+                                                                            markerConfig: {
+                                                                                radius: 3,
+                                                                                size: 3
+                                                                            },
+                                                                            showMarkers: false,
+                                                                            smooth: true
                                                                         }
                                                                     ]
                                                                 }
@@ -3132,6 +3242,22 @@ Ext.define('spider.view.VmManagementPanel', {
         });
 
         me.callParent(arguments);
+    },
+
+    onComboNetworkChartNicNameChange: function(field, newValue, oldValue, eOpts) {
+        if(newValue && Ext.getCmp("comboNetworkChartTime").getValue()) {
+            vmConstants.me.changeNicNetworkChart(newValue, Ext.getCmp("comboNetworkChartTime").getValue());
+        }
+
+
+    },
+
+    onComboNetworkChartTimeChange: function(field, newValue, oldValue, eOpts) {
+        if(newValue && Ext.getCmp("comboNetworkChartNicName").getValue()) {
+            vmConstants.me.changeNicNetworkChart(Ext.getCmp("comboNetworkChartNicName").getValue(), newValue);
+        }
+
+
     },
 
     onCheckNicDhcpChange: function(field, newValue, oldValue, eOpts) {

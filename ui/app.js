@@ -53,7 +53,8 @@ Ext.application({
         'VmDhcpMappingStore',
         'addDhcpMappingStore',
         'VmRoutingStaticGrid',
-        'VmBoundChartStore'
+        'VmBoundChartStore',
+        'VmNicNetworkChartStore'
     ],
     views: [
         'AthenaSpider',
