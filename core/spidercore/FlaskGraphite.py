@@ -95,6 +95,28 @@ def mon_graphite_interface(vmid=None):
 # 		metric['datapoints'] = newDatapoints
 	return json.dumps(result) + '\n'
 
+
+@app.route("/mon/graphite/memory/<vmid>", methods=['GET'])
+def mon_graphite_memory(vmid=None):
+	if id == None:
+		return "No id for VM", 404
+
+	# hours, days, minutes, seconds
+	timespan = request.args.get('timespan')
+	timeunit = request.args.get('timeunit')
+	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
+	url += "&target=averageSeries(%s.memory.memory.used.value)" % (vmid)
+	result = requests.get(url).json()
+# 	for metric in result:
+# 		datapoints = metric['datapoints']
+# 		newDatapoints = []
+# 		for val in datapoints:
+# 			newVal = { "value": val[0], "date": val[1]}
+# 			newDatapoints.append(newVal)
+# 		metric['datapoints'] = newDatapoints
+	return json.dumps(result) + '\n'
+
+
 @app.route("/mon/ping", methods=['GET'])
 def mon_ping():
 	return json.dumps({ 'result': 'ok'})
