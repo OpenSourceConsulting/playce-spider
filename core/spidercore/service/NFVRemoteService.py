@@ -105,10 +105,11 @@ def update_remote_service_task(serviceinfo):
         if sshport:
             commands.append("$SET service ssh port " + sshport)
         
-        addrs = sshaddr.split(',')
+        if sshaddr and sshaddr != "":
+            addrs = sshaddr.split(',')
         
-        for addr in addrs:
-            commands.append("$SET service ssh listen-address " + addr)
+            for addr in addrs:
+                commands.append("$SET service ssh listen-address " + addr)
     '''
         
     return FabricUtilNFV.send_vyatta_command(commands)
