@@ -100,27 +100,133 @@ def save_ospf(vmid, params):
 	
 	return results[addr]
 	
+def add_area_task(ospf):
+	commands = []
+	
+	commands.append("$SET protocols ospf area %s" % ospf['area'] )
+	commands.append("$SET protocols ospf area %s network %s" % (ospf['area'], ospf['network']) )
+		
+	return FabricUtilNFV.send_vyatta_command(commands)
+	
 def add_area(vmid, params):
 	
-	logger.debug("add_area!!")
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
+	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(add_area_task, hosts=[addr], ospf = params)
+	
+	return results[addr]
+
+def del_area_task(ospf):
+	commands = []
+	
+	commands.append("$DELETE protocols ospf area %s network %s" % (ospf['area'], ospf['network']) )
+		
+	return FabricUtilNFV.send_vyatta_command(commands)
 	
 def del_area(vmid, params):
 	
-	logger.debug("add_area!!")
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
 	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(del_area_task, hosts=[addr], ospf = params)
+	
+	return results[addr]
+	
+def add_access_task(ospf):
+	commands = []
+	
+	commands.append("$SET protocols ospf access-list %s" % ospf['access-list'] )
+	commands.append("$SET protocols ospf access-list %s export %s" % (ospf['access-list'], ospf['export']) )
+		
+	return FabricUtilNFV.send_vyatta_command(commands)
 
 def add_access(vmid, params):
 	
-	logger.debug("add_access!!")
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
 	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(add_access_task, hosts=[addr], ospf = params)
+	
+	return results[addr]
+	
+def del_access_task(ospf):
+	commands = []
+	
+	commands.append("$DELETE protocols ospf access-list %s export %s" % (ospf['access-list'], ospf['export']) )
+		
+	return FabricUtilNFV.send_vyatta_command(commands)
+
 def del_access(vmid, params):
 	
-	logger.debug("add_access!!")
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
+	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(del_access_task, hosts=[addr], ospf = params)
+	
+	return results[addr]
+
+def add_redist_task(ospf):
+	commands = []
+	
+	commands.append("$SET protocols ospf redistribute %s" % ospf['protocol'] )
+	
+	if 'metric' in ospf and len(ospf['metric']) > 0:
+		commands.append("$SET protocols ospf redistribute %s metric %s" % (ospf['protocol'], ospf['metric']) )
+		
+	if 'metric-type' in ospf and len(ospf['metric-type']) > 0:
+		commands.append("$SET protocols ospf redistribute %s metric-type %s" % (ospf['protocol'], ospf['metric-type']) )
+		
+	if 'route-map' in ospf and len(ospf['route-map']) > 0:
+		commands.append("$SET protocols ospf redistribute %s route-map %s" % (ospf['protocol'], ospf['route-map']) )
+		
+	return FabricUtilNFV.send_vyatta_command(commands)
 	
 def add_redist(vmid, params):
 	
-	logger.debug("add_redist!!")
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
 	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(add_redist_task, hosts=[addr], ospf = params)
+	
+	return results[addr]
+
+def del_redist_task(ospf):
+	commands = []
+	
+	commands.append("$DELETE protocols ospf redistribute %s" % ospf['protocol'] )
+		
+	return FabricUtilNFV.send_vyatta_command(commands)
+
 def del_redist(vmid, params):
 	
-	logger.debug("add_redist!!")
+	vm = get_vm(vmid)
+	addr = vm['mgraddr']
+	
+	env.hosts = [ addr ]
+	env.user = vm['sshid']
+	env.password = vm['sshpw']
+	env.shell = '/bin/vbash -ic'
+	results = execute(del_redist_task, hosts=[addr], ospf = params)
+	
+	return results[addr]
