@@ -32,6 +32,15 @@ from spidercore.util import PyUtils
 
 logger = logging.getLogger(__name__)
 
+def parse_ospf_list(list):
+	results = []
+	for item in list[2]:
+		area = {}
+		area[list[0]] = list[1]
+		area[item[0]] = item[1]
+		results.append(area)
+	return results
+
 def get_ospf(vmid):
 	
 	result = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW protocols ospf")
@@ -42,10 +51,22 @@ def get_ospf(vmid):
 	
 	print '------------------------------'
 	
-	result = {}
+	result = {"areas":[], "access-list":[], "redist-list":[]}
 	for depth1 in results.asList():
 		if depth1[0] in ['auto-cost','parameters']:
 			result[depth1[0] + "_" + depth1[1][0][0]] = depth1[1][0][1]
+			
+		elif 'area' == depth1[0]:
+			result['areas'].extend(parse_ospf_list(depth1))
+		elif 'access-list' == depth1[0]:
+			result['access-list'].extend(parse_ospf_list(depth1))
+		elif 'redistribute' == depth1[0]:
+			for item in depth1[1]:
+				prot = {}
+				prot['protocol'] = item[0]
+				for item2 in item[1]:
+					prot[item2[0]] = item2[1]
+				result['redist-list'].append(prot)
 		else:
 			result[depth1[0]] = depth1[1]
 			
@@ -103,7 +124,6 @@ def save_ospf(vmid, params):
 def add_area_task(ospf):
 	commands = []
 	
-	commands.append("$SET protocols ospf area %s" % ospf['area'] )
 	commands.append("$SET protocols ospf area %s network %s" % (ospf['area'], ospf['network']) )
 		
 	return FabricUtilNFV.send_vyatta_command(commands)
@@ -144,7 +164,6 @@ def del_area(vmid, params):
 def add_access_task(ospf):
 	commands = []
 	
-	commands.append("$SET protocols ospf access-list %s" % ospf['access-list'] )
 	commands.append("$SET protocols ospf access-list %s export %s" % (ospf['access-list'], ospf['export']) )
 		
 	return FabricUtilNFV.send_vyatta_command(commands)
