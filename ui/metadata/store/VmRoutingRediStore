@@ -1,0 +1,63 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmRoutingRediStore",
+        "storeId": "VmRoutingRediStore"
+    },
+    "designerId": "80d0bbb3-1376-4c18-91a0-05c5e4b7fee0",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "protocol"
+            },
+            "designerId": "63c162df-23e0-40ce-99c5-ab9fc7ddca89"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "metric"
+            },
+            "designerId": "80f96f4e-aacb-4102-9a7d-4e5e3cd91bbc"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "metric-type"
+            },
+            "designerId": "42fc06a2-c374-49fa-bdff-8ab7a985756a"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "route-map"
+            },
+            "designerId": "61e81d4b-0b4e-4f23-8edf-e5ab441fc5d5"
+        }
+    ]
+}

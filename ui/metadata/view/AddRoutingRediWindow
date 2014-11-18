@@ -1,0 +1,228 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "AddRoutingRediWindow",
+        "designer|userClassName": "AddRoutingRediWindow",
+        "height": 232,
+        "id": "AddBondingWindow7",
+        "itemId": null,
+        "modal": true,
+        "padding": null,
+        "resizable": false,
+        "title": "Redistribution 등록",
+        "width": 400
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "1281bda6-bffa-4b89-b395-49d26c68ad2c",
+    "cn": [
+        {
+            "type": "Ext.form.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "autoScroll": true,
+                "bodyPadding": 5,
+                "fieldDefaults": [
+                    "{",
+                    "    msgTarget: 'side',",
+                    "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
+                    "    labelSeparator: ' :',",
+                    "    margin: 10,",
+                    "    labelWidth : 100",
+                    "}"
+                ],
+                "header": false,
+                "id": "addRoutingRediForm",
+                "layout": "auto",
+                "title": "My Form"
+            },
+            "designerId": "cc858ce2-ff0b-4c40-8e8d-2bff77b6e9bd",
+            "cn": [
+                {
+                    "type": "Ext.form.field.ComboBox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "editable": false,
+                        "emptyText": null,
+                        "fieldLabel": "Protocol",
+                        "margin": null,
+                        "name": "protocol",
+                        "store": [
+                            "[",
+                            "    \"bgp\", \"connected\", \"kernel\", \"rip\", \"static\"",
+                            "]"
+                        ],
+                        "width": 350
+                    },
+                    "configAlternates": {
+                        "store": "array"
+                    },
+                    "designerId": "6a87242b-b283-4cdd-992b-49d4345111d9"
+                },
+                {
+                    "type": "Ext.form.field.Number",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "emptyText": null,
+                        "fieldLabel": "Metric",
+                        "margin": null,
+                        "maxValue": 16,
+                        "minValue": 1,
+                        "name": "metric",
+                        "width": 350
+                    },
+                    "designerId": "87c3f595-647b-4d37-8f13-851c3c187879"
+                },
+                {
+                    "type": "Ext.form.field.ComboBox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "editable": false,
+                        "emptyText": null,
+                        "fieldLabel": "Metric Type",
+                        "margin": null,
+                        "name": "metric-type",
+                        "queryMode": "local",
+                        "store": [
+                            "[",
+                            "    [\"1\",\"1(internal cost is added to external cost)\"],",
+                            "    [\"2\",\"2(only external cost is used)\"],",
+                            "]"
+                        ],
+                        "width": 350
+                    },
+                    "configAlternates": {
+                        "store": "array"
+                    },
+                    "designerId": "8695e78c-d331-4b51-a007-c21a9d5c1954"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "emptyText": null,
+                        "fieldLabel": "Route Map",
+                        "margin": null,
+                        "name": "route-map",
+                        "width": 350
+                    },
+                    "designerId": "4e4db694-736f-4699-bb3f-aa3f4179f2f8"
+                },
+                {
+                    "type": "Ext.toolbar.Toolbar",
+                    "reference": {
+                        "name": "dockedItems",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|pack": "center",
+                        "designer|uiInterfaceName": "footer",
+                        "dock": "bottom",
+                        "ui": "footer"
+                    },
+                    "designerId": "3a5f6359-f359-4651-970f-16752ce86b75",
+                    "cn": [
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "저장"
+                            },
+                            "designerId": "3ded655b-9496-4ef6-9767-af7bc9159c1f",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "vmConstants.me.createVmRoutingRedi(button);"
+                                        ]
+                                    },
+                                    "designerId": "1457e895-c07a-4bcc-a483-e57095315668"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "취소"
+                            },
+                            "designerId": "023cd6af-15c1-4def-8ade-db96a62090ff",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "GLOBAL.me.closeWindow(button);"
+                                        ]
+                                    },
+                                    "designerId": "be66f7dd-f1af-4e47-be43-38d51a57e890"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -119,6 +119,7 @@ Ext.define('spider.view.AddRoutingWindow', {
                                     fieldLabel: 'Type',
                                     name: 'routing_type',
                                     allowBlank: false,
+                                    editable: false,
                                     store: [
                                         'route',
                                         'interface-route'
@@ -144,6 +145,7 @@ Ext.define('spider.view.AddRoutingWindow', {
                                     fieldLabel: 'Next Hop',
                                     name: 'routing_next_hop2',
                                     allowBlank: false,
+                                    editable: false,
                                     displayField: 'ethName',
                                     queryMode: 'local',
                                     valueField: 'ethName'
@@ -165,7 +167,9 @@ Ext.define('spider.view.AddRoutingWindow', {
                                     xtype: 'numberfield',
                                     flex: 1,
                                     fieldLabel: 'Table',
-                                    name: 'routing_table'
+                                    name: 'routing_table',
+                                    maxValue: 200,
+                                    minValue: 1
                                 },
                                 {
                                     xtype: 'numberfield',
@@ -241,11 +245,17 @@ Ext.define('spider.view.AddRoutingWindow', {
         if(newValue == true){
 
             form.findField("routing_blackhole").setValue(false);
-                form.findField("routing_blackhole").setReadOnly(true);
+            form.findField("routing_blackhole").setReadOnly(true);
 
         } else {
 
             form.findField("routing_blackhole").setReadOnly(false);
+
+        }
+
+        if(form.findField("routing_type").getValue() == "interface-route") {
+
+            form.findField("routing_blackhole").setReadOnly(true);
 
         }
     },

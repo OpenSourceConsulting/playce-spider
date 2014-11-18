@@ -48,9 +48,12 @@
             "UserStore",
             "VmDhcpMappingStore",
             "addDhcpMappingStore",
-            "VmRoutingStaticGrid",
             "VmBoundChartStore",
-            "VmNicNetworkChartStore"
+            "VmNicNetworkChartStore",
+            "VmRoutingOspfStore",
+            "VmRoutingAccessStore",
+            "VmRoutingRediStore",
+            "VmRoutingStaticStore"
         ],
         "views": [
             "AthenaSpider",
@@ -65,7 +68,10 @@
             "UserManagementPanel",
             "AddFirewallWindow",
             "AddDhcpWindow",
-            "AddRoutingWindow"
+            "AddRoutingWindow",
+            "AddRoutingOspfWindow",
+            "AddRoutingAccessWindow",
+            "AddRoutingRediWindow"
         ]
     },
     "designerId": "application"

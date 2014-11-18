@@ -1,0 +1,39 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmRoutingOspfStore",
+        "storeId": "VmRoutingOspfStore"
+    },
+    "designerId": "0766cd2c-8c50-4c14-8edb-a32d1652e90d",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "area"
+            },
+            "designerId": "281b91df-8fe6-4e3a-b969-2f507a9b3edf"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "network"
+            },
+            "designerId": "a4ae4b93-ff93-4c49-b18a-4ea589b7d9e5"
+        }
+    ]
+}

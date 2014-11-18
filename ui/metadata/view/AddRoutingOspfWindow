@@ -1,0 +1,175 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "AddRoutingOspfWindow",
+        "designer|userClassName": "AddRoutingOspfWindow",
+        "height": 165,
+        "id": "AddBondingWindow5",
+        "itemId": null,
+        "modal": true,
+        "padding": null,
+        "resizable": false,
+        "title": "OSPF Area 등록",
+        "width": 350
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "dd41b244-8681-4db1-87e0-6382bd6657ff",
+    "cn": [
+        {
+            "type": "Ext.form.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "autoScroll": true,
+                "bodyPadding": 5,
+                "fieldDefaults": [
+                    "{",
+                    "    msgTarget: 'side',",
+                    "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
+                    "    labelSeparator: ' :',",
+                    "    margin: 10,",
+                    "    labelWidth : 70",
+                    "}"
+                ],
+                "header": false,
+                "id": "addRoutingOspfForm",
+                "layout": "auto",
+                "title": "My Form"
+            },
+            "designerId": "401f5371-b4e5-4447-9bab-0209d4262c08",
+            "cn": [
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "emptyText": null,
+                        "fieldLabel": "Area",
+                        "margin": null,
+                        "name": "area",
+                        "width": 300
+                    },
+                    "designerId": "a5e00294-2626-4181-aaa0-53604a6a2a38"
+                },
+                {
+                    "type": "Ext.form.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "emptyText": null,
+                        "fieldLabel": "Network",
+                        "margin": null,
+                        "name": "network",
+                        "width": 300
+                    },
+                    "designerId": "540d8dbb-7163-4c6f-8f71-8fdbb2b43950"
+                },
+                {
+                    "type": "Ext.toolbar.Toolbar",
+                    "reference": {
+                        "name": "dockedItems",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|pack": "center",
+                        "designer|uiInterfaceName": "footer",
+                        "dock": "bottom",
+                        "ui": "footer"
+                    },
+                    "designerId": "55d6dff4-2970-44c3-bf65-2824c93fb2d4",
+                    "cn": [
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "저장"
+                            },
+                            "designerId": "aedb882b-6be3-4f4f-a51b-e5d2f43a28d7",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "vmConstants.me.createVmRoutingOspf(button);"
+                                        ]
+                                    },
+                                    "designerId": "02cbfc84-5dac-4a94-84dc-038b1b3a9914"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "취소"
+                            },
+                            "designerId": "abb6ae58-1ec8-41ae-923c-21d9ac44125c",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "GLOBAL.me.closeWindow(button);"
+                                        ]
+                                    },
+                                    "designerId": "0f46fed4-f2a2-46ab-a5d9-b75bdefa128f"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

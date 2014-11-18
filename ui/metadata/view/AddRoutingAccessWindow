@@ -1,0 +1,185 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "AddRoutingAccessWindow",
+        "designer|userClassName": "AddRoutingAccessWindow",
+        "height": 165,
+        "id": "AddBondingWindow6",
+        "itemId": null,
+        "modal": true,
+        "padding": null,
+        "resizable": false,
+        "title": "Access-List 등록",
+        "width": 350
+    },
+    "configAlternates": {
+        "resizable": "boolean"
+    },
+    "designerId": "e3b443e5-45e7-4af8-bfe9-e80784bde7b9",
+    "cn": [
+        {
+            "type": "Ext.form.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "autoScroll": true,
+                "bodyPadding": 5,
+                "fieldDefaults": [
+                    "{",
+                    "    msgTarget: 'side',",
+                    "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
+                    "    labelSeparator: ' :',",
+                    "    margin: 10,",
+                    "    labelWidth : 100",
+                    "}"
+                ],
+                "header": false,
+                "id": "addRoutingAccessForm",
+                "layout": "auto",
+                "title": "My Form"
+            },
+            "designerId": "69b955b8-5654-4f08-adeb-1f8713dbeb34",
+            "cn": [
+                {
+                    "type": "Ext.form.field.Number",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "emptyText": null,
+                        "fieldLabel": "Access-List",
+                        "margin": null,
+                        "name": "access-list",
+                        "width": 300
+                    },
+                    "designerId": "25cfc900-c690-4c94-aaa8-a4cfeffa9f0b"
+                },
+                {
+                    "type": "Ext.form.field.ComboBox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "allowBlank": false,
+                        "editable": false,
+                        "emptyText": null,
+                        "fieldLabel": "Export Type",
+                        "margin": null,
+                        "name": "export",
+                        "queryMode": "local",
+                        "store": [
+                            "[",
+                            "    \"bgp\", \"connected\", \"kernel\", \"rip\", \"static\"",
+                            "]"
+                        ],
+                        "width": 300
+                    },
+                    "configAlternates": {
+                        "store": "array"
+                    },
+                    "designerId": "c64e96ce-28d1-4ad7-8e04-e978c1d383b6"
+                },
+                {
+                    "type": "Ext.toolbar.Toolbar",
+                    "reference": {
+                        "name": "dockedItems",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|pack": "center",
+                        "designer|uiInterfaceName": "footer",
+                        "dock": "bottom",
+                        "ui": "footer"
+                    },
+                    "designerId": "3e527b27-a452-4ceb-b2b9-8a2d9a2c9bb9",
+                    "cn": [
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "저장"
+                            },
+                            "designerId": "f2c90a9f-f29b-4810-b359-d58269db2d1f",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "vmConstants.me.createVmRoutingAccess(button);"
+                                        ]
+                                    },
+                                    "designerId": "4e5631fd-4471-426f-8498-166849cb77bc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.button.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "layout|flex": null,
+                                "padding": "3 8 3 8",
+                                "text": "취소"
+                            },
+                            "designerId": "e9dfc4e3-5dd6-4c14-b4ff-79f47aae154a",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "button",
+                                            "e"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "GLOBAL.me.closeWindow(button);"
+                                        ]
+                                    },
+                                    "designerId": "7de975b6-2b76-429b-a874-57347744625c"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

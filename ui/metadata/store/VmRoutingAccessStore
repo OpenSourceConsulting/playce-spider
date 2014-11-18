@@ -1,0 +1,39 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmRoutingAccessStore",
+        "storeId": "VmRoutingAccessStore"
+    },
+    "designerId": "784d6420-83fc-4b66-85c5-68c4d10534d9",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "access-list"
+            },
+            "designerId": "98038d9e-8664-4493-befa-79b607121d9a"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "export"
+            },
+            "designerId": "90ecf188-3a17-41e1-ac3c-44d08aa66c8b"
+        }
+    ]
+}

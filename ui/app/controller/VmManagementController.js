@@ -296,7 +296,8 @@ Ext.define('spider.controller.VmManagementController', {
                     vmNicRecords : null,
                     vmNatRecords : null,
                     vmIfAllRecords : null,
-                    vmFirewallRecords : null
+                    vmFirewallRecords : null,
+                    vmRoutingRecord : null
 
                 });
 
@@ -1604,6 +1605,27 @@ Ext.define('spider.controller.VmManagementController', {
         this.renderNicComboBox([form.getForm().findField("routing_next_hop2")], form.up('panel').getEl());
     },
 
+    changeRoutingMethod: function(comboValue) {
+
+        if(comboValue == "static") {
+
+            Ext.getCmp("comboRoutingType").up('panel').layout.setActiveItem(0);
+            Ext.getCmp("comboRoutingType").up('toolbar').down('#addBtn').show();
+
+            Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
+
+            this.setRoutingStaticData();
+
+        } else {
+
+            Ext.getCmp("comboRoutingType").up('toolbar').down('#addBtn').hide();
+
+            Ext.getCmp("comboRoutingType").up('panel').layout.setActiveItem(1);
+
+            this.setRoutingOspfData();
+        }
+    },
+
     setRoutingStaticData: function() {
 
         Ext.getStore("VmRoutingStaticStore").removeAll();
@@ -1716,20 +1738,46 @@ Ext.define('spider.controller.VmManagementController', {
         }
     },
 
-    changeRoutingMethod: function(comboValue) {
+    setRoutingOspfData: function() {
+        var viewRoutingOspfForm = Ext.getCmp("viewRoutingOspfForm");
 
-        if(comboValue == "static") {
+        Ext.getStore("VmRoutingOspfStore").removeAll();
+        Ext.getStore("VmRoutingAccessStore").removeAll();
+        Ext.getStore("VmRoutingRediStore").removeAll();
 
-            Ext.getCmp("comboRoutingType").up('panel').layout.setActiveItem(0);
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/routing/ospf',
+            method : "GET",
+            disableCaching : true,
+            waitMsg: 'Loading...',
+            waitMsgTarget : viewRoutingOspfForm.up('panel').getEl(),
+            success: function(response){
 
-            Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
+                if(response.status == 200) {
 
-            this.setRoutingStaticData();
+                    var data = Ext.decode(response.responseText);
 
-        } else {
+                    vmConstants.vmRoutingRecord = data;
 
-            Ext.getCmp("comboRoutingType").layout.setActiveItem(1);
-        }
+                    viewRoutingOspfForm.getForm().setValues(data);
+
+                    if(data["redist-list"]) {
+                        Ext.getStore("VmRoutingRediStore").loadData(data["redist-list"], false);
+                    }
+
+                    if(data["access-list"]) {
+                        Ext.getStore("VmRoutingAccessStore").loadData(data["access-list"], false);
+                    }
+
+                    if(data["areas"]) {
+                        Ext.getStore("VmRoutingOspfStore").loadData(data["areas"], false);
+                    }
+
+                }
+
+            }
+        });
+
     },
 
     popVmRoutingWindow: function(method) {
@@ -1876,11 +1924,334 @@ Ext.define('spider.controller.VmManagementController', {
 
                         if(response.status == 200) {
 
-                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.');
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
 
-                            vmConstants.me.setRoutingStaticData();
-                            Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
+                                vmConstants.me.setRoutingStaticData();
+                                Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
 
+                            });
+
+                        }
+
+                    },
+                    failure: function (response) {
+                        Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                    }
+                });
+
+            }
+
+        });
+
+    },
+
+    popupVmRoutingOspfWindow: function() {
+        var popWindow = Ext.create("widget.AddRoutingOspfWindow");
+        popWindow.show();
+
+    },
+
+    popupVmRoutingAccessWindow: function() {
+        var popWindow = Ext.create("widget.AddRoutingAccessWindow");
+        popWindow.show();
+
+    },
+
+    popupVmRoutingRediWindow: function() {
+        var popWindow = Ext.create("widget.AddRoutingRediWindow");
+        popWindow.show();
+
+    },
+
+    saveVmRoutingOspf: function() {
+        var viewRoutingOspfForm = Ext.getCmp("viewRoutingOspfForm");
+        var formData = viewRoutingOspfForm.getForm().getFieldValues();
+
+        if(viewRoutingOspfForm.isValid()) {
+
+            var sendData = {};
+
+            formData["auto-cost_reference-bandwidth"] = formData["auto-cost_reference-bandwidth"].toString();
+            formData["default-metric"] = formData["default-metric"].toString();
+
+            sendData.after = formData;
+
+            var beforeData = vmConstants.vmRoutingRecord;
+            sendData.before =  {
+                "parameters_router-id"			: (beforeData["parameters_router-id"] == null ? "" : beforeData["parameters_router-id"]) ,
+                "auto-cost_reference-bandwidth"	: (beforeData["auto-cost_reference-bandwidth"] == null ? "" : beforeData["auto-cost_reference-bandwidth"]),
+                "default-metric"				: (beforeData["default-metric"] == null ? "" : beforeData["default-metric"])
+            };
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/ospf",
+                 method: "PUT",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : viewRoutingOspfForm.getEl(),
+                 jsonData: sendData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            vmConstants.me.setRoutingOspfData();
+
+                        });
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+             });
+
+        }
+
+    },
+
+    createVmRoutingOspf: function() {
+        var addRoutingOspfForm = Ext.getCmp("addRoutingOspfForm");
+        var formData = addRoutingOspfForm.getForm().getFieldValues();
+
+        if(addRoutingOspfForm.isValid()) {
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/ospf/area",
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : addRoutingOspfForm.getEl(),
+                 jsonData: formData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '등록이 완료되었습니다.', function (){
+
+                            addRoutingOspfForm.up('window').close();
+
+                            vmConstants.me.setRoutingOspfData();
+
+                        });
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+             });
+
+        }
+
+    },
+
+    createVmRoutingAccess: function() {
+        var addRoutingAccessForm = Ext.getCmp("addRoutingAccessForm");
+        var formData = addRoutingAccessForm.getForm().getFieldValues();
+
+        if(addRoutingAccessForm.isValid()) {
+
+            formData["access-list"] = formData["access-list"].toString();
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/ospf/access",
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : addRoutingAccessForm.getEl(),
+                 jsonData: formData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '등록이 완료되었습니다.', function (){
+
+                            addRoutingAccessForm.up('window').close();
+
+                            vmConstants.me.setRoutingOspfData();
+
+                        });
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+             });
+
+        }
+
+    },
+
+    createVmRoutingRedi: function() {
+        var addRoutingRediForm = Ext.getCmp("addRoutingRediForm");
+        var formData = addRoutingRediForm.getForm().getFieldValues();
+
+        if(addRoutingRediForm.isValid()) {
+
+            formData["metric"] = formData["metric"].toString();
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/ospf/redist",
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : addRoutingRediForm.getEl(),
+                 jsonData: formData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '등록이 완료되었습니다.', function (){
+
+                            addRoutingRediForm.up('window').close();
+
+                            vmConstants.me.setRoutingOspfData();
+
+                        });
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+             });
+
+        }
+
+    },
+
+    deleteVmRoutingOspf: function(record) {
+        Ext.MessageBox.confirm('Confirm', '해당 Routing Area 정보를 삭제하시겠습니까?', function(btn){
+
+            if(btn == "yes"){
+
+                var routingForm = Ext.getCmp("viewRoutingOspfForm");
+
+                var sendData = {
+                    "area"		: record.get("area"),
+                    "network"	: record.get("network")
+                };
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/ospf/area",
+                    method: "DELETE",
+                    headers : {
+                        "Content-Type" : "application/json"
+                    },
+                    waitMsg: 'Delete Data...',
+                    waitMsgTarget : routingForm.getEl(),
+                    jsonData: sendData,
+                    success: function (response) {
+
+                        if(response.status == 200) {
+
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
+
+                                vmConstants.me.setRoutingOspfData();
+
+                            });
+                        }
+
+                    },
+                    failure: function (response) {
+                        Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                    }
+                });
+
+            }
+
+        });
+
+    },
+
+    deleteVmRoutingAccess: function(record) {
+        Ext.MessageBox.confirm('Confirm', '해당 Routing Access 정보를 삭제하시겠습니까?', function(btn){
+
+            if(btn == "yes"){
+
+                var routingForm = Ext.getCmp("viewRoutingOspfForm");
+
+                var sendData = {
+                    "access-list"	: record.get("access-list"),
+                    "export"		: record.get("export")
+                };
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/ospf/access",
+                    method: "DELETE",
+                    headers : {
+                        "Content-Type" : "application/json"
+                    },
+                    waitMsg: 'Delete Data...',
+                    waitMsgTarget : routingForm.getEl(),
+                    jsonData: sendData,
+                    success: function (response) {
+
+                        if(response.status == 200) {
+
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
+
+                                vmConstants.me.setRoutingOspfData();
+
+                            });
+                        }
+
+                    },
+                    failure: function (response) {
+                        Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                    }
+                });
+
+            }
+
+        });
+
+    },
+
+    deleteVmRoutingRedi: function(record) {
+        Ext.MessageBox.confirm('Confirm', '해당 Routing Access 정보를 삭제하시겠습니까?', function(btn){
+
+            if(btn == "yes"){
+
+                var routingForm = Ext.getCmp("viewRoutingOspfForm");
+
+                var sendData = {
+                    "protocol"	: record.get("protocol")
+                };
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/ospf/redist",
+                    method: "DELETE",
+                    headers : {
+                        "Content-Type" : "application/json"
+                    },
+                    waitMsg: 'Delete Data...',
+                    waitMsgTarget : routingForm.getEl(),
+                    jsonData: sendData,
+                    success: function (response) {
+
+                        if(response.status == 200) {
+
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
+
+                                vmConstants.me.setRoutingOspfData();
+
+                            });
                         }
 
                     },

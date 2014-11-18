@@ -913,12 +913,18 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.store.VmRoutingAccessStore": [],
+  "spider.store.VmRoutingOspfStore": [],
+  "spider.store.VmRoutingRediStore": [],
   "spider.store.VmRoutingStaticStore": [],
   "spider.store.addDhcpMappingStore": [],
   "spider.view.AddBondingWindow": [],
   "spider.view.AddDhcpWindow": [],
   "spider.view.AddFirewallWindow": [],
   "spider.view.AddNatWindow": [],
+  "spider.view.AddRoutingAccessWindow": [],
+  "spider.view.AddRoutingOspfWindow": [],
+  "spider.view.AddRoutingRediWindow": [],
   "spider.view.AddRoutingWindow": [],
   "spider.view.AddUserWindow": [],
   "spider.view.AddVmHostWindow": [],
@@ -1983,6 +1989,9 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmNetworkChartStore": [],
   "spider.store.VmNicNetworkChartStore": [],
   "spider.store.VmNicStore": [],
+  "spider.store.VmRoutingAccessStore": [],
+  "spider.store.VmRoutingOspfStore": [],
+  "spider.store.VmRoutingRediStore": [],
   "spider.store.VmRoutingStaticStore": [],
   "spider.store.addDhcpMappingStore": [],
   "spider.view.AddBondingWindow": [
@@ -1996,6 +2005,15 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "spider.view.AddNatWindow": [
     "widget.AddNatWindow"
+  ],
+  "spider.view.AddRoutingAccessWindow": [
+    "widget.AddRoutingAccessWindow"
+  ],
+  "spider.view.AddRoutingOspfWindow": [
+    "widget.AddRoutingOspfWindow"
+  ],
+  "spider.view.AddRoutingRediWindow": [
+    "widget.AddRoutingRediWindow"
   ],
   "spider.view.AddRoutingWindow": [
     "widget.AddRoutingWindow"

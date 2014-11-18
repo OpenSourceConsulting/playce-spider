@@ -1438,6 +1438,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     handler: function(button, e) {
                                                         vmConstants.me.popVmDhcpWindow();
                                                     },
+                                                    hidden: true,
                                                     padding: '3 8 3 8',
                                                     text: 'Flush'
                                                 },
@@ -1446,6 +1447,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     handler: function(button, e) {
                                                         vmConstants.me.popVmRoutingWindow(Ext.getCmp("comboRoutingType").getValue());
                                                     },
+                                                    itemId: 'addBtn',
                                                     margin: '0 20 0 0',
                                                     text: '신규생성'
                                                 }
@@ -1610,6 +1612,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             flex: 1,
                                                                             fieldLabel: 'Route Subnet',
                                                                             name: 'routing_subnet',
+                                                                            readOnly: true,
                                                                             allowBlank: false,
                                                                             emptyText: 'Default'
                                                                         },
@@ -1619,6 +1622,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             margin: 0,
                                                                             fieldLabel: 'Blackhole',
                                                                             name: 'routing_blackhole',
+                                                                            readOnly: true,
                                                                             listeners: {
                                                                                 change: {
                                                                                     fn: me.onCheckboxfieldChange1,
@@ -1630,13 +1634,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             xtype: 'checkboxfield',
                                                                             flex: 0.6,
                                                                             fieldLabel: 'Disable',
-                                                                            name: 'routing_disable',
-                                                                            listeners: {
-                                                                                change: {
-                                                                                    fn: me.onCheckboxfieldChange2,
-                                                                                    scope: me
-                                                                                }
-                                                                            }
+                                                                            name: 'routing_disable'
                                                                         }
                                                                     ]
                                                                 },
@@ -1656,8 +1654,10 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             flex: 1,
                                                                             fieldLabel: 'Type',
                                                                             name: 'routing_type',
+                                                                            readOnly: true,
                                                                             allowBlank: false,
                                                                             emptyText: 'Default',
+                                                                            editable: false,
                                                                             store: [
                                                                                 'route',
                                                                                 'interface-route'
@@ -1674,6 +1674,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             flex: 1,
                                                                             fieldLabel: 'Next Hop',
                                                                             name: 'routing_next_hop1',
+                                                                            readOnly: true,
                                                                             allowBlank: false,
                                                                             emptyText: 'Default'
                                                                         },
@@ -1683,7 +1684,9 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             hidden: true,
                                                                             fieldLabel: 'Next Hop',
                                                                             name: 'routing_next_hop2',
+                                                                            readOnly: true,
                                                                             allowBlank: false,
+                                                                            editable: false,
                                                                             displayField: 'ethName',
                                                                             queryMode: 'local',
                                                                             valueField: 'ethName'
@@ -1706,6 +1709,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             flex: 1,
                                                                             fieldLabel: 'Table',
                                                                             name: 'routing_table',
+                                                                            readOnly: true,
                                                                             emptyText: 'Default'
                                                                         },
                                                                         {
@@ -1716,6 +1720,335 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             emptyText: 'Default',
                                                                             maxValue: 255,
                                                                             minValue: 1
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'panel',
+                                            header: false,
+                                            title: 'My Panel',
+                                            items: [
+                                                {
+                                                    xtype: 'form',
+                                                    id: 'viewRoutingOspfForm',
+                                                    style: 'border-top-width: 1px !important;border-color:silver !important;',
+                                                    bodyPadding: 10,
+                                                    header: false,
+                                                    title: 'My Form',
+                                                    fieldDefaults: {
+                                                        msgTarget: 'side',
+                                                        labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                        labelSeparator: ' :',
+                                                        margin: '0 10 0 0',
+                                                        labelWidth: 200
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'fieldset',
+                                                            itemId: 'formSet',
+                                                            margin: '10 20 10 20',
+                                                            padding: '0 0 10 0',
+                                                            title: '',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'toolbar',
+                                                                    height: 40,
+                                                                    items: [
+                                                                        {
+                                                                            xtype: 'tbspacer',
+                                                                            flex: 1
+                                                                        },
+                                                                        {
+                                                                            xtype: 'button',
+                                                                            handler: function(button, e) {
+                                                                                vmConstants.me.saveVmRoutingOspf();
+                                                                            },
+                                                                            itemId: 'saveBtn',
+                                                                            padding: '3 8 3 8',
+                                                                            text: '저장'
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    xtype: 'fieldcontainer',
+                                                                    flex: '1',
+                                                                    height: 35,
+                                                                    fieldLabel: 'Label',
+                                                                    hideLabel: true,
+                                                                    layout: {
+                                                                        type: 'hbox',
+                                                                        align: 'middle'
+                                                                    },
+                                                                    items: [
+                                                                        {
+                                                                            xtype: 'textfield',
+                                                                            flex: 1,
+                                                                            margin: '0 20 0 0',
+                                                                            fieldLabel: 'Route ID(lo)',
+                                                                            labelWidth: 120,
+                                                                            name: 'parameters_router-id',
+                                                                            allowBlank: false,
+                                                                            emptyText: 'Default'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'numberfield',
+                                                                            flex: 1,
+                                                                            fieldLabel: 'Reference Bandwidth (MBps)',
+                                                                            name: 'auto-cost_reference-bandwidth',
+                                                                            emptyText: 'Default',
+                                                                            maxValue: 4294967,
+                                                                            minValue: 1
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    xtype: 'fieldcontainer',
+                                                                    flex: '1',
+                                                                    height: 35,
+                                                                    fieldLabel: 'Label',
+                                                                    hideLabel: true,
+                                                                    layout: {
+                                                                        type: 'hbox',
+                                                                        align: 'middle'
+                                                                    },
+                                                                    items: [
+                                                                        {
+                                                                            xtype: 'tbspacer',
+                                                                            flex: 1,
+                                                                            margin: '0 20 0 0'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'numberfield',
+                                                                            flex: 1,
+                                                                            fieldLabel: 'Default Metric',
+                                                                            name: 'default-metric',
+                                                                            emptyText: 'Default',
+                                                                            maxValue: 16777214,
+                                                                            minValue: 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldset',
+                                                            margin: '5 20 20 20',
+                                                            padding: 0,
+                                                            title: '',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'gridpanel',
+                                                                    height: 180,
+                                                                    id: 'viewRoutingOspfGrid',
+                                                                    margin: 0,
+                                                                    overflowY: 'auto',
+                                                                    header: false,
+                                                                    title: 'My Grid Panel',
+                                                                    columnLines: true,
+                                                                    forceFit: true,
+                                                                    store: 'VmRoutingOspfStore',
+                                                                    dockedItems: [
+                                                                        {
+                                                                            xtype: 'toolbar',
+                                                                            dock: 'top',
+                                                                            items: [
+                                                                                {
+                                                                                    xtype: 'tbspacer',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'button',
+                                                                                    handler: function(button, e) {
+                                                                                        vmConstants.me.popupVmRoutingOspfWindow();
+                                                                                    },
+                                                                                    padding: '3 8 3 8',
+                                                                                    text: '추가'
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ],
+                                                                    columns: [
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            dataIndex: 'area',
+                                                                            text: 'Area'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            dataIndex: 'network',
+                                                                            text: 'Network'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'actioncolumn',
+                                                                            text: 'Delete',
+                                                                            maxWidth: 80,
+                                                                            minWidth: 80,
+                                                                            style: 'text-align:center;',
+                                                                            align: 'center',
+                                                                            hideable: false,
+                                                                            items: [
+                                                                                {
+                                                                                    handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                                                        vmConstants.me.deleteVmRoutingOspf(record);
+                                                                                    },
+                                                                                    icon: 'resources/images/icons/delete.png'
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldset',
+                                                            margin: '5 20 20 20',
+                                                            padding: 0,
+                                                            title: '',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'gridpanel',
+                                                                    height: 180,
+                                                                    id: 'viewRoutingAccessGrid',
+                                                                    margin: 0,
+                                                                    overflowY: 'auto',
+                                                                    header: false,
+                                                                    title: 'My Grid Panel',
+                                                                    columnLines: true,
+                                                                    forceFit: true,
+                                                                    store: 'VmRoutingAccessStore',
+                                                                    dockedItems: [
+                                                                        {
+                                                                            xtype: 'toolbar',
+                                                                            dock: 'top',
+                                                                            items: [
+                                                                                {
+                                                                                    xtype: 'tbspacer',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'button',
+                                                                                    handler: function(button, e) {
+                                                                                        vmConstants.me.popupVmRoutingAccessWindow();
+                                                                                    },
+                                                                                    padding: '3 8 3 8',
+                                                                                    text: '추가'
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ],
+                                                                    columns: [
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            dataIndex: 'access-list',
+                                                                            text: 'Access List'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            dataIndex: 'export',
+                                                                            text: 'Export Type'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'actioncolumn',
+                                                                            text: 'Delete',
+                                                                            maxWidth: 80,
+                                                                            minWidth: 80,
+                                                                            style: 'text-align:center;',
+                                                                            align: 'center',
+                                                                            hideable: false,
+                                                                            items: [
+                                                                                {
+                                                                                    handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                                                        vmConstants.me.deleteVmRoutingAccess(record);
+                                                                                    },
+                                                                                    icon: 'resources/images/icons/delete.png'
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldset',
+                                                            margin: '5 20 20 20',
+                                                            padding: 0,
+                                                            title: '',
+                                                            items: [
+                                                                {
+                                                                    xtype: 'gridpanel',
+                                                                    height: 180,
+                                                                    id: 'viewRoutingRediGrid',
+                                                                    margin: 0,
+                                                                    overflowY: 'auto',
+                                                                    header: false,
+                                                                    title: 'My Grid Panel',
+                                                                    columnLines: true,
+                                                                    forceFit: true,
+                                                                    store: 'VmRoutingRediStore',
+                                                                    dockedItems: [
+                                                                        {
+                                                                            xtype: 'toolbar',
+                                                                            dock: 'top',
+                                                                            items: [
+                                                                                {
+                                                                                    xtype: 'tbspacer',
+                                                                                    flex: 1
+                                                                                },
+                                                                                {
+                                                                                    xtype: 'button',
+                                                                                    handler: function(button, e) {
+                                                                                        vmConstants.me.popupVmRoutingRediWindow();
+                                                                                    },
+                                                                                    padding: '3 8 3 8',
+                                                                                    text: '추가'
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ],
+                                                                    columns: [
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            dataIndex: 'protocol',
+                                                                            text: 'Protocol'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            dataIndex: 'metric',
+                                                                            text: 'Metric'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            width: 150,
+                                                                            dataIndex: 'metric-type',
+                                                                            text: 'Metric Type'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'gridcolumn',
+                                                                            dataIndex: 'route-map',
+                                                                            text: 'Route Map'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'actioncolumn',
+                                                                            text: 'Delete',
+                                                                            maxWidth: 80,
+                                                                            minWidth: 80,
+                                                                            style: 'text-align:center;',
+                                                                            align: 'center',
+                                                                            hideable: false,
+                                                                            items: [
+                                                                                {
+                                                                                    handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                                                        vmConstants.me.deleteVmRoutingRedi(record);
+                                                                                    },
+                                                                                    icon: 'resources/images/icons/delete.png'
+                                                                                }
+                                                                            ]
                                                                         }
                                                                     ]
                                                                 }
@@ -3397,21 +3730,6 @@ Ext.define('spider.view.VmManagementPanel', {
             form.findField("routing_next_hop2").setDisabled(false);
 
             form.findField("routing_disable").setReadOnly(false);
-
-        }
-    },
-
-    onCheckboxfieldChange2: function(field, newValue, oldValue, eOpts) {
-        var form = field.up('form').getForm();
-
-        if(newValue == true){
-
-            form.findField("routing_blackhole").setValue(false);
-                form.findField("routing_blackhole").setReadOnly(true);
-
-        } else {
-
-            form.findField("routing_blackhole").setReadOnly(false);
 
         }
     },
