@@ -274,9 +274,14 @@ def show_system_with_configure():
 	pprint.pprint( results.asList() )
 	
 	protocols = []
-	for item in results.asList():		
-		protocol = parseElements(item[1])
-		protocol['system'] = item[0]
+	for item in results.asList():
+		if type(item[1]) == list:
+			protocol = parseElements(item[1])
+			protocol['category'] = item[0]
+		else:
+			protocol = {item[0]:item[1]}
+			protocol['category'] = item[0]
+			
 		protocols.append(protocol)
 	
 	return protocols

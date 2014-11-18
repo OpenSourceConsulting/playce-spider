@@ -40,10 +40,10 @@ def get_system(vmid):
     vm = get_vm(vmid)
     
     results = []
-    services = FabricUtilNFV.getSystem(vm['mgraddr'], vm['sshid'], vm['sshpw'])
-    for service in services:
-        if service['service'] == 'host-name' or service['service'] == 'time-zone' or service['service'] == 'login':
-            results.append(service)
+    system = FabricUtilNFV.getSystem(vm['mgraddr'], vm['sshid'], vm['sshpw'])
+    for prop in system:
+        if prop['category'] == 'host-name' or prop['category'] == 'time-zone' or prop['category'] == 'login':
+            results.append(prop)
 
     return results
 
