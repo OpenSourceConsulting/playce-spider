@@ -186,7 +186,14 @@ def del_access_task(ospf):
 	
 	commands.append("$DELETE protocols ospf access-list %s export %s" % (ospf['access-list'], ospf['export']) )
 		
-	return FabricUtilNFV.send_vyatta_command(commands)
+	result = FabricUtilNFV.send_vyatta_command(commands)
+	
+	if result["success"] == "fail" and "must add protocol to filter" in result["errmsg"]:
+		# 위에서 마지막 export 를 삭제할때는 'Commit failed'가 됨으로 access-list 모두 삭제해주어야 함.
+		new_cmd = "$DELETE protocols ospf access-list %s" % ospf['access-list']
+		result = FabricUtilNFV.send_vyatta_command([new_cmd])
+	
+	return result
 
 def del_access(vmid, params):
 	
@@ -234,7 +241,7 @@ def del_redist_task(ospf):
 	commands = []
 	
 	commands.append("$DELETE protocols ospf redistribute %s" % ospf['protocol'] )
-		
+	
 	return FabricUtilNFV.send_vyatta_command(commands)
 
 def del_redist(vmid, params):
