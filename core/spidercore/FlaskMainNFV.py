@@ -671,9 +671,9 @@ def vm_cli_task(params):
 	commands = params.split("\n")
 	
 	if type(commands) == list:
-		return FabricUtilNFV.send_vyatta_command(commands)
+		return send_vyatta_command(commands)
 	else:
-		return FabricUtilNFV.send_vyatta_command([commands])
+		return send_vyatta_command([commands])
 
 	
 @app.route("/nfv/<id>/cli", methods=['POST'])
