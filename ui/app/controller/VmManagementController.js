@@ -1596,11 +1596,124 @@ Ext.define('spider.controller.VmManagementController', {
         var store;
         var form = Ext.getCmp("viewRoutingStaticForm");
 
+        Ext.getCmp("comboRoutingType").setValue("");
         Ext.getCmp("comboRoutingType").setValue("static");
 
         form.getForm().reset();
 
-        this.renderNicComboBox([form.getForm().findField("next_hop2")], form.up('panel').getEl());
+        this.renderNicComboBox([form.getForm().findField("routing_next_hop2")], form.up('panel').getEl());
+    },
+
+    setRoutingStaticData: function() {
+
+        Ext.getStore("VmRoutingStaticStore").removeAll();
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/routing/static',
+            method : "GET",
+            disableCaching : true,
+            waitMsg: 'Loading...',
+            waitMsgTarget : Ext.getCmp("viewRoutingStaticForm").up('panel').getEl(),
+            success: function(response){
+
+                if(response.status == 200) {
+
+                    var data = Ext.decode(response.responseText);
+                    var gridData = [];
+                    var nodeData;
+
+                    if(data["route"]) {
+
+                        Ext.each(data["route"], function(node) {
+
+                            gridData.push(setNodeData(node, "route", "N/A"));
+                        });
+
+                    }
+
+                    if(data["interface-route"]) {
+
+                        Ext.each(data["interface-route"], function(node) {
+
+                            gridData.push(setNodeData(node, "interface-route", "N/A"));
+                        });
+
+                    }
+
+                    if(data["table"]) {
+
+                        Ext.each(data["table"], function(table) {
+
+                            if(table["route"]) {
+
+                                Ext.each(table["route"], function(node) {
+
+                                    gridData.push(setNodeData(node, "route", table["key_name"]));
+                                });
+
+                            }
+
+                            if(table["interface-route"]) {
+
+                                Ext.each(table["interface-route"], function(node) {
+
+                                    gridData.push(setNodeData(node, "interface-route", table["key_name"]));
+                                });
+
+                            }
+
+                        });
+
+                    }
+
+
+                    Ext.getStore("VmRoutingStaticStore").loadData(gridData, false);
+                }
+
+            }
+        });
+
+
+        function setNodeData(node, type, table) {
+
+            var nodeData = {
+                "routing_subnet":		node["key_name"],
+                "routing_type":			type,
+                "routing_table":		table,
+                "routing_disable":		false,
+                "routing_blackhole":	false
+            };
+
+            if(node["next-hop"]) {
+
+                nodeData.routing_next_hop = node["next-hop"][0]["key_name"];
+                nodeData.routing_distance = node["next-hop"][0]["distance"];
+                if(node["next-hop"][0]["disable"]) {
+                    nodeData.routing_disable  = node["next-hop"][0]["disable"];
+                }
+
+            }
+
+            if(node["next-hop-interface"]) {
+
+                nodeData.routing_next_hop = node["next-hop-interface"][0]["key_name"];
+                nodeData.routing_distance = node["next-hop-interface"][0]["distance"];
+                if(node["next-hop-interface"][0]["disable"]) {
+                    nodeData.routing_disable  = node["next-hop-interface"][0]["disable"];
+                }
+
+            }
+
+            if(node["blackhole"]) {
+
+                nodeData.routing_blackhole = true;
+                nodeData.routing_distance = node["blackhole"]["distance"];
+            }
+
+            return nodeData;
+
+
+        }
     },
 
     changeRoutingMethod: function(comboValue) {
@@ -1611,6 +1724,8 @@ Ext.define('spider.controller.VmManagementController', {
 
             Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
 
+            this.setRoutingStaticData();
+
         } else {
 
             Ext.getCmp("comboRoutingType").layout.setActiveItem(1);
@@ -1618,16 +1733,166 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     popVmRoutingWindow: function(method) {
-        //VM Host 생성 팝업 호출
+            //VM Host 생성 팝업 호출
         var popWindow = Ext.create("widget.AddRoutingWindow");
         popWindow.show();
 
         var form = Ext.getCmp("addRoutingStaticForm");
 
-        form.getForm().findField("method").setValue(method);
-        form.getForm().findField("type").setValue("route");
+        form.getForm().findField("routing_type").setValue("route");
 
-        this.renderNicComboBox([form.getForm().findField("next_hop2")], form.getEl());
+        this.renderNicComboBox([form.getForm().findField("routing_next_hop2")], form.getEl());
+    },
+
+    createVmRouting: function() {
+        var addRoutingStaticForm = Ext.getCmp("addRoutingStaticForm");
+        var formData = addRoutingStaticForm.getForm().getFieldValues();
+
+        if(addRoutingStaticForm.isValid()) {
+
+            if(formData.routing_type == "route") {
+                formData.routing_next_hop = formData.routing_next_hop1;
+            } else {
+                formData.routing_next_hop = formData.routing_next_hop2;
+            }
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/static",
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : addRoutingStaticForm.getEl(),
+                 jsonData: formData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '등록이 완료되었습니다.', function (){
+
+                            addRoutingStaticForm.up('window').close();
+
+                            vmConstants.me.setRoutingStaticData();
+                            Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
+
+                        });
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+             });
+
+        }
+
+    },
+
+    saveVmRoutingStatic: function() {
+        var viewRoutingStaticForm = Ext.getCmp("viewRoutingStaticForm");
+        var formData = viewRoutingStaticForm.getForm().getFieldValues();
+
+        if(viewRoutingStaticForm.isValid()) {
+
+            if(formData.routing_type == "route") {
+                formData.routing_next_hop = formData.routing_next_hop1;
+            } else {
+                formData.routing_next_hop = formData.routing_next_hop2;
+            }
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/static",
+                 method: "PUT",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : viewRoutingStaticForm.getEl(),
+                 jsonData: formData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            vmConstants.me.setRoutingStaticData();
+
+                        });
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+             });
+
+        }
+
+    },
+
+    deleteVmRoutingStatic: function(record) {
+        Ext.MessageBox.confirm('Confirm', '해당 Routing 정보를 삭제하시겠습니까?', function(btn){
+
+            if(btn == "yes"){
+
+                var routingForm = Ext.getCmp("viewRoutingStaticForm");
+                var is_last_in_table = false;
+
+                if(record.get("routing_table") != "N/A") {
+
+                    var tableCnt = 0;
+                    Ext.getStore("VmRoutingStaticStore").each(function(rec) {
+                        if(record.get("routing_table") == rec.get("routing_table")) {
+                            tableCnt++;
+                        }
+                    });
+
+                    if(tableCnt <= 1) {
+                        is_last_in_table = true;
+                    }
+                }
+
+                var sendData = {
+                    "routing_subnet"		: record.get("routing_subnet"),
+                    "routing_type"			: record.get("routing_type"),
+                    "routing_table"			: (record.get("routing_table") == "N/A" ? "" : record.get("routing_table")),
+                    "is_last_in_table"		: is_last_in_table
+                };
+
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/static",
+                    method: "DELETE",
+                    headers : {
+                        "Content-Type" : "application/json"
+                    },
+                    waitMsg: 'Delete Data...',
+                    waitMsgTarget : routingForm.getEl(),
+                    jsonData: sendData,
+                    success: function (response) {
+
+                        if(response.status == 200) {
+
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.');
+
+                            vmConstants.me.setRoutingStaticData();
+                            Ext.getCmp("viewRoutingStaticForm").down('#formSet').hide();
+
+                        }
+
+                    },
+                    failure: function (response) {
+                        Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                    }
+                });
+
+            }
+
+        });
+
     },
 
     renderNicCheckbox: function(component, msgTarget) {
@@ -3086,18 +3351,6 @@ Ext.define('spider.controller.VmManagementController', {
 
 
         });
-    },
-
-    createVmRouting: function() {
-
-    },
-
-    saveVmRoutingStatic: function() {
-
-    },
-
-    deleteVmRoutingStatic: function() {
-
     }
 
 });

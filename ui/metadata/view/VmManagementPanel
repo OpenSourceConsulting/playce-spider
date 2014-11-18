@@ -3216,7 +3216,7 @@
                                                                 "id": "viewRoutingStaticGrid",
                                                                 "margin": 0,
                                                                 "overflowY": "auto",
-                                                                "store": "VmRoutingStaticGrid",
+                                                                "store": "VmRoutingStaticStore",
                                                                 "style": null,
                                                                 "title": "My Grid Panel"
                                                             },
@@ -3243,7 +3243,7 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "dataIndex": "subnet",
+                                                                        "dataIndex": "routing_subnet",
                                                                         "minWidth": 140,
                                                                         "text": "Route Subnet"
                                                                     },
@@ -3257,7 +3257,7 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "dataIndex": "type",
+                                                                        "dataIndex": "routing_type",
                                                                         "minWidth": 120,
                                                                         "text": "Type"
                                                                     },
@@ -3271,7 +3271,7 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "dataIndex": "next_hop",
+                                                                        "dataIndex": "routing_next_hop",
                                                                         "minWidth": 120,
                                                                         "text": "Next Hop"
                                                                     },
@@ -3285,7 +3285,7 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "dataIndex": "distance",
+                                                                        "dataIndex": "routing_distance",
                                                                         "defaultWidth": null,
                                                                         "minWidth": 80,
                                                                         "text": "Distance"
@@ -3300,7 +3300,7 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "dataIndex": "table",
+                                                                        "dataIndex": "routing_table",
                                                                         "minWidth": 80,
                                                                         "text": "Table"
                                                                     },
@@ -3314,11 +3314,39 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "dataIndex": "disable",
+                                                                        "dataIndex": "routing_blackhole",
+                                                                        "lockable": false,
                                                                         "minWidth": 80,
                                                                         "text": "Blackhole"
                                                                     },
-                                                                    "designerId": "7ec72458-ae99-457f-8e9e-d36968dbf3c3"
+                                                                    "designerId": "7ec72458-ae99-457f-8e9e-d36968dbf3c3",
+                                                                    "cn": [
+                                                                        {
+                                                                            "type": "fixedfunction",
+                                                                            "reference": {
+                                                                                "name": "items",
+                                                                                "type": "array"
+                                                                            },
+                                                                            "codeClass": null,
+                                                                            "userConfig": {
+                                                                                "designer|params": [
+                                                                                    "value",
+                                                                                    "metaData",
+                                                                                    "record",
+                                                                                    "rowIndex",
+                                                                                    "colIndex",
+                                                                                    "store",
+                                                                                    "view"
+                                                                                ],
+                                                                                "fn": "renderer",
+                                                                                "implHandler": [
+                                                                                    "return '<center><input type=\"checkbox\" name=\"checkbox\" ' + (value ? 'checked=\"true\"' : '') + '\" disabled /></center>';",
+                                                                                    ""
+                                                                                ]
+                                                                            },
+                                                                            "designerId": "75a8cfaa-3df2-42f9-908c-9de957256fa2"
+                                                                        }
+                                                                    ]
                                                                 },
                                                                 {
                                                                     "type": "Ext.grid.column.Column",
@@ -3328,11 +3356,37 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "dataIndex": "disable",
+                                                                        "dataIndex": "routing_disable",
                                                                         "minWidth": 80,
                                                                         "text": "Disable"
                                                                     },
-                                                                    "designerId": "97f15046-44b8-49ab-a57f-e02c7dc89a45"
+                                                                    "designerId": "97f15046-44b8-49ab-a57f-e02c7dc89a45",
+                                                                    "cn": [
+                                                                        {
+                                                                            "type": "fixedfunction",
+                                                                            "reference": {
+                                                                                "name": "items",
+                                                                                "type": "array"
+                                                                            },
+                                                                            "codeClass": null,
+                                                                            "userConfig": {
+                                                                                "designer|params": [
+                                                                                    "value",
+                                                                                    "metaData",
+                                                                                    "record",
+                                                                                    "rowIndex",
+                                                                                    "colIndex",
+                                                                                    "store",
+                                                                                    "view"
+                                                                                ],
+                                                                                "fn": "renderer",
+                                                                                "implHandler": [
+                                                                                    "return '<center><input type=\"checkbox\" name=\"checkbox\" ' + (value ? 'checked=\"true\"' : '') + '\" disabled /></center>';"
+                                                                                ]
+                                                                            },
+                                                                            "designerId": "a7fcb798-3eb6-49c2-ba27-ee379ab9c9d0"
+                                                                        }
+                                                                    ]
                                                                 },
                                                                 {
                                                                     "type": "Ext.grid.column.Action",
@@ -3401,6 +3455,36 @@
                                                                             ]
                                                                         }
                                                                     ]
+                                                                },
+                                                                {
+                                                                    "type": "basiceventbinding",
+                                                                    "reference": {
+                                                                        "name": "listeners",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "fn": "onViewRoutingStaticGridSelect",
+                                                                        "implHandler": [
+                                                                            "var form = Ext.getCmp(\"viewRoutingStaticForm\").getForm();",
+                                                                            "",
+                                                                            "form.loadRecord(record);",
+                                                                            "",
+                                                                            "if(form.findField(\"routing_type\").getValue() == \"route\") {",
+                                                                            "    ",
+                                                                            "    form.findField(\"routing_next_hop1\").setValue(record.get(\"routing_next_hop\"));",
+                                                                            "    ",
+                                                                            "} else {",
+                                                                            "    form.findField(\"routing_next_hop2\").setValue(record.get(\"routing_next_hop\"));",
+                                                                            "}",
+                                                                            "",
+                                                                            "Ext.getCmp(\"viewRoutingStaticForm\").down('#formSet').show();",
+                                                                            "    "
+                                                                        ],
+                                                                        "name": "select",
+                                                                        "scope": "me"
+                                                                    },
+                                                                    "designerId": "bc210e53-07b0-4aee-afc9-ae364ce66d0d"
                                                                 }
                                                             ]
                                                         }
@@ -3520,7 +3604,7 @@
                                                                         "emptyText": "Default",
                                                                         "fieldLabel": "Route Subnet",
                                                                         "layout|flex": 1,
-                                                                        "name": "subnet"
+                                                                        "name": "routing_subnet"
                                                                     },
                                                                     "designerId": "c5ac1a9f-5dfb-418c-b564-fe8b789f088e"
                                                                 },
@@ -3536,9 +3620,45 @@
                                                                         "fieldLabel": "Blackhole",
                                                                         "layout|flex": 0.4,
                                                                         "margin": 0,
-                                                                        "name": "blackhole"
+                                                                        "name": "routing_blackhole"
                                                                     },
-                                                                    "designerId": "ea247682-6c8d-41f7-922f-93ee79c11e75"
+                                                                    "designerId": "ea247682-6c8d-41f7-922f-93ee79c11e75",
+                                                                    "cn": [
+                                                                        {
+                                                                            "type": "basiceventbinding",
+                                                                            "reference": {
+                                                                                "name": "listeners",
+                                                                                "type": "array"
+                                                                            },
+                                                                            "codeClass": null,
+                                                                            "userConfig": {
+                                                                                "fn": "onCheckboxfieldChange1",
+                                                                                "implHandler": [
+                                                                                    "var form = field.up('form').getForm();",
+                                                                                    "",
+                                                                                    "if(newValue == true){",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_next_hop1\").setDisabled(true);",
+                                                                                    "    form.findField(\"routing_next_hop2\").setDisabled(true);",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_disable\").setValue(false);",
+                                                                                    "    form.findField(\"routing_disable\").setReadOnly(true);",
+                                                                                    "    ",
+                                                                                    "} else {",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_next_hop1\").setDisabled(false);",
+                                                                                    "    form.findField(\"routing_next_hop2\").setDisabled(false);",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_disable\").setReadOnly(false);",
+                                                                                    "    ",
+                                                                                    "}"
+                                                                                ],
+                                                                                "name": "change",
+                                                                                "scope": "me"
+                                                                            },
+                                                                            "designerId": "01ed6d32-f53e-4fe8-9e8d-cb0b42d8a5b8"
+                                                                        }
+                                                                    ]
                                                                 },
                                                                 {
                                                                     "type": "Ext.form.field.Checkbox",
@@ -3552,9 +3672,39 @@
                                                                         "fieldLabel": "Disable",
                                                                         "labelWidth": null,
                                                                         "layout|flex": 0.6,
-                                                                        "name": "disable"
+                                                                        "name": "routing_disable"
                                                                     },
-                                                                    "designerId": "543a0449-4245-4756-a86c-9110a890bc56"
+                                                                    "designerId": "543a0449-4245-4756-a86c-9110a890bc56",
+                                                                    "cn": [
+                                                                        {
+                                                                            "type": "basiceventbinding",
+                                                                            "reference": {
+                                                                                "name": "listeners",
+                                                                                "type": "array"
+                                                                            },
+                                                                            "codeClass": null,
+                                                                            "userConfig": {
+                                                                                "fn": "onCheckboxfieldChange2",
+                                                                                "implHandler": [
+                                                                                    "var form = field.up('form').getForm();",
+                                                                                    "",
+                                                                                    "if(newValue == true){",
+                                                                                    "        ",
+                                                                                    "    form.findField(\"routing_blackhole\").setValue(false);",
+                                                                                    "        form.findField(\"routing_blackhole\").setReadOnly(true);",
+                                                                                    "    ",
+                                                                                    "} else {",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_blackhole\").setReadOnly(false);",
+                                                                                    "    ",
+                                                                                    "}"
+                                                                                ],
+                                                                                "name": "change",
+                                                                                "scope": "me"
+                                                                            },
+                                                                            "designerId": "5fecc2c5-ee47-4b97-9626-b197d6a337db"
+                                                                        }
+                                                                    ]
                                                                 }
                                                             ]
                                                         },
@@ -3595,7 +3745,7 @@
                                                                         "emptyText": "Default",
                                                                         "fieldLabel": "Type",
                                                                         "layout|flex": 1,
-                                                                        "name": "type",
+                                                                        "name": "routing_type",
                                                                         "store": [
                                                                             "[",
                                                                             "    \"route\",",
@@ -3606,7 +3756,55 @@
                                                                     "configAlternates": {
                                                                         "store": "array"
                                                                     },
-                                                                    "designerId": "b53565c5-ff32-4cbc-97b1-2a620b3baab1"
+                                                                    "designerId": "b53565c5-ff32-4cbc-97b1-2a620b3baab1",
+                                                                    "cn": [
+                                                                        {
+                                                                            "type": "basiceventbinding",
+                                                                            "reference": {
+                                                                                "name": "listeners",
+                                                                                "type": "array"
+                                                                            },
+                                                                            "codeClass": null,
+                                                                            "userConfig": {
+                                                                                "fn": "onComboboxChange1",
+                                                                                "implHandler": [
+                                                                                    "var form = field.up('form').getForm();",
+                                                                                    "if(newValue == \"route\") {",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_next_hop1\").show();",
+                                                                                    "    form.findField(\"routing_next_hop2\").hide();",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_next_hop1\").setDisabled(false);",
+                                                                                    "    form.findField(\"routing_next_hop2\").setDisabled(true);",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_blackhole\").setReadOnly(false);",
+                                                                                    "    ",
+                                                                                    "} else if(newValue == \"interface-route\") {",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_next_hop1\").hide();",
+                                                                                    "    form.findField(\"routing_next_hop2\").show();",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_next_hop1\").setDisabled(true);",
+                                                                                    "    form.findField(\"routing_next_hop2\").setDisabled(false);",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_blackhole\").setValue(false);",
+                                                                                    "    form.findField(\"routing_blackhole\").setReadOnly(true);",
+                                                                                    "    ",
+                                                                                    "}",
+                                                                                    "",
+                                                                                    "if(form.findField(\"routing_blackhole\").getValue == true){",
+                                                                                    "    ",
+                                                                                    "    form.findField(\"routing_next_hop1\").setDisabled(true);",
+                                                                                    "    form.findField(\"routing_next_hop2\").setDisabled(true);",
+                                                                                    "    ",
+                                                                                    "}"
+                                                                                ],
+                                                                                "name": "change",
+                                                                                "scope": "me"
+                                                                            },
+                                                                            "designerId": "72b5e860-26ff-46a3-9c89-fca5476c97cf"
+                                                                        }
+                                                                    ]
                                                                 },
                                                                 {
                                                                     "type": "Ext.form.field.Text",
@@ -3616,10 +3814,11 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
+                                                                        "allowBlank": false,
                                                                         "emptyText": "Default",
                                                                         "fieldLabel": "Next Hop",
                                                                         "layout|flex": 1,
-                                                                        "name": "next_hop1"
+                                                                        "name": "routing_next_hop1"
                                                                     },
                                                                     "designerId": "055e973d-0eae-454c-9f5e-6dc2beff8e09"
                                                                 },
@@ -3631,13 +3830,17 @@
                                                                     },
                                                                     "codeClass": null,
                                                                     "userConfig": {
-                                                                        "emptyText": "Default",
+                                                                        "allowBlank": false,
+                                                                        "displayField": "ethName",
+                                                                        "emptyText": null,
                                                                         "fieldLabel": "Next Hop",
                                                                         "hidden": true,
                                                                         "layout|flex": 1,
-                                                                        "name": "next_hop2"
+                                                                        "name": "routing_next_hop2",
+                                                                        "queryMode": "local",
+                                                                        "valueField": "ethName"
                                                                     },
-                                                                    "designerId": "aaa65c72-8ddc-4e26-a886-54635ebe524e"
+                                                                    "designerId": "deb2f709-fd88-4cba-8231-49de22a62f97"
                                                                 }
                                                             ]
                                                         },
@@ -3667,7 +3870,7 @@
                                                             ],
                                                             "cn": [
                                                                 {
-                                                                    "type": "Ext.form.field.Text",
+                                                                    "type": "Ext.form.field.Number",
                                                                     "reference": {
                                                                         "name": "items",
                                                                         "type": "array"
@@ -3677,12 +3880,12 @@
                                                                         "emptyText": "Default",
                                                                         "fieldLabel": "Table",
                                                                         "layout|flex": 1,
-                                                                        "name": "table"
+                                                                        "name": "routing_table"
                                                                     },
                                                                     "designerId": "b7871bc9-57b2-4a9f-801f-6f846cf6317c"
                                                                 },
                                                                 {
-                                                                    "type": "Ext.form.field.Text",
+                                                                    "type": "Ext.form.field.Number",
                                                                     "reference": {
                                                                         "name": "items",
                                                                         "type": "array"
@@ -3692,7 +3895,9 @@
                                                                         "emptyText": "Default",
                                                                         "fieldLabel": "Distance",
                                                                         "layout|flex": 1,
-                                                                        "name": "distance"
+                                                                        "maxValue": 255,
+                                                                        "minValue": 1,
+                                                                        "name": "routing_distance"
                                                                     },
                                                                     "designerId": "26a8b3de-1a2b-461c-85d7-22b188390094"
                                                                 }

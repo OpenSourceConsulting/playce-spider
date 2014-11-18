@@ -36,6 +36,7 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.field.Hidden',
         'Ext.grid.View',
         'Ext.grid.column.Action',
+        'Ext.form.field.Number',
         'Ext.form.RadioGroup',
         'Ext.form.field.Radio',
         'Ext.grid.plugin.CellEditing'
@@ -1488,48 +1489,56 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     title: 'My Grid Panel',
                                                                     columnLines: true,
                                                                     forceFit: true,
-                                                                    store: 'VmRoutingStaticGrid',
+                                                                    store: 'VmRoutingStaticStore',
                                                                     columns: [
                                                                         {
                                                                             xtype: 'gridcolumn',
                                                                             minWidth: 140,
-                                                                            dataIndex: 'subnet',
+                                                                            dataIndex: 'routing_subnet',
                                                                             text: 'Route Subnet'
                                                                         },
                                                                         {
                                                                             xtype: 'gridcolumn',
                                                                             minWidth: 120,
-                                                                            dataIndex: 'type',
+                                                                            dataIndex: 'routing_type',
                                                                             text: 'Type'
                                                                         },
                                                                         {
                                                                             xtype: 'gridcolumn',
                                                                             minWidth: 120,
-                                                                            dataIndex: 'next_hop',
+                                                                            dataIndex: 'routing_next_hop',
                                                                             text: 'Next Hop'
                                                                         },
                                                                         {
                                                                             xtype: 'gridcolumn',
                                                                             minWidth: 80,
-                                                                            dataIndex: 'distance',
+                                                                            dataIndex: 'routing_distance',
                                                                             text: 'Distance'
                                                                         },
                                                                         {
                                                                             xtype: 'gridcolumn',
                                                                             minWidth: 80,
-                                                                            dataIndex: 'table',
+                                                                            dataIndex: 'routing_table',
                                                                             text: 'Table'
                                                                         },
                                                                         {
                                                                             xtype: 'gridcolumn',
+                                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                                return '<center><input type="checkbox" name="checkbox" ' + (value ? 'checked="true"' : '') + '" disabled /></center>';
+
+                                                                            },
                                                                             minWidth: 80,
-                                                                            dataIndex: 'disable',
+                                                                            dataIndex: 'routing_blackhole',
+                                                                            lockable: false,
                                                                             text: 'Blackhole'
                                                                         },
                                                                         {
                                                                             xtype: 'gridcolumn',
+                                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                                return '<center><input type="checkbox" name="checkbox" ' + (value ? 'checked="true"' : '') + '" disabled /></center>';
+                                                                            },
                                                                             minWidth: 80,
-                                                                            dataIndex: 'disable',
+                                                                            dataIndex: 'routing_disable',
                                                                             text: 'Disable'
                                                                         },
                                                                         {
@@ -1549,7 +1558,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                 }
                                                                             ]
                                                                         }
-                                                                    ]
+                                                                    ],
+                                                                    listeners: {
+                                                                        select: {
+                                                                            fn: me.onViewRoutingStaticGridSelect,
+                                                                            scope: me
+                                                                        }
+                                                                    }
                                                                 }
                                                             ]
                                                         },
@@ -1594,7 +1609,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             xtype: 'textfield',
                                                                             flex: 1,
                                                                             fieldLabel: 'Route Subnet',
-                                                                            name: 'subnet',
+                                                                            name: 'routing_subnet',
                                                                             allowBlank: false,
                                                                             emptyText: 'Default'
                                                                         },
@@ -1603,13 +1618,25 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             flex: 0.4,
                                                                             margin: 0,
                                                                             fieldLabel: 'Blackhole',
-                                                                            name: 'blackhole'
+                                                                            name: 'routing_blackhole',
+                                                                            listeners: {
+                                                                                change: {
+                                                                                    fn: me.onCheckboxfieldChange1,
+                                                                                    scope: me
+                                                                                }
+                                                                            }
                                                                         },
                                                                         {
                                                                             xtype: 'checkboxfield',
                                                                             flex: 0.6,
                                                                             fieldLabel: 'Disable',
-                                                                            name: 'disable'
+                                                                            name: 'routing_disable',
+                                                                            listeners: {
+                                                                                change: {
+                                                                                    fn: me.onCheckboxfieldChange2,
+                                                                                    scope: me
+                                                                                }
+                                                                            }
                                                                         }
                                                                     ]
                                                                 },
@@ -1628,19 +1655,26 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             xtype: 'combobox',
                                                                             flex: 1,
                                                                             fieldLabel: 'Type',
-                                                                            name: 'type',
+                                                                            name: 'routing_type',
                                                                             allowBlank: false,
                                                                             emptyText: 'Default',
                                                                             store: [
                                                                                 'route',
                                                                                 'interface-route'
-                                                                            ]
+                                                                            ],
+                                                                            listeners: {
+                                                                                change: {
+                                                                                    fn: me.onComboboxChange1,
+                                                                                    scope: me
+                                                                                }
+                                                                            }
                                                                         },
                                                                         {
                                                                             xtype: 'textfield',
                                                                             flex: 1,
                                                                             fieldLabel: 'Next Hop',
-                                                                            name: 'next_hop1',
+                                                                            name: 'routing_next_hop1',
+                                                                            allowBlank: false,
                                                                             emptyText: 'Default'
                                                                         },
                                                                         {
@@ -1648,8 +1682,11 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             flex: 1,
                                                                             hidden: true,
                                                                             fieldLabel: 'Next Hop',
-                                                                            name: 'next_hop2',
-                                                                            emptyText: 'Default'
+                                                                            name: 'routing_next_hop2',
+                                                                            allowBlank: false,
+                                                                            displayField: 'ethName',
+                                                                            queryMode: 'local',
+                                                                            valueField: 'ethName'
                                                                         }
                                                                     ]
                                                                 },
@@ -1665,18 +1702,20 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     },
                                                                     items: [
                                                                         {
-                                                                            xtype: 'textfield',
+                                                                            xtype: 'numberfield',
                                                                             flex: 1,
                                                                             fieldLabel: 'Table',
-                                                                            name: 'table',
+                                                                            name: 'routing_table',
                                                                             emptyText: 'Default'
                                                                         },
                                                                         {
-                                                                            xtype: 'textfield',
+                                                                            xtype: 'numberfield',
                                                                             flex: 1,
                                                                             fieldLabel: 'Distance',
-                                                                            name: 'distance',
-                                                                            emptyText: 'Default'
+                                                                            name: 'routing_distance',
+                                                                            emptyText: 'Default',
+                                                                            maxValue: 255,
+                                                                            minValue: 1
                                                                         }
                                                                     ]
                                                                 }
@@ -3322,6 +3361,92 @@ Ext.define('spider.view.VmManagementPanel', {
 
     onPanelShow: function(component, eOpts) {
         vmConstants.me.activeNicCheckbox(component.down('#bondingNICGroup'), Ext.getCmp("viewBondingForm").getEl());
+    },
+
+    onViewRoutingStaticGridSelect: function(rowmodel, record, index, eOpts) {
+        var form = Ext.getCmp("viewRoutingStaticForm").getForm();
+
+        form.loadRecord(record);
+
+        if(form.findField("routing_type").getValue() == "route") {
+
+            form.findField("routing_next_hop1").setValue(record.get("routing_next_hop"));
+
+        } else {
+            form.findField("routing_next_hop2").setValue(record.get("routing_next_hop"));
+        }
+
+        Ext.getCmp("viewRoutingStaticForm").down('#formSet').show();
+
+    },
+
+    onCheckboxfieldChange1: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+
+        if(newValue == true){
+
+            form.findField("routing_next_hop1").setDisabled(true);
+            form.findField("routing_next_hop2").setDisabled(true);
+
+            form.findField("routing_disable").setValue(false);
+            form.findField("routing_disable").setReadOnly(true);
+
+        } else {
+
+            form.findField("routing_next_hop1").setDisabled(false);
+            form.findField("routing_next_hop2").setDisabled(false);
+
+            form.findField("routing_disable").setReadOnly(false);
+
+        }
+    },
+
+    onCheckboxfieldChange2: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+
+        if(newValue == true){
+
+            form.findField("routing_blackhole").setValue(false);
+                form.findField("routing_blackhole").setReadOnly(true);
+
+        } else {
+
+            form.findField("routing_blackhole").setReadOnly(false);
+
+        }
+    },
+
+    onComboboxChange1: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+        if(newValue == "route") {
+
+            form.findField("routing_next_hop1").show();
+            form.findField("routing_next_hop2").hide();
+
+            form.findField("routing_next_hop1").setDisabled(false);
+            form.findField("routing_next_hop2").setDisabled(true);
+
+            form.findField("routing_blackhole").setReadOnly(false);
+
+        } else if(newValue == "interface-route") {
+
+            form.findField("routing_next_hop1").hide();
+            form.findField("routing_next_hop2").show();
+
+            form.findField("routing_next_hop1").setDisabled(true);
+            form.findField("routing_next_hop2").setDisabled(false);
+
+            form.findField("routing_blackhole").setValue(false);
+            form.findField("routing_blackhole").setReadOnly(true);
+
+        }
+
+        if(form.findField("routing_blackhole").getValue == true){
+
+            form.findField("routing_next_hop1").setDisabled(true);
+            form.findField("routing_next_hop2").setDisabled(true);
+
+        }
     },
 
     onCheckboxfieldChange: function(field, newValue, oldValue, eOpts) {

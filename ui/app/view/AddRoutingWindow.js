@@ -20,14 +20,14 @@ Ext.define('spider.view.AddRoutingWindow', {
     requires: [
         'Ext.form.Panel',
         'Ext.form.FieldContainer',
-        'Ext.form.field.ComboBox',
-        'Ext.toolbar.Spacer',
         'Ext.form.field.Checkbox',
+        'Ext.form.field.ComboBox',
+        'Ext.form.field.Number',
         'Ext.toolbar.Toolbar',
         'Ext.button.Button'
     ],
 
-    height: 240,
+    height: 200,
     id: 'AddBondingWindow4',
     width: 700,
     resizable: false,
@@ -58,43 +58,6 @@ Ext.define('spider.view.AddRoutingWindow', {
                             xtype: 'fieldcontainer',
                             flex: '1',
                             height: 35,
-                            margin: '0 0 5 0',
-                            fieldLabel: 'Label',
-                            hideLabel: true,
-                            layout: {
-                                type: 'hbox',
-                                align: 'middle'
-                            },
-                            items: [
-                                {
-                                    xtype: 'combobox',
-                                    flex: 1,
-                                    margin: '0 20 0 0',
-                                    fieldLabel: 'Routing 방식',
-                                    name: 'method',
-                                    allowBlank: false,
-                                    store: [
-                                        [
-                                            'static',
-                                            'Static'
-                                        ],
-                                        [
-                                            'ospf',
-                                            'OSPF'
-                                        ]
-                                    ]
-                                },
-                                {
-                                    xtype: 'tbspacer',
-                                    flex: 1,
-                                    margin: '0 0 0 10'
-                                }
-                            ]
-                        },
-                        {
-                            xtype: 'fieldcontainer',
-                            flex: '1',
-                            height: 35,
                             fieldLabel: 'Label',
                             hideLabel: true,
                             layout: {
@@ -106,21 +69,36 @@ Ext.define('spider.view.AddRoutingWindow', {
                                     xtype: 'textfield',
                                     flex: 1,
                                     fieldLabel: 'Route Subnet',
-                                    name: 'subnet',
+                                    name: 'routing_subnet',
                                     allowBlank: false
                                 },
                                 {
                                     xtype: 'checkboxfield',
                                     flex: 0.4,
-                                    margin: 0,
+                                    margin: '0 10 0 0',
                                     fieldLabel: 'Blackhole',
-                                    name: 'blackhole'
+                                    labelWidth: 135,
+                                    name: 'routing_blackhole',
+                                    listeners: {
+                                        change: {
+                                            fn: me.onCheckboxfieldChange,
+                                            scope: me
+                                        }
+                                    }
                                 },
                                 {
                                     xtype: 'checkboxfield',
                                     flex: 0.6,
+                                    margin: '0 0 0 20',
                                     fieldLabel: 'Disable',
-                                    name: 'disable'
+                                    labelWidth: 90,
+                                    name: 'routing_disable',
+                                    listeners: {
+                                        change: {
+                                            fn: me.onCheckboxfieldChange1,
+                                            scope: me
+                                        }
+                                    }
                                 }
                             ]
                         },
@@ -139,26 +117,36 @@ Ext.define('spider.view.AddRoutingWindow', {
                                     xtype: 'combobox',
                                     flex: 1,
                                     fieldLabel: 'Type',
-                                    name: 'type',
+                                    name: 'routing_type',
                                     allowBlank: false,
                                     store: [
                                         'route',
                                         'interface-route'
-                                    ]
+                                    ],
+                                    listeners: {
+                                        change: {
+                                            fn: me.onComboboxChange,
+                                            scope: me
+                                        }
+                                    }
                                 },
                                 {
                                     xtype: 'textfield',
                                     flex: 1,
                                     fieldLabel: 'Next Hop',
-                                    name: 'next_hop1'
+                                    name: 'routing_next_hop1',
+                                    allowBlank: false
                                 },
                                 {
                                     xtype: 'combobox',
                                     flex: 1,
                                     hidden: true,
                                     fieldLabel: 'Next Hop',
-                                    name: 'next_hop2',
-                                    emptyText: 'Default'
+                                    name: 'routing_next_hop2',
+                                    allowBlank: false,
+                                    displayField: 'ethName',
+                                    queryMode: 'local',
+                                    valueField: 'ethName'
                                 }
                             ]
                         },
@@ -174,16 +162,18 @@ Ext.define('spider.view.AddRoutingWindow', {
                             },
                             items: [
                                 {
-                                    xtype: 'textfield',
+                                    xtype: 'numberfield',
                                     flex: 1,
                                     fieldLabel: 'Table',
-                                    name: 'table'
+                                    name: 'routing_table'
                                 },
                                 {
-                                    xtype: 'textfield',
+                                    xtype: 'numberfield',
                                     flex: 1,
                                     fieldLabel: 'Distance',
-                                    name: 'distance'
+                                    name: 'routing_distance',
+                                    maxValue: 255,
+                                    minValue: 1
                                 }
                             ]
                         }
@@ -222,6 +212,75 @@ Ext.define('spider.view.AddRoutingWindow', {
         });
 
         me.callParent(arguments);
+    },
+
+    onCheckboxfieldChange: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+
+        if(newValue == true){
+
+            form.findField("routing_next_hop1").setDisabled(true);
+            form.findField("routing_next_hop2").setDisabled(true);
+
+            form.findField("routing_disable").setValue(false);
+            form.findField("routing_disable").setReadOnly(true);
+
+        } else {
+
+            form.findField("routing_next_hop1").setDisabled(false);
+            form.findField("routing_next_hop2").setDisabled(false);
+
+            form.findField("routing_disable").setReadOnly(false);
+
+        }
+    },
+
+    onCheckboxfieldChange1: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+
+        if(newValue == true){
+
+            form.findField("routing_blackhole").setValue(false);
+                form.findField("routing_blackhole").setReadOnly(true);
+
+        } else {
+
+            form.findField("routing_blackhole").setReadOnly(false);
+
+        }
+    },
+
+    onComboboxChange: function(field, newValue, oldValue, eOpts) {
+        var form = field.up('form').getForm();
+        if(newValue == "route") {
+
+            form.findField("routing_next_hop1").show();
+            form.findField("routing_next_hop2").hide();
+
+            form.findField("routing_next_hop1").setDisabled(false);
+            form.findField("routing_next_hop2").setDisabled(true);
+
+            form.findField("routing_blackhole").setReadOnly(false);
+
+        } else if(newValue == "interface-route") {
+
+            form.findField("routing_next_hop1").hide();
+            form.findField("routing_next_hop2").show();
+
+            form.findField("routing_next_hop1").setDisabled(true);
+            form.findField("routing_next_hop2").setDisabled(false);
+
+            form.findField("routing_blackhole").setValue(false);
+            form.findField("routing_blackhole").setReadOnly(true);
+
+        }
+
+        if(form.findField("routing_blackhole").getValue == true){
+
+            form.findField("routing_next_hop1").setDisabled(true);
+            form.findField("routing_next_hop2").setDisabled(true);
+
+        }
     }
 
 });

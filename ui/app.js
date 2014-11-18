@@ -52,7 +52,7 @@ Ext.application({
         'UserStore',
         'VmDhcpMappingStore',
         'addDhcpMappingStore',
-        'VmRoutingStaticGrid',
+        'VmRoutingStaticStore',
         'VmBoundChartStore',
         'VmNicNetworkChartStore'
     ],

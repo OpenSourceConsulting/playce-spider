@@ -22,28 +22,25 @@ Ext.define('spider.model.VmRoutingModel', {
 
     fields: [
         {
-            name: 'method'
+            name: 'routing_subnet'
         },
         {
-            name: 'subnet'
+            name: 'routing_type'
         },
         {
-            name: 'type'
+            name: 'routing_next_hop'
         },
         {
-            name: 'next_hop'
+            name: 'routing_distance'
         },
         {
-            name: 'distance'
+            name: 'routing_table'
         },
         {
-            name: 'table'
+            name: 'routing_blackhole'
         },
         {
-            name: 'disable'
-        },
-        {
-            name: 'blackhole'
+            name: 'routing_disable'
         }
     ]
 });

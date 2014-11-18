@@ -8,7 +8,7 @@
     "userConfig": {
         "designer|userAlias": "AddRoutingWindow",
         "designer|userClassName": "AddRoutingWindow",
-        "height": 240,
+        "height": 200,
         "id": "AddBondingWindow4",
         "itemId": null,
         "modal": true,
@@ -61,78 +61,6 @@
                         "height": 35,
                         "hideLabel": true,
                         "layout": "hbox",
-                        "margin": "0 0 5 0"
-                    },
-                    "designerId": "338e0754-279a-4e04-983b-3e68fa0d639d",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "flex",
-                            "type": "string"
-                        }
-                    ],
-                    "cn": [
-                        {
-                            "type": "Ext.form.field.ComboBox",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "allowBlank": false,
-                                "emptyText": null,
-                                "fieldLabel": "Routing 방식",
-                                "layout|flex": 1,
-                                "margin": "0 20 0 0",
-                                "name": "method",
-                                "store": [
-                                    "[",
-                                    "    [",
-                                    "        'static',",
-                                    "        'Static'",
-                                    "    ],",
-                                    "    [",
-                                    "        'ospf',",
-                                    "        'OSPF'",
-                                    "    ]",
-                                    "]"
-                                ]
-                            },
-                            "configAlternates": {
-                                "store": "array"
-                            },
-                            "designerId": "263dc9f5-19ed-4c17-9868-3a8c9144c3ab"
-                        },
-                        {
-                            "type": "Ext.toolbar.Spacer",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "layout|flex": 1,
-                                "margin": "0 0 0 10"
-                            },
-                            "designerId": "62e7a3ea-8d74-4f86-bfbd-fe335fb81bb3"
-                        }
-                    ]
-                },
-                {
-                    "type": "Ext.form.FieldContainer",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "container|align": "middle",
-                        "fieldLabel": "Label",
-                        "flex": "1",
-                        "height": 35,
-                        "hideLabel": true,
-                        "layout": "hbox",
                         "margin": null
                     },
                     "designerId": "94f54fec-5e46-42d1-b03d-808d8d6fb843",
@@ -156,7 +84,7 @@
                                 "emptyText": null,
                                 "fieldLabel": "Route Subnet",
                                 "layout|flex": 1,
-                                "name": "subnet"
+                                "name": "routing_subnet"
                             },
                             "designerId": "59f22922-cf0a-4d50-a19c-f5bae520b2ba"
                         },
@@ -170,11 +98,48 @@
                             "userConfig": {
                                 "boxLabel": null,
                                 "fieldLabel": "Blackhole",
+                                "labelWidth": 135,
                                 "layout|flex": 0.4,
-                                "margin": 0,
-                                "name": "blackhole"
+                                "margin": "0 10 0 0",
+                                "name": "routing_blackhole"
                             },
-                            "designerId": "142f5935-239a-44c9-99d1-2cb3acd348bf"
+                            "designerId": "142f5935-239a-44c9-99d1-2cb3acd348bf",
+                            "cn": [
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onCheckboxfieldChange",
+                                        "implHandler": [
+                                            "var form = field.up('form').getForm();",
+                                            "",
+                                            "if(newValue == true){",
+                                            "    ",
+                                            "    form.findField(\"routing_next_hop1\").setDisabled(true);",
+                                            "    form.findField(\"routing_next_hop2\").setDisabled(true);",
+                                            "    ",
+                                            "    form.findField(\"routing_disable\").setValue(false);",
+                                            "    form.findField(\"routing_disable\").setReadOnly(true);",
+                                            "    ",
+                                            "} else {",
+                                            "    ",
+                                            "    form.findField(\"routing_next_hop1\").setDisabled(false);",
+                                            "    form.findField(\"routing_next_hop2\").setDisabled(false);",
+                                            "    ",
+                                            "    form.findField(\"routing_disable\").setReadOnly(false);",
+                                            "    ",
+                                            "}"
+                                        ],
+                                        "name": "change",
+                                        "scope": "me"
+                                    },
+                                    "designerId": "02dc3c66-cf41-4976-95cb-345131d3848c"
+                                }
+                            ]
                         },
                         {
                             "type": "Ext.form.field.Checkbox",
@@ -186,11 +151,42 @@
                             "userConfig": {
                                 "boxLabel": null,
                                 "fieldLabel": "Disable",
-                                "labelWidth": null,
+                                "labelWidth": 90,
                                 "layout|flex": 0.6,
-                                "name": "disable"
+                                "margin": "0 0 0 20",
+                                "name": "routing_disable"
                             },
-                            "designerId": "a4cd9563-85ec-4c30-b069-d4d69533df8e"
+                            "designerId": "a4cd9563-85ec-4c30-b069-d4d69533df8e",
+                            "cn": [
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onCheckboxfieldChange1",
+                                        "implHandler": [
+                                            "var form = field.up('form').getForm();",
+                                            "",
+                                            "if(newValue == true){",
+                                            "        ",
+                                            "    form.findField(\"routing_blackhole\").setValue(false);",
+                                            "        form.findField(\"routing_blackhole\").setReadOnly(true);",
+                                            "    ",
+                                            "} else {",
+                                            "    ",
+                                            "    form.findField(\"routing_blackhole\").setReadOnly(false);",
+                                            "    ",
+                                            "}"
+                                        ],
+                                        "name": "change",
+                                        "scope": "me"
+                                    },
+                                    "designerId": "4e81336a-1b65-457c-9356-dce83bc171af"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -231,7 +227,7 @@
                                 "emptyText": null,
                                 "fieldLabel": "Type",
                                 "layout|flex": 1,
-                                "name": "type",
+                                "name": "routing_type",
                                 "store": [
                                     "[",
                                     "    \"route\",",
@@ -242,7 +238,55 @@
                             "configAlternates": {
                                 "store": "array"
                             },
-                            "designerId": "cb44512e-f4af-47a5-a993-8194609e5d4c"
+                            "designerId": "cb44512e-f4af-47a5-a993-8194609e5d4c",
+                            "cn": [
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onComboboxChange",
+                                        "implHandler": [
+                                            "var form = field.up('form').getForm();",
+                                            "if(newValue == \"route\") {",
+                                            "    ",
+                                            "    form.findField(\"routing_next_hop1\").show();",
+                                            "    form.findField(\"routing_next_hop2\").hide();",
+                                            "    ",
+                                            "    form.findField(\"routing_next_hop1\").setDisabled(false);",
+                                            "    form.findField(\"routing_next_hop2\").setDisabled(true);",
+                                            "    ",
+                                            "    form.findField(\"routing_blackhole\").setReadOnly(false);",
+                                            "    ",
+                                            "} else if(newValue == \"interface-route\") {",
+                                            "    ",
+                                            "    form.findField(\"routing_next_hop1\").hide();",
+                                            "    form.findField(\"routing_next_hop2\").show();",
+                                            "    ",
+                                            "    form.findField(\"routing_next_hop1\").setDisabled(true);",
+                                            "    form.findField(\"routing_next_hop2\").setDisabled(false);",
+                                            "    ",
+                                            "    form.findField(\"routing_blackhole\").setValue(false);",
+                                            "    form.findField(\"routing_blackhole\").setReadOnly(true);",
+                                            "    ",
+                                            "}",
+                                            "",
+                                            "if(form.findField(\"routing_blackhole\").getValue == true){",
+                                            "    ",
+                                            "    form.findField(\"routing_next_hop1\").setDisabled(true);",
+                                            "    form.findField(\"routing_next_hop2\").setDisabled(true);",
+                                            "    ",
+                                            "}"
+                                        ],
+                                        "name": "change",
+                                        "scope": "me"
+                                    },
+                                    "designerId": "5eac7884-073a-4c5e-b5a5-6f87fb135c05"
+                                }
+                            ]
                         },
                         {
                             "type": "Ext.form.field.Text",
@@ -252,10 +296,11 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "allowBlank": false,
                                 "emptyText": null,
                                 "fieldLabel": "Next Hop",
                                 "layout|flex": 1,
-                                "name": "next_hop1"
+                                "name": "routing_next_hop1"
                             },
                             "designerId": "0256a904-3b3f-485c-83db-3358fff6e32c"
                         },
@@ -267,13 +312,17 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "emptyText": "Default",
+                                "allowBlank": false,
+                                "displayField": "ethName",
+                                "emptyText": null,
                                 "fieldLabel": "Next Hop",
                                 "hidden": true,
                                 "layout|flex": 1,
-                                "name": "next_hop2"
+                                "name": "routing_next_hop2",
+                                "queryMode": "local",
+                                "valueField": "ethName"
                             },
-                            "designerId": "82518815-41e5-4f8b-9b87-8da2a2cc2a67"
+                            "designerId": "dbcac2a5-63e7-40bd-827f-ec1a0b0c4148"
                         }
                     ]
                 },
@@ -303,7 +352,7 @@
                     ],
                     "cn": [
                         {
-                            "type": "Ext.form.field.Text",
+                            "type": "Ext.form.field.Number",
                             "reference": {
                                 "name": "items",
                                 "type": "array"
@@ -313,12 +362,12 @@
                                 "emptyText": null,
                                 "fieldLabel": "Table",
                                 "layout|flex": 1,
-                                "name": "table"
+                                "name": "routing_table"
                             },
                             "designerId": "6a177f7a-b0d1-4918-8158-48d317654575"
                         },
                         {
-                            "type": "Ext.form.field.Text",
+                            "type": "Ext.form.field.Number",
                             "reference": {
                                 "name": "items",
                                 "type": "array"
@@ -328,7 +377,9 @@
                                 "emptyText": null,
                                 "fieldLabel": "Distance",
                                 "layout|flex": 1,
-                                "name": "distance"
+                                "maxValue": 255,
+                                "minValue": 1,
+                                "name": "routing_distance"
                             },
                             "designerId": "72501468-f61d-4ded-a5a3-0f4b4aadb5c6"
                         }

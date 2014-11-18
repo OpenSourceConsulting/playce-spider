@@ -18,19 +18,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "method"
-            },
-            "designerId": "18d956a4-c4c4-468f-b600-a955a9af063f"
-        },
-        {
-            "type": "Ext.data.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "name": "subnet"
+                "name": "routing_subnet"
             },
             "designerId": "3eed899c-040d-4490-85ef-3d198f406de7"
         },
@@ -42,7 +30,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "type"
+                "name": "routing_type"
             },
             "designerId": "22ae3c31-8cff-4738-837d-eab4d0d6f32e"
         },
@@ -54,7 +42,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "next_hop"
+                "name": "routing_next_hop"
             },
             "designerId": "c6ee63ed-55f9-49c2-98dc-1e76e0e6130e"
         },
@@ -66,7 +54,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "distance"
+                "name": "routing_distance"
             },
             "designerId": "e723784a-43e9-4556-906d-032efc605c59"
         },
@@ -78,7 +66,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "table"
+                "name": "routing_table"
             },
             "designerId": "ba3a6929-751f-427e-b401-9491c95b5407"
         },
@@ -90,7 +78,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "disable"
+                "name": "routing_blackhole"
             },
             "designerId": "860f8ae5-7fae-4940-97ea-16b443fd89cb"
         },
@@ -102,7 +90,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "blackhole"
+                "name": "routing_disable"
             },
             "designerId": "3623a55f-1ddc-4032-86ce-05a7b3973f4f"
         }
