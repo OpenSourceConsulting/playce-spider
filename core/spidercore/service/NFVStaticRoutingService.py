@@ -105,12 +105,12 @@ def set_static_routing_task(routinginfo):
     else:
         routing_disable = None
         
-    if routing_distance == None or int(routing_distance) <= 0 or int(routing_distance) > 255:
+    if routing_distance == None or routing_distance == "" or int(routing_distance) <= 0 or int(routing_distance) > 255:
         routing_distance = 1
         
     commands = []
     
-    if routing_table and int(routing_table) > 0 and int(routing_table) < 256:
+    if routing_table and routing_table != "" and int(routing_table) > 0 and int(routing_table) < 256:
         if routing_type == "route":
             if routing_blackhole and (routing_blackhole == True or routing_blackhole == "true"):
                 commands.append("$SET protocols static table " + str(routing_table) + " route " + routing_subnet + " blackhole  distance " + str(routing_distance))
