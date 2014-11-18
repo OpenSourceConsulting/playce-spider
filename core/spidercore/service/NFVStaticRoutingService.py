@@ -93,7 +93,7 @@ def set_static_routing_task(routinginfo):
     if 'routing_distance' in routinginfo:
         routing_distance = routinginfo['routing_distance']
     else:
-        routing_distance = 1
+        routing_distance = "1"
         
     if 'routing_blackhole' in routinginfo:
         routing_blackhole = routinginfo['routing_blackhole']
@@ -104,6 +104,9 @@ def set_static_routing_task(routinginfo):
         routing_disable = routinginfo['routing_disable']
     else:
         routing_disable = None
+        
+    if routing_distance == None or int(routing_distance) <= 0 or int(routing_distance) > 255:
+        routing_distance = "1"
         
     commands = []
     
