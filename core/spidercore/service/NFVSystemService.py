@@ -122,11 +122,11 @@ def set_login_user_task(userinfo):
             commands.append("$SET system login user " + username)
             
         if password:
-            commands.append("$SET system login user " + username + " authentication plaintext‐password " + password)
+            commands.append("$SET system login user " + username + " authentication plaintext-password " + password)
         
         if key_id and key_type and key_value:
-            commands.append("$SET system login user " + username + " authentication public-keys " + key_id + " type " + key_type)
-            commands.append("$SET system login user " + username + " authentication public-keys " + key_id + " key " + key_value)
+            commands.append("$SET system login user " + username + " authentication public‐keys " + key_id + " type " + key_type)
+            commands.append("$SET system login user " + username + " authentication public‐keys " + key_id + " key " + key_value)
         
     return FabricUtilNFV.send_vyatta_command(commands)
 

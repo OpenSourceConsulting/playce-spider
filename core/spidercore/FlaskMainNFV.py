@@ -472,6 +472,8 @@ def vmsystemservice(vmid=None):
 			result = NFVSystemService.set_global_system(vmid, jsonParams)
 		elif systemtype == "login":
 			result = NFVSystemService.set_login_user(vmid, jsonParams)
+		else:
+			return "systemtype must not be null.", 500
 		
 	if result['success'] == 'success':
 		return "OK", 200
