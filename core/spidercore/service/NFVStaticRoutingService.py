@@ -93,7 +93,7 @@ def set_static_routing_task(routinginfo):
     if 'routing_distance' in routinginfo:
         routing_distance = routinginfo['routing_distance']
     else:
-        routing_distance = "1"
+        routing_distance = 1
         
     if 'routing_blackhole' in routinginfo:
         routing_blackhole = routinginfo['routing_blackhole']
@@ -106,41 +106,41 @@ def set_static_routing_task(routinginfo):
         routing_disable = None
         
     if routing_distance == None or int(routing_distance) <= 0 or int(routing_distance) > 255:
-        routing_distance = "1"
+        routing_distance = 1
         
     commands = []
     
     if routing_table and routing_table != "":
         if routing_type == "route":
             if routing_blackhole and (routing_blackhole == True or routing_blackhole == "true"):
-                commands.append("$SET protocols static table " + routing_table + " route " + routing_subnet + " blackhole" + " distance " + routing_distance)
+                commands.append("$SET protocols static table " + routing_table + " route " + routing_subnet + " blackhole" + " distance " + str(routing_distance))
                 
                 if routing_disable and (routing_disable == True or routing_disable == "true"):
                     commands.append("$SET protocols static table " + routing_table + " route " + routing_subnet + " blackhole" + " disable")
             else:
-                commands.append("$SET protocols static table " + routing_table + " route " + routing_subnet + " next-hop " + routing_next_hop + " distance " + routing_distance)
+                commands.append("$SET protocols static table " + routing_table + " route " + routing_subnet + " next-hop " + routing_next_hop + " distance " + str(routing_distance))
                 
                 if routing_disable and (routing_disable == True or routing_disable == "true"):
                     commands.append("$SET protocols static table " + routing_table + " route " + routing_subnet + " next-hop " + routing_next_hop + " disable")
         else:
-            commands.append("$SET protocols static table " + routing_table + " interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " distance " + routing_distance)
+            commands.append("$SET protocols static table " + routing_table + " interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " distance " + str(routing_distance))
                 
             if routing_disable and (routing_disable == True or routing_disable == "true"):
                 commands.append("$SET protocols static table " + routing_table + " interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " disable")
     else:
         if routing_type == "route":
             if routing_blackhole and (routing_blackhole == True or routing_blackhole == "true"):
-                commands.append("$SET protocols static route " + routing_subnet + " blackhole" + " distance " + routing_distance)
+                commands.append("$SET protocols static route " + routing_subnet + " blackhole" + " distance " + str(routing_distance))
                 
                 if routing_disable and (routing_disable == True or routing_disable == "true"):
                     commands.append("$SET protocols static route " + routing_subnet + " blackhole" + " disable")
             else:
-                commands.append("$SET protocols static route " + routing_subnet + " next-hop " + routing_next_hop + " distance " + routing_distance)
+                commands.append("$SET protocols static route " + routing_subnet + " next-hop " + routing_next_hop + " distance " + str(routing_distance))
                 
                 if routing_disable and (routing_disable == True or routing_disable == "true"):
                     commands.append("$SET protocols static route " + routing_subnet + " next-hop " + routing_next_hop + " disable")
         else:
-            commands.append("$SET protocols static interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " distance " + routing_distance)
+            commands.append("$SET protocols static interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " distance " + str(routing_distance))
                 
             if routing_disable and (routing_disable == True or routing_disable == "true"):
                 commands.append("$SET protocols static interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " disable")
