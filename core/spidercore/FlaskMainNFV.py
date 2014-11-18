@@ -452,7 +452,34 @@ def vmstaticrouting(vmid=None):
 			return "OK", 200
 		else:
 			return result['errmsg'], 500
-
+		
+# System Service(host-name, time-zone, login user) Control
+@app.route("/nfv/<vmid>/system", methods=['GET', 'PUT'])
+def vmsystemservice(vmid=None):
+	logger.debug("%s /nfv/%s/system" % (request.method, vmid))
+	
+	if request.method != 'GET':
+		jsonParams = json.loads(request.data)	
+		logger.debug(json.dumps(jsonParams, indent=4))
+	
+	if request.method == 'GET':
+		result = NFVSystemService.get_system(vmid)
+		return Response(json.dumps(result), content_type='application/json; charset=utf-8'), 200
+	else:
+		systemtype = jsonParams['systemtype']
+		
+		if systemtype == "global":
+			result = NFVSystemService.set_global_system(vmid, jsonParams)
+		elif systemtype == "login":
+			result = NFVSystemService.set_login_user(vmid, jsonParams)
+		
+	if result['success'] == 'success':
+		return "OK", 200
+	else:
+		if 'already exists' in result['errmsg'] and 'Commit failed' not in result['errmsg'] and 'Set failed' not in result['errmsg']:
+			return "OK", 200
+		else:
+			return result['errmsg'], 500
 
 @app.route("/mon/nfv/<id>/iflist", methods=['GET'])
 def mon_vmiflist(id=None):

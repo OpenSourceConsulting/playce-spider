@@ -251,6 +251,44 @@ def getProtocols(addr, sshid, sshpw):
 	results = execute(show_protocols_with_configure, hosts=[addr])
 	return results[addr]
 
+def show_system_with_configure():
+	f = open(mainDir + '/commands.txt', 'w')
+	commands = [
+# 			'$SET interfaces loopback lo address 127.0.0.5/24',
+# 			'$COMMIT',
+			'$SHOW system'
+			]
+	f.write("; ".join(commands))
+	f.close()
+	run('mkdir -p .spider')
+	with cd('.spider'):
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		result = run('./cli.sh', pty=False)
+	lines = result.split('\n')
+	for line in lines:
+		print "LINE: " + line
+
+	import pprint
+	results = elementList.parseString(result)
+	pprint.pprint( results.asList() )
+	
+	protocols = []
+	for item in results.asList():		
+		protocol = parseElements(item[1])
+		protocol['system'] = item[0]
+		protocols.append(protocol)
+	
+	return protocols
+
+def getSystem(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/vbash -ic'
+	results = execute(show_system_with_configure, hosts=[addr])
+	return results[addr]
+
 def parseElements(attr):
 	result = {}
 	
