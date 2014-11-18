@@ -665,3 +665,42 @@ def vmrouting_ospf_area(id=None, atype=None):
 		return "OK", 200
 	else:
 		return result['errmsg'], 500
+	
+
+def vm_cli_task(params):
+	commands = params.split("\n")
+	
+	if type(commands) == list:
+		return FabricUtilNFV.send_vyatta_command(commands)
+	else:
+		return FabricUtilNFV.send_vyatta_command([commands])
+
+	
+@app.route("/nfv/<id>/cli", methods=['POST'])
+def vm_cli(id=None):
+	logger.debug("%s /nfv/%s/cli" % (request.method, id))
+	#logger.debug("request.data : "+request.data)
+	
+	if request.data:
+		jsonParams = json.loads(request.data)
+		logger.debug(json.dumps(jsonParams, indent=4))
+		
+	logs = ""
+	for vmid in jsonParams["vms"]:
+		vm = get_vm(vmid)
+		addr = vm['mgraddr']
+		
+		env.hosts = [ addr ]
+		env.user = vm['sshid']
+		env.password = vm['sshpw']
+		env.shell = '/bin/vbash -ic'
+		results = execute(vm_cli_task, hosts=[addr], params = jsonParams["commands"])
+	
+		result = results[addr]
+		
+		if result['success'] == 'success':
+			logs = logs + "---------- %s ----------\n%s"% (addr, result['msg'])
+		else:
+			logs = logs + "---------- %s ----------\n%s"% (addr, result['errmsg'])
+			
+	return logs, 200
