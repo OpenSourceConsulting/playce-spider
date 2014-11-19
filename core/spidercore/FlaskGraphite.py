@@ -83,10 +83,13 @@ def mon_graphite_interface(vmid=None):
 	func1 = func2 = ''
 	if timeunit == 'days':
 		func1 = 'summarize('
-		func2 = ", '%s0minute', 'avg')" % (timespan,)
+		func2 = ", '%s00minute', 'avg')" % (timespan,)
 	elif timeunit == 'hours':
 		func1 = 'summarize('
-		func2 = ", '%s0second', 'avg')" % (timespan,)
+		func2 = ", '%s00second', 'avg')" % (timespan,)
+	elif timeunit == 'minutes':
+		func1 = 'summarize('
+		func2 = ", '%ssecond', 'avg')" % (timespan,)
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 	if mode == 'txonly' or mode == 'both':
 		url += "&target=%s%s.interface.if_octets.%s.tx%s" % (func1, vmid, nic, func2)
