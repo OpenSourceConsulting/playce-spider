@@ -44,20 +44,20 @@ def vm_clone():
 	
 	template = jsonData['tname']
 	name = jsonData['name']
+	
+	vms = read_repository("vms")
+	for vm in vms:
+		if name == vm['vmname'] and vmhostId == vm['vmhost']:
+			return "Provided name is already exists.", 409
 
-# 	Finding a VM Host designated in the JSON request
+	# Finding a VM Host designated in the JSON request
 	vmhosts = read_repository("vmhosts")
 	found = False
 	for vmhost in vmhosts:
 		if vmhost['_id'] == vmhostId:
 			jsonData['vmhostName'] = vmhost['name']
-			vms = getDomcloneParamiko(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], template, name)
+			getDomcloneParamiko(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], template, name)
 			found = True
-	
-	vms = read_repository("vms")
-	for vm in vms:
-		if name == vm['vmname'] and vmhostId == vm['vmhost']:
-			return "Provided name is not unique", 409
 	
 	if found:
 		vms = read_repository("vms")
@@ -73,7 +73,7 @@ def vm_clone():
 		jsonData['interim'] = True
 		vms.append(jsonData)
 		write_repository('vms', vms)
-		return json.dumps({'_id': id})
+		return json.dumps({'_id': id}), 200
 	else:
 		return 'VM Host(' + vmhostId + ') was not found', 404
 	
