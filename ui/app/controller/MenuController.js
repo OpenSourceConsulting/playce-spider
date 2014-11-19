@@ -85,11 +85,6 @@ Ext.define('spider.controller.MenuController', {
 
         dashboardConstants.me.renderDashboard();
 
-        //this.renderDashboard();
-        clearInterval(GlobalData.intervalId1);
-        clearInterval(GlobalData.intervalId2);
-        clearInterval(GlobalData.intervalId3);
-
     },
 
     managementClick: function(button, e, eOpts) {
@@ -117,37 +112,7 @@ Ext.define('spider.controller.MenuController', {
         monitoringBtn.toggle(true);
 
         centerContainer.layout.setActiveItem(2);
-        /*
-        Ext.Ajax.request({
-            url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
-            disableCaching : true,
-            success: function(response){
 
-                var columnData = Ext.decode(response.responseText);
-                var data = columnData[0];
-
-                // Get the quality field from record
-                // Update chart with data
-                var chartList = [];
-                Ext.each(data.datapoints, function (chartData) {
-                    var chartCol = {};
-                    chartCol.test = chartData.value;
-                    chartCol.cate = chartData.date;
-                    chartList.push(chartCol);
-                });
-
-                Ext.getCmp('sampleChart').series.getAt(0).setTitle(data.target);
-
-                Ext.getCmp('sampleChart').getStore().loadData(chartList, false);
-
-            }
-        });
-
-        clearInterval(GlobalData.intervalId1);
-        clearInterval(GlobalData.intervalId2);
-        clearInterval(GlobalData.intervalId3);
-
-        */
     },
 
     onUserManagementBtnBtnClick: function(button, e, eOpts) {
@@ -432,7 +397,7 @@ Ext.define('spider.controller.MenuController', {
                     me : menu,
 
                     hostRecord : null,
-                    vmRecord : null,
+                    vmRecord : null
                 });
 
         this.control({
@@ -535,14 +500,6 @@ Ext.define('spider.controller.MenuController', {
 
         }
 
-
-
-            //Ext.getCmp('hostMgmtBtn').fireEvent('click');
-            //Ext.getCmp('utilizationBtn').fireEvent('click');
-
-            //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {
-            //    Ext.getCmp('hostGridPanel').selModel.select(0);
-            //}
     }
 
 });

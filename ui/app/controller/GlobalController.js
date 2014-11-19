@@ -19,12 +19,6 @@ Ext.define('spider.controller.GlobalController', {
     init: function(application) {
         var global = this;
 
-        var intervalId1, intervalId2, intervalId3, intervalId4;
-        var chartDataStore = Ext.getStore('chartDataStore');
-        var cpuChart = Ext.getCmp('cpuChart');
-        var memoryChart = Ext.getCmp('memoryChart');
-        var networkChart = Ext.getCmp('networkChart');
-
         //CROS 설정
         Ext.data.Connection.prototype.useDefaultXhrHeader = false;
 
@@ -168,6 +162,7 @@ Ext.define('spider.controller.GlobalController', {
             numericMask : /[.0-9]/
 
         });
+
         /**
          Chart legend multi Line
         */
@@ -294,18 +289,6 @@ Ext.define('spider.controller.GlobalController', {
 
         });
 
-        Ext.define('GlobalData', {
-            singleton: true,
-
-            intervalId1: intervalId1,
-            intervalId2: intervalId2,
-            intervalId3: intervalId3,
-            intervalId4: intervalId4,
-            chartDataStore: chartDataStore,
-            cpuChart: cpuChart,
-            memoryChart: memoryChart,
-            networkChart: networkChart
-        });
     },
 
     closeWindow: function(button, msg) {

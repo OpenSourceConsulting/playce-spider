@@ -29,9 +29,7 @@ Ext.define('spider.controller.DashboardController', {
         //Dashboard Menu Constants
         Ext.define('dashboardConstants', {
             singleton: true,
-            me : dashBoard,
-
-            intervalId1 : null
+            me : dashBoard
         });
     },
 

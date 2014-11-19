@@ -20,7 +20,6 @@ Ext.define('spider.view.VmManagementPanel', {
     requires: [
         'Ext.toolbar.Toolbar',
         'Ext.form.field.Display',
-        'Ext.toolbar.Spacer',
         'Ext.tab.Panel',
         'Ext.tab.Tab',
         'Ext.chart.Chart',
@@ -32,6 +31,7 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.form.field.ComboBox',
+        'Ext.toolbar.Spacer',
         'Ext.form.field.TextArea',
         'Ext.form.field.Hidden',
         'Ext.grid.View',
@@ -93,6 +93,9 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'button',
+                            handler: function(button, e) {
+                                vmHostConstants.me.controlVm("start");
+                            },
                             id: 'startVmBtn',
                             itemId: '',
                             padding: '3 8 3 8',
@@ -100,20 +103,21 @@ Ext.define('spider.view.VmManagementPanel', {
                         },
                         {
                             xtype: 'button',
+                            handler: function(button, e) {
+                                vmHostConstants.me.controlVm("shutdown");
+                            },
                             id: 'stopVmBtn',
                             padding: '3 8 3 8',
                             text: '정지'
                         },
                         {
-                            xtype: 'tbspacer',
-                            flex: 1
-                        },
-                        {
                             xtype: 'button',
+                            handler: function(button, e) {
+                                vmConstants.me.refreshInstanceDashboard();
+                            },
                             id: 'vmDashboardReloadBtn',
-                            margin: '0 20 0 0',
-                            padding: 4,
-                            iconCls: 'x-tbar-loading'
+                            margin: '0 0 0 20',
+                            text: 'Refresh'
                         }
                     ]
                 }
@@ -763,7 +767,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                     'stroke-width': 0.5
                                                                                 }
                                                                             },
-                                                                            title: 'Usage (kbps)',
+                                                                            title: 'Usage (bps)',
                                                                             minimum: 0,
                                                                             position: 'left'
                                                                         },
@@ -828,7 +832,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         },
                                                         {
                                                             xtype: 'panel',
-                                                            flex: 2,
+                                                            flex: 2.2,
                                                             layout: {
                                                                 type: 'vbox',
                                                                 align: 'stretch'
@@ -895,24 +899,21 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                 {
                                                                                     xtype: 'label',
                                                                                     flex: 1,
-                                                                                    id: 'curInLabel',
-                                                                                    itemId: 'curInLabel',
+                                                                                    id: 'inBoundCurrent',
                                                                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                                                     text: 'N/A'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'label',
                                                                                     flex: 1,
-                                                                                    id: 'avgInLabel',
-                                                                                    itemId: 'avgInLabel',
+                                                                                    id: 'inBoundAverage',
                                                                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                                                     text: 'N/A'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'label',
                                                                                     flex: 1,
-                                                                                    id: 'peakInLabel',
-                                                                                    itemId: 'peakInLabel',
+                                                                                    id: 'inBoundPeak',
                                                                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                                                     text: 'N/A'
                                                                                 }
@@ -935,24 +936,21 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                 {
                                                                                     xtype: 'label',
                                                                                     flex: 1,
-                                                                                    id: 'curOutLabel',
-                                                                                    itemId: 'curOutLabel',
+                                                                                    id: 'outBoundCurrent',
                                                                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                                                     text: 'N/A'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'label',
                                                                                     flex: 1,
-                                                                                    id: 'avgOutLabel',
-                                                                                    itemId: 'avgOutLabel',
+                                                                                    id: 'outBoundAverage',
                                                                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                                                     text: 'N/A'
                                                                                 },
                                                                                 {
                                                                                     xtype: 'label',
                                                                                     flex: 1,
-                                                                                    id: 'peakOutLabel',
-                                                                                    itemId: 'peakOutLabel',
+                                                                                    id: 'outBoundPeak',
                                                                                     style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                                                     text: 'N/A'
                                                                                 }

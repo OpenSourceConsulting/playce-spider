@@ -165,9 +165,7 @@ Ext.define('spider.controller.VmHostController', {
                     contextMenu: vmHostContextMenu,
                     selectRecord : null,
                     actionRecord : null,
-                    vmStatus : null,
-
-                    intervalId1 : null
+                    vmStatus : null
                 });
 
         this.control({
@@ -523,7 +521,7 @@ Ext.define('spider.controller.VmHostController', {
                             if(flag == 'start') {
                                 Ext.Msg.alert('Success', 'VM 시작 요청이 완료되었습니다.');
                             } else {
-                                Ext.Msg.alert('Success', 'VM 중지 요청이 완료되었습니다.');
+                                Ext.Msg.alert('Success', 'VM 정지 요청이 완료되었습니다.');
                             }
 
                         }

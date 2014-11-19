@@ -116,7 +116,28 @@
                         "padding": "3 8 3 8",
                         "text": "시작"
                     },
-                    "designerId": "4ffe283c-e20c-4877-9af4-4686e9399439"
+                    "designerId": "4ffe283c-e20c-4877-9af4-4686e9399439",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "vmHostConstants.me.controlVm(\"start\");"
+                                ]
+                            },
+                            "designerId": "52e95221-cb4e-4a8c-8471-16d66e22e5a0"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.button.Button",
@@ -131,19 +152,28 @@
                         "padding": "3 8 3 8",
                         "text": "정지"
                     },
-                    "designerId": "ddaa6ef9-7358-49cc-a5f5-0d533f91e005"
-                },
-                {
-                    "type": "Ext.toolbar.Spacer",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "layout|flex": 1
-                    },
-                    "designerId": "dfa5a970-faba-49a0-842b-5cb9626f464a"
+                    "designerId": "ddaa6ef9-7358-49cc-a5f5-0d533f91e005",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "vmHostConstants.me.controlVm(\"shutdown\");"
+                                ]
+                            },
+                            "designerId": "22165acb-94cc-466b-8e2c-d60a067c7545"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.button.Button",
@@ -153,14 +183,35 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "iconCls": "x-tbar-loading",
+                        "iconCls": null,
                         "id": "vmDashboardReloadBtn",
                         "layout|flex": null,
-                        "margin": "0 20 0 0",
-                        "padding": 4,
-                        "text": null
+                        "margin": "0 0 0 20",
+                        "padding": null,
+                        "text": "Refresh"
                     },
-                    "designerId": "b1277b0e-3463-41bc-9c29-41f6a33d2047"
+                    "designerId": "b1277b0e-3463-41bc-9c29-41f6a33d2047",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "vmConstants.me.refreshInstanceDashboard();"
+                                ]
+                            },
+                            "designerId": "7f7b9696-32fe-449c-96c5-8c2101b7fb65"
+                        }
+                    ]
                 }
             ]
         },
@@ -1513,7 +1564,7 @@
                                                                         ],
                                                                         "maximum": null,
                                                                         "minimum": 0,
-                                                                        "title": "Usage (kbps)"
+                                                                        "title": "Usage (bps)"
                                                                     },
                                                                     "designerId": "7d3608c2-6e60-40a3-a416-3215987121db"
                                                                 },
@@ -1631,7 +1682,7 @@
                                                     "userConfig": {
                                                         "container|align": "stretch",
                                                         "layout": "vbox",
-                                                        "layout|flex": 2,
+                                                        "layout|flex": 2.2,
                                                         "title": null
                                                     },
                                                     "designerId": "de699ffd-5051-4409-b50c-8229d6efde65",
@@ -1793,8 +1844,8 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "id": "curInLabel",
-                                                                                "itemId": "curInLabel",
+                                                                                "id": "inBoundCurrent",
+                                                                                "itemId": null,
                                                                                 "layout|flex": 1,
                                                                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                                                                 "text": "N/A"
@@ -1812,8 +1863,8 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "id": "avgInLabel",
-                                                                                "itemId": "avgInLabel",
+                                                                                "id": "inBoundAverage",
+                                                                                "itemId": null,
                                                                                 "layout|flex": 1,
                                                                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                                                                 "text": "N/A"
@@ -1831,8 +1882,8 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "id": "peakInLabel",
-                                                                                "itemId": "peakInLabel",
+                                                                                "id": "inBoundPeak",
+                                                                                "itemId": null,
                                                                                 "layout|flex": 1,
                                                                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                                                                 "text": "N/A"
@@ -1869,6 +1920,7 @@
                                                                             "codeClass": null,
                                                                             "userConfig": {
                                                                                 "html": "<center><b>Outbound</b></center>",
+                                                                                "id": null,
                                                                                 "layout|flex": 1,
                                                                                 "style": "{display:inline-block;padding-top:10px;height: 36px;}",
                                                                                 "text": null
@@ -1886,8 +1938,8 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "id": "curOutLabel",
-                                                                                "itemId": "curOutLabel",
+                                                                                "id": "outBoundCurrent",
+                                                                                "itemId": null,
                                                                                 "layout|flex": 1,
                                                                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                                                                 "text": "N/A"
@@ -1905,8 +1957,8 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "id": "avgOutLabel",
-                                                                                "itemId": "avgOutLabel",
+                                                                                "id": "outBoundAverage",
+                                                                                "itemId": null,
                                                                                 "layout|flex": 1,
                                                                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                                                                 "text": "N/A"
@@ -1924,8 +1976,8 @@
                                                                             },
                                                                             "codeClass": null,
                                                                             "userConfig": {
-                                                                                "id": "peakOutLabel",
-                                                                                "itemId": "peakOutLabel",
+                                                                                "id": "outBoundPeak",
+                                                                                "itemId": null,
                                                                                 "layout|flex": 1,
                                                                                 "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
                                                                                 "text": "N/A"
