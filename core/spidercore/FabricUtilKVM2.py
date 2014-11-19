@@ -461,10 +461,11 @@ def clonestate(vmname):
 	
 		print 'cat /data/libvirt/logs/' + vmname + '.log | grep "created successfully." => ' + cat_result
 		
-		if cat_result != "" and 'created successfully.' in cat_result:
-			state = "success"
+		if cat_result == "":
+			state = "error"
 		else:
-			state = "error"			
+			# in case of file does not exist or has "created successfully." string in file.
+			state = "success"
 	else:
 		# vm clone is running 
 		state = "cloning"
@@ -479,7 +480,7 @@ def getClonestate(addr, sshid, sshpw, vmname):
 	results = execute(clonestate, hosts=[addr], vmname = vmname)
 	return results[addr]
 	
-
+print getClonestate('192.168.0.241', 'root', 'jan01jan', 'vm6')
 
 if __name__ == "__main__":
 
