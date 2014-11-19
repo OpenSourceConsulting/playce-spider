@@ -157,8 +157,8 @@ def vm_state(vmhostId=None, name=None):
 			found = True
 			vms = getDomstate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], name)
 			
-			if 'state' in vms and vms['state'] != 'running':
-				vms['clone_state'] = getClonestate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], name)
+			if 'state' in vms[0] and vms[0]['state'] != 'running':
+				vms[0]['clone_state'] = getClonestate(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], name)
 			
 	if found:
 		return json.dumps(vms)
