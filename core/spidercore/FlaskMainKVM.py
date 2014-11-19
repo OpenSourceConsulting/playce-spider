@@ -30,6 +30,7 @@ import json
 import uuid
 from spidercore import *
 from spidercore.FabricUtilKVM2 import *
+from spidercore.util import PyUtils
 
 
 logger = logging.getLogger(__name__)
@@ -168,9 +169,13 @@ def vm_state(vmhostId=None, name=None):
 def vm_all_state():
 
 	vmList = read_repository("vms")
-	vms = []
+	vms = {"vms":[]}
 	for vm in vmList:
-		vms.append(vm["hostname"])
+		if PyUtils.isEquals(vm, "interim", True):
+			vms[vm["hostname"]] = True # interim 이 true 일때 {"vm1":true} 로 setting.
+		else:
+			vms[vm["hostname"]] = False
+		vms["vms"].append(vm["hostname"])
 
 # 	Finding a VM Host designated in the JSON request
 	vmhosts = read_repository("vmhosts")

@@ -140,9 +140,12 @@ def vm_all_state_task(vmList):
 	
 	for line in logs.split("\n")[2:]:
 		tokens = line.split()
-		if tokens[1] in vmList:
+		if tokens[1] in vmList["vms"]:
 			stat = {}
-			stat[tokens[1]] = "".join(tokens[2:])
+			if vmList[tokens[1]]:
+				stat[tokens[1]] = "interim"
+			else:
+				stat[tokens[1]] = "".join(tokens[2:])
 			result.append( stat )
 	
 	return result
