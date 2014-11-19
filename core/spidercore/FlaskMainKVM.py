@@ -164,6 +164,10 @@ def vm_state(vmhostId=None, name=None):
 @app.route("/mon/vm/all/status", methods=['GET'])
 def vm_all_state():
 
+	vmList = read_repository("vms")
+	vms = []
+	for vm in vmList:
+		vms.append(vm["hostname"])
 
 # 	Finding a VM Host designated in the JSON request
 	vmhosts = read_repository("vmhosts")
@@ -171,10 +175,10 @@ def vm_all_state():
 	result = []
 	for vmhost in vmhosts:
 		state = {"vmhost":vmhost["name"]}
-		state["vms"] = getVmAllState(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
+		state["vms"] = getVmAllState(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], vms)
 		result.append( state )
 	
-	if len[result] > 0:
+	if len(result) > 0:
 		return json.dumps(result), 200
 	else:
 		return 'VM Host was not found', 500
