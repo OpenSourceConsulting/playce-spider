@@ -480,7 +480,6 @@ def getClonestate(addr, sshid, sshpw, vmname):
 	results = execute(clonestate, hosts=[addr], vmname = vmname)
 	return results[addr]
 	
-print getClonestate('192.168.0.241', 'root', 'jan01jan', 'vm6')
 
 if __name__ == "__main__":
 
