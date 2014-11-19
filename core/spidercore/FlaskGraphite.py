@@ -92,6 +92,7 @@ def mon_graphite_interface(vmid=None):
 		url += "&target=%s%s.interface.if_octets.%s.tx%s" % (func1, vmid, nic, func2)
 	if mode == 'rxonly' or mode == 'both':
 		url += "&target=%s%s.interface.if_octets.%s.rx%s" % (func1, vmid, nic, func2)
+	logging.debug("URL: " + url)
 	result = requests.get(url).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
