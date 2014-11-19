@@ -159,8 +159,25 @@ def vm_state(vmhostId=None, name=None):
 		return json.dumps(vms)
 	else:
 		return 'VM Host(' + vmhostId + ') was not found', 404
+
+
+@app.route("/mon/vm/all/status", methods=['GET'])
+def vm_all_state():
+
+
+# 	Finding a VM Host designated in the JSON request
+	vmhosts = read_repository("vmhosts")
 	
+	result = []
+	for vmhost in vmhosts:
+		state = {"vmhost":vmhost["name"]}
+		state["vms"] = getVmAllState(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'])
+		result.append( state )
 	
+	if len[result] > 0:
+		return json.dumps(result), 200
+	else:
+		return 'VM Host was not found', 500
 
 @app.route("/mon/vm/<vmhostId>/<name>", methods=['GET'])
 def vm_info(vmhostId=None, name=None):

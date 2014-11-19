@@ -132,7 +132,31 @@ def getDomstate(addr, sshid, sshpw, name):
 	return results[addr]
 
 
+def vm_all_state_task():
 
+	logs = run('virsh list --all' , pty=True ,quiet=True,  timeout=5 )
+	
+	result = []
+	
+	for line in logs.split("\n")[2:]:
+		tokens = line.split()
+		if tokens[1].startswith("vm"):
+			stat = {}
+			stat[tokens[1]] = "".join(tokens[2:])
+			result.append( stat )
+	
+	return result
+	
+
+
+def getVmAllState(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
+	results = execute(vm_all_state_task, hosts=[addr])
+	
+	return results[addr]
 
 
 ### domstart ###
