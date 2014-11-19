@@ -8,14 +8,14 @@
     "userConfig": {
         "designer|userAlias": "AddRoutingRediWindow",
         "designer|userClassName": "AddRoutingRediWindow",
-        "height": 232,
+        "height": 198,
         "id": "AddBondingWindow7",
         "itemId": null,
         "modal": true,
         "padding": null,
         "resizable": false,
         "title": "Redistribution 등록",
-        "width": 400
+        "width": 420
     },
     "configAlternates": {
         "resizable": "boolean"
@@ -67,7 +67,7 @@
                             "    \"bgp\", \"connected\", \"kernel\", \"rip\", \"static\"",
                             "]"
                         ],
-                        "width": 350
+                        "width": 370
                     },
                     "configAlternates": {
                         "store": "array"
@@ -88,7 +88,7 @@
                         "maxValue": 16,
                         "minValue": 1,
                         "name": "metric",
-                        "width": 350
+                        "width": 370
                     },
                     "designerId": "87c3f595-647b-4d37-8f13-851c3c187879"
                 },
@@ -112,28 +112,12 @@
                             "    [\"2\",\"2(only external cost is used)\"],",
                             "]"
                         ],
-                        "width": 350
+                        "width": 370
                     },
                     "configAlternates": {
                         "store": "array"
                     },
                     "designerId": "8695e78c-d331-4b51-a007-c21a9d5c1954"
-                },
-                {
-                    "type": "Ext.form.field.Text",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "emptyText": null,
-                        "fieldLabel": "Route Map",
-                        "margin": null,
-                        "name": "route-map",
-                        "width": 350
-                    },
-                    "designerId": "4e4db694-736f-4699-bb3f-aa3f4179f2f8"
                 },
                 {
                     "type": "Ext.toolbar.Toolbar",

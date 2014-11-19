@@ -485,9 +485,6 @@
                                         "type": "object"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "allowBlank": false
-                                    },
                                     "designerId": "05295b1b-4f70-486f-9ef3-3e72c20d0a1d"
                                 }
                             ]
@@ -512,9 +509,6 @@
                                         "type": "object"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "allowBlank": false
-                                    },
                                     "designerId": "023699da-e15d-461a-8c8b-06c4a9434efc"
                                 }
                             ]
@@ -539,9 +533,6 @@
                                         "type": "object"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "allowBlank": false
-                                    },
                                     "designerId": "9ff5e247-aece-4313-9270-b12bb78caa94"
                                 }
                             ]

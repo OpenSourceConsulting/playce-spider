@@ -129,6 +129,18 @@
                 "name": "mgraddr"
             },
             "designerId": "47860a7f-19d6-4455-ba54-408dfbb324bb"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "interim"
+            },
+            "designerId": "ebc17fac-5045-4056-8aa3-6e11954a9445"
         }
     ]
 }

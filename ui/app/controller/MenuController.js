@@ -265,6 +265,8 @@ Ext.define('spider.controller.MenuController', {
 
                 var hostDatas = Ext.decode(response.responseText);
 
+                menuConstants.hostRecord = hostDatas;
+
                 if(hostDatas != null) {
 
                     var vmDatas = null;
@@ -275,6 +277,8 @@ Ext.define('spider.controller.MenuController', {
                         success: function(vmResponse){
 
                             vmDatas = Ext.decode(vmResponse.responseText);
+
+                            menuConstants.vmRecord = vmDatas;
 
                             Ext.each(hostDatas, function(host, index) {
 
@@ -320,6 +324,7 @@ Ext.define('spider.controller.MenuController', {
                                     }
 
                                     treeData.push(host);
+
                                 }
 
                             });
@@ -338,6 +343,7 @@ Ext.define('spider.controller.MenuController', {
                             Ext.getCmp("listMenuPanel").bindStore(treeStore);
 
                             dashboardConstants.me.renderDashboard();
+                            menuConstants.me.renderVmStatus();
 
                         }
                     });
@@ -355,7 +361,10 @@ Ext.define('spider.controller.MenuController', {
                 //Dashboard Menu Constants
                 Ext.define('menuConstants', {
                     singleton: true,
-                    me : menu
+                    me : menu,
+
+                    hostRecord : null,
+                    vmRecord : null,
                 });
 
         this.control({
@@ -466,6 +475,115 @@ Ext.define('spider.controller.MenuController', {
             //if (Ext.getCmp('hostGridPanel').selModel.selected.length === 0) {
             //    Ext.getCmp('hostGridPanel').selModel.select(0);
             //}
+    },
+
+    renderVmStatus: function() {
+        /*
+        var treePanel = Ext.getCmp("listMenuPanel");
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/vm/all/status ',
+            method : "GET",
+            disableCaching : true,
+            success: function(response){
+
+                if(response.status == 200) {
+
+                    var datas = Ext.decode(response.responseText);
+
+                    Ext.each(datas, function(host) {
+
+                        var hostNodes = treePanel.store.getRootNode().childNodes;
+
+                        Ext.each(hostNodes, function(record, idx){
+
+                            if(host.vmhost === record.get("text")) {
+
+                                var vmNodes = hostNodes[idx].childNodes;
+
+                                Ext.each(vmNodes, function(vmRecord, vIdx){
+
+                                    var cls = ""
+
+                                    Ext.each(host.vms, function(vm){
+
+                                    });
+
+                                });
+
+
+                            }
+
+                        });
+
+                    });
+
+                }
+            }
+        });
+
+
+        Ext.each(Ext.getCmp("listMenuPanel").store.getRootNode().childNodes, function(record, idx){
+
+
+
+
+            var nodePanel = Ext.getCmp("DashBoardNodePanel").cloneConfig({itemId : "DashBoardNodePanel"+idx});
+
+            nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
+            nodePanel.down('#VmHostName').setText(record.get('text'));
+
+            cpu = Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0));
+            memory = Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0));
+            disk = Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0));
+            network = Math.min(100, Math.max(+network + (Math.random() - 0.5) / 2, 0));
+
+            nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
+            nodePanel.down('#memoryBar').updateProgress(memory / 100, memory.toFixed(2) + "%");
+            nodePanel.down('#diskBar').updateProgress(disk / 100, disk.toFixed(2) + "%");
+            nodePanel.down('#networkBar').updateProgress(network / 100, network.toFixed(2) + "%");
+
+            //VM 정보
+            var vms = nodePanel.down('#vmNamePanel').items.items;
+            var vmCpus = nodePanel.down('#vmCpuPanel').items.items;
+            var vmMemorys = nodePanel.down('#vmMemPanel').items.items;
+            var vmDisks = nodePanel.down('#vmNetPanel').items.items;
+
+            Ext.each(record.get("children"), function(cRecord, cIdx) {
+
+                if(cIdx < 4) {
+                    vms[cIdx+1].setText(cRecord.text);
+                    vmCpus[cIdx+1].setText(Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0)).toFixed(0) + "%");
+                    vmMemorys[cIdx+1].setText(Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0)).toFixed(0) + "%");
+                    vmDisks[cIdx+1].setText(Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0)).toFixed(0) + "%");
+                }
+            });
+
+            //node add
+            if(idx%2 === 0) {
+                Ext.getCmp("DashBoardLeftPanel").add(nodePanel);
+            } else {
+                Ext.getCmp("DashBoardRightPanel").add(nodePanel);
+            }
+
+            nodePanel.show();
+            nodePanel.body.on('click', function(e) {
+                vmHostConstants.me.popVMHostInfoWindow(record);
+            });
+
+        });
+
+        dashboardPanel.setLoading(false);
+
+
+
+        // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
+        setTimeout(function() {
+
+            dashboardConstants.me.renderDashboard();
+
+        }, 10000);
+        */
     }
 
 });

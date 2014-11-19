@@ -249,8 +249,7 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     dataIndex: 'map_name',
                                     text: 'Mapping Name',
                                     editor: {
-                                        xtype: 'textfield',
-                                        allowBlank: false
+                                        xtype: 'textfield'
                                     }
                                 },
                                 {
@@ -258,8 +257,7 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     dataIndex: 'map_ip',
                                     text: 'IP Address',
                                     editor: {
-                                        xtype: 'textfield',
-                                        allowBlank: false
+                                        xtype: 'textfield'
                                     }
                                 },
                                 {
@@ -267,8 +265,7 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     dataIndex: 'map_mac',
                                     text: 'Mac Address',
                                     editor: {
-                                        xtype: 'textfield',
-                                        allowBlank: false
+                                        xtype: 'textfield'
                                     }
                                 },
                                 {

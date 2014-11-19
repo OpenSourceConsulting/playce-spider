@@ -375,6 +375,7 @@ Ext.define('spider.controller.VmHostController', {
                  },
                  waitMsg: 'Saving Data...',
                  waitMsgTarget : addVmHostForm.getEl(),
+                 thimeout : 60000,
                  jsonData: sendData,
                  success: function (response) {
 

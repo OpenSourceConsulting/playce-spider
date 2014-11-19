@@ -50,6 +50,9 @@ Ext.define('spider.model.VmHostModel', {
         },
         {
             name: 'mgraddr'
+        },
+        {
+            name: 'interim'
         }
     ]
 });

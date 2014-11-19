@@ -20,6 +20,7 @@ Ext.define('spider.view.VmManagementPanel', {
     requires: [
         'Ext.toolbar.Toolbar',
         'Ext.form.field.Display',
+        'Ext.toolbar.Spacer',
         'Ext.tab.Panel',
         'Ext.tab.Tab',
         'Ext.chart.Chart',
@@ -31,7 +32,6 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.form.field.ComboBox',
-        'Ext.toolbar.Spacer',
         'Ext.form.field.TextArea',
         'Ext.form.field.Hidden',
         'Ext.grid.View',
@@ -39,7 +39,10 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.field.Number',
         'Ext.form.RadioGroup',
         'Ext.form.field.Radio',
-        'Ext.grid.plugin.CellEditing'
+        'Ext.grid.plugin.CellEditing',
+        'Ext.tree.Panel',
+        'Ext.tree.View',
+        'Ext.tree.Column'
     ],
 
     id: 'VmManagementPanel',
@@ -100,6 +103,17 @@ Ext.define('spider.view.VmManagementPanel', {
                             id: 'stopVmBtn',
                             padding: '3 8 3 8',
                             text: '정지'
+                        },
+                        {
+                            xtype: 'tbspacer',
+                            flex: 1
+                        },
+                        {
+                            xtype: 'button',
+                            id: 'vmDashboardReloadBtn',
+                            margin: '0 20 0 0',
+                            padding: 4,
+                            iconCls: 'x-tbar-loading'
                         }
                     ]
                 }
@@ -501,6 +515,12 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                 labelSeparator: ' :'
                                                                             },
                                                                             items: [
+                                                                                {
+                                                                                    xtype: 'displayfield',
+                                                                                    anchor: '100%',
+                                                                                    fieldLabel: 'ID',
+                                                                                    name: 'id'
+                                                                                },
                                                                                 {
                                                                                     xtype: 'displayfield',
                                                                                     anchor: '100%',
@@ -2029,11 +2049,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             text: 'Metric Type'
                                                                         },
                                                                         {
-                                                                            xtype: 'gridcolumn',
-                                                                            dataIndex: 'route-map',
-                                                                            text: 'Route Map'
-                                                                        },
-                                                                        {
                                                                             xtype: 'actioncolumn',
                                                                             text: 'Delete',
                                                                             maxWidth: 80,
@@ -3133,6 +3148,8 @@ Ext.define('spider.view.VmManagementPanel', {
                                     items: [
                                         {
                                             xtype: 'form',
+                                            id: 'vmSystemGlobalForm',
+                                            margin: '15 20 0 0',
                                             autoScroll: true,
                                             bodyPadding: 10,
                                             header: false,
@@ -3142,82 +3159,215 @@ Ext.define('spider.view.VmManagementPanel', {
                                                 labelStyle: 'color:#666;font-weight: bold;text-align: right;',
                                                 labelSeparator: ' :',
                                                 margin: '0 10 0 0',
-                                                labelWidth: 100
+                                                labelWidth: 130
                                             },
                                             items: [
                                                 {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    margin: '20 10 0 0',
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
+                                                    xtype: 'fieldset',
+                                                    title: 'Global',
                                                     items: [
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Hostname'
+                                                            xtype: 'toolbar',
+                                                            height: 32,
+                                                            items: [
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                },
+                                                                {
+                                                                    xtype: 'button',
+                                                                    handler: function(button, e) {
+                                                                        vmConstants.me.saveVmSystemGrobal();
+                                                                    },
+                                                                    itemId: 'saveBtn',
+                                                                    padding: '3 8 3 8',
+                                                                    text: '저장'
+                                                                }
+                                                            ]
                                                         },
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'level(Admin)'
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            margin: 10,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Host Name',
+                                                                    name: 'hostname',
+                                                                    allowBlank: false
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Time Zone',
+                                                                    name: 'timezone',
+                                                                    allowBlank: false
+                                                                }
+                                                            ]
                                                         }
                                                     ]
-                                                },
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'form',
+                                            id: 'vmSystemLoginForm',
+                                            margin: '0 20 0 0',
+                                            autoScroll: true,
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                labelSeparator: ' :',
+                                                margin: '0 10 0 0',
+                                                labelWidth: 130
+                                            },
+                                            items: [
                                                 {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
+                                                    xtype: 'fieldset',
+                                                    title: 'Login',
                                                     items: [
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Username'
+                                                            xtype: 'toolbar',
+                                                            height: 32,
+                                                            items: [
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                },
+                                                                {
+                                                                    xtype: 'button',
+                                                                    handler: function(button, e) {
+                                                                        vmConstants.me.saveVmSystemLogin();
+                                                                    },
+                                                                    itemId: 'saveBtn',
+                                                                    padding: '3 8 3 8',
+                                                                    text: '저장'
+                                                                }
+                                                            ]
                                                         },
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'password'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'textareafield',
-                                                    anchor: '100%',
-                                                    margin: '15 20 15 0',
-                                                    fieldLabel: 'ssh public key',
-                                                    rows: 8
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'combobox',
-                                                            flex: 1,
-                                                            fieldLabel: 'Timezone'
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            margin: '5 5 0 5',
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'User Name',
+                                                                    name: 'username',
+                                                                    allowBlank: false,
+                                                                    editable: false,
+                                                                    displayField: 'key_name',
+                                                                    queryMode: 'local',
+                                                                    valueField: 'key_name',
+                                                                    listeners: {
+                                                                        change: {
+                                                                            fn: me.onComboboxChange2,
+                                                                            scope: me
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Level',
+                                                                    name: 'level',
+                                                                    allowBlank: false,
+                                                                    editable: false,
+                                                                    store: [
+                                                                        'admin',
+                                                                        'operator'
+                                                                    ]
+                                                                }
+                                                            ]
                                                         },
                                                         {
-                                                            xtype: 'tbspacer',
-                                                            flex: 1
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            margin: '0 5 0 5',
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Password',
+                                                                    name: 'password',
+                                                                    inputType: 'password',
+                                                                    allowBlank: false
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Confirm Password',
+                                                                    name: 'confirm_password',
+                                                                    inputType: 'password',
+                                                                    allowBlank: false,
+                                                                    vtype: 'password'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            margin: '0 5 5 5',
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Public Key ID',
+                                                                    name: 'key_id'
+                                                                },
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Public Key Type',
+                                                                    name: 'key_type',
+                                                                    editable: false,
+                                                                    store: [
+                                                                        'ssh-dsa',
+                                                                        'ssh-rsa'
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'textareafield',
+                                                            anchor: '100%',
+                                                            margin: '5 15 20 5',
+                                                            fieldLabel: 'Public Key',
+                                                            name: 'key_value',
+                                                            rows: 8
                                                         }
                                                     ]
                                                 }
@@ -3607,6 +3757,129 @@ Ext.define('spider.view.VmManagementPanel', {
                                     title: 'My Panel'
                                 }
                             ]
+                        },
+                        {
+                            xtype: 'panel',
+                            overflowY: 'auto',
+                            layout: 'border',
+                            title: 'CLI',
+                            items: [
+                                {
+                                    xtype: 'fieldset',
+                                    region: 'west',
+                                    margin: 0,
+                                    padding: 0,
+                                    width: 180,
+                                    layout: 'border',
+                                    title: '',
+                                    items: [
+                                        {
+                                            xtype: 'treepanel',
+                                            region: 'center',
+                                            id: 'listCheckMenuPanel',
+                                            itemId: 'listCheckMenuPanel',
+                                            frameHeader: false,
+                                            header: false,
+                                            title: 'Check VM',
+                                            hideHeaders: true,
+                                            rootVisible: false,
+                                            dockedItems: [
+                                                {
+                                                    xtype: 'toolbar',
+                                                    dock: 'top',
+                                                    items: [
+                                                        {
+                                                            xtype: 'label',
+                                                            text: 'Check Vm List'
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            viewConfig: {
+                                                frame: true
+                                            },
+                                            columns: [
+                                                {
+                                                    xtype: 'treecolumn',
+                                                    dataIndex: 'text',
+                                                    text: 'Nodes',
+                                                    flex: 1
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'panel',
+                                    region: 'center',
+                                    overflowY: 'auto',
+                                    layout: {
+                                        type: 'hbox',
+                                        align: 'stretch'
+                                    },
+                                    items: [
+                                        {
+                                            xtype: 'form',
+                                            flex: 1,
+                                            id: 'cliSubmitForm',
+                                            bodyPadding: 10,
+                                            header: false,
+                                            title: 'My Form',
+                                            fieldDefaults: {
+                                                msgTarget: 'side',
+                                                labelStyle: 'color:#666;font-weight: bold;',
+                                                labelSeparator: ' :'
+                                            },
+                                            items: [
+                                                {
+                                                    xtype: 'textareafield',
+                                                    anchor: '100%',
+                                                    frame: false,
+                                                    margin: '10 20 10 10',
+                                                    fieldLabel: 'Commands',
+                                                    labelAlign: 'top',
+                                                    name: 'commands',
+                                                    allowBlank: false,
+                                                    rows: 7
+                                                },
+                                                {
+                                                    xtype: 'fieldcontainer',
+                                                    height: 24,
+                                                    fieldLabel: '',
+                                                    layout: {
+                                                        type: 'hbox',
+                                                        align: 'stretch'
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
+                                                        },
+                                                        {
+                                                            xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                vmConstants.me.executeCli();
+                                                            },
+                                                            margin: '0 30 0 0',
+                                                            width: 60,
+                                                            text: '실행'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'textareafield',
+                                                    anchor: '100%',
+                                                    margin: '0 20 10 10',
+                                                    fieldLabel: 'Result log',
+                                                    labelAlign: 'top',
+                                                    name: 'results',
+                                                    rows: 23
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }
@@ -3744,8 +4017,6 @@ Ext.define('spider.view.VmManagementPanel', {
             form.findField("routing_next_hop1").setDisabled(false);
             form.findField("routing_next_hop2").setDisabled(true);
 
-            form.findField("routing_blackhole").setReadOnly(false);
-
         } else if(newValue == "interface-route") {
 
             form.findField("routing_next_hop1").hide();
@@ -3753,9 +4024,6 @@ Ext.define('spider.view.VmManagementPanel', {
 
             form.findField("routing_next_hop1").setDisabled(true);
             form.findField("routing_next_hop2").setDisabled(false);
-
-            form.findField("routing_blackhole").setValue(false);
-            form.findField("routing_blackhole").setReadOnly(true);
 
         }
 
@@ -3778,6 +4046,12 @@ Ext.define('spider.view.VmManagementPanel', {
         } else {
             form.findField("transaddr").setDisabled(false);
             form.findField("transport").setDisabled(false);
+        }
+    },
+
+    onComboboxChange2: function(field, newValue, oldValue, eOpts) {
+        if(newValue) {
+            vmConstants.me.changeSystemUserName(field, newValue);
         }
     }
 

@@ -33,6 +33,7 @@ Ext.define('spider.controller.VmManagementController', {
         //if(newCard.title)
         if(newCard.title === "Instance Dashboard") {
 
+            Ext.getCmp("vmDashboardReloadBtn").show();
             this.setInstanceDashboard();
 
         } else if(newCard.title === "NIC") {
@@ -59,14 +60,22 @@ Ext.define('spider.controller.VmManagementController', {
 
             this.setHttpsSsh();
 
+        } else if(newCard.title === "System(Service)") {
+
+            this.setSystem();
+
         } else if(newCard.title === "Firewall") {
 
             this.setFirewall();
+
+        } else if(newCard.title === "CLI") {
+
+            this.setCli();
         }
 
 
         if(oldCard.title == "Instance Dashboard") {
-            clearInterval(GlobalData.intervalId2);
+            Ext.getCmp("vmDashboardReloadBtn").hide();
         }
 
         //this.changeNetworkInstanceTab()
@@ -885,10 +894,13 @@ Ext.define('spider.controller.VmManagementController', {
 
     setInstanceDashboard: function() {
 
-        this.setInstanceDashboardChart();
+        if(vmConstants.selectRecord.get("interim") != true) {
+            this.setInstanceDashboardChart();
+        }
 
 
         var viewVmForm = Ext.getCmp("viewVmForm");
+        Ext.getStore("VmInterfaceStore").removeAll();
 
         viewVmForm.getForm().reset();
         viewVmForm.getForm().waitMsgTarget = viewVmForm.getEl();
@@ -938,7 +950,9 @@ Ext.define('spider.controller.VmManagementController', {
 
                     Ext.getStore("VmInterfaceStore").loadData(gridData, false);
 
-                    vmConstants.me.setInstanceDashboardNics(nics);
+                    if(vmConstants.selectRecord.get("interim") != true) {
+                        vmConstants.me.setInstanceDashboardNics(nics);
+                    }
 
                 }
             }
@@ -1098,6 +1112,8 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setInstanceDashboardNics: function(nics) {
+        Ext.getCmp("comboNetworkChartNicName").setValue("");
+        Ext.getCmp("comboNetworkChartTime").setValue("");
 
         var store = Ext.create('Ext.data.Store', {
             fields: ['ethName'],
@@ -2267,6 +2283,7 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     renderNicCheckbox: function(component, msgTarget) {
+        component.removeAll();
 
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet',
@@ -2288,6 +2305,10 @@ Ext.define('spider.controller.VmManagementController', {
                         }
 
                         if(data[i].ipaddr == vmConstants.selectRecord.get("mgraddr")) {
+                            disabledFlag = true;
+                        }
+
+                        if(data[i].disable == true) {
                             disabledFlag = true;
                         }
 
@@ -2329,6 +2350,10 @@ Ext.define('spider.controller.VmManagementController', {
                                 disabledFlag = true;
                                 fieldName = "disableCheck";
                             }
+                            if(data[i].disable == true) {
+                                disabledFlag = true;
+                                fieldName = "disableCheck";
+                            }
                             component.add(new Ext.form.Checkbox({ boxLabel: data[i].ethName, name: fieldName, inputValue: data[i].ethName }));
                         }
                     }
@@ -2348,6 +2373,10 @@ Ext.define('spider.controller.VmManagementController', {
                 var disabledFlag = false;
                 var fieldName = data[i].ethName;
                 if(data[i].ipaddr == vmConstants.selectRecord.get("mgraddr")) {
+                    disabledFlag = true;
+                    fieldName = "disableCheck";
+                }
+                if(data[i].disable == true) {
                     disabledFlag = true;
                     fieldName = "disableCheck";
                 }
@@ -3234,6 +3263,159 @@ Ext.define('spider.controller.VmManagementController', {
 
     },
 
+    setSystem: function() {
+        var globalform = Ext.getCmp("vmSystemGlobalForm");
+        var loginform = Ext.getCmp("vmSystemLoginForm");
+
+        globalform.getForm().reset();
+        loginform.getForm().reset();
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/system',
+            method : "GET",
+            disableCaching : true,
+            waitMsg: 'Loading...',
+            waitMsgTarget : globalform.up('panel').getEl(),
+            success: function(response){
+
+                if(response.status == 200) {
+
+                    var datas = Ext.decode(response.responseText);
+
+                    if(datas.length > 0) {
+
+                        Ext.each(datas, function (data){
+
+                            if(data.category === "host-name") {
+                                globalform.getForm().findField("hostname").setValue(data["host-name"]);
+                            }
+
+                            if(data.category === "time-zone") {
+                                globalform.getForm().findField("timezone").setValue(data["time-zone"]);
+                            }
+
+                            if(data.category === "login") {
+
+                                var store = Ext.create('Ext.data.Store', {
+                                    fields : ["authentication", "key_name", "level"],
+                                    data: data.user
+                                });
+
+                                loginform.getForm().findField("username").bindStore(store);
+                                loginform.getForm().findField("username").setValue(data.user[0].key_name);
+                            }
+                        });
+                    }
+
+                }
+
+            }
+        });
+
+    },
+
+    changeSystemUserName: function(field, newValue) {
+        var store = field.getStore();
+        var form = field.up('form').getForm();
+        var record = store.findRecord("key_name", newValue);
+
+        form.findField("level").setValue(record.get("level"));
+
+        var auth = record.get("authentication");
+
+        if(auth) {
+
+            var keys = auth["public-keys"];
+
+            if(keys) {
+
+                form.findField("key_id").setValue(keys[0].key_name);
+                form.findField("key_type").setValue(keys[0].type);
+                form.findField("key_value").setValue(keys[0].key);
+
+            }
+        }
+
+    },
+
+    saveVmSystemGrobal: function() {
+
+        var vmSystemGlobalForm = Ext.getCmp("vmSystemGlobalForm");
+
+        if(vmSystemGlobalForm.isValid()) {
+
+            var formData = vmSystemGlobalForm.getForm().getFieldValues();
+            formData.systemtype = "global";
+
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/system",
+                method: "PUT",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                waitMsg: 'Saving Data...',
+                waitMsgTarget : vmSystemGlobalForm.up('panel').getEl(),
+                jsonData: formData,
+                success: function (response) {
+
+                    if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            vmConstants.me.setSystem();
+
+                        });
+
+                    }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+            });
+
+        }
+    },
+
+    saveVmSystemLogin: function() {
+
+        var vmSystemLoginForm = Ext.getCmp("vmSystemLoginForm");
+
+        if(vmSystemLoginForm.isValid()) {
+
+            var formData = vmSystemLoginForm.getForm().getFieldValues();
+            formData.systemtype = "login";
+
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/system",
+                method: "PUT",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                waitMsg: 'Saving Data...',
+                waitMsgTarget : vmSystemLoginForm.up('panel').getEl(),
+                jsonData: formData,
+                success: function (response) {
+
+                    if(response.status == 200) {
+
+                        Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
+
+                            vmConstants.me.setSystem();
+
+                        });
+
+                    }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+            });
+
+        }
+    },
+
     setFirewall: function() {
         var store;
         var form = Ext.getCmp("viewFirewallForm");
@@ -3722,6 +3904,129 @@ Ext.define('spider.controller.VmManagementController', {
 
 
         });
+    },
+
+    setCli: function() {
+
+        var center = Ext.getCmp("lnbLocationCombo").getValue();
+        var checkTreeData = [];
+
+        Ext.each(menuConstants.hostRecord, function(host, index) {
+
+            if(host.location == center) {
+
+                host.id = host._id;
+                host.text = host.name;
+                host.icon = 'resources/images/icons/server.png';
+                host.type = 'vmhost';
+                host.expanded = true;
+
+                var vmList = [];
+                Ext.each(menuConstants.vmRecord, function(vm) {
+
+                    if(host._id == vm.vmhost) {
+
+                        vm.id = vm._id;
+                        vm.text = vm.vmname;
+                        vm.icon = 'resources/images/icons/host.png';
+                        vm.type = 'vm';
+                        vm.leaf = true;
+
+                        if(vmConstants.selectRecord.get("id") === vm.id) {
+                            vm.checked = true;
+                        } else {
+                            vm.checked = false;
+                        }
+
+                        if(vm.interim === true) {
+                            vm.cls = "node-red";
+                            delete vm.checked;
+                        }
+
+                        vmList.push(vm);
+                    }
+                });
+
+                if(vmList.length > 0) {
+
+                    host.leaf = false;
+                    host.children = vmList;
+
+                } else {
+
+                    host.leaf = true;
+
+                }
+
+                checkTreeData.push(host);
+
+            }
+
+        });
+
+        var treeStore = Ext.create('Ext.data.TreeStore', {
+            model: 'spider.model.VmHostModel',
+            root: {
+                expanded: true,
+                text: 'Server List',
+                icon : '',
+                type : 'root',
+                children: checkTreeData
+            }
+        });
+
+        Ext.getCmp("listCheckMenuPanel").bindStore(treeStore);
+
+
+    },
+
+    executeCli: function() {
+        var cliForm = Ext.getCmp("cliSubmitForm");
+
+        var vmRecords = Ext.getCmp("listCheckMenuPanel").getView().getChecked();
+
+        if(vmRecords.length == 0) {
+
+            Ext.Msg.alert('Failure', "VM 선택 후 명령을 실행하시기 바랍니다.");
+            return;
+
+        }
+
+        if(cliForm.isValid()) {
+
+            var vms = [];
+            Ext.each(vmRecords, function(record){
+                vms.push(record.get("id"));
+            });
+
+            var sendData = {vms : vms,
+                            commands : cliForm.getForm().findField("commands").getValue()
+                           };
+
+            Ext.Ajax.request({
+                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/cli",
+                 method: "POST",
+                 headers : {
+                     "Content-Type" : "application/json"
+                 },
+                 waitMsg: 'Saving Data...',
+                 waitMsgTarget : cliForm.getEl(),
+                 jsonData: sendData,
+                 success: function (response) {
+
+                     if(response.status == 200) {
+
+                        cliForm.getForm().findField("results").setValue(response.responseText);
+
+                     }
+
+                },
+                failure: function (response) {
+                    Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                }
+             });
+
+        }
     }
 
 });

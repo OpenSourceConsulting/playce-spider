@@ -40,6 +40,38 @@ Ext.define('spider.controller.GlobalController', {
 
         });
 
+        Ext.Ajax.timeout = 60000;// default is 30000.
+        Ext.Ajax.on("requestexception", function(conn, response, options, eOpts){
+
+            if(response.timedout){
+
+                Ext.Msg.show({
+                    title:'Request Timeout',
+                    msg: options.url +' request is timeout.',
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.ERROR
+                });
+
+            }else if(response.status == 403){
+
+                Ext.Msg.show({
+                    title:'Access Deny',
+                    msg: Ext.JSON.decode(response.responseText).msg,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.ERROR
+                });
+
+            }else{
+
+                Ext.Msg.show({
+                    title:'Server Error',
+                    msg: 'server-side failure with status code ' + response.status,
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.ERROR
+                });
+            }
+        });
+
         //Ajax Waiting Message 처리
 
         Ext.Ajax.on('beforerequest', function (conn, opts) {

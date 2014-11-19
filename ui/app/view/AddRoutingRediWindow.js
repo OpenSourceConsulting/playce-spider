@@ -25,9 +25,9 @@ Ext.define('spider.view.AddRoutingRediWindow', {
         'Ext.button.Button'
     ],
 
-    height: 232,
+    height: 198,
     id: 'AddBondingWindow7',
-    width: 400,
+    width: 420,
     resizable: false,
     title: 'Redistribution 등록',
     modal: true,
@@ -55,7 +55,7 @@ Ext.define('spider.view.AddRoutingRediWindow', {
                     items: [
                         {
                             xtype: 'combobox',
-                            width: 350,
+                            width: 370,
                             fieldLabel: 'Protocol',
                             name: 'protocol',
                             allowBlank: false,
@@ -70,7 +70,7 @@ Ext.define('spider.view.AddRoutingRediWindow', {
                         },
                         {
                             xtype: 'numberfield',
-                            width: 350,
+                            width: 370,
                             fieldLabel: 'Metric',
                             name: 'metric',
                             maxValue: 16,
@@ -78,7 +78,7 @@ Ext.define('spider.view.AddRoutingRediWindow', {
                         },
                         {
                             xtype: 'combobox',
-                            width: 350,
+                            width: 370,
                             fieldLabel: 'Metric Type',
                             name: 'metric-type',
                             editable: false,
@@ -94,12 +94,6 @@ Ext.define('spider.view.AddRoutingRediWindow', {
                                 ],
                                 
                             ]
-                        },
-                        {
-                            xtype: 'textfield',
-                            width: 350,
-                            fieldLabel: 'Route Map',
-                            name: 'route-map'
                         }
                     ],
                     dockedItems: [
