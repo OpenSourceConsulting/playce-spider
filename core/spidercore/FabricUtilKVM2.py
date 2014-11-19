@@ -298,7 +298,7 @@ def domclone(command_):
 	template = command_[0]
 	newvm = command_[1]
 
-	results = run('virt-clone -o ' + template + ' -n ' + newvm + ' -f /data/libvirt/images/' + newvm + '.img > /clone.log' , 
+	results = run('mkdir -p /data/libvirt/logs && virt-clone -o ' + template + ' -n ' + newvm + ' -f /data/libvirt/images/' + newvm + '.img > /data/libvirt/logs/' + newvm + '.log' , 
 				pty=True ,quiet=True,  timeout=None )
 	vms = []
 	vms.append({'state':results})
@@ -341,7 +341,7 @@ def getDomcloneParamiko(addr, sshid, sshpw, template, newvm):
 	xl = ''
 
 	# Send the command (non-blocking)
-	stdin, stdout, stderr = ssh.exec_command('virt-clone -o ' + template + ' -n ' + newvm + ' -f /data/libvirt/images/' + newvm + '.img > /data/libvirt/clone.log')
+	stdin, stdout, stderr = ssh.exec_command('mkdir -p /data/libvirt/logs && virt-clone -o ' + template + ' -n ' + newvm + ' -f /data/libvirt/images/' + newvm + '.img > /data/libvirt/logs/' + newvm + '.log')
 	
 	
 	# Wait for the command to terminate
@@ -447,6 +447,31 @@ def getAllInfo(addr, sshid, sshpw):
 	return results[addr]
 
 
+def clonestate(vmname):
+	ps_result = run('ps -ef | grep virt-clone | grep ' + vmname, pty=False, quiet=True)
+	
+	if len(ps_result.split('\n')) == 1:
+		# no running process to vm clone
+		cat_result = run('cat /data/libvirt/logs/' + vmname + '.log | grep "created successfully."' + vmname, pty=False, quiet=True)
+
+		if len(cat_result.split('\n')) == 1:
+			state = "error"
+		else:
+			state = "success"			
+	else:
+		# vm clone is running 
+		state = "cloning"
+	
+	return state
+
+def getClonestate(addr, sshid, sshpw, vmname):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/bash -l -c'
+	results = execute(clonestate, hosts=[addr], vmname = vmname)
+	return results[addr]
+	
 
 
 if __name__ == "__main__":

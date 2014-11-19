@@ -79,6 +79,18 @@ def set_global_system(vmid, params):
     env.password = vm['sshpw']
     env.shell = '/bin/vbash -ic'
     results = execute(set_global_system_task, hosts=[addr], systeminfo = params)
+    
+    if results[addr]['success'] == 'success':
+        vms = read_repository('vms')
+        
+        for vm in vms:
+            if '_id' in vm and vm['_id'] == vmid:
+                vm['hostname'] = params['hostname']
+                isChanged = True
+                break
+            
+        if isChanged == True:
+            write_repository('vms', vms)
 
     return results[addr]
 
