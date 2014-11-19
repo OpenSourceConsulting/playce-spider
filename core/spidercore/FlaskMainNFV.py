@@ -35,7 +35,7 @@ from spidercore.service import *
 logger = logging.getLogger(__name__)
 
 @app.route("/vm/refresh/<vmid>", methods=['GET'])
-def vmbondingsave(vmid=None):
+def vm_refresh(vmid=None):
 	if vmid == None:
 		return "No VM found", 404
 	
