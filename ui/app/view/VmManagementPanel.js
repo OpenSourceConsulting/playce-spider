@@ -588,10 +588,10 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     items: [
                                                                         {
                                                                             xtype: 'gridpanel',
-                                                                            height: 225,
+                                                                            height: 254,
                                                                             id: 'interfacesGridPanel',
                                                                             itemId: 'interfacesGridPanel',
-                                                                            maxHeight: 225,
+                                                                            maxHeight: 254,
                                                                             style: 'vertical-align:middle !important;',
                                                                             autoScroll: true,
                                                                             bodyBorder: true,
@@ -649,7 +649,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                     items: [
                                                         {
                                                             xtype: 'panel',
-                                                            flex: 1,
+                                                            flex: 1.2,
                                                             layout: {
                                                                 type: 'vbox',
                                                                 align: 'center'
@@ -662,7 +662,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     xtype: 'combobox',
                                                                     id: 'comboNetworkChartNicName',
-                                                                    width: 110,
+                                                                    width: 130,
                                                                     fieldLabel: 'NIC ',
                                                                     labelWidth: 40,
                                                                     editable: false,
@@ -679,7 +679,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     xtype: 'combobox',
                                                                     id: 'comboNetworkChartTime',
-                                                                    width: 110,
+                                                                    width: 130,
                                                                     fieldLabel: '시간 ',
                                                                     labelWidth: 40,
                                                                     editable: false,
@@ -687,31 +687,35 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     store: [
                                                                         [
                                                                             '1',
-                                                                            '1분'
+                                                                            '1min'
                                                                         ],
                                                                         [
                                                                             '5',
-                                                                            '5분'
+                                                                            '5min'
                                                                         ],
                                                                         [
                                                                             '10',
-                                                                            '10분'
+                                                                            '10min'
                                                                         ],
                                                                         [
                                                                             '30',
-                                                                            '30분'
+                                                                            '30min'
                                                                         ],
                                                                         [
                                                                             '60',
-                                                                            '1시간'
+                                                                            '1hour'
                                                                         ],
                                                                         [
                                                                             '480',
-                                                                            '8시간'
+                                                                            '8hours'
                                                                         ],
                                                                         [
                                                                             '1440',
-                                                                            '24시간'
+                                                                            '24hours'
+                                                                        ],
+                                                                        [
+                                                                            '10080',
+                                                                            '7days'
                                                                         ]
                                                                     ],
                                                                     listeners: {

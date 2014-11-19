@@ -902,6 +902,10 @@ Ext.define('spider.controller.VmManagementController', {
         var viewVmForm = Ext.getCmp("viewVmForm");
         Ext.getStore("VmInterfaceStore").removeAll();
 
+        Ext.getStore('VmCpuChartStore').removeAll();
+        Ext.getStore('VmMemoryChartStore').removeAll();
+        Ext.getStore('VmNetworkChartStore').removeAll();
+
         viewVmForm.getForm().reset();
         viewVmForm.getForm().waitMsgTarget = viewVmForm.getEl();
 
@@ -920,35 +924,39 @@ Ext.define('spider.controller.VmManagementController', {
                     var form = viewVmForm.getForm();
 
                     form.setValues(vmData);
+                    form.findField("id").setValue(vmData._id);
 
                     var gridData = [];
                     var nics = [];
-                    var interfaceKey = Object.keys(vmData.interfaces);
 
-                    Ext.each(interfaceKey, function(nic, nIdx) {
+                    if(vmData.interfaces) {
+                        var interfaceKey = Object.keys(vmData.interfaces);
 
-                        var ip = vmData.interfaces[nic].ipaddr;
-                        if(ip == null) {
-                            ip = "";
-                        }
+                        Ext.each(interfaceKey, function(nic, nIdx) {
 
-                        if(vmData.interfaces[nic].disable == true) {
-                            ip += "(disable)";
-                        }
+                            var ip = vmData.interfaces[nic].ipaddr;
+                            if(ip == null) {
+                                ip = "";
+                            }
 
-                        nics.splice(0, 0, {ethName : nic});
+                            if(vmData.interfaces[nic].disable == true) {
+                                ip += "(disable)";
+                            }
 
-                        gridData.push({
-                            name : nic,
-                            ipaddr : ip,
-                            macaddr : vmData.interfaces[nic].macaddr
+                            nics.splice(0, 0, {ethName : nic});
+
+                            gridData.push({
+                                name : nic,
+                                ipaddr : ip,
+                                macaddr : vmData.interfaces[nic].macaddr
+                            });
+
                         });
 
-                    });
+                        gridData.reverse();
 
-                    gridData.reverse();
-
-                    Ext.getStore("VmInterfaceStore").loadData(gridData, false);
+                        Ext.getStore("VmInterfaceStore").loadData(gridData, false);
+                    }
 
                     if(vmConstants.selectRecord.get("interim") != true) {
                         vmConstants.me.setInstanceDashboardNics(nics);

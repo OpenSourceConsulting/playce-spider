@@ -33,14 +33,16 @@ Ext.define('spider.controller.VmHostController', {
 
                     var data = Ext.JSON.decode(response.responseText);
 
+                    vmHostConstants.vmStatus = data[0].clone_state;
+
                     if(data.length === 0 || data[0].state.toLowerCase() === "running") {
-                        vmHostConstants.contextMenu.items.items[11].setDisabled(true);
-                        vmHostConstants.contextMenu.items.items[12].setDisabled(false);
-                        vmHostConstants.contextMenu.items.items[13].setDisabled(true);
-                    } else {
-                        vmHostConstants.contextMenu.items.items[11].setDisabled(false);
                         vmHostConstants.contextMenu.items.items[12].setDisabled(true);
                         vmHostConstants.contextMenu.items.items[13].setDisabled(false);
+                        vmHostConstants.contextMenu.items.items[14].setDisabled(true);
+                    } else {
+                        vmHostConstants.contextMenu.items.items[12].setDisabled(false);
+                        vmHostConstants.contextMenu.items.items[13].setDisabled(true);
+                        vmHostConstants.contextMenu.items.items[14].setDisabled(false);
                     }
 
                     vmHostConstants.contextMenu.showAt(position);
@@ -128,6 +130,11 @@ Ext.define('spider.controller.VmHostController', {
                             vmHostTree.viewVmDetail(10);
                         }
                     },
+                    { text: 'CLI',
+                        handler: function() {
+                            vmHostTree.viewVmDetail(12);
+                        }
+                    },
                     {
                         xtype: 'menuseparator'
                     },
@@ -158,6 +165,7 @@ Ext.define('spider.controller.VmHostController', {
                     contextMenu: vmHostContextMenu,
                     selectRecord : null,
                     actionRecord : null,
+                    vmStatus : null,
 
                     intervalId1 : null
                 });
@@ -480,6 +488,18 @@ Ext.define('spider.controller.VmHostController', {
     },
 
     controlVm: function(flag) {
+        if(flag == 'start') {
+
+            if(vmHostConstants.vmStatus == 'error') {
+                Ext.Msg.alert('Fail', 'VM 복제 중 에러가 발생하여 VM을 시작할 수 없습니다.');
+                return;
+            } else if(vmHostConstants.vmStatus == 'cloning') {
+                Ext.Msg.alert('Fail', 'VM 복제가 진행중입니다. 잠시 후 다시 실행하여 주십시오.');
+                return;
+            }
+
+        }
+
         var confirmMessage;
         if(flag == 'start') {
             confirmMessage = 'VM을 시작 하시겠습니까?';
