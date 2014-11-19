@@ -80,11 +80,18 @@ def mon_graphite_interface(vmid=None):
 		mode = 'both'
 	if nic == None or nic == '':
 		nic = 'eth*'
+	func1 = func2 = ''
+	if timeunit == 'days':
+		func1 = 'summarize('
+		func2 = ', "%sminute" % timespan, "avg")'
+	elif timeunit == 'hours':
+		func1 = 'summarize('
+		func2 = ', "%ssecond" % timespan, "avg")'
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 	if mode == 'txonly' or mode == 'both':
-		url += "&target=%s.interface.if_octets.%s.tx" % (vmid, nic)
+		url += "&target=%s%s.interface.if_octets.%s.tx%s" % (func1, vmid, nic, func2)
 	if mode == 'rxonly' or mode == 'both':
-		url += "&target=%s.interface.if_octets.%s.rx" % (vmid, nic)
+		url += "&target=%s%s.interface.if_octets.%s.rx%s" % (func1, vmid, nic, func2)
 	result = requests.get(url).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
