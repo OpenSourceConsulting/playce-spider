@@ -172,9 +172,6 @@ def vm_all_state():
 	vmList = read_repository("vms")
 	vms = {"vms":[]}
 	for vm in vmList:
-		
-		print "interim: " + vm["interim"]
-		print "interim" in vm and vm["interim"] == True
 		if PyUtils.isEquals(vm, "interim", True):
 			vms[vm["hostname"]] = True # interim 이 true 일때 {"vm1":true} 로 setting.
 		else:

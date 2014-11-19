@@ -47,7 +47,7 @@ def diff_vyatta_conf(orgin_dic, new_dic):
 	return diff
 
 def isNotEmpty(dic, item_key):
-	return item_key in dic and len(dic[item_key]) > 0
+	return (item_key in dic and len(dic[item_key]) > 0)
 
 def isEquals(dic, item_key, item_value):
-	return item_key in dic and dic[item_key] == item_value
+	return (item_key in dic and dic[item_key] == item_value)
