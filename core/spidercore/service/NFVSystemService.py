@@ -128,6 +128,8 @@ def set_login_user_task(userinfo):
     commands = []
     
     if username:
+        commands.append("$DELETE system login user " + username)
+            
         if level:
             commands.append("$SET system login user " + username + " level " + level)
         else:
