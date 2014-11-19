@@ -453,9 +453,13 @@ def getAllInfo(addr, sshid, sshpw):
 def clonestate(vmname):
 	ps_result = run('ps -ef | grep virt-clone | grep ' + vmname + ' | grep -v grep', pty=False, quiet=True)
 	
+	print 'ps -ef | grep virt-clone | grep ' + vmname + ' | grep -v grep => ' + ps_result
+	
 	if ps_result == "":
 		# no running process to vm clone
-		cat_result = run('cat /data/libvirt/logs/' + vmname + '.log | grep "created successfully."' + vmname, pty=False, quiet=True)
+		cat_result = run('cat /data/libvirt/logs/' + vmname + '.log | grep "created successfully."', pty=False, quiet=True)
+	
+		print 'cat /data/libvirt/logs/' + vmname + '.log | grep "created successfully." => ' + cat_result
 		
 		if cat_result != "" and 'created successfully.' in cat_result:
 			state = "success"
