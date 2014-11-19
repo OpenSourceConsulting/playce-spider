@@ -34,6 +34,19 @@ from spidercore.service import *
 
 logger = logging.getLogger(__name__)
 
+@app.route("/vm/refresh/<vmid>", methods=['GET'])
+def vmbondingsave(vmid=None):
+	if vmid == None:
+		return "No VM found", 404
+	
+	vms = read_repository("vms")
+	results = []
+	for vm in vms:
+		if '_id' in vm and (vmid == vm['_id'] or vmid == '_all'):
+			logger.debug("refresh " + vm['id'])
+			
+	return json.dumps(results)
+
 
 @app.route("/vmreg", methods=['POST'])
 def vm_reg_init():
