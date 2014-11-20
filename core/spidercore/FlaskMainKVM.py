@@ -173,10 +173,10 @@ def vm_all_state():
 	vms = {"vms":[]}
 	for vm in vmList:
 		if PyUtils.isEquals(vm, "interim", True):
-			vms[vm["hostname"]] = True # interim 이 true 일때 {"vm1":true} 로 setting.
+			vms[vm["vmname"]] = True # interim 이 true 일때 {"vm1":true} 로 setting.
 		else:
-			vms[vm["hostname"]] = False
-		vms["vms"].append(vm["hostname"])
+			vms[vm["vmname"]] = False
+		vms["vms"].append(vm["vmname"])
 
 # 	Finding a VM Host designated in the JSON request
 	vmhosts = read_repository("vmhosts")
