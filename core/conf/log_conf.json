@@ -47,7 +47,7 @@
     },
 
     "root": {
-        "level": "DEBUG",
+        "level": "INFO",
         "handlers": ["console", "error_file_handler"]
     }
 }
