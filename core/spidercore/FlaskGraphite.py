@@ -54,7 +54,7 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 	selected_vms = []
 	for vm in vms:
 		if vm['vmhost'] == vmhostId:
-			selected_vms.append("sum(%s.cpu.*.cpu.system.value, %s.cpu.*.cpu.user.value)" % (vm['_id'], vm['id']))
+			selected_vms.append("sum(%s.cpu.*.cpu.system.value, %s.cpu.*.cpu.user.value)" % (vm['_id'], vm['_id']))
 	fun = "averageSeries("
 	first = True
 	for f in selected_vms:
