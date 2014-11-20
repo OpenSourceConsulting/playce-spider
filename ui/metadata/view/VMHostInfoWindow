@@ -8,7 +8,7 @@
     "userConfig": {
         "designer|userAlias": "VMHostInfoWindow",
         "designer|userClassName": "VMHostInfoWindow",
-        "height": 705,
+        "height": 500,
         "id": "VMHostInfoWindow",
         "itemId": null,
         "modal": true,
@@ -857,12 +857,13 @@
                     "codeClass": null,
                     "userConfig": {
                         "cls": "vmhostinfo-fieldset",
+                        "collapsible": true,
                         "frame": false,
                         "height": null,
                         "margin": "15 30 15 15",
                         "overflowY": null,
                         "style": "",
-                        "title": ""
+                        "title": "VM Host 상세정보"
                     },
                     "configAlternates": {
                         "style": "string"

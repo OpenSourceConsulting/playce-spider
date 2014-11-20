@@ -35,7 +35,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
         'Ext.button.Button'
     ],
 
-    height: 705,
+    height: 500,
     id: 'VMHostInfoWindow',
     width: 750,
     overflowY: 'auto',
@@ -423,7 +423,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             frame: false,
                             margin: '15 30 15 15',
                             style: '',
-                            title: '',
+                            collapsible: true,
+                            title: 'VM Host 상세정보',
                             items: [
                                 {
                                     xtype: 'form',
