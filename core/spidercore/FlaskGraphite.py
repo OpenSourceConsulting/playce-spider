@@ -67,7 +67,7 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 	timeunit = request.args.get('timeunit')
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 	url += "&target=%s" % (fun)
-	logging.debug("URL %s" % url)
+	logging.info("URL %s" % url)
 	result = requests.get(url).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
