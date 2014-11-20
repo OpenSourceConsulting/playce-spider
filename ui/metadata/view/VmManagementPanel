@@ -388,7 +388,7 @@
                                                             "designerId": "7d23f473-3bd7-4c8f-9ad8-ec1420c70aa7"
                                                         },
                                                         {
-                                                            "type": "Ext.chart.axis.Time",
+                                                            "type": "Ext.chart.axis.Category",
                                                             "reference": {
                                                                 "name": "axes",
                                                                 "type": "array"
@@ -396,7 +396,6 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "dashSize": 0,
-                                                                "dateFormat": "H:i:s",
                                                                 "fields": [
                                                                     "date"
                                                                 ],
@@ -405,19 +404,17 @@
                                                                     "{",
                                                                     "    rotate: {",
                                                                     "        degrees: 330",
-                                                                    "    }",
+                                                                    "    },",
+                                                                    "    renderer: Ext.util.Format.dateRenderer('H:i:s')",
+                                                                    "",
                                                                     "}"
-                                                                ],
-                                                                "position": "bottom",
-                                                                "step": [
-                                                                    "[\"s\",1]"
                                                                 ],
                                                                 "title": null
                                                             },
                                                             "configAlternates": {
                                                                 "grid": "boolean"
                                                             },
-                                                            "designerId": "37113555-37b7-48a0-9ab1-bb9562b55f2e"
+                                                            "designerId": "657a8620-0e9a-400f-b64a-733c18d04cbb"
                                                         },
                                                         {
                                                             "type": "Ext.chart.series.Line",
@@ -607,7 +604,7 @@
                                                             "designerId": "9c7f1f77-e45a-4cb8-ab9a-ddfb651ab44f"
                                                         },
                                                         {
-                                                            "type": "Ext.chart.axis.Time",
+                                                            "type": "Ext.chart.axis.Category",
                                                             "reference": {
                                                                 "name": "axes",
                                                                 "type": "array"
@@ -615,7 +612,6 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "dashSize": 0,
-                                                                "dateFormat": "H:i:s",
                                                                 "fields": [
                                                                     "date"
                                                                 ],
@@ -624,19 +620,17 @@
                                                                     "{",
                                                                     "    rotate: {",
                                                                     "        degrees: 330",
-                                                                    "    }",
+                                                                    "    },",
+                                                                    "    renderer: Ext.util.Format.dateRenderer('H:i:s')",
+                                                                    "",
                                                                     "}"
-                                                                ],
-                                                                "position": "bottom",
-                                                                "step": [
-                                                                    "[\"s\",1]"
                                                                 ],
                                                                 "title": null
                                                             },
                                                             "configAlternates": {
                                                                 "grid": "boolean"
                                                             },
-                                                            "designerId": "19f2e69b-d191-4aec-b95b-a1311b3011b3"
+                                                            "designerId": "9d3b915d-4e37-4b46-a603-27fa5bd853ac"
                                                         },
                                                         {
                                                             "type": "Ext.chart.series.Line",
@@ -781,7 +775,7 @@
                                                             "designerId": "bf84f970-2072-4741-8feb-4f293815c99f"
                                                         },
                                                         {
-                                                            "type": "Ext.chart.axis.Time",
+                                                            "type": "Ext.chart.axis.Category",
                                                             "reference": {
                                                                 "name": "axes",
                                                                 "type": "array"
@@ -789,7 +783,6 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "dashSize": 0,
-                                                                "dateFormat": "H:i:s",
                                                                 "fields": [
                                                                     "date"
                                                                 ],
@@ -798,19 +791,17 @@
                                                                     "{",
                                                                     "    rotate: {",
                                                                     "        degrees: 330",
-                                                                    "    }",
+                                                                    "    },",
+                                                                    "    renderer: Ext.util.Format.dateRenderer('H:i:s')",
+                                                                    "",
                                                                     "}"
-                                                                ],
-                                                                "position": "bottom",
-                                                                "step": [
-                                                                    "[\"s\",1]"
                                                                 ],
                                                                 "title": null
                                                             },
                                                             "configAlternates": {
                                                                 "grid": "boolean"
                                                             },
-                                                            "designerId": "aaa888ad-94a7-4460-8528-8c0a04ca10a7"
+                                                            "designerId": "6d47c4f3-3895-4b01-b3d5-f4a84387e702"
                                                         },
                                                         {
                                                             "type": "Ext.chart.series.Line",

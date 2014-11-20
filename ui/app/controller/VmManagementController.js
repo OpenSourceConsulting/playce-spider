@@ -484,7 +484,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         //CPU
         Ext.Ajax.request({
-            url : GLOBAL.apiUrlPrefix + 'mon/graphite/cpu/' +vmConstants.selectRecord.get("id") + '?timespan=1&timeunit=minutes',
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/cpu/' +vmConstants.selectRecord.get("id") + '?timespan=10&timeunit=minutes',
             disableCaching : true,
             success: function(response){
 
@@ -527,7 +527,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         //Memory
         Ext.Ajax.request({
-            url : GLOBAL.apiUrlPrefix + 'mon/graphite/memory/' +vmConstants.selectRecord.get("id") + '?timespan=1&timeunit=minutes',
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/memory/' +vmConstants.selectRecord.get("id") + '?timespan=10&timeunit=minutes',
             disableCaching : true,
             success: function(response){
 
@@ -557,7 +557,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         //Network
         Ext.Ajax.request({
-            url : GLOBAL.apiUrlPrefix + 'mon/graphite/interface/' +vmConstants.selectRecord.get("id") + '?timespan=1&timeunit=minutes',
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/interface/' +vmConstants.selectRecord.get("id") + '?timespan=10&timeunit=minutes',
             disableCaching : true,
             success: function(response){
 
@@ -701,12 +701,14 @@ Ext.define('spider.controller.VmManagementController', {
 
                     Ext.getStore('VmNicNetworkChartStore').loadData(chartList, false);
 
-                    Ext.getCmp("inBoundCurrent").setText((chartList[chartList.length-1].rx_network).toFixed(0) + " (bps)");
-                    Ext.getCmp("outBoundCurrent").setText((chartList[chartList.length-1].tx_network).toFixed(0) + " (bps)");
-                    Ext.getCmp("inBoundAverage").setText((rxSum / chartList.length).toFixed(0) + " (bps)");
-                    Ext.getCmp("outBoundAverage").setText((txSum / chartList.length).toFixed(0) + " (bps)");
-                    Ext.getCmp("inBoundPeak").setText(maxRx.toFixed(0) + " (bps)");
-                    Ext.getCmp("outBoundPeak").setText(maxTx.toFixed(0) + " (bps)");
+                    if(chartList.length > 0) {
+                        Ext.getCmp("inBoundCurrent").setText((chartList[chartList.length-1].rx_network).toFixed(0) + " (bps)");
+                        Ext.getCmp("outBoundCurrent").setText((chartList[chartList.length-1].tx_network).toFixed(0) + " (bps)");
+                        Ext.getCmp("inBoundAverage").setText((rxSum / chartList.length).toFixed(0) + " (bps)");
+                        Ext.getCmp("outBoundAverage").setText((txSum / chartList.length).toFixed(0) + " (bps)");
+                        Ext.getCmp("inBoundPeak").setText(maxRx.toFixed(0) + " (bps)");
+                        Ext.getCmp("outBoundPeak").setText(maxTx.toFixed(0) + " (bps)");
+                    }
 
 
                 }
