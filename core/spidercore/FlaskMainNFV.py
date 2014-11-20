@@ -256,15 +256,17 @@ def mon_vmif(id=None, ifid=None):
 		if '_id' in vm and id == vm['_id']:
 			# Vyatta 의 show interfaces 명령 실행 
 			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], request.args.get('filter', None))
+			ifconfig_all = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], "")
+			configs = get_all_nic_config(id)
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
-					# DHCP일 경우 ifconfig로 주소, subnet 등을 읽어내는 코드가 필요
-					# 그래서 json에 같이 병합해서 전송
-					nicinfo = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], nic['ethName'])
-					for kk in nicinfo:
-						nic[kk] = nicinfo[kk]
+					
+					if "address" in nic and nic["address"] == 'dhcp':
+						# DHCP일 경우 ifconfig로 주소를 가져온다
+						nic["ipaddr"] = ifconfig_all[nic['ethName']]
 						
-					nic['config'] = get_vyatta_conf(id, "$SHOW interfaces ethernet "+nic['ethName'])
+					#nic['config'] = get_vyatta_conf(id, "$SHOW interfaces ethernet "+nic['ethName'])
+					nic['config'] = configs[nic['ethName']]
 					
 					results.append(nic)
 

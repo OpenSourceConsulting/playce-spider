@@ -394,17 +394,27 @@ def pingVM(addr, sshid, sshpw):
 
 
 def ifconfig_task(nicname):
-	nicinfo = {}
-	result = run('/sbin/ifconfig -a ' + nicname, pty=False, quiet=True)
+	ifconfig = {}
+	ethName = ""
+	ipAddr = ""
+	#nicinfo = {}
+	#result = run('/sbin/ifconfig -a ' + nicname, pty=False, quiet=True)
+	result = run('/sbin/ifconfig -a', pty=False, quiet=True)
 	lines = result.split('\n')
 	for line in lines:
- 		print "LINE: " + line
- 		if "inet addr" in line:
- 			ipAddr = line.split()[1].split(':')[1]
+		print "LINE: " + line
+		if "Link encap" in line:
+			ethName = line.split()[0]
+		if "inet addr" in line:
+			ipAddr = line.split()[1].split(':')[1]
 #			subnet = line.split()[3].split(':')[1]
- 			nicinfo['ipaddr'] = ipAddr
+			#nicinfo['ipaddr'] = ipAddr
 # 			nic['subnet'] = subnet
-	return nicinfo
+		if len(line) == 0:
+			ifconfig[ethName] = ipAddr
+			ethName = ""
+			ipAddr = ""
+	return ifconfig
 
 def getIfConfig(addr, sshid, sshpw, nicname):
 	env.hosts = [ addr ]
@@ -491,3 +501,19 @@ def get_vyatta_conf(vmid, pcommand):
 	#앞뒤 2줄씩 삭제하고 리턴
 	_list = results[addr]['msg'].split('\n')
 	return "\n".join(_list[2: len(_list)-2])
+
+def get_all_nic_config(vmid):
+	
+	configs = {}
+	configList = []
+	logs = get_vyatta_conf(vmid, "$SHOW interfaces ethernet")
+	for line in logs.split("\n"):
+		if "{" in line:
+			ethName = line.split()[1]
+		elif "}" in line:
+			configs[ethName] = "\n".join(configList)
+			configList = []
+		else:
+			configList.append(line)
+	
+	return configs
