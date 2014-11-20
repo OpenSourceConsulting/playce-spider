@@ -31,6 +31,7 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.form.field.ComboBox',
+        'Ext.chart.axis.Category',
         'Ext.toolbar.Spacer',
         'Ext.form.field.TextArea',
         'Ext.form.field.Hidden',
@@ -772,23 +773,19 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             position: 'left'
                                                                         },
                                                                         {
-                                                                            type: 'Time',
+                                                                            type: 'Category',
                                                                             fields: [
                                                                                 'date'
                                                                             ],
                                                                             label: {
                                                                                 rotate: {
                                                                                     degrees: 330
-                                                                                }
+                                                                                },
+                                                                                renderer: Ext.util.Format.dateRenderer('H:i:s')
                                                                             },
                                                                             dashSize: 0,
                                                                             grid: false,
-                                                                            position: 'bottom',
-                                                                            dateFormat: 'H:i:s',
-                                                                            step: [
-                                                                                's',
-                                                                                1
-                                                                            ]
+                                                                            position: 'bottom'
                                                                         }
                                                                     ],
                                                                     series: [
