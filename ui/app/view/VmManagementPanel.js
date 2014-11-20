@@ -2864,6 +2864,10 @@ Ext.define('spider.view.VmManagementPanel', {
                             xtype: 'panel',
                             overflowY: 'auto',
                             title: 'DNS(Service)',
+                            tabConfig: {
+                                xtype: 'tab',
+                                hidden: true
+                            },
                             items: [
                                 {
                                     xtype: 'panel',
@@ -3379,6 +3383,10 @@ Ext.define('spider.view.VmManagementPanel', {
                         {
                             xtype: 'panel',
                             title: 'Security',
+                            tabConfig: {
+                                xtype: 'tab',
+                                hidden: true
+                            },
                             items: [
                                 {
                                     xtype: 'panel',

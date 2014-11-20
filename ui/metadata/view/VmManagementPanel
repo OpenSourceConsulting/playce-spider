@@ -6816,6 +6816,9 @@
                                 "type": "object"
                             },
                             "codeClass": null,
+                            "userConfig": {
+                                "hidden": true
+                            },
                             "designerId": "f5801b48-24e9-42cf-a0a4-101b0b6d8358"
                         },
                         {
@@ -7967,6 +7970,9 @@
                                 "type": "object"
                             },
                             "codeClass": null,
+                            "userConfig": {
+                                "hidden": true
+                            },
                             "designerId": "20dbd4ee-8f35-424f-9427-44f1a71910aa"
                         },
                         {

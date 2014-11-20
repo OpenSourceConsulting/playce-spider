@@ -36,13 +36,13 @@ Ext.define('spider.controller.VmHostController', {
                     vmHostConstants.vmStatus = data[0].clone_state;
 
                     if(data.length === 0 || data[0].state.toLowerCase() === "running") {
+                        vmHostConstants.contextMenu.items.items[10].setDisabled(true);
+                        vmHostConstants.contextMenu.items.items[11].setDisabled(false);
                         vmHostConstants.contextMenu.items.items[12].setDisabled(true);
-                        vmHostConstants.contextMenu.items.items[13].setDisabled(false);
-                        vmHostConstants.contextMenu.items.items[14].setDisabled(true);
                     } else {
+                        vmHostConstants.contextMenu.items.items[10].setDisabled(false);
+                        vmHostConstants.contextMenu.items.items[11].setDisabled(true);
                         vmHostConstants.contextMenu.items.items[12].setDisabled(false);
-                        vmHostConstants.contextMenu.items.items[13].setDisabled(true);
-                        vmHostConstants.contextMenu.items.items[14].setDisabled(false);
                     }
 
                     vmHostConstants.contextMenu.showAt(position);
@@ -105,11 +105,11 @@ Ext.define('spider.controller.VmHostController', {
                             vmHostTree.viewVmDetail(5);
                         }
                     },
-                    { text: 'DNS(Service)',
-                        handler: function() {
-                            vmHostTree.viewVmDetail(6);
-                        }
-                    },
+                    /*{ text: 'DNS(Service)',
+                    handler: function() {
+                    vmHostTree.viewVmDetail(6);
+                    }
+                    },*/
                     { text: 'HTTPS/SSH(Service)',
                         handler: function() {
                             vmHostTree.viewVmDetail(7);
@@ -120,11 +120,11 @@ Ext.define('spider.controller.VmHostController', {
                             vmHostTree.viewVmDetail(8);
                         }
                     },
-                    { text: 'Security',
-                        handler: function() {
-                            vmHostTree.viewVmDetail(9);
-                        }
-                    },
+                    /*{ text: 'Security',
+                    handler: function() {
+                    vmHostTree.viewVmDetail(9);
+                    }
+                    },*/
                     { text: 'Firewall',
                         handler: function() {
                             vmHostTree.viewVmDetail(10);
