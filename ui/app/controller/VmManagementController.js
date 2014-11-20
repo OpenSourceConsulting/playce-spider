@@ -692,13 +692,13 @@ Ext.define('spider.controller.VmManagementController', {
                             chartList.push(chartCol);
                         }
                     });
-                    /*
+
                     if(time > 1440) {
-                        Ext.getCmp("interfaceChart").getXAxis().label.renderer = Ext.util.Format.dateRenderer('H:i:s');
+                        Ext.getCmp("interfaceChart").axes.items[1].label.renderer = Ext.util.Format.dateRenderer('Y-m-d H:i:s');
                     } else {
-                        Ext.getCmp("interfaceChart").getXAxis().label.renderer = Ext.util.Format.dateRenderer('Y-m-d H:i:s');
+                        Ext.getCmp("interfaceChart").axes.items[1].label.renderer = Ext.util.Format.dateRenderer('H:i:s');
                     }
-        */
+
                     Ext.getStore('VmNicNetworkChartStore').loadData(chartList, false);
 
                     Ext.getCmp("inBoundCurrent").setText((chartList[chartList.length-1].rx_network).toFixed(0) + " (bps)");
