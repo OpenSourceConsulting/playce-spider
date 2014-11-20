@@ -45,9 +45,43 @@ def mon_graphite():
 	return json.dumps(result) + '\n'
 
 
+@app.route("/mon/graphite/vmhostcpu/<vmhostId>", methods=['GET'])
+def mon_graphite_vmhostcpu(vmhostId=None):
+	if vmhostId == None:
+		return "No id for VM", 404
+
+	vms = read_repository('vms')
+	selected_vms = []
+	for vm in vms:
+		if vm['vmhost'] == vmhostId:
+			selected_vms.append("sum(%s.cpu.*.cpu.system.value, %s.cpu.*.cpu.user.value)" % (vm['_id'], vm['id']))
+	fun = "averageSeries("
+	first = True
+	for f in selected_vms:
+		if not first:
+			fun += ','
+		fun += f
+	fun += ")"
+	# hours, days, minutes, seconds
+	timespan = request.args.get('timespan')
+	timeunit = request.args.get('timeunit')
+	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
+	url += "&target=%s" % (fun)
+	logging.debug("URL %s" % url)
+	result = requests.get(url).json()
+# 	for metric in result:
+# 		datapoints = metric['datapoints']
+# 		newDatapoints = []
+# 		for val in datapoints:
+# 			newVal = { "value": val[0], "date": val[1]}
+# 			newDatapoints.append(newVal)
+# 		metric['datapoints'] = newDatapoints
+	return json.dumps(result) + '\n'
+
+
 @app.route("/mon/graphite/cpu/<vmid>", methods=['GET'])
 def mon_graphite_cpu(vmid=None):
-	if id == None:
+	if vmid == None:
 		return "No id for VM", 404
 
 	# hours, days, minutes, seconds
@@ -68,7 +102,7 @@ def mon_graphite_cpu(vmid=None):
 
 @app.route("/mon/graphite/interface/<vmid>", methods=['GET'])
 def mon_graphite_interface(vmid=None):
-	if id == None:
+	if vmid == None:
 		return "No id for VM", 404
 
 	# hours, days, minutes, seconds
@@ -109,7 +143,7 @@ def mon_graphite_interface(vmid=None):
 
 @app.route("/mon/graphite/memory/<vmid>", methods=['GET'])
 def mon_graphite_memory(vmid=None):
-	if id == None:
+	if vmid == None:
 		return "No id for VM", 404
 
 	# hours, days, minutes, seconds
