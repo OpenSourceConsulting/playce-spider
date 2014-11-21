@@ -28,7 +28,9 @@
                     "//Dashboard Menu Constants",
                     "Ext.define('dashboardConstants', {",
                     "    singleton: true,",
-                    "    me : dashBoard",
+                    "    me : dashBoard,",
+                    "    ",
+                    "    renderInterval : null",
                     "});"
                 ]
             },
@@ -47,6 +49,7 @@
                     "var centerContainer = this.getCenterContainer();",
                     "",
                     "if (centerContainer.layout.getActiveItem().itemId !== \"DashboardPanel\") {",
+                    "    clearInterval(dashboardConstants.renderInterval);",
                     "    return;",
                     "}",
                     "",
@@ -108,17 +111,7 @@
                     "",
                     "});",
                     "",
-                    "dashboardPanel.setLoading(false);",
-                    "",
-                    "",
-                    "",
-                    "// Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.",
-                    "setTimeout(function() {",
-                    "",
-                    "    dashboardConstants.me.renderDashboard();",
-                    "",
-                    "}, 3000);",
-                    ""
+                    "dashboardPanel.setLoading(false);"
                 ]
             },
             "designerId": "8a62a9e0-4f02-4115-9239-70266ea9e97c"

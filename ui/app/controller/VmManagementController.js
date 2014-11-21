@@ -242,6 +242,12 @@ Ext.define('spider.controller.VmManagementController', {
 
             vmConstants.me.setVmStatus();
 
+            vmConstants.statusInterval = setInterval(function() {
+
+                vmConstants.me.setVmStatus();
+
+            }, 10000);
+
             vmDetailTab.setActiveTab(11); //blank tab
         }
 
@@ -268,6 +274,7 @@ Ext.define('spider.controller.VmManagementController', {
 
         var centerContainer = this.getCenterContainer();
         if (centerContainer.layout.getActiveItem().itemId !== "VmManagementPanel") {
+            clearInterval(vmConstants.statusInterval);
             return;
         }
 
@@ -297,12 +304,6 @@ Ext.define('spider.controller.VmManagementController', {
 
             }
         });
-
-        setTimeout(function() {
-
-            vmConstants.me.setVmStatus();
-
-        }, 10000);
 
     },
 
@@ -343,6 +344,9 @@ Ext.define('spider.controller.VmManagementController', {
                     selectRecord : null,
 
                     vmCombo : null,
+
+                    statusInterval : null,
+                    chartInterval : null,
 
                     initComboNic : false,
                     initComboBonding : false,
@@ -404,6 +408,13 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.getCmp("outBoundPeak").setText("N/A");
 
         this.setInstanceDashboardChart();
+
+        vmConstants.chartInterval = setInterval(function() {
+
+            vmConstants.me.setInstanceDashboardChart();
+
+        }, 5000);
+
 
         viewVmForm.getForm().reset();
         viewVmForm.getForm().waitMsgTarget = viewVmForm.getEl();
@@ -469,6 +480,7 @@ Ext.define('spider.controller.VmManagementController', {
     setInstanceDashboardChart: function() {
 
         if(vmConstants.selectRecord.get("interim") == true) {
+            clearInterval(vmConstants.chartInterval);
             return;
         }
 
@@ -476,8 +488,10 @@ Ext.define('spider.controller.VmManagementController', {
         var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
 
         if (centerContainer.layout.getActiveItem().itemId !== "VmManagementPanel") {
+            clearInterval(vmConstants.chartInterval);
             return;
         } else if(vmDetailTab.getActiveTab() !== vmDetailTab.items.getAt(0)) {
+            clearInterval(vmConstants.chartInterval);
             return;
         }
 
@@ -486,6 +500,7 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.Ajax.request({
             url : GLOBAL.apiUrlPrefix + 'mon/graphite/cpu/' +vmConstants.selectRecord.get("id") + '?timespan=10&timeunit=minutes',
             disableCaching : true,
+            failMsg : false,
             success: function(response){
 
                 var columnData = Ext.decode(response.responseText);
@@ -529,6 +544,7 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.Ajax.request({
             url : GLOBAL.apiUrlPrefix + 'mon/graphite/memory/' +vmConstants.selectRecord.get("id") + '?timespan=10&timeunit=minutes',
             disableCaching : true,
+            failMsg : false,
             success: function(response){
 
                 var columnData = Ext.decode(response.responseText);
@@ -559,6 +575,7 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.Ajax.request({
             url : GLOBAL.apiUrlPrefix + 'mon/graphite/interface/' +vmConstants.selectRecord.get("id") + '?timespan=10&timeunit=minutes',
             disableCaching : true,
+            failMsg : false,
             success: function(response){
 
                 var columnData = Ext.decode(response.responseText);
@@ -610,15 +627,6 @@ Ext.define('spider.controller.VmManagementController', {
                 }
             }
         });
-
-
-        // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
-
-        setTimeout(function() {
-
-            vmConstants.me.setInstanceDashboardChart();
-
-        }, 5000);
 
     },
 
