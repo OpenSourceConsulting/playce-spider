@@ -53,6 +53,10 @@ def vmhost_create():
 	jsonData['_id'] = token;
 	
 	results = getAllInfo(jsonData['addr'], jsonData['sshid'], jsonData['sshpw'])
+
+	if 'msg' in results:
+		return results['msg'], 500
+
 	jsonData['info'] = results['info']
 	jsonData['version'] = results['version']
 	jsonData['hostname'] = results['hostname']

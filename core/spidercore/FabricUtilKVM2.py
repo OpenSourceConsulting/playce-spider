@@ -412,7 +412,23 @@ def getDomremove(addr, sshid, sshpw, delvm):
 
 
 def virsh_getAllInfo():
-	result = run('virsh nodeinfo', pty=False, quiet=True)
+	try:
+		result = run('virsh nodeinfo', pty=False, quiet=True)
+		
+		'''
+		<In case of error message>
+		sudo: sorry, you must have a tty to run sudo
+		command not found
+		error: failed to connect to the hypervisor
+		error: no valid connection
+		error: internal error: Unable to locate libvirtd daemon in /usr/sbin (to override, set $LIBVIRTD_PATH to the name of the libvirtd binary)
+		'''
+		
+		if 'sudo:' in result and 'command not found' in result or 'error:' in result:
+			raise Exception("Not a vm host")
+	except:
+		return {'msg':'Not a vm host or network is unreachable.'}
+
 	lines = result.split('\n')
 	info = []
 	for line in lines:
