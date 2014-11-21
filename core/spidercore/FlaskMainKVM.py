@@ -187,9 +187,10 @@ def vm_all_state():
 		try:
 			#print vmhost["name"] +": call getVmAllState(...)"
 			state["vms"] = getVmAllState(vmhost['addr'], vmhost['sshid'], vmhost['sshpw'], vms)
+			result.append( state )
 		except Exception, e:
-			return vmhost["name"] + " connect error: getVmAllState(...)", 500
-		result.append( state )
+			#return vmhost["name"] + " connect error: getVmAllState(...)", 500
+			logger.error(vmhost["name"] + " connect error: getVmAllState(...)")
 		
 	if len(result) > 0:
 		return json.dumps(result), 200
