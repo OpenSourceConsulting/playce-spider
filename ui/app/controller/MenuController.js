@@ -60,34 +60,16 @@ Ext.define('spider.controller.MenuController', {
     ],
 
     dashboardClick: function(button, e, eOpts) {
-        /**
-         * Dashboard 메뉴 버튼 클릭 시 수행되는 function
-         */
-        var centerContainer = this.getCenterContainer(),
-            dashboardBtn = this.getDashboardBtn(),
-            managementBtn = this.getManagementBtn(),
-            monitoringBtn = this.getMonitoringBtn(),
-            userManagementBtn = this.getUserManagementBtn(),
-            menuPanel = this.getMenuPanel();
+        this.toggleDashboardBtn();
 
         // 현재 선택된 item이 dashboardPanel일 경우 무시한다.
+
+        var centerContainer = this.getCenterContainer();
         if (centerContainer.layout.getActiveItem().itemId === "DashboardPanel") {
-            dashboardBtn.toggle(true);
             return;
         }
 
-        dashboardBtn.toggle(true);
-        managementBtn.toggle(false);
-        monitoringBtn.toggle(false);
-        userManagementBtn.toggle(false);
-
-        centerContainer.layout.setActiveItem(0);
-
         dashboardConstants.me.renderDashboard();
-
-        dashboardConstants.renderInterval = setInterval(function() {
-            dashboardConstants.me.renderDashboard();
-        }, 3000);
 
     },
 
@@ -172,6 +154,8 @@ Ext.define('spider.controller.MenuController', {
             listMenuPanel.collapseAll();
         });
 
+        Ext.getBody().mask("Loading...", "loading");
+
         this.renderServerTree();
 
     },
@@ -184,52 +168,15 @@ Ext.define('spider.controller.MenuController', {
         }
     },
 
-    onLaunch: function() {
-
-        //this.renderDashboard();
-        /*
-
-        Ext.select(".dashboard-graph-panel").on('resize', function(panel, w, h) {
-            alert('Panel resized to ' + w + 'x' + h);
-        });
-
-
-        */
-        /*
-        Ext.Ajax.request({
-            url: 'http://192.168.0.3:8000/render/?width=786&height=508&_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes&rawData=true&format=json',
-            disableCaching : true,
-            success: function(response){
-
-                var columnData = Ext.decode(response.responseText);
-                var data = columnData[0];
-
-                // Get the quality field from record
-                // Update chart with data
-                var chartList = [];
-                Ext.each(data.datapoints, function (chartData) {
-                    var chartCol = {};
-                    chartCol.test = chartData.value;
-                    chartCol.cate = chartData.date;
-                    chartList.push(chartCol);
-                });
-
-                //Ext.getCmp('sampleStore').series.getAt(0).setTitle(data.target);
-
-                Ext.getStore('SampleStore').loadData(chartList, false);
-            }
-        });
-        */
-    },
-
     renderServerTree: function() {
+        clearInterval(dashboardConstants.renderInterval);
+
         var center = Ext.getCmp("lnbLocationCombo").getValue();
         var treeData = [];
 
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'mon/vmhost/_all',
             disableCaching : true,
-            waitMsg: 'Loading...',
             success: function(response){
 
                 var hostDatas = Ext.decode(response.responseText);
@@ -249,79 +196,158 @@ Ext.define('spider.controller.MenuController', {
 
                             menuConstants.vmRecord = vmDatas;
 
-                            Ext.each(hostDatas, function(host, index) {
+                            Ext.Ajax.request({
+                                url: GLOBAL.apiUrlPrefix + 'mon/vm/all/status',
+                                method : "GET",
+                                disableCaching : true,
+                                success: function(statResponse){
 
-                                if(host.location == center) {
+                                    if(statResponse.status == 200) {
 
-                                    host.id = host._id;
-                                    host.text = host.name;
-                                    host.icon = 'resources/images/icons/server.png';
-                                    host.type = 'vmhost';
+                                        var statusDatas = Ext.decode(statResponse.responseText);
 
-                                    if(index == 0) {
-                                        host.expanded = true;
-                                    }
-
-                                    var vmList = [];
-                                    Ext.each(vmDatas, function(vm) {
-
-                                        if(host._id == vm.vmhost) {
-
-                                            vm.id = vm._id;
-                                            vm.text = vm.vmname;
-                                            vm.icon = 'resources/images/icons/host.png';
-                                            vm.type = 'vm';
-                                            vm.leaf = true;
-
-                                            vmList.push(vm);
-                                        }
-                                    });
-
-                                    if(vmList.length > 0) {
-
-                                        host.leaf = false;
-                                        host.children = vmList;
-
+                                        renderTreeNode(hostDatas, vmDatas, statusDatas);
                                     } else {
-
-                                        host.leaf = true;
-
+                                        renderTreeNode(hostDatas, vmDatas, []);
                                     }
+                                },
+                                failure: function (response) {
 
-                                    treeData.push(host);
-
+                                    renderTreeNode(hostDatas, vmDatas, []);
                                 }
-
                             });
-
-                            var treeStore = Ext.create('Ext.data.TreeStore', {
-                                    model: 'spider.model.VmHostModel',
-                                    root: {
-                                        expanded: true,
-                                        text: 'Server List',
-                                        icon : '',
-                                        type : 'root',
-                                        children: treeData
-                                    }
-                                });
-
-                            Ext.getCmp("listMenuPanel").bindStore(treeStore);
-
-                            dashboardConstants.me.renderDashboard();
-
-                            dashboardConstants.renderInterval = setInterval(function() {
-                                dashboardConstants.me.renderDashboard();
-                            }, 3000);
-
-                            menuConstants.me.renderVmStatus();
 
                         }
                     });
                 }
 
+            },
+            failure: function (response) {
+
+                dashboardConstants.renderInterval = setInterval(function() {
+
+                        menuConstants.me.renderServerTree();
+
+                }, 10000);
             }
         });
 
+
+        function renderTreeNode(hostDatas, vmDatas, statusDatas) {
+
+            var extendsNodes = [];
+            var nodes = Ext.getCmp("listMenuPanel").store.getRootNode().childNodes;
+            for(var i=0; i<nodes.length; i++) {
+                if(nodes[i].isExpanded()) {
+                    extendsNodes.push(nodes[i].get("name"));
+                }
+            }
+
+            Ext.each(hostDatas, function(host, index) {
+
+                if(host.location == center) {
+
+                    host.id = host._id;
+                    host.text = host.name;
+                    host.icon = 'resources/images/icons/server.png';
+                    host.type = 'vmhost';
+
+                    if(menuConstants.activeFlag) {
+                        if(index == 0) {
+                            host.expanded = true;
+                        }
+                        menuConstants.activeFlag = false;
+                    } else {
+                        for(var i=0; i<extendsNodes.length; i++) {
+                            if(extendsNodes[i] == host.text) {
+                                host.expanded = true;
+                            }
+                        }
+                    }
+
+
+                    var vmList = [];
+                    Ext.each(vmDatas, function(vm) {
+
+                        if(host._id == vm.vmhost) {
+
+                            vm.id = vm._id;
+                            vm.text = vm.vmname;
+                            vm.icon = 'resources/images/icons/host.png';
+                            vm.type = 'vm';
+                            vm.leaf = true;
+                            vm.cls = "node-red";
+                            vm.interim = true;
+
+                            Ext.each(statusDatas, function(hostStat, hostStatIdx) {
+
+                                if(host.text === hostStat.vmhost) {
+
+                                    Ext.each(hostStat.vms, function(vmStat){
+
+                                        if(vmStat[vm.text]) {
+
+                                            if(vmStat[vm.text] == "running") {
+                                                vm.cls = "";
+                                                vm.interim = false;
+
+                                            } else if(vmStat[vm.text] == "shutoff") {
+                                                vm.cls = "node-gray";
+                                                vm.interim = false;
+
+                                            } else if(vmStat[vm.text] == "interim") {
+                                                vm.cls = "node-red";
+                                                vm.interim = true;
+                                            }
+                                        }
+
+                                    });
+                                }
+                            });
+
+                            vmList.push(vm);
+                        }
+                    });
+
+                    if(vmList.length > 0) {
+
+                        host.leaf = false;
+                        host.children = vmList;
+
+                    } else {
+
+                        host.leaf = true;
+
+                    }
+
+                    treeData.push(host);
+
+                }
+
+            });
+
+            var treeStore = Ext.create('Ext.data.TreeStore', {
+                model: 'spider.model.VmHostModel',
+                root: {
+                    expanded: true,
+                    text: 'Server List',
+                    icon : '',
+                    type : 'root',
+                    children: treeData
+                }
+            });
+
+            Ext.getCmp("listMenuPanel").bindStore(treeStore);
+
+            dashboardConstants.me.renderDashboard();
+
+            dashboardConstants.renderInterval = setInterval(function() {
+
+                menuConstants.me.renderServerTree();
+
+            }, 10000);
+
+        }
 
     },
 
@@ -389,12 +415,6 @@ Ext.define('spider.controller.MenuController', {
             }
         });
 
-        setTimeout(function() {
-
-            menuConstants.me.renderVmStatus();
-
-        }, 10000);
-
     },
 
     init: function(application) {
@@ -406,7 +426,8 @@ Ext.define('spider.controller.MenuController', {
                     me : menu,
 
                     hostRecord : null,
-                    vmRecord : null
+                    vmRecord : null,
+                    activeFlag : true
                 });
 
         this.control({
@@ -510,6 +531,26 @@ Ext.define('spider.controller.MenuController', {
             }
 
         }
+
+    },
+
+    toggleDashboardBtn: function() {
+        /**
+         * Dashboard 메뉴 버튼 클릭 시 수행되는 function
+         */
+        var centerContainer = this.getCenterContainer(),
+            dashboardBtn = this.getDashboardBtn(),
+            managementBtn = this.getManagementBtn(),
+            monitoringBtn = this.getMonitoringBtn(),
+            userManagementBtn = this.getUserManagementBtn(),
+            menuPanel = this.getMenuPanel();
+
+        dashboardBtn.toggle(true);
+        managementBtn.toggle(false);
+        monitoringBtn.toggle(false);
+        userManagementBtn.toggle(false);
+
+        centerContainer.layout.setActiveItem(0);
 
     }
 

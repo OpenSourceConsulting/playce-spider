@@ -216,6 +216,9 @@ Ext.define('spider.controller.VmManagementController', {
     initVmManagement: function(record, tabIndex) {
         var vmDetailTab = Ext.getCmp("networkInstanceTabPanel");
 
+        clearInterval(vmConstants.statusInterval);
+        clearInterval(vmConstants.chartInterval);
+
         if(record == null) {
 
             Ext.getCmp("mgmtVmHostName").setValue("");
@@ -224,6 +227,17 @@ Ext.define('spider.controller.VmManagementController', {
             Ext.getCmp("networkInstanceTabPanel").setActiveTab(0);
 
             return;
+        }
+
+
+        if(record.get("interim") == true) {
+            Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
+            Ext.getCmp("mgmtVmName").setValue(record.get("text"));
+
+            vmDetailTab.up('panel').getEl().mask("VM Clone 후 초기작업이 수행되지 않았습니다.", "custom-loader");
+            return;
+        } else {
+            vmDetailTab.up('panel').getEl().unmask();
         }
 
         if(record.get("id") !== vmConstants.selectVmId) {
@@ -250,6 +264,7 @@ Ext.define('spider.controller.VmManagementController', {
 
             vmDetailTab.setActiveTab(11); //blank tab
         }
+
 
         if(tabIndex) {
 
@@ -312,6 +327,8 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'vm/refresh/' + vmConstants.selectRecord.get("id"),
             method : 'GET',
+            waitMsg: 'Refresh VM...',
+            waitMsgTarget : Ext.getCmp("networkInstanceTabPanel").up('panel').getEl(),
             disableCaching : true,
             success: function (response) {
 
@@ -390,6 +407,7 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setInstanceDashboard: function() {
+        clearInterval(vmConstants.chartInterval);
 
         var viewVmForm = Ext.getCmp("viewVmForm");
 
@@ -726,39 +744,34 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setNic: function() {
-        Ext.getCmp("comboNicName").setValue("");
-        Ext.getCmp("comboNicName").up('toolbar').down('button').hide();
+        Ext.getCmp("viewNicForm").up('fieldset').down('#saveBtn').hide();
 
         Ext.getCmp("viewNicForm").getForm().reset();
 
-        var comboStore = Ext.getStore("VmNicStore");
-        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet';
+        var gridStore = Ext.getStore("VmNicStore");
+        gridStore.removeAll();
+        gridStore.getProxy().url = GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all?filter=ethernet';
+        gridStore.load();
 
-        if(vmConstants.initComboNic) {
-            comboStore.removeAll();
-            comboStore.load();
+        Ext.getCmp("viewNicForm").up('fieldset').hide();
 
-        }
     },
 
-    changeNicData: function(newValue) {
-        var field = Ext.getCmp("comboNicName");
+    changeNicData: function(record) {
         var form = Ext.getCmp("viewNicForm").getForm();
         form.reset();
 
-
-        var store = field.getStore();
-        var record = store.findRecord("ethName", newValue);
-
         Ext.getCmp("viewNicForm").getForm().loadRecord(record);
+        Ext.getCmp("viewNicForm").up('fieldset').down('#saveBtn').show();
 
-        field.up('toolbar').down('button').show();
+        Ext.getCmp("displayNicName").setValue(record.get("ethName"));
+
+        Ext.getCmp("viewNicForm").up('fieldset').show();
 
         //VM의 Mgr Address 와 NIC의 IP Address 가 같을 경우 수정 불가능
         if(record.get("ipaddr") == vmConstants.selectRecord.get("mgraddr")) {
-            field.up('toolbar').down('button').hide();
+            Ext.getCmp("viewNicForm").up('fieldset').down('#saveBtn').hide();
         }
-
         var readOnlyFlag = false;
         if(record.get("address") == "dhcp") {
             readOnlyFlag = true;
@@ -780,10 +793,10 @@ Ext.define('spider.controller.VmManagementController', {
 
     saveNic: function(button) {
 
-        var combo = Ext.getCmp("comboNicName"),
-            comboValue = combo.getValue(),
-            store = combo.getStore(),
-            record = store.findRecord("ethName", comboValue);
+        var comboValue = Ext.getCmp("displayNicName").getValue(),
+            grid = Ext.getCmp("viewVmNicGrid"),
+            record = grid.getSelectionModel().getSelection()[0];
+
 
         var viewNicForm = Ext.getCmp("viewNicForm");
         var formData = viewNicForm.getForm().getFieldValues();
@@ -801,6 +814,7 @@ Ext.define('spider.controller.VmManagementController', {
             //sendData.after = viewNicForm.getForm().getFieldValues();
 
             sendData.after = formData;
+            sendData.after.disable = (!Ext.getCmp("checkNicDisable").getValue());
             sendData.after.disable = (!Ext.getCmp("checkNicDisable").getValue());
 
             sendData.before = {
@@ -838,10 +852,23 @@ Ext.define('spider.controller.VmManagementController', {
                                 success: function(response){
 
                                     var columnData = Ext.decode(response.responseText);
+                                    record.set({
+                                        "address"		: "",
+                                        "ipv6_address"	: "",
+                                        "duplex"		: "",
+                                        "hw-id"			: "",
+                                        "speed"			: "",
+                                        "mtu"			: "",
+                                        "config"		: "",
+                                        "ethName"		: "",
+                                        "smp_affinity"	: "",
+                                        "disable"		: ""
+                                    });
+
                                     if(columnData.length > 0) {
 
                                         record.set(columnData[0]);
-                                        vmConstants.me.changeNicData(comboValue);
+                                        vmConstants.me.changeNicData(record);
                                     }
                                 }
                             });
@@ -1218,7 +1245,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         Ext.each(data["route"], function(node) {
 
-                            gridData.push(setNodeData(node, "route", "N/A"));
+                            setNodeData(gridData, node, "route", "N/A");
                         });
 
                     }
@@ -1227,7 +1254,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         Ext.each(data["interface-route"], function(node) {
 
-                            gridData.push(setNodeData(node, "interface-route", "N/A"));
+                            setNodeData(gridData, node, "interface-route", "N/A");
                         });
 
                     }
@@ -1240,7 +1267,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                                 Ext.each(table["route"], function(node) {
 
-                                    gridData.push(setNodeData(node, "route", table["key_name"]));
+                                    setNodeData(gridData, node, "route", table["key_name"]);
                                 });
 
                             }
@@ -1249,7 +1276,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                                 Ext.each(table["interface-route"], function(node) {
 
-                                    gridData.push(setNodeData(node, "interface-route", table["key_name"]));
+                                    setNodeData(gridData, node, "interface-route", table["key_name"]);
                                 });
 
                             }
@@ -1266,7 +1293,7 @@ Ext.define('spider.controller.VmManagementController', {
         });
 
 
-        function setNodeData(node, type, table) {
+        function setNodeData(gridData, node, type, table) {
 
             var nodeData = {
                 "routing_subnet":		node["key_name"],
@@ -1278,21 +1305,31 @@ Ext.define('spider.controller.VmManagementController', {
 
             if(node["next-hop"]) {
 
-                nodeData.routing_next_hop = node["next-hop"][0]["key_name"];
-                nodeData.routing_distance = node["next-hop"][0]["distance"];
-                if(node["next-hop"][0]["disable"]) {
-                    nodeData.routing_disable  = node["next-hop"][0]["disable"];
-                }
+                Ext.each(node["next-hop"], function(nexthop) {
+
+                    nodeData.routing_next_hop = nexthop["key_name"];
+                    nodeData.routing_distance = nexthop["distance"];
+                    if(nexthop["disable"]) {
+                        nodeData.routing_disable  = nexthop["disable"];
+                    }
+
+                    gridData.push(nodeData);
+                });
 
             }
 
             if(node["next-hop-interface"]) {
 
-                nodeData.routing_next_hop = node["next-hop-interface"][0]["key_name"];
-                nodeData.routing_distance = node["next-hop-interface"][0]["distance"];
-                if(node["next-hop-interface"][0]["disable"]) {
-                    nodeData.routing_disable  = node["next-hop-interface"][0]["disable"];
-                }
+                Ext.each(node["next-hop-interface"], function(nexthop) {
+
+                    nodeData.routing_next_hop = nexthop["key_name"];
+                    nodeData.routing_distance = nexthop["distance"];
+                    if(nexthop["disable"]) {
+                        nodeData.routing_disable  = nexthop["disable"];
+                    }
+
+                    gridData.push(nodeData);
+                });
 
             }
 
@@ -1300,10 +1337,9 @@ Ext.define('spider.controller.VmManagementController', {
 
                 nodeData.routing_blackhole = true;
                 nodeData.routing_distance = node["blackhole"]["distance"];
+
+                gridData.push(nodeData);
             }
-
-            return nodeData;
-
 
         }
     },

@@ -730,6 +730,12 @@
                                                         "id": "listMenuPanel",
                                                         "itemId": "listMenuPanel",
                                                         "rootVisible": false,
+                                                        "stateEvents": [
+                                                            "itemcollapse",
+                                                            "itemexpand"
+                                                        ],
+                                                        "stateId": "menuStatefull",
+                                                        "stateful": true,
                                                         "store": null,
                                                         "title": "My Tree Grid Panel",
                                                         "width": 400

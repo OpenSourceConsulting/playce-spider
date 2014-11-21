@@ -9,3 +9,10 @@
 .node-gray {
 	color:gray;
 }
+
+.custom-loader > .x-mask-msg-inner > .x-mask-msg-text {
+    background-image: none;
+    padding : 5px 5px 5px 5px;
+    font-weight : bold;
+    color:black;
+}

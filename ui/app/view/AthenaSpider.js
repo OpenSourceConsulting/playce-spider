@@ -375,6 +375,12 @@ Ext.define('spider.view.AthenaSpider', {
                                                     items: [
                                                         {
                                                             xtype: 'treepanel',
+                                                            stateEvents: [
+                                                                'itemcollapse',
+                                                                'itemexpand'
+                                                            ],
+                                                            stateId: 'menuStatefull',
+                                                            stateful: true,
                                                             height: 250,
                                                             id: 'listMenuPanel',
                                                             itemId: 'listMenuPanel',

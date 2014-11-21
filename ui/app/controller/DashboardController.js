@@ -37,19 +37,16 @@ Ext.define('spider.controller.DashboardController', {
 
     renderDashboard: function() {
         var centerContainer = this.getCenterContainer();
+        var dashboardPanel = Ext.getCmp("DashboardPanel");
 
         if (centerContainer.layout.getActiveItem().itemId !== "DashboardPanel") {
-            clearInterval(dashboardConstants.renderInterval);
             return;
         }
 
-        var dashboardPanel = Ext.getCmp("DashboardPanel");
         var cpu = 20,
             memory = 30,
             disk = 10,
             network = 35;
-
-        dashboardPanel.setLoading(true);
 
         Ext.getCmp("DashBoardLeftPanel").removeAll();
         Ext.getCmp("DashBoardRightPanel").removeAll();
@@ -101,7 +98,8 @@ Ext.define('spider.controller.DashboardController', {
 
         });
 
-        dashboardPanel.setLoading(false);
+        Ext.getBody().unmask();
+
     }
 
 });

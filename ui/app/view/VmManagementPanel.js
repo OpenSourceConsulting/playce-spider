@@ -32,10 +32,10 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.form.Panel',
         'Ext.grid.Panel',
         'Ext.form.field.ComboBox',
+        'Ext.grid.View',
         'Ext.toolbar.Spacer',
         'Ext.form.field.TextArea',
         'Ext.form.field.Hidden',
-        'Ext.grid.View',
         'Ext.grid.column.Action',
         'Ext.form.field.Number',
         'Ext.form.RadioGroup',
@@ -615,9 +615,13 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                     renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
                                                                                         if(value.indexOf("disable") >= 0) {
                                                                                             metaData.tdAttr = 'style="color:gray;"';
+                                                                                            return value;
                                                                                         }
 
-                                                                                        return value;
+                                                                                        if(value === vmConstants.selectRecord.get("mgraddr")) {
+                                                                                            metaData.tdAttr = 'style="font-weight : bold;"';
+                                                                                            return value+" (관리)";
+                                                                                        }
                                                                                     },
                                                                                     dataIndex: 'ipaddr',
                                                                                     text: 'IP Address',
@@ -970,193 +974,347 @@ Ext.define('spider.view.VmManagementPanel', {
                                     xtype: 'panel',
                                     header: false,
                                     title: 'My Panel',
-                                    dockedItems: [
-                                        {
-                                            xtype: 'toolbar',
-                                            dock: 'top',
-                                            height: 40,
-                                            ui: 'footer',
-                                            items: [
-                                                {
-                                                    xtype: 'combobox',
-                                                    id: 'comboNicName',
-                                                    itemId: 'comboNicName',
-                                                    margin: '0 0 0 10',
-                                                    width: 150,
-                                                    fieldLabel: 'NIC',
-                                                    labelWidth: 40,
-                                                    editable: false,
-                                                    displayField: 'ethName',
-                                                    store: 'VmNicStore',
-                                                    valueField: 'ethName'
-                                                },
-                                                {
-                                                    xtype: 'checkboxfield',
-                                                    id: 'checkNicDhcp',
-                                                    margin: '0 10 0 10',
-                                                    boxLabel: 'DHCP',
-                                                    listeners: {
-                                                        change: {
-                                                            fn: me.onCheckNicDhcpChange,
-                                                            scope: me
-                                                        }
-                                                    }
-                                                },
-                                                {
-                                                    xtype: 'checkboxfield',
-                                                    id: 'checkNicDisable',
-                                                    boxLabel: '활성화'
-                                                },
-                                                {
-                                                    xtype: 'tbspacer',
-                                                    flex: 1
-                                                },
-                                                {
-                                                    xtype: 'button',
-                                                    handler: function(button, e) {
-                                                        vmConstants.me.saveNic(button);
-                                                    },
-                                                    itemId: 'saveBtn',
-                                                    margin: '0 20 0 0',
-                                                    padding: '3 10 3 10',
-                                                    text: '저장'
-                                                }
-                                            ]
-                                        }
-                                    ],
                                     items: [
                                         {
-                                            xtype: 'form',
-                                            id: 'viewNicForm',
-                                            itemId: 'viewNicForm',
-                                            autoScroll: true,
-                                            bodyPadding: 10,
-                                            header: false,
-                                            title: 'My Form',
-                                            fieldDefaults: {
-                                                msgTarget: 'side',
-                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
-                                                labelSeparator: ' :',
-                                                margin: '0 10 0 0',
-                                                labelWidth: 80
-                                            },
+                                            xtype: 'fieldset',
+                                            margin: '30 20 20 20',
+                                            padding: 0,
+                                            title: '',
                                             items: [
                                                 {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
+                                                    xtype: 'gridpanel',
+                                                    height: 230,
+                                                    id: 'viewVmNicGrid',
+                                                    margin: 0,
+                                                    overflowY: 'auto',
+                                                    header: false,
+                                                    title: 'My Grid Panel',
+                                                    columnLines: true,
+                                                    forceFit: true,
+                                                    store: 'VmNicStore',
+                                                    listeners: {
+                                                        select: {
+                                                            fn: me.onViewNicGridSelect,
+                                                            scope: me
+                                                        }
                                                     },
-                                                    items: [
+                                                    columns: [
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'IP 주소',
-                                                            name: 'address',
-                                                            emptyText: 'Default'
+                                                            xtype: 'gridcolumn',
+                                                            minWidth: 100,
+                                                            dataIndex: 'ethName',
+                                                            emptyCellText: 'Default',
+                                                            text: 'NIC'
                                                         },
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'IP V6 주소',
-                                                            name: 'ipv6_address',
-                                                            emptyText: 'Default'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'combobox',
-                                                            flex: 1,
-                                                            fieldLabel: 'Duplex',
-                                                            name: 'duplex',
-                                                            emptyText: 'Default',
-                                                            editable: false,
-                                                            store: [
-                                                                'auto',
-                                                                'full',
-                                                                'half'
-                                                            ],
-                                                            listeners: {
-                                                                change: {
-                                                                    fn: me.onComboboxChange,
-                                                                    scope: me
+                                                            xtype: 'gridcolumn',
+                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                if(value) {
+                                                                    return value;
+                                                                } else {
+                                                                    metaData.tdAttr = 'style="color:gray;"';
+                                                                    return "Default";
                                                                 }
-                                                            }
+                                                            },
+                                                            minWidth: 130,
+                                                            dataIndex: 'address',
+                                                            emptyCellText: 'Default',
+                                                            text: 'IP 주소'
                                                         },
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'MAC ID',
-                                                            name: 'hw-id',
-                                                            emptyText: 'Default'
+                                                            xtype: 'gridcolumn',
+                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                if(value) {
+                                                                    return value;
+                                                                } else {
+                                                                    metaData.tdAttr = 'style="color:gray;"';
+                                                                    return "Default";
+                                                                }
+                                                            },
+                                                            minWidth: 130,
+                                                            dataIndex: 'ipv6_address',
+                                                            emptyCellText: 'Default',
+                                                            text: 'IP V6 주소'
+                                                        },
+                                                        {
+                                                            xtype: 'gridcolumn',
+                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                if(value) {
+                                                                    return value;
+                                                                } else {
+                                                                    metaData.tdAttr = 'style="color:gray;"';
+                                                                    return "Default";
+                                                                }
+                                                            },
+                                                            minWidth: 80,
+                                                            dataIndex: 'duplex',
+                                                            emptyCellText: 'Default',
+                                                            text: 'Duplex'
+                                                        },
+                                                        {
+                                                            xtype: 'gridcolumn',
+                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                if(value) {
+                                                                    return value;
+                                                                } else {
+                                                                    metaData.tdAttr = 'style="color:gray;"';
+                                                                    return "Default";
+                                                                }
+                                                            },
+                                                            minWidth: 150,
+                                                            dataIndex: 'hw-id',
+                                                            emptyCellText: 'Default',
+                                                            text: 'MAC ID'
+                                                        },
+                                                        {
+                                                            xtype: 'gridcolumn',
+                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                if(value) {
+                                                                    return value;
+                                                                } else {
+                                                                    metaData.tdAttr = 'style="color:gray;"';
+                                                                    return "Default";
+                                                                }
+                                                            },
+                                                            minWidth: 80,
+                                                            dataIndex: 'speed',
+                                                            emptyCellText: 'Default',
+                                                            text: 'Speed'
+                                                        },
+                                                        {
+                                                            xtype: 'gridcolumn',
+                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                if(value) {
+                                                                    return value;
+                                                                } else {
+                                                                    metaData.tdAttr = 'style="color:gray;"';
+                                                                    return "Default";
+                                                                }
+                                                            },
+                                                            minWidth: 80,
+                                                            dataIndex: 'mtu',
+                                                            emptyCellText: 'Default',
+                                                            text: 'MTU'
+                                                        },
+                                                        {
+                                                            xtype: 'gridcolumn',
+                                                            renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                if(value) {
+                                                                    return "비활성화";
+                                                                } else {
+                                                                    return "활성화";
+                                                                }
+                                                            },
+                                                            minWidth: 80,
+                                                            dataIndex: 'disable',
+                                                            emptyCellText: 'Default',
+                                                            text: '활성화'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'fieldset',
+                                            margin: '0 20 20 20',
+                                            padding: 0,
+                                            title: '',
+                                            items: [
+                                                {
+                                                    xtype: 'toolbar',
+                                                    height: 40,
+                                                    margin: '',
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            id: 'displayNicName',
+                                                            margin: '20 0 0 30',
+                                                            style: 'font-weight : bold;',
+                                                            width: 120,
+                                                            fieldLabel: 'NIC ',
+                                                            labelStyle: 'font-weight : bold;',
+                                                            labelWidth: 30,
+                                                            name: 'ethName'
+                                                        },
+                                                        {
+                                                            xtype: 'checkboxgroup',
+                                                            width: 300,
+                                                            fieldLabel: '',
+                                                            layout: {
+                                                                type: 'checkboxgroup',
+                                                                autoFlex: false
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    id: 'checkNicDhcp',
+                                                                    margin: '0 0 0 10',
+                                                                    boxLabel: 'DHCP',
+                                                                    listeners: {
+                                                                        change: {
+                                                                            fn: me.onCheckNicDhcpChange,
+                                                                            scope: me
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    id: 'checkNicDisable',
+                                                                    margin: '0 0 0 20',
+                                                                    boxLabel: '활성화'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
+                                                        },
+                                                        {
+                                                            xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                vmConstants.me.saveNic(button);
+                                                            },
+                                                            itemId: 'saveBtn',
+                                                            margin: '0 20 0 0',
+                                                            padding: '3 10 3 10',
+                                                            text: '저장'
                                                         }
                                                     ]
                                                 },
                                                 {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
+                                                    xtype: 'form',
+                                                    id: 'viewNicForm',
+                                                    itemId: 'viewNicForm',
+                                                    autoScroll: true,
+                                                    bodyPadding: 10,
+                                                    header: false,
+                                                    title: 'My Form',
+                                                    fieldDefaults: {
+                                                        msgTarget: 'side',
+                                                        labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                        labelSeparator: ' :',
+                                                        margin: '0 10 0 0',
+                                                        labelWidth: 80
                                                     },
                                                     items: [
                                                         {
-                                                            xtype: 'combobox',
-                                                            flex: 1,
-                                                            fieldLabel: 'Speed',
-                                                            name: 'speed',
-                                                            emptyText: 'Default',
-                                                            editable: false,
-                                                            queryMode: 'local',
-                                                            valueField: 'text'
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'IP 주소',
+                                                                    name: 'address',
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'IP V6 주소',
+                                                                    name: 'ipv6_address',
+                                                                    emptyText: 'Default'
+                                                                }
+                                                            ]
                                                         },
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'MTU',
-                                                            name: 'mtu',
-                                                            emptyText: 'Default'
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Duplex',
+                                                                    name: 'duplex',
+                                                                    emptyText: 'Default',
+                                                                    editable: false,
+                                                                    store: [
+                                                                        'auto',
+                                                                        'full',
+                                                                        'half'
+                                                                    ],
+                                                                    listeners: {
+                                                                        change: {
+                                                                            fn: me.onComboboxChange,
+                                                                            scope: me
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'MAC ID',
+                                                                    name: 'hw-id',
+                                                                    emptyText: 'Default'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Speed',
+                                                                    name: 'speed',
+                                                                    emptyText: 'Default',
+                                                                    editable: false,
+                                                                    queryMode: 'local',
+                                                                    valueField: 'text'
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'MTU',
+                                                                    name: 'mtu',
+                                                                    emptyText: 'Default'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'textareafield',
+                                                            anchor: '100%',
+                                                            margin: '5 20 5 0',
+                                                            fieldLabel: 'Config ',
+                                                            name: 'config',
+                                                            emptyText: 'Default',
+                                                            rows: 8
+                                                        },
+                                                        {
+                                                            xtype: 'hiddenfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Label',
+                                                            name: 'ethName'
+                                                        },
+                                                        {
+                                                            xtype: 'hiddenfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Label',
+                                                            name: 'smp_affinity'
                                                         }
                                                     ]
-                                                },
-                                                {
-                                                    xtype: 'textareafield',
-                                                    anchor: '100%',
-                                                    margin: '5 20 5 0',
-                                                    fieldLabel: 'Config ',
-                                                    name: 'config',
-                                                    emptyText: 'Default',
-                                                    rows: 8
-                                                },
-                                                {
-                                                    xtype: 'hiddenfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'Label',
-                                                    name: 'ethName'
-                                                },
-                                                {
-                                                    xtype: 'hiddenfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'Label',
-                                                    name: 'smp_affinity'
                                                 }
                                             ]
                                         }
@@ -3904,8 +4062,12 @@ Ext.define('spider.view.VmManagementPanel', {
 
     },
 
+    onViewNicGridSelect: function(rowmodel, record, index, eOpts) {
+        vmConstants.me.changeNicData(record);
+    },
+
     onCheckNicDhcpChange: function(field, newValue, oldValue, eOpts) {
-        if(Ext.getCmp("comboNicName").getValue() == "") {
+        if(Ext.getCmp("displayNicName").getValue() == "") {
             return;
         } else {
 

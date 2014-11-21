@@ -523,6 +523,20 @@ Ext.define('spider.controller.VmHostController', {
                                 Ext.Msg.alert('Success', 'VM 정지 요청이 완료되었습니다.');
                             }
 
+                            if (Ext.getCmp("centerPanel").layout.getActiveItem().itemId === "VmManagementPanel") {
+                                if(flag == 'start') {
+                                    Ext.getCmp('startVmBtn').setDisabled(true);
+                                } else {
+                                    Ext.getCmp('stopVmBtn').setDisabled(true);
+                                }
+
+                                clearInterval(vmConstants.statusInterval);
+                                vmConstants.statusInterval = setInterval(function() {
+                                    vmConstants.me.setVmStatus();
+                                }, 10000);
+                            }
+
+
                         }
 
                     }
@@ -552,9 +566,11 @@ Ext.define('spider.controller.VmHostController', {
 
                         if(response.status == 200) {
 
-                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.');
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function() {
 
-                            menuConstants.me.renderServerTree();
+                                menuConstants.me.renderServerTree();
+                                menuConstants.me.toggleDashboardBtn();
+                            });
 
                         }
 
