@@ -112,7 +112,7 @@ def update_nic(vmid, params):
 			modified = True
 			if pdiff[key] == "dhcp":
 				nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], pEthName)
-				vm["interfaces"][pEthName]["ipaddr"] = nicinfo['ipaddr']
+				vm["interfaces"][pEthName]["ipaddr"] = nicinfo[pEthName]
 			else:
 				vm["interfaces"][pEthName]["ipaddr"] = pdiff[key]
 	

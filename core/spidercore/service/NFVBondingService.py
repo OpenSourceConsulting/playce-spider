@@ -43,6 +43,7 @@ def get_bonding(vmid, bondid):
 	results = {}
 	nics = FabricUtilNFV.getInterfaces(addr, vm['sshid'], vm['sshpw'], None)
 	bonding = {}
+	nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], "")
 	
 	for nic in nics:
 		logger.debug(bondid + ": " + nic['ethName'])
@@ -50,9 +51,8 @@ def get_bonding(vmid, bondid):
 			nic['config'] = FabricUtilNFV.get_vyatta_conf(vmid, "$SHOW interfaces")
 			
 			if "address" in nic and nic["address"] == 'dhcp':
-				nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], nic['ethName'])
-				for kk in nicinfo:
-					nic[kk] = nicinfo[kk]
+				nic["ipaddr"] = nicinfo[nic['ethName']]
+					
 			
 			bonding[bondid] = nic
 			bonding['ethernets'] = []
@@ -116,12 +116,13 @@ def all_bonding(vmid):
 	
 	logger.debug(json.dumps(nics, indent=4))
 	
+	nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], "")
+	
 	#bonging 정보만 추출.
 	for nic in nics:
 		if "address" in nic and nic["address"] == 'dhcp':
-			nicinfo = FabricUtilNFV.getIfConfig(addr, vm['sshid'], vm['sshpw'], nic['ethName'])
-			for kk in nicinfo:
-				nic[kk] = nicinfo[kk]
+			nic["ipaddr"] = nicinfo[nic["ethName"]]
+				
 		
 		if nic["ethName"].startswith("bond"):
 			nic['ethernets'] = []
