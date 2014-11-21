@@ -506,7 +506,7 @@ def get_all_nic_config(vmid):
 	
 	configs = {}
 	configList = []
-	logs = get_vyatta_conf(vmid, "$SHOW interfaces ethernet")
+	logs = get_vyatta_conf(vmid, "$SHOW interfaces")
 	for line in logs.split("\n"):
 		if "{" in line:
 			ethName = line.split()[1]
