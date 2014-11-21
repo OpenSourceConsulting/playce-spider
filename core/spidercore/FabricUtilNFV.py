@@ -517,3 +517,21 @@ def get_all_nic_config(vmid):
 			configList.append(line)
 	
 	return configs
+
+def refresh_vm_task():
+	try:
+		succeeded = sudo('/etc/spider/init.sh', pty=False, quiet=True).succeeded
+	except:
+		succeeded = False
+		
+	return succeeded
+
+def refresh_vm(addr, sshid, sshpw):
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/vbash -ic'
+	
+	results = execute(refresh_vm_task, hosts=[addr])
+	
+	return results[addr]
