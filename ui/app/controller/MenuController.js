@@ -85,6 +85,10 @@ Ext.define('spider.controller.MenuController', {
 
         dashboardConstants.me.renderDashboard();
 
+        dashboardConstants.renderInterval = setInterval(function() {
+            dashboardConstants.me.renderDashboard();
+        }, 3000);
+
     },
 
     managementClick: function(button, e, eOpts) {
@@ -304,6 +308,11 @@ Ext.define('spider.controller.MenuController', {
                             Ext.getCmp("listMenuPanel").bindStore(treeStore);
 
                             dashboardConstants.me.renderDashboard();
+
+                            dashboardConstants.renderInterval = setInterval(function() {
+                                dashboardConstants.me.renderDashboard();
+                            }, 3000);
+
                             menuConstants.me.renderVmStatus();
 
                         }
@@ -446,7 +455,7 @@ Ext.define('spider.controller.MenuController', {
 
             centerContainer.layout.setActiveItem(1);
 
-            if(record == null) {
+            if(record == null && vmConstants.selectRecord == null) {
 
                 Ext.each(Ext.getCmp("listMenuPanel").store.getRootNode().childNodes, function(rec, idx){
 
@@ -474,8 +483,10 @@ Ext.define('spider.controller.MenuController', {
 
                 });
 
-            } else {
+            } else if(record != null) {
                 vmConstants.me.initVmManagement(record, tabIndex);
+            } else {
+                vmConstants.me.initVmManagement(vmConstants.selectRecord, tabIndex);
             }
 
 

@@ -55,6 +55,18 @@ Ext.define('spider.controller.GlobalController', {
                     icon: Ext.Msg.ERROR
                 });
 
+            }else if(response.status == 500 || response.status == 0){
+
+                if(options.failMsg == null || options.failMsg === true) {
+
+                    Ext.Msg.show({
+                        title:'Server Error',
+                        msg: 'server-side failure with status code ' + response.status,
+                        buttons: Ext.Msg.OK,
+                        icon: Ext.Msg.ERROR
+                    });
+                }
+
             }else{
 
                 Ext.Msg.show({

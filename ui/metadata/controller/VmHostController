@@ -529,9 +529,8 @@
                     "Ext.getCmp(\"addVmForm\").getForm().findField(\"vmhostName\").setValue(vmHostConstants.selectRecord.get(\"text\"));",
                     "",
                     "var comboStore = Ext.getStore(\"ComboVmTemplateStore\");",
-                    "comboStore.load({",
-                    "    url : GLOBAL.apiUrlPrefix + 'vm/templatelist/' + vmHostConstants.selectRecord.get(\"id\")",
-                    "});"
+                    "comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'vm/templatelist/' + vmHostConstants.selectRecord.get(\"id\");",
+                    ""
                 ]
             },
             "designerId": "d15db7cd-2a01-4c8a-a82c-80615fbddb8e"

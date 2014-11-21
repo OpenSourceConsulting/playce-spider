@@ -29,7 +29,9 @@ Ext.define('spider.controller.DashboardController', {
         //Dashboard Menu Constants
         Ext.define('dashboardConstants', {
             singleton: true,
-            me : dashBoard
+            me : dashBoard,
+
+            renderInterval : null
         });
     },
 
@@ -37,6 +39,7 @@ Ext.define('spider.controller.DashboardController', {
         var centerContainer = this.getCenterContainer();
 
         if (centerContainer.layout.getActiveItem().itemId !== "DashboardPanel") {
+            clearInterval(dashboardConstants.renderInterval);
             return;
         }
 
@@ -99,16 +102,6 @@ Ext.define('spider.controller.DashboardController', {
         });
 
         dashboardPanel.setLoading(false);
-
-
-
-        // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
-        setTimeout(function() {
-
-            dashboardConstants.me.renderDashboard();
-
-        }, 3000);
-
     }
 
 });

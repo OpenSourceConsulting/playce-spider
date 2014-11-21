@@ -132,6 +132,8 @@
                                 ],
                                 "fn": "handler",
                                 "implHandler": [
+                                    "vmHostConstants.actionRecord = vmConstants.selectRecord;",
+                                    "",
                                     "vmHostConstants.me.controlVm(\"start\");"
                                 ]
                             },
@@ -168,6 +170,8 @@
                                 ],
                                 "fn": "handler",
                                 "implHandler": [
+                                    "vmHostConstants.actionRecord = vmConstants.selectRecord;",
+                                    "",
                                     "vmHostConstants.me.controlVm(\"shutdown\");"
                                 ]
                             },

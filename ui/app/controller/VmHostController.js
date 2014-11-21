@@ -443,9 +443,8 @@ Ext.define('spider.controller.VmHostController', {
         Ext.getCmp("addVmForm").getForm().findField("vmhostName").setValue(vmHostConstants.selectRecord.get("text"));
 
         var comboStore = Ext.getStore("ComboVmTemplateStore");
-        comboStore.load({
-            url : GLOBAL.apiUrlPrefix + 'vm/templatelist/' + vmHostConstants.selectRecord.get("id")
-        });
+        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'vm/templatelist/' + vmHostConstants.selectRecord.get("id");
+
     },
 
     createVM: function(button) {

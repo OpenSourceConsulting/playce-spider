@@ -95,6 +95,8 @@ Ext.define('spider.view.VmManagementPanel', {
                         {
                             xtype: 'button',
                             handler: function(button, e) {
+                                vmHostConstants.actionRecord = vmConstants.selectRecord;
+
                                 vmHostConstants.me.controlVm("start");
                             },
                             id: 'startVmBtn',
@@ -105,6 +107,8 @@ Ext.define('spider.view.VmManagementPanel', {
                         {
                             xtype: 'button',
                             handler: function(button, e) {
+                                vmHostConstants.actionRecord = vmConstants.selectRecord;
+
                                 vmHostConstants.me.controlVm("shutdown");
                             },
                             id: 'stopVmBtn',
