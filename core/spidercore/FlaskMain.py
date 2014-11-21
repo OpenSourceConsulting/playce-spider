@@ -75,7 +75,7 @@ def vmhost_create():
 			macs.append(iff['macaddr'])
 		
 		if set(newMacs) == set(macs):
-			return "Alread registered VM Host", 409
+			return "Already registered VM Host", 409
 
 	vmhosts.append(jsonData)
 	write_repository('vmhosts', vmhosts)
