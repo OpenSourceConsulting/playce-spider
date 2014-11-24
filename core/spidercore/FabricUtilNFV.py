@@ -104,6 +104,83 @@ def show_interfaces_with_configure(filter):
 			
 	return nics
 
+def getInterfaces_with_ifconfig_task(filter):
+	f = open(mainDir + '/commands.txt', 'w')
+	commands = [
+# 			'$SET interfaces loopback lo address 127.0.0.5/24',
+# 			'$COMMIT',
+			'$SHOW interfaces',
+			'/sbin/ifconfig -a'
+			]
+	f.write("; ".join(commands))
+	f.close()
+	run('mkdir -p .spider')
+	with cd('.spider'):
+		put(open(mainDir + '/cli.txt'), 'cli.sh', mode=0755)
+		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
+		result = run('./cli.sh', pty=False, quiet=True)
+	lines = result.split('\n')
+	ifconfigs = []
+	wantedLog = False
+	for line in lines:
+		if 'Link encap' in line:
+			wantedLog = True
+		if wantedLog:
+			ifconfigs.append( line )
+			
+		print "LINE: " + line
+
+	ifconfig = {}
+	ethName = ""
+	ipAddr = ""
+	for line in ifconfigs:
+		if "Link encap" in line:
+			ethName = line.split()[0]
+		if "inet addr" in line:
+			ipAddr = line.split()[1].split(':')[1]
+		if len(line) == 0:
+			ifconfig[ethName] = ipAddr
+			ethName = ""
+			ipAddr = ""
+	ifconfig[ethName] = ipAddr  # save last interface
+	
+	logger.debug(json.dumps(ifconfig, indent=4))
+
+	import pprint
+	results = elementList.parseString(result)
+	pprint.pprint( results.asList() )
+	
+	nics =[]
+	for eth in results.asList():
+		
+		nic = {'ethName': eth[1]}
+		
+		if len(ifconfig[eth[1]]) > 0:
+			nic["ipaddr"] = ifconfig[eth[1]]
+		
+		for attr in eth[2]:
+			if len(attr) == 1:
+				nic[attr[0]] = True
+			elif 'firewall' == attr[0]:
+				nic[attr[0]] = [attr[1][0][0], attr[1][0][1][0][1]] #"firewall": [["in", [["name", "test-firewall2"]]]]
+			else:
+				nic[attr[0]] = attr[1]
+		
+		if filter == None:
+			if eth[0] == 'loopback':
+				continue
+			nics.append(nic)
+		elif filter == 'all':
+			nics.append(nic)
+		elif filter.startswith("!") and filter[1:] == eth[0]:
+			continue # exclude
+		elif filter == eth[0]:
+			nics.append(nic)
+	
+	logger.debug(json.dumps(nics, indent=4))
+	
+	return nics
+
 def getInterfaces(addr, sshid, sshpw, pfilter):
 	'''
 		show interfaces 결과 가져오기
@@ -116,6 +193,20 @@ def getInterfaces(addr, sshid, sshpw, pfilter):
 	env.password = sshpw
 	env.shell = '/bin/vbash -ic'
 	results = execute(show_interfaces_with_configure, hosts=[addr], filter = pfilter)
+	return results[addr]
+
+def getInterfaces_with_ifconfig(addr, sshid, sshpw, pfilter):
+	'''
+		show interfaces 결과 가져오기
+		@param: pfilter는 [None|bonding|ethernet|loopback|all] 중 하나를 줄수있다.
+			- None 는 기본적으로 loopback 을 제외하고 가져온다.
+			- all 은 모든 interfaces 를 가져온다.
+	'''
+	env.hosts = [ addr ]
+	env.user = sshid
+	env.password = sshpw
+	env.shell = '/bin/vbash -ic'
+	results = execute(getInterfaces_with_ifconfig_task, hosts=[addr], filter = pfilter)
 	return results[addr]
 
 def show_nat_with_configure():

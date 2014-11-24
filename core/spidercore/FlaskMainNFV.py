@@ -255,8 +255,11 @@ def mon_vmif(id=None, ifid=None):
 	for vm in vms:
 		if '_id' in vm and id == vm['_id']:
 			# Vyatta 의 show interfaces 명령 실행 
-			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], request.args.get('filter', None))
-			ifconfig_all = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], "")
+			#nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], request.args.get('filter', None))
+			#ifconfig_all = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], "")
+			
+			nics = getInterfaces_with_ifconfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], request.args.get('filter', None))
+			
 			configs = get_all_nic_config(id)
 			
 			for nic in nics:
@@ -264,7 +267,8 @@ def mon_vmif(id=None, ifid=None):
 					
 					if "address" in nic and nic["address"] == 'dhcp':
 						# DHCP일 경우 ifconfig로 주소를 가져온다
-						nic["ipaddr"] = ifconfig_all[nic['ethName']]
+						#nic["ipaddr"] = ifconfig_all[nic['ethName']]
+						nic["ipaddr"] = nic['ipaddr']
 						
 					#nic['config'] = get_vyatta_conf(id, "$SHOW interfaces ethernet "+nic['ethName'])
 					nic['config'] = configs[nic['ethName']]

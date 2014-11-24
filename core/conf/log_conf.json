@@ -41,13 +41,16 @@
             "handlers": ["console"],
             "propagate": "no"
         },
-        "FlaskMainNFV": {
+        "spidercore.FlaskMainNFV": {
             "level": "DEBUG"
         },
-        "FabricUtilNFV": {
+        "spidercore.FabricUtilNFV": {
             "level": "DEBUG"
         },
-        "NFVNICService": {
+        "spidercore.NFVNICService": {
+            "level": "DEBUG"
+        },
+        "spidercore.NFVBondingService": {
             "level": "DEBUG"
         }
     },
