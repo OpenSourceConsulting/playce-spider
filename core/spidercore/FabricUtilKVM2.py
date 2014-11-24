@@ -81,7 +81,11 @@ def getTemplatelist(addr, sshid, sshpw):
 	env.user = sshid
 	env.password = sshpw
 	env.shell = '/bin/bash -l -c'
-	results = execute(templatelist, hosts=[addr])
+	try:
+		results = execute(templatelist, hosts=[addr])
+	except EOFError:  #접속 에러..
+		return []
+	
 	return results[addr]
 
 
