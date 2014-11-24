@@ -41,7 +41,13 @@
             "handlers": ["console"],
             "propagate": "no"
         },
-        "BongService": {
+        "FlaskMainNFV": {
+            "level": "DEBUG"
+        },
+        "FabricUtilNFV": {
+            "level": "DEBUG"
+        },
+        "NFVNICService": {
             "level": "DEBUG"
         }
     },

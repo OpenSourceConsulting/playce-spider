@@ -43,9 +43,7 @@ def vm_refresh(vmid=None):
 	results = []
 	for vm in vms:
 		if '_id' in vm and (vmid == vm['_id'] or vmid == '_all'):
-			logger.debug("refresh " + vmid)
-			result = refresh_vm(vm['mgraddr'], vm['sshid'], vm['sshpw'])
-			results.append(result)
+			logger.debug("refresh " + vm['id'])
 			
 	return json.dumps(results)
 
@@ -260,6 +258,7 @@ def mon_vmif(id=None, ifid=None):
 			nics = getInterfaces(vm['mgraddr'], vm['sshid'], vm['sshpw'], request.args.get('filter', None))
 			ifconfig_all = getIfConfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], "")
 			configs = get_all_nic_config(id)
+			
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
 					
