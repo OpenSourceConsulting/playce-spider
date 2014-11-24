@@ -221,10 +221,10 @@ def user_update():
 	
 	# duplication check
 	match = False
-	for idx, user in users:
+	for user in users:
 		if user['userId'] == jsonData.get('userId'):
 			match = True
-			del users[idx]
+			users.remove(user)
 			users.append(jsonData)
 			break
 	
@@ -246,10 +246,10 @@ def user_delete():
 	
 	# duplication check
 	match = False
-	for idx, user in users:
+	for user in users:
 		if user['userId'] == jsonData.get('userId'):
 			match = True
-			del users[idx]
+			users.remove(user)
 			break
 	
 	if match:
