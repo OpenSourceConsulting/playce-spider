@@ -25,6 +25,9 @@ Created on 2014. 10. 15.
 @author: mwchoi
 '''
 
+from frabric_threadsafe import patch
+patch()
+
 from fabric.api import run, sudo, env, put, cd
 from fabric.tasks import execute
 import re
