@@ -64,6 +64,13 @@ Ext.define('spider.view.AddVmWindow', {
                         },
                         {
                             xtype: 'combobox',
+                            validator: function(value) {
+                                if(value == "없음(생성불가)") {
+                                    return 'This field is required';
+                                } else {
+                                    return true;
+                                }
+                            },
                             anchor: '100%',
                             fieldLabel: 'Template',
                             name: 'tname',

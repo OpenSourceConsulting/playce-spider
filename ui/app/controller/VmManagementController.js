@@ -229,17 +229,6 @@ Ext.define('spider.controller.VmManagementController', {
             return;
         }
 
-
-        if(record.get("interim") == true) {
-            Ext.getCmp("mgmtVmHostName").setValue(record.get("vmhostName"));
-            Ext.getCmp("mgmtVmName").setValue(record.get("text"));
-
-            vmDetailTab.up('panel').getEl().mask("VM Clone 후 초기작업이 수행되지 않았습니다.", "custom-loader");
-            return;
-        } else {
-            vmDetailTab.up('panel').getEl().unmask();
-        }
-
         if(record.get("id") !== vmConstants.selectVmId) {
 
             vmConstants.vmNicRecords = null;
@@ -254,6 +243,18 @@ Ext.define('spider.controller.VmManagementController', {
             Ext.getCmp("mgmtVmName").setValue(record.get("text"));
             Ext.getCmp("mgmtVmState").setValue("");
 
+        }
+
+
+        if(record.get("interim") == true) {
+
+            vmDetailTab.up('panel').getEl().mask("VM Clone 후 초기작업이 수행되지 않았습니다.", "custom-loader");
+            return;
+
+        } else {
+
+            vmDetailTab.up('panel').getEl().unmask();
+
             vmConstants.me.setVmStatus();
 
             vmConstants.statusInterval = setInterval(function() {
@@ -264,6 +265,7 @@ Ext.define('spider.controller.VmManagementController', {
 
             vmDetailTab.setActiveTab(11); //blank tab
         }
+
 
 
         if(tabIndex) {
@@ -2036,6 +2038,10 @@ Ext.define('spider.controller.VmManagementController', {
 
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/nat',
+            method : "GET",
+            headers : {
+                "Content-Type" : "application/json"
+            },
             disableCaching : true,
             waitMsg: 'Loading...',
             waitMsgTarget : form.getEl(),
@@ -2202,6 +2208,10 @@ Ext.define('spider.controller.VmManagementController', {
             Ext.Ajax.request({
                 url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
                 disableCaching : true,
+                method : "GET",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
                 waitMsg: 'Loading...',
                 waitMsgTarget : msgTarget,
                 success: function(response){

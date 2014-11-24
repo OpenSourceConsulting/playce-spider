@@ -90,7 +90,31 @@
                         "store": "ComboVmTemplateStore",
                         "valueField": "name"
                     },
-                    "designerId": "a5513960-da56-4f25-a7e6-e56c1dd8e722"
+                    "designerId": "a5513960-da56-4f25-a7e6-e56c1dd8e722",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "value"
+                                ],
+                                "fn": "validator",
+                                "implHandler": [
+                                    "if(value == \"없음(생성불가)\") {",
+                                    "    return 'This field is required';",
+                                    "} else {",
+                                    "    return true;",
+                                    "}"
+                                ]
+                            },
+                            "designerId": "27f3191d-848b-4ce9-bb74-190e6baba3f6"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.form.field.Text",

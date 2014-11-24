@@ -87,7 +87,13 @@ Ext.define('spider.view.AddVmHostWindow', {
                             fieldLabel: 'SSH PW',
                             name: 'sshpw',
                             inputType: 'password',
-                            allowBlank: false
+                            allowBlank: false,
+                            listeners: {
+                                blur: {
+                                    fn: me.onTextfieldBlur,
+                                    scope: me
+                                }
+                            }
                         },
                         {
                             xtype: 'textfield',
@@ -139,6 +145,14 @@ Ext.define('spider.view.AddVmHostWindow', {
         });
 
         me.callParent(arguments);
+    },
+
+    onTextfieldBlur: function(component, e, eOpts) {
+        var confirmPw = component.up('form').getForm().findField("confirmpw");
+
+        if(confirmPw.getValue()) {
+            confirmPw.isValid();
+        }
     }
 
 });

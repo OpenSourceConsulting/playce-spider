@@ -243,6 +243,8 @@ Ext.define('spider.controller.MenuController', {
                 }
             }
 
+            menuConstants.selectionRecord = Ext.getCmp('listMenuPanel').getSelectionModel().getSelection();
+
             Ext.each(hostDatas, function(host, index) {
 
                 if(host.location == center) {
@@ -339,6 +341,10 @@ Ext.define('spider.controller.MenuController', {
 
             Ext.getCmp("listMenuPanel").bindStore(treeStore);
 
+            if(menuConstants.selectionRecord) {
+                Ext.getCmp('listMenuPanel').getSelectionModel().select(menuConstants.selectionRecord,true,false);
+            }
+
             dashboardConstants.me.renderDashboard();
 
             dashboardConstants.renderInterval = setInterval(function() {
@@ -427,6 +433,7 @@ Ext.define('spider.controller.MenuController', {
 
                     hostRecord : null,
                     vmRecord : null,
+                    selectionRecord : null,
                     activeFlag : true
                 });
 

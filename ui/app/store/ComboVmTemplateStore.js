@@ -34,13 +34,25 @@ Ext.define('spider.store.ComboVmTemplateStore', {
                 reader: {
                     type: 'json'
                 }
-            })
+            }),
+            listeners: {
+                load: {
+                    fn: me.onJsonstoreLoad,
+                    scope: me
+                }
+            }
         }, cfg)]);
     },
 
     processMyAjaxProxy1: function(config) {
         config.actionMethods = {read: "GET"};
         return config;
+    },
+
+    onJsonstoreLoad: function(store, records, successful, eOpts) {
+        if(store.getCount() == 0) {
+            store.insert(0, {name:"없음(생성불가)"});
+        }
     }
 
 });

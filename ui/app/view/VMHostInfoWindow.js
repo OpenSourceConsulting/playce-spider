@@ -702,6 +702,15 @@ Ext.define('spider.view.VMHostInfoWindow', {
                             text: 'VM  생성'
                         },
                         {
+                            xtype: 'button',
+                            handler: function(button, e) {
+                                button.up("window").close();
+                            },
+                            margin: '0 0 0 10',
+                            padding: '3 8 3 8',
+                            text: '닫기'
+                        },
+                        {
                             xtype: 'tbspacer',
                             flex: 2
                         },

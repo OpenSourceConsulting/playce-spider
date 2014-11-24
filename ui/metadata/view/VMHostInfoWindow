@@ -1470,6 +1470,42 @@
                     ]
                 },
                 {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "margin": "0 0 0 10",
+                        "padding": "3 8 3 8",
+                        "text": "닫기"
+                    },
+                    "designerId": "d63ca214-a3eb-412f-9851-f502a37e8d1d",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "button.up(\"window\").close();"
+                                ]
+                            },
+                            "designerId": "4f8c8d06-d5f3-4687-a76b-24eeef647f3d"
+                        }
+                    ]
+                },
+                {
                     "type": "Ext.toolbar.Spacer",
                     "reference": {
                         "name": "items",

@@ -53,6 +53,25 @@
                     "designerId": "4490c703-e56e-4db2-8d97-b317217c31cb"
                 }
             ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onJsonstoreLoad",
+                "implHandler": [
+                    "if(store.getCount() == 0) {",
+                    "    store.insert(0, {name:\"없음(생성불가)\"});",
+                    "}"
+                ],
+                "name": "load",
+                "scope": "me"
+            },
+            "designerId": "cc2dcaf8-6b58-4bbb-af82-f49df4cd128e"
         }
     ]
 }

@@ -127,7 +127,30 @@
                         "layout|anchor": "100%",
                         "name": "sshpw"
                     },
-                    "designerId": "884bfe72-d176-481b-a0df-8ebc696b8ea0"
+                    "designerId": "884bfe72-d176-481b-a0df-8ebc696b8ea0",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onTextfieldBlur",
+                                "implHandler": [
+                                    "var confirmPw = component.up('form').getForm().findField(\"confirmpw\");",
+                                    "",
+                                    "if(confirmPw.getValue()) {",
+                                    "    confirmPw.isValid();",
+                                    "}"
+                                ],
+                                "name": "blur",
+                                "scope": "me"
+                            },
+                            "designerId": "37f96cdc-2337-4006-9062-074f815121f7"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.form.field.Text",
