@@ -25,9 +25,6 @@ Created on 2014. 9. 11.
 @author: jerryj
 '''
 
-from fabric_threadsafe.patch import patch_fabric
-patch_fabric()
-
 from fabric.api import run, sudo, env, put, cd
 from fabric.tasks import execute
 import rpyc
