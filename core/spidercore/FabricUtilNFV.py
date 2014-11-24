@@ -120,6 +120,9 @@ def getInterfaces_with_ifconfig_task(filter):
 		put(open(mainDir + '/commands.txt'), 'commands.sh', mode=0755)
 		result = run('./cli.sh', pty=False, quiet=True)
 	lines = result.split('\n')
+	
+	
+	vyattaConfigs = []
 	ifconfigs = []
 	wantedLog = False
 	for line in lines:
@@ -127,9 +130,24 @@ def getInterfaces_with_ifconfig_task(filter):
 			wantedLog = True
 		if wantedLog:
 			ifconfigs.append( line )
-			
+		elif not line.startswith('vbash:'):
+			vyattaConfigs.append( line )
 		print "LINE: " + line
-
+	
+	
+	#vyatta configs
+	configs = {}
+	configList = []
+	for line in vyattaConfigs:
+		if "{" in line:
+			ethName = line.split()[1]
+		elif "}" in line:
+			configs[ethName] = "\n".join(configList)
+			configList = []
+		else:
+			configList.append(line)	
+	
+	#ifconfig
 	ifconfig = {}
 	ethName = ""
 	ipAddr = ""
@@ -157,6 +175,9 @@ def getInterfaces_with_ifconfig_task(filter):
 		
 		if len(ifconfig[eth[1]]) > 0:
 			nic["ipaddr"] = ifconfig[eth[1]]
+			
+		if len(configs[eth[1]]) > 0:
+			nic["config"] = configs[eth[1]]
 		
 		for attr in eth[2]:
 			if len(attr) == 1:

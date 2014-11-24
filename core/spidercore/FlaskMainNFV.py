@@ -260,19 +260,10 @@ def mon_vmif(id=None, ifid=None):
 			
 			nics = getInterfaces_with_ifconfig(vm['mgraddr'], vm['sshid'], vm['sshpw'], request.args.get('filter', None))
 			
-			configs = get_all_nic_config(id)
+			#configs = get_all_nic_config(id)
 			
 			for nic in nics:
 				if ifid == '_all' or ifid == nic['ethName']:
-					
-					if "address" in nic and nic["address"] == 'dhcp':
-						# DHCP일 경우 ifconfig로 주소를 가져온다
-						#nic["ipaddr"] = ifconfig_all[nic['ethName']]
-						nic["ipaddr"] = nic['ipaddr']
-						
-					#nic['config'] = get_vyatta_conf(id, "$SHOW interfaces ethernet "+nic['ethName'])
-					nic['config'] = configs[nic['ethName']]
-					
 					results.append(nic)
 
 			return json.dumps(results)
