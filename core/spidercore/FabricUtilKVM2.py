@@ -26,7 +26,7 @@ Created on 2014. 10. 15.
 '''
 
 from fabric_threadsafe import patch
-patch()
+patch_fabric()
 
 from fabric.api import run, sudo, env, put, cd
 from fabric.tasks import execute
