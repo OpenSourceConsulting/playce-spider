@@ -1331,221 +1331,376 @@ Ext.define('spider.view.VmManagementPanel', {
                                     xtype: 'panel',
                                     header: false,
                                     title: 'My Panel',
-                                    dockedItems: [
-                                        {
-                                            xtype: 'toolbar',
-                                            dock: 'top',
-                                            height: 40,
-                                            ui: 'footer',
-                                            items: [
-                                                {
-                                                    xtype: 'combobox',
-                                                    id: 'comboBondingName',
-                                                    margin: '0 0 0 10',
-                                                    width: 180,
-                                                    fieldLabel: 'Bonding',
-                                                    labelWidth: 60,
-                                                    displayField: 'ethName',
-                                                    store: 'VmBondingStore',
-                                                    valueField: 'ethName'
-                                                },
-                                                {
-                                                    xtype: 'checkboxfield',
-                                                    id: 'checkBondigDhcp',
-                                                    margin: '0 10 0 10',
-                                                    boxLabel: 'DHCP',
-                                                    listeners: {
-                                                        change: {
-                                                            fn: me.onCheckBondingDhcpChange,
-                                                            scope: me
-                                                        }
-                                                    }
-                                                },
-                                                {
-                                                    xtype: 'checkboxfield',
-                                                    id: 'checkBondingDisable',
-                                                    boxLabel: '활성화'
-                                                },
-                                                {
-                                                    xtype: 'tbspacer',
-                                                    flex: 1
-                                                },
-                                                {
-                                                    xtype: 'button',
-                                                    handler: function(button, e) {
-                                                        vmConstants.me.popVmBondingWindow();
-                                                    },
-                                                    margin: '0 20 0 0',
-                                                    text: '신규생성'
-                                                }
-                                            ]
-                                        }
-                                    ],
                                     items: [
                                         {
-                                            xtype: 'form',
-                                            id: 'viewBondingForm',
-                                            itemId: 'viewBondingForm',
-                                            autoScroll: true,
-                                            bodyPadding: 10,
-                                            header: false,
-                                            title: 'My Form',
-                                            fieldDefaults: {
-                                                msgTarget: 'side',
-                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
-                                                labelSeparator: ' :',
-                                                margin: '0 10 0 0',
-                                                labelWidth: 80
-                                            },
+                                            xtype: 'fieldset',
+                                            margin: '30 20 20 20',
+                                            padding: 0,
+                                            title: '',
                                             items: [
                                                 {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
+                                                    xtype: 'toolbar',
+                                                    ui: 'footer',
                                                     items: [
                                                         {
-                                                            xtype: 'checkboxgroup',
-                                                            flex: 1,
-                                                            itemId: 'bondingNICGroup',
-                                                            margin: '0 0 0 20',
-                                                            width: 400
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'IP 주소',
-                                                            name: 'address',
-                                                            emptyText: 'Default'
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
                                                         },
                                                         {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'IP V6 주소',
-                                                            name: 'ipv6_address',
-                                                            emptyText: 'Default'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'combobox',
-                                                            flex: 1,
-                                                            fieldLabel: 'Mode',
-                                                            name: 'mode',
-                                                            emptyText: 'Default',
-                                                            editable: false,
-                                                            store: [
-                                                                '802.3ad',
-                                                                'active-backup',
-                                                                'adaptive-load-balance',
-                                                                'round-robin',
-                                                                'transmit-load-balance',
-                                                                'xor-hash',
-                                                                'broadcast'
-                                                            ]
-                                                        },
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'MAC ID',
-                                                            name: 'hw-id',
-                                                            emptyText: 'Default'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
+                                                            xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                vmConstants.me.popVmBondingWindow();
+                                                            },
                                                             margin: '0 20 0 0',
-                                                            padding: '',
-                                                            fieldLabel: 'MTU',
-                                                            name: 'mtu',
-                                                            emptyText: 'Default'
+                                                            text: '신규생성'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    bodyStyle: 'border-top-width: 1px !important;border-color:silver !important;',
+                                                    header: false,
+                                                    title: 'My Panel',
+                                                    items: [
+                                                        {
+                                                            xtype: 'gridpanel',
+                                                            viewConfig: {
+                                                                loadMask: false
+                                                            },
+                                                            height: 230,
+                                                            id: 'viewVmBondingGrid',
+                                                            margin: 0,
+                                                            overflowY: 'auto',
+                                                            header: false,
+                                                            title: 'My Grid Panel',
+                                                            columnLines: true,
+                                                            forceFit: true,
+                                                            store: 'VmBondingStore',
+                                                            listeners: {
+                                                                select: {
+                                                                    fn: me.onViewBondingGridSelect,
+                                                                    scope: me
+                                                                }
+                                                            },
+                                                            columns: [
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    minWidth: 100,
+                                                                    dataIndex: 'ethName',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Bonding'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    minWidth: 130,
+                                                                    dataIndex: 'ethernets',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'NIC'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 130,
+                                                                    dataIndex: 'address',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'IP 주소'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 130,
+                                                                    dataIndex: 'ipv6_address',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'IP V6 주소'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 80,
+                                                                    dataIndex: 'mode',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Mode'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 150,
+                                                                    dataIndex: 'hw-id',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'MAC ID'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 70,
+                                                                    dataIndex: 'mtu',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'MTU'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return "비활성화";
+                                                                        } else {
+                                                                            return "활성화";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 70,
+                                                                    dataIndex: 'disable',
+                                                                    emptyCellText: 'Default',
+                                                                    text: '활성화'
+                                                                },
+                                                                {
+                                                                    xtype: 'actioncolumn',
+                                                                    text: 'Delete',
+                                                                    maxWidth: 80,
+                                                                    minWidth: 80,
+                                                                    style: 'text-align:center;',
+                                                                    align: 'center',
+                                                                    hideable: false,
+                                                                    items: [
+                                                                        {
+                                                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                                                vmConstants.me.deleteVMBonding(record);
+
+                                                                            },
+                                                                            icon: 'resources/images/icons/delete.png'
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            xtype: 'fieldset',
+                                            margin: '0 20 20 20',
+                                            padding: 0,
+                                            title: '',
+                                            items: [
+                                                {
+                                                    xtype: 'toolbar',
+                                                    height: 40,
+                                                    margin: '',
+                                                    items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            id: 'displayBondingName',
+                                                            itemId: 'displayBondingName',
+                                                            margin: '20 0 0 25',
+                                                            style: 'font-weight : bold;',
+                                                            width: 150,
+                                                            fieldLabel: 'Bonding ',
+                                                            labelStyle: 'font-weight : bold;',
+                                                            labelWidth: 70,
+                                                            name: 'ethName'
+                                                        },
+                                                        {
+                                                            xtype: 'checkboxfield',
+                                                            id: 'checkBondigDhcp',
+                                                            margin: '0 10 0 10',
+                                                            boxLabel: 'DHCP',
+                                                            listeners: {
+                                                                change: {
+                                                                    fn: me.onCheckBondingDhcpChange,
+                                                                    scope: me
+                                                                }
+                                                            }
+                                                        },
+                                                        {
+                                                            xtype: 'checkboxfield',
+                                                            id: 'checkBondingDisable',
+                                                            margin: '0 0 0 10',
+                                                            boxLabel: '활성화'
                                                         },
                                                         {
                                                             xtype: 'tbspacer',
                                                             flex: 1
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'textareafield',
-                                                    anchor: '100%',
-                                                    margin: '5 20 5 0',
-                                                    fieldLabel: 'Config ',
-                                                    name: 'config',
-                                                    emptyText: 'Default',
-                                                    rows: 8
-                                                }
-                                            ],
-                                            dockedItems: [
-                                                {
-                                                    xtype: 'toolbar',
-                                                    dock: 'top',
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        pack: 'end'
-                                                    },
-                                                    items: [
+                                                        },
                                                         {
                                                             xtype: 'button',
                                                             handler: function(button, e) {
                                                                 vmConstants.me.saveVMBonding(button);
                                                             },
-                                                            cls: 'saveBtn',
                                                             itemId: 'saveBtn',
-                                                            padding: '3 8 3 8',
+                                                            margin: '0 20 0 0',
+                                                            padding: '3 10 3 10',
                                                             text: '저장'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'form',
+                                                    id: 'viewBondingForm',
+                                                    itemId: 'viewBondingForm',
+                                                    autoScroll: true,
+                                                    bodyPadding: 10,
+                                                    header: false,
+                                                    title: 'My Form',
+                                                    fieldDefaults: {
+                                                        msgTarget: 'side',
+                                                        labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                        labelSeparator: ' :',
+                                                        margin: '0 10 0 0',
+                                                        labelWidth: 80
+                                                    },
+                                                    items: [
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'checkboxgroup',
+                                                                    flex: 1,
+                                                                    itemId: 'bondingNICGroup',
+                                                                    margin: '0 0 0 20',
+                                                                    width: 400
+                                                                }
+                                                            ]
                                                         },
                                                         {
-                                                            xtype: 'button',
-                                                            handler: function(button, e) {
-                                                                vmConstants.me.deleteVMBonding(button);
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
                                                             },
-                                                            cls: 'deleteBtn',
-                                                            itemId: 'deleteBtn',
-                                                            padding: '3 8 3 8',
-                                                            text: '삭제'
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'IP 주소',
+                                                                    name: 'address',
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'IP V6 주소',
+                                                                    name: 'ipv6_address',
+                                                                    emptyText: 'Default'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Mode',
+                                                                    name: 'mode',
+                                                                    emptyText: 'Default',
+                                                                    editable: false,
+                                                                    store: [
+                                                                        '802.3ad',
+                                                                        'active-backup',
+                                                                        'adaptive-load-balance',
+                                                                        'round-robin',
+                                                                        'transmit-load-balance',
+                                                                        'xor-hash',
+                                                                        'broadcast'
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'MAC ID',
+                                                                    name: 'hw-id',
+                                                                    emptyText: 'Default'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    margin: '0 20 0 0',
+                                                                    padding: '',
+                                                                    fieldLabel: 'MTU',
+                                                                    name: 'mtu',
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'textareafield',
+                                                            anchor: '100%',
+                                                            margin: '5 20 5 0',
+                                                            fieldLabel: 'Config ',
+                                                            name: 'config',
+                                                            emptyText: 'Default',
+                                                            rows: 8
                                                         }
                                                     ]
                                                 }
@@ -1553,13 +1708,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                         }
                                     ]
                                 }
-                            ],
-                            listeners: {
-                                show: {
-                                    fn: me.onPanelShow,
-                                    scope: me
-                                }
-                            }
+                            ]
                         },
                         {
                             xtype: 'panel',
@@ -4111,11 +4260,12 @@ Ext.define('spider.view.VmManagementPanel', {
         }
     },
 
-    onCheckBondingDhcpChange: function(field, newValue, oldValue, eOpts) {
-        if(Ext.getCmp("comboBondingName").getValue() == "") {
-            return;
-        } else {
+    onViewBondingGridSelect: function(rowmodel, record, index, eOpts) {
+        vmConstants.me.changeBondingData(record);
+    },
 
+    onCheckBondingDhcpChange: function(field, newValue, oldValue, eOpts) {
+        if(Ext.getCmp("displayBondingName").getValue()) {
             if(newValue) {
                 Ext.getCmp("viewBondingForm").getForm().findField("address").setValue("dhcp");
                 Ext.getCmp("viewBondingForm").getForm().findField("address").setReadOnly(true);
@@ -4123,11 +4273,8 @@ Ext.define('spider.view.VmManagementPanel', {
                 Ext.getCmp("viewBondingForm").getForm().findField("address").setValue("");
                 Ext.getCmp("viewBondingForm").getForm().findField("address").setReadOnly(false);
             }
-        }
-    },
 
-    onPanelShow: function(component, eOpts) {
-        vmConstants.me.activeNicCheckbox(component.down('#bondingNICGroup'), Ext.getCmp("viewBondingForm").getEl());
+        }
     },
 
     onViewRoutingStaticGridSelect: function(rowmodel, record, index, eOpts) {

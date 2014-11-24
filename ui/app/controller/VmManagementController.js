@@ -888,36 +888,40 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setBonding: function() {
-        Ext.getCmp("comboBondingName").setValue("");
+
+        Ext.getCmp("viewBondingForm").up('fieldset').down('#saveBtn').hide();
+        Ext.getCmp("viewBondingForm").up('fieldset').hide();
 
         Ext.getCmp("viewBondingForm").getForm().reset();
 
-        var comboStore = Ext.getStore("VmBondingStore");
-        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
+        var gridStore = Ext.getStore("VmBondingStore");
+        gridStore.removeAll();
 
-        if(vmConstants.initComboBonding) {
-            comboStore.removeAll();
-            comboStore.load();
+        Ext.getCmp("viewBondingForm").up('panel').getEl().mask("Loading", "loading");
 
-        }
+        gridStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
+        gridStore.load({
+            callback : function(records, options, success) {
+
+                Ext.getCmp("viewBondingForm").up('panel').getEl().unmask();
+
+                vmConstants.me.activeNicCheckbox(Ext.getCmp("viewBondingForm").down('#bondingNICGroup'), Ext.getCmp("viewBondingForm").up('panel').getEl());
+            }
+        });
+
+
     },
 
-    changeBondingData: function(newValue) {
-
-        var field = Ext.getCmp("comboBondingName");
+    changeBondingData: function(record) {
         var form = Ext.getCmp("viewBondingForm");
         form.getForm().reset();
 
-        form.down('#saveBtn').show();
-        form.down('#deleteBtn').show();
-
-        var store = field.getStore();
-        var record = store.findRecord("ethName", newValue);
-
         form.getForm().loadRecord(record);
+        form.up('fieldset').down('#saveBtn').show();
 
-        Ext.get("viewBondingForm").select('.saveBtn').show();
-        Ext.get("viewBondingForm").select('.deleteBtn').show();
+        Ext.getCmp("displayBondingName").setValue(record.get("ethName"));
+
+        form.up('fieldset').show();
 
         var dhcpFlag = false;
         if(record.get("address") == "dhcp") {
@@ -935,6 +939,7 @@ Ext.define('spider.controller.VmManagementController', {
         var disables = record.get("disables");
 
         var checks = form.down('#bondingNICGroup').getBoxes();
+
         Ext.each(checks, function (checkBox) {
 
             var disableFlag = false;
@@ -958,7 +963,6 @@ Ext.define('spider.controller.VmManagementController', {
             });
 
         });
-
 
     },
 
@@ -1011,14 +1015,12 @@ Ext.define('spider.controller.VmManagementController', {
 
                      if(response.status == 200) {
 
-                        Ext.Msg.alert('Success', '등록이 완료되었습니다.');
+                         Ext.Msg.alert('Success', '등록이 완료되었습니다.', function(){
 
-                        var comboStore = Ext.getStore("VmBondingStore");
-                        comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
-                        comboStore.removeAll();
-                        comboStore.load();
+                             vmConstants.me.setBonding();
+                             addBondingForm.up('window').close();
 
-                        addBondingForm.up('window').close();
+                         });
 
                      }
 
@@ -1033,11 +1035,9 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     saveVMBonding: function(button) {
-
-        var combo = Ext.getCmp("comboBondingName"),
-            comboValue = combo.getValue(),
-            store = combo.getStore(),
-            record = store.findRecord("ethName", comboValue);
+        var comboValue = Ext.getCmp("displayBondingName").getValue(),
+            grid = Ext.getCmp("viewVmBondingGrid"),
+            record = grid.getSelectionModel().getSelection()[0];
 
         var viewBondingForm = Ext.getCmp("viewBondingForm");
         var formData = viewBondingForm.getForm().getFieldValues();
@@ -1091,7 +1091,7 @@ Ext.define('spider.controller.VmManagementController', {
                      "Content-Type" : "application/json"
                  },
                  waitMsg: 'Saving Data...',
-                 waitMsgTarget : viewBondingForm.getEl(),
+                 waitMsgTarget : viewBondingForm.up('panel').getEl(),
                  jsonData: sendData,
                  success: function (response) {
 
@@ -1103,10 +1103,21 @@ Ext.define('spider.controller.VmManagementController', {
                                 url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + comboValue,
                                 method: "GET",
                                 waitMsg: 'Loading...',
+                                waitMsgTarget : viewBondingForm.up('panel').getEl(),
                                 disableCaching : true,
                                 success: function(response){
 
                                     var columnData = Ext.decode(response.responseText);
+                                    record.set({
+                                        "address"		: "",
+                                        "ipv6_address"	: "",
+                                        "mode"			: "",
+                                        "hw-id"			: "",
+                                        "mtu"			: "",
+                                        "config"		: "",
+                                        "ethernets"		: "",
+                                        "disable"		: ""
+                                    });
 
                                     if(columnData != null) {
 
@@ -1116,7 +1127,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                                         record.set(data);
 
-                                        vmConstants.me.changeBondingData(comboValue);
+                                        vmConstants.me.changeBondingData(record);
                                     }
                                 }
                             });
@@ -1134,58 +1145,47 @@ Ext.define('spider.controller.VmManagementController', {
         }
     },
 
-    deleteVMBonding: function(button) {
+    deleteVMBonding: function(record) {
         Ext.MessageBox.confirm('Confirm', '해당 Bonding 정보를 삭제하시겠습니까?', function(btn){
 
             if(btn == "yes"){
 
-                var combo = Ext.getCmp("comboBondingName"),
-                    comboValue = combo.getValue(),
-                    store = combo.getStore(),
-                    record = store.findRecord("ethName", comboValue);
-
                 var viewBondingForm = Ext.getCmp("viewBondingForm");
 
-                if(viewBondingForm.isValid()) {
-
-                    var sendData = {
-                        "address"		: record.get("address"),
-                        "mode"			: record.get("mode"),
-                        "ethernets"		: record.get("ethernets")
-                    };
+                var sendData = {
+                    "address"		: record.get("address"),
+                    "mode"			: record.get("mode"),
+                    "ethernets"		: record.get("ethernets")
+                };
 
 
-                    Ext.Ajax.request({
-                         url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + record.get("ethName"),
-                         method: "DELETE",
-                         headers : {
-                             "Content-Type" : "application/json"
-                         },
-                         waitMsg: 'Delete Data...',
-                         waitMsgTarget : viewBondingForm.getEl(),
-                         jsonData: sendData,
-                         success: function (response) {
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/bonding/" + record.get("ethName"),
+                    method: "DELETE",
+                    headers : {
+                        "Content-Type" : "application/json"
+                    },
+                    waitMsg: 'Delete Data...',
+                    waitMsgTarget : viewBondingForm.up('panel').getEl(),
+                    jsonData: sendData,
+                    success: function (response) {
 
-                             if(response.status == 200) {
+                        if(response.status == 200) {
 
-                                Ext.Msg.alert('Success', '삭제가 완료되었습니다.');
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function(){
 
-                                var comboStore = Ext.getStore("VmBondingStore");
-                                comboStore.getProxy().url = GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/bonding/all';
-                                comboStore.remove(record);
+                                vmConstants.me.setBonding();
 
-                                Ext.getCmp("comboBondingName").setValue("");
+                            });
 
-
-                             }
-
-                        },
-                        failure: function (response) {
-                            Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
                         }
-                     });
 
-                }
+                    },
+                    failure: function (response) {
+                        Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                    }
+                });
+
             }
 
         });
@@ -1200,8 +1200,6 @@ Ext.define('spider.controller.VmManagementController', {
         Ext.getCmp("comboRoutingType").setValue("static");
 
         form.getForm().reset();
-
-        this.renderNicComboBox([form.getForm().findField("routing_next_hop2")], form.up('panel').getEl());
     },
 
     changeRoutingMethod: function(comboValue) {
@@ -1226,6 +1224,7 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setRoutingStaticData: function() {
+        var form = Ext.getCmp("viewRoutingStaticForm");
 
         Ext.getStore("VmRoutingStaticStore").removeAll();
 
@@ -1289,6 +1288,9 @@ Ext.define('spider.controller.VmManagementController', {
 
 
                     Ext.getStore("VmRoutingStaticStore").loadData(gridData, false);
+
+                    vmConstants.me.renderNicComboBox([form.getForm().findField("routing_next_hop2")], form.up('panel').getEl());
+
                 }
 
             }
@@ -1297,17 +1299,18 @@ Ext.define('spider.controller.VmManagementController', {
 
         function setNodeData(gridData, node, type, table) {
 
-            var nodeData = {
-                "routing_subnet":		node["key_name"],
-                "routing_type":			type,
-                "routing_table":		table,
-                "routing_disable":		false,
-                "routing_blackhole":	false
-            };
-
             if(node["next-hop"]) {
 
                 Ext.each(node["next-hop"], function(nexthop) {
+
+                    var nodeData = {
+                        "routing_subnet":		node["key_name"],
+                        "routing_type":			type,
+                        "routing_table":		table,
+                        "routing_disable":		false,
+                        "routing_blackhole":	false
+                    };
+
 
                     nodeData.routing_next_hop = nexthop["key_name"];
                     nodeData.routing_distance = nexthop["distance"];
@@ -1324,6 +1327,14 @@ Ext.define('spider.controller.VmManagementController', {
 
                 Ext.each(node["next-hop-interface"], function(nexthop) {
 
+                    var nodeData = {
+                        "routing_subnet":		node["key_name"],
+                        "routing_type":			type,
+                        "routing_table":		table,
+                        "routing_disable":		false,
+                        "routing_blackhole":	false
+                    };
+
                     nodeData.routing_next_hop = nexthop["key_name"];
                     nodeData.routing_distance = nexthop["distance"];
                     if(nexthop["disable"]) {
@@ -1336,6 +1347,14 @@ Ext.define('spider.controller.VmManagementController', {
             }
 
             if(node["blackhole"]) {
+
+                var nodeData = {
+                        "routing_subnet":		node["key_name"],
+                        "routing_type":			type,
+                        "routing_table":		table,
+                        "routing_disable":		false,
+                        "routing_blackhole":	false
+                    };
 
                 nodeData.routing_blackhole = true;
                 nodeData.routing_distance = node["blackhole"]["distance"];
@@ -2027,9 +2046,10 @@ Ext.define('spider.controller.VmManagementController', {
 
             Ext.getCmp("comboRuleName").bindStore(store);
 
+            vmConstants.me.renderNicComboBox([form.getForm().findField("ibnic"), form.getForm().findField("obnic")], form.getEl());
+
         }
 
-        this.renderNicComboBox([form.getForm().findField("ibnic"), form.getForm().findField("obnic")], form.getEl());
     },
 
     setVmNatRecords: function(comboValue, radioValue) {
@@ -2083,6 +2103,8 @@ Ext.define('spider.controller.VmManagementController', {
                         model: 'spider.model.VmNatModel',
                         data: recordData
                     });
+
+                    vmConstants.me.renderNicComboBox([form.getForm().findField("ibnic"), form.getForm().findField("obnic")], form.getEl());
 
                     Ext.getCmp("comboRuleName").bindStore(store);
 
@@ -2229,6 +2251,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         Ext.each(components, function(component) {
 
+                            component.getStore().removeAll();
                             component.bindStore(store);
                             if(blankText) {
                                 store.insert(0, {ethName : blankText});
@@ -2253,6 +2276,7 @@ Ext.define('spider.controller.VmManagementController', {
 
             Ext.each(components, function(component) {
 
+                component.getStore().removeAll();
                 component.bindStore(store);
                 if(blankText) {
                     store.insert(0, {ethName : blankText});
@@ -3061,9 +3085,9 @@ Ext.define('spider.controller.VmManagementController', {
             Ext.getCmp("comboFirewallName").bindStore(store);
             Ext.getCmp("comboFirewallRuleName").getStore().removeAll();
 
+            vmConstants.me.renderNicComboBox([form.getForm().findField("ethernet")], form.up('panel').getEl(), "해당없음");
         }
 
-        this.renderNicComboBox([form.getForm().findField("ethernet")], form.up('panel').getEl(), "해당없음");
     },
 
     setVmFirewallRecords: function(comboValue, ruleValue) {
@@ -3111,6 +3135,8 @@ Ext.define('spider.controller.VmManagementController', {
 
                     Ext.getCmp("comboFirewallName").bindStore(store);
                     Ext.getCmp("comboFirewallRuleName").getStore().removeAll();
+
+                    vmConstants.me.renderNicComboBox([form.getForm().findField("ethernet")], form.up('panel').getEl(), "해당없음");
 
                     if(comboValue != null) {
 

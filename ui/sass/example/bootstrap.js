@@ -932,6 +932,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.view.DashboardPanel": [],
   "spider.view.LoginWindow": [],
   "spider.view.Main": [],
+  "spider.view.MonitoringPanel": [],
   "spider.view.MyContainer1": [],
   "spider.view.UserManagementPanel": [],
   "spider.view.VMHostInfoWindow": [],
@@ -2037,6 +2038,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.Main": [
     "widget.app-main"
   ],
+  "spider.view.MonitoringPanel": [],
   "spider.view.MyContainer1": [
     "widget.mycontainer1"
   ],

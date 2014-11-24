@@ -1,0 +1,149 @@
+{
+    "type": "Ext.panel.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoScroll": null,
+        "bodyStyle": "background:#ffffff",
+        "designer|userClassName": "MonitoringPanel",
+        "height": null,
+        "id": "MonitoringPanel",
+        "itemId": "MonitoringPanel",
+        "layout": "border",
+        "title": null
+    },
+    "configAlternates": {
+        "bodyStyle": "string"
+    },
+    "designerId": "c6416746-8b34-4cb4-a28b-ac10351b1cf3",
+    "cn": [
+        {
+            "type": "Ext.tree.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "bodyStyle": null,
+                "border": null,
+                "frame": true,
+                "frameHeader": false,
+                "hideHeaders": true,
+                "id": "listCheckMenuPanel1",
+                "itemId": "listCheckMenuPanel",
+                "layout|region": "west",
+                "margin": 10,
+                "overflowY": "auto",
+                "padding": 0,
+                "rootVisible": false,
+                "store": null,
+                "style": null,
+                "title": "Check VM List",
+                "width": 200
+            },
+            "configAlternates": {
+                "style": "string",
+                "bodyStyle": "string"
+            },
+            "designerId": "228b5bae-46fd-4e25-8e3c-4075e11a1029",
+            "isBuiltIn": true,
+            "iconCls": "icon-treegridpanel",
+            "autoName": "TreeGrid",
+            "cn": [
+                {
+                    "type": "Ext.tree.View",
+                    "reference": {
+                        "name": "viewConfig",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "frame": true
+                    },
+                    "designerId": "3a0d6344-cd79-4e9a-ac6d-a8708dcc2d6d"
+                },
+                {
+                    "type": "Ext.tree.Column",
+                    "reference": {
+                        "name": "columns",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "dataIndex": "text",
+                        "flex": 1,
+                        "text": "Nodes"
+                    },
+                    "designerId": "69d8574c-42a8-4530-b108-0ad8062ca4e3"
+                }
+            ]
+        },
+        {
+            "type": "Ext.panel.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|align": "stretch",
+                "layout": "vbox",
+                "layout|region": "center",
+                "overflowY": "auto",
+                "title": null
+            },
+            "designerId": "667b42c1-1f26-471d-9ba0-bfa722fe484f",
+            "cn": [
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "frame": true,
+                        "height": 280,
+                        "margin": "10 20 10 10",
+                        "title": "CPU Chart"
+                    },
+                    "designerId": "89e592ba-b91e-4a23-9013-f3285d9acf52"
+                },
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "frame": true,
+                        "height": 280,
+                        "margin": "10 20 10 10",
+                        "title": "Memory Chart"
+                    },
+                    "designerId": "4a36e2e3-c02f-4ebe-808b-1a7debd7072a"
+                },
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "frame": true,
+                        "height": 280,
+                        "margin": "10 20 10 10",
+                        "title": "Network Chart"
+                    },
+                    "designerId": "31fc0853-21fc-4620-9169-1f9bc52dad1f"
+                }
+            ]
+        }
+    ]
+}

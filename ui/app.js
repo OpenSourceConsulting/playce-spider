@@ -75,7 +75,8 @@ Ext.application({
         'AddRoutingWindow',
         'AddRoutingOspfWindow',
         'AddRoutingAccessWindow',
-        'AddRoutingRediWindow'
+        'AddRoutingRediWindow',
+        'MonitoringPanel'
     ],
     controllers: [
         'HeaderController',

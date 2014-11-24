@@ -71,7 +71,8 @@
             "AddRoutingWindow",
             "AddRoutingOspfWindow",
             "AddRoutingAccessWindow",
-            "AddRoutingRediWindow"
+            "AddRoutingRediWindow",
+            "MonitoringPanel"
         ]
     },
     "designerId": "application"
