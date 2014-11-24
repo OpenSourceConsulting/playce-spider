@@ -60,6 +60,8 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 	for f in selected_vms:
 		if not first:
 			fun += ','
+		else:
+			first = False
 		fun += f
 	fun += ")"
 	# hours, days, minutes, seconds

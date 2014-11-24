@@ -18,14 +18,13 @@
 # along with athena-spider. If not, see <http://www.gnu.org/licenses/>.                        #
 #                                                                                              #
 # ##############################################################################################
-from fabric_threadsafe.patch import patch_fabric
 '''
 Created on 2014. 9. 11.
 
 @author: jerryj
 '''
 
-from fabric_threadsafe import patch
+from fabric_threadsafe.patch import patch_fabric
 patch_fabric()
 
 from fabric.api import run, sudo, env, put, cd
