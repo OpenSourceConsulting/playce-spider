@@ -85,6 +85,11 @@ def set_static_routing_task(routinginfo):
     else:
         routing_table = None
         
+    if 'routing_next_hop_before' in routinginfo:
+        routing_next_hop_before = routinginfo['routing_next_hop_before']
+    else:
+        routing_next_hop_before = None
+        
     if 'routing_next_hop' in routinginfo:
         routing_next_hop = routinginfo['routing_next_hop']
     else:
@@ -112,6 +117,9 @@ def set_static_routing_task(routinginfo):
     
     if routing_table and routing_table != "" and int(routing_table) > 0 and int(routing_table) < 256:
         if routing_type == "route":
+            if routing_next_hop_before:
+                commands.append("$DELETE protocols static table " + str(routing_table) + " route " + routing_subnet + " next-hop " + routing_next_hop_before)
+                
             if routing_blackhole and (routing_blackhole == True or routing_blackhole == "true"):
                 commands.append("$SET protocols static table " + str(routing_table) + " route " + routing_subnet + " blackhole  distance " + str(routing_distance))
             else:
@@ -120,12 +128,18 @@ def set_static_routing_task(routinginfo):
                 if routing_disable and (routing_disable == True or routing_disable == "true"):
                     commands.append("$SET protocols static table " + str(routing_table) + " route " + routing_subnet + " next-hop " + routing_next_hop + " disable")
         else:
+            if routing_next_hop_before:
+                commands.append("$DELETE protocols static table " + str(routing_table) + " interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop_before)
+                
             commands.append("$SET protocols static table " + str(routing_table) + " interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " distance " + str(routing_distance))
             
             if routing_disable and (routing_disable == True or routing_disable == "true"):
                 commands.append("$SET protocols static table " + str(routing_table) + " interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " disable")
     else:
         if routing_type == "route":
+            if routing_next_hop_before:
+                commands.append("$DELETE protocols static route " + routing_subnet + " next-hop " + routing_next_hop_before)
+                
             if routing_blackhole and (routing_blackhole == True or routing_blackhole == "true"):
                 commands.append("$SET protocols static route " + routing_subnet + " blackhole  distance " + str(routing_distance))
             else:
@@ -134,6 +148,9 @@ def set_static_routing_task(routinginfo):
                 if routing_disable and (routing_disable == True or routing_disable == "true"):
                     commands.append("$SET protocols static route " + routing_subnet + " next-hop " + routing_next_hop + " disable")
         else:
+            if routing_next_hop_before:
+                commands.append("$DELETE protocols static interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop_before)
+                
             commands.append("$SET protocols static interface-route " + routing_subnet + " next-hop-interface " + routing_next_hop + " distance " + str(routing_distance))
             
             if routing_disable and (routing_disable == True or routing_disable == "true"):
