@@ -25,7 +25,7 @@ Created on 2014. 10. 15.
 @author: mwchoi
 '''
 
-from frabric_threadsafe import patch
+from fabric_threadsafe import patch
 patch()
 
 from fabric.api import run, sudo, env, put, cd

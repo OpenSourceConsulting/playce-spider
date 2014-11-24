@@ -24,7 +24,7 @@ Created on 2014. 9. 11.
 @author: jerryj
 '''
 
-from frabric_threadsafe import patch
+from fabric_threadsafe import patch
 patch()
 
 from fabric.api import run, sudo, env, put, cd
