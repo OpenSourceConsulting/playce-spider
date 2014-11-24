@@ -196,16 +196,67 @@ def user_insert():
 	# duplication check
 	match = False
 	for user in users:
-		if user['userId'] == jsonData.get('userId') and user['password'] == jsonData.get('password'):
+		if user['userId'] == jsonData.get('userId'):
 			match = True
 			break
 	
 	if match:
-		return jsonData.get('userId') + " is already exists."
+		return jsonData.get('userId') + " is already exists.", 500
 	else:
 		users.append(jsonData)
 		write_repository("users", users)
-		return json.dumps(users)
+		return json.dumps(users), 200
+
+# Update User
+@app.route("/user/update", methods=['PUT'])
+def user_update():
+	jsonData = request.json
+	
+	if jsonData.get('userId') == None:
+		return "userId can not be null.", 503
+	elif jsonData.get('password') == None:
+		return "password can not be null.", 503
+	else:
+		users = read_repository("users")
+	
+	# duplication check
+	match = False
+	for idx, user in users:
+		if user['userId'] == jsonData.get('userId'):
+			match = True
+			del users[idx]
+			users.append(jsonData)
+			break
+	
+	if match:
+		write_repository("users", users)
+		return json.dumps(users), 200
+	else:
+		return jsonData.get('userId') + " does not exist.", 404
+
+# Delete User
+@app.route("/user/delete", methods=['DELETE'])
+def user_delete():
+	jsonData = request.json
+	
+	if jsonData.get('userId') == None:
+		return "userId can not be null.", 503
+	else:
+		users = read_repository("users")
+	
+	# duplication check
+	match = False
+	for idx, user in users:
+		if user['userId'] == jsonData.get('userId'):
+			match = True
+			del users[idx]
+			break
+	
+	if match:
+		write_repository("users", users)
+		return json.dumps(users), 200
+	else:
+		return jsonData.get('userId') + " does not exist.", 404
 
 
 if __name__ == "__main__":
