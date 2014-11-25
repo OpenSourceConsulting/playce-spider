@@ -1477,6 +1477,10 @@ Ext.define('spider.controller.VmManagementController', {
                 formData.routing_next_hop = formData.routing_next_hop2;
             }
 
+            if(formData.routing_next_hop_before === formData.routing_next_hop) {
+                delete formData.routing_next_hop_before;
+            }
+
             Ext.Ajax.request({
                  url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/routing/static",
                  method: "PUT",

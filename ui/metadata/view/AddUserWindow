@@ -148,7 +148,7 @@
                     "userConfig": {
                         "layout|flex": null,
                         "padding": "3 8 3 8",
-                        "text": "등록"
+                        "text": "저장"
                     },
                     "designerId": "b27248b8-a194-4ac4-a7bd-8e0e3f9aabdd",
                     "cn": [
@@ -166,7 +166,7 @@
                                 ],
                                 "fn": "handler",
                                 "implHandler": [
-                                    "userConstants.me.createUser(button);"
+                                    "userConstants.me.saveUser(button);"
                                 ]
                             },
                             "designerId": "a239eb42-830b-42ef-a0fe-d884a5111a85"

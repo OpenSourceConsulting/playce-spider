@@ -81,8 +81,8 @@
                             "codeClass": null,
                             "userConfig": {
                                 "allowBlank": false,
-                                "emptyText": null,
-                                "fieldLabel": "Route Subnet",
+                                "emptyText": "0.0.0.0/0",
+                                "fieldLabel": "Route IP/Subnet",
                                 "layout|flex": 1,
                                 "name": "routing_subnet"
                             },

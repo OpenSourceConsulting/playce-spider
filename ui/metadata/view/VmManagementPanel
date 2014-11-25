@@ -4487,6 +4487,8 @@
                                                                             "    form.findField(\"routing_next_hop2\").setValue(record.get(\"routing_next_hop\"));",
                                                                             "}",
                                                                             "",
+                                                                            "form.findField(\"routing_next_hop_before\").setValue(record.get(\"routing_next_hop\"));",
+                                                                            "",
                                                                             "Ext.getCmp(\"viewRoutingStaticForm\").down('#formSet').show();",
                                                                             ""
                                                                         ],
@@ -4796,8 +4798,7 @@
                                                                         "emptyText": "Default",
                                                                         "fieldLabel": "Next Hop",
                                                                         "layout|flex": 1,
-                                                                        "name": "routing_next_hop1",
-                                                                        "readOnly": true
+                                                                        "name": "routing_next_hop1"
                                                                     },
                                                                     "designerId": "055e973d-0eae-454c-9f5e-6dc2beff8e09"
                                                                 },
@@ -4818,10 +4819,23 @@
                                                                         "layout|flex": 1,
                                                                         "name": "routing_next_hop2",
                                                                         "queryMode": "local",
-                                                                        "readOnly": true,
                                                                         "valueField": "ethName"
                                                                     },
                                                                     "designerId": "deb2f709-fd88-4cba-8231-49de22a62f97"
+                                                                },
+                                                                {
+                                                                    "type": "Ext.form.field.Hidden",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "fieldLabel": "Label",
+                                                                        "layout|flex": 1,
+                                                                        "name": "routing_next_hop_before"
+                                                                    },
+                                                                    "designerId": "fe242319-b4c0-4f59-8bc4-192d45ee8be7"
                                                                 }
                                                             ]
                                                         },

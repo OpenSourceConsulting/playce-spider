@@ -103,7 +103,8 @@
                     "codeClass": null,
                     "userConfig": {
                         "allowBlank": false,
-                        "fieldLabel": "IP 주소",
+                        "emptyText": "0.0.0.0/0",
+                        "fieldLabel": "IP 주소/Subnet",
                         "layout|anchor": "100%",
                         "name": "address",
                         "padding": "0 0 0 5"

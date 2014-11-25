@@ -147,6 +147,91 @@
                         "text": "Email"
                     },
                     "designerId": "ae79c849-decc-4112-8f8c-61ddf0532307"
+                },
+                {
+                    "type": "Ext.grid.column.Action",
+                    "reference": {
+                        "name": "columns",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "align": "center",
+                        "hideable": false,
+                        "maxWidth": 80,
+                        "minWidth": 80,
+                        "style": "text-align:center;",
+                        "text": "Delete",
+                        "width": null
+                    },
+                    "configAlternates": {
+                        "style": "string"
+                    },
+                    "designerId": "6bd8c115-6675-4250-9cac-3671103c7923",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "text",
+                            "type": "string"
+                        }
+                    ],
+                    "cn": [
+                        {
+                            "type": "actioncolumnitem",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "icon": "resources/images/icons/delete.png"
+                            },
+                            "designerId": "d44d7013-0281-4f77-befb-b2b10f3e95e3",
+                            "cn": [
+                                {
+                                    "type": "fixedfunction",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "designer|params": [
+                                            "view",
+                                            "rowIndex",
+                                            "colIndex",
+                                            "item",
+                                            "e",
+                                            "record",
+                                            "row"
+                                        ],
+                                        "fn": "handler",
+                                        "implHandler": [
+                                            "userConstants.me.deleteUser(record);"
+                                        ]
+                                    },
+                                    "designerId": "c548206c-f86b-497b-b8d7-e526d9b3850e"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basiceventbinding",
+                    "reference": {
+                        "name": "listeners",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "onUserGridSelect",
+                        "implHandler": [
+                            "userConstants.me.popEditUserWindow(record);"
+                        ],
+                        "name": "select",
+                        "scope": "me"
+                    },
+                    "designerId": "0be33038-58b6-4c63-bac9-db9f0e6aeb1f"
                 }
             ]
         }

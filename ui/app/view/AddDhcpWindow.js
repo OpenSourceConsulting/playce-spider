@@ -100,7 +100,8 @@ Ext.define('spider.view.AddDhcpWindow', {
                                     flex: 1,
                                     fieldLabel: 'IP/Subnet',
                                     name: 'subnet_ipv4net',
-                                    allowBlank: false
+                                    allowBlank: false,
+                                    emptyText: '0.0.0.0/0'
                                 },
                                 {
                                     xtype: 'checkboxgroup',

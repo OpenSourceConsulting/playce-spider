@@ -30,19 +30,43 @@ Ext.define('spider.controller.UserController', {
     popAddUserWindow: function() {
         //User 등록 팝업 호출
         var popWindow = Ext.create("widget.AddUserWindow");
+        popWindow.setTitle("User 등록");
+
         popWindow.show();
+
     },
 
-    createUser: function(button) {
+    popEditUserWindow: function(record) {
+        //User 등록 팝업 호출
+        var popWindow = Ext.create("widget.AddUserWindow");
+        popWindow.setTitle("User 수정");
+
+        popWindow.show();
+
         var addUserForm = Ext.getCmp("addUserForm");
+        addUserForm.getForm().loadRecord(record);
+
+        addUserForm.getForm().findField("userId").setReadOnly(true);
+        addUserForm.getForm().findField("confirmpw").setValue(record.get("password"));
+    },
+
+    saveUser: function(button) {
+        var addUserForm = Ext.getCmp("addUserForm");
+
+        var formUrl = GLOBAL.apiUrlPrefix + "user/insert";
+        var formMethod = "POST";
+        if(addUserForm.up('window').title == "User 수정") {
+            formUrl = GLOBAL.apiUrlPrefix + "user/update";
+            formMethod = "PUT";
+        }
 
         if(addUserForm.isValid()) {
 
             var sendData = addUserForm.getForm().getFieldValues();
 
              Ext.Ajax.request({
-                 url: GLOBAL.apiUrlPrefix + "user/insert",
-                 method: "POST",
+                 url: formUrl,
+                 method: formMethod,
                  headers : {
                      "Content-Type" : "application/json"
                  },
@@ -53,7 +77,7 @@ Ext.define('spider.controller.UserController', {
 
                      if(response.status == 200) {
 
-                         Ext.Msg.alert('Success', '등록이 완료되었습니다.');
+                         Ext.Msg.alert('Success', '저장이 완료되었습니다.');
 
                          Ext.getStore("UserStore").reload();
 
@@ -69,6 +93,45 @@ Ext.define('spider.controller.UserController', {
 
         }
 
+    },
+
+    deleteUser: function(record) {
+
+        Ext.MessageBox.confirm('Confirm', '해당 User 정보를 삭제하시겠습니까?', function(btn){
+
+            if(btn == "yes"){
+
+                Ext.Ajax.request({
+                    url: GLOBAL.apiUrlPrefix + "user/delete",
+                    method: "DELETE",
+                    headers : {
+                        "Content-Type" : "application/json"
+                    },
+                    waitMsg: 'Delete Data...',
+                    waitMsgTarget : Ext.getCmp("UserManagementPanel").getEl(),
+                    jsonData: {userId : record.get("userId")},
+                    success: function (response) {
+
+                        if(response.status == 200) {
+
+                            Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
+
+                                Ext.getStore("UserStore").reload();
+
+                            });
+
+                        }
+
+                    },
+                    failure: function (response) {
+                        Ext.Msg.alert('Failure', response.responseText.replace(/(?:\r\n|\r|\n)/g, '<br />'));
+                    }
+                });
+
+            }
+
+
+        });
     }
 
 });

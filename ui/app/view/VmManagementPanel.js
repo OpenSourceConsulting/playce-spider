@@ -1992,7 +1992,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             flex: 1,
                                                                             fieldLabel: 'Next Hop',
                                                                             name: 'routing_next_hop1',
-                                                                            readOnly: true,
                                                                             allowBlank: false,
                                                                             emptyText: 'Default'
                                                                         },
@@ -2002,12 +2001,17 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                             hidden: true,
                                                                             fieldLabel: 'Next Hop',
                                                                             name: 'routing_next_hop2',
-                                                                            readOnly: true,
                                                                             allowBlank: false,
                                                                             editable: false,
                                                                             displayField: 'ethName',
                                                                             queryMode: 'local',
                                                                             valueField: 'ethName'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'hiddenfield',
+                                                                            flex: 1,
+                                                                            fieldLabel: 'Label',
+                                                                            name: 'routing_next_hop_before'
                                                                         }
                                                                     ]
                                                                 },
@@ -4289,6 +4293,8 @@ Ext.define('spider.view.VmManagementPanel', {
         } else {
             form.findField("routing_next_hop2").setValue(record.get("routing_next_hop"));
         }
+
+        form.findField("routing_next_hop_before").setValue(record.get("routing_next_hop"));
 
         Ext.getCmp("viewRoutingStaticForm").down('#formSet').show();
 

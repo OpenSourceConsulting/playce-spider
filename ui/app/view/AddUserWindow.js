@@ -101,10 +101,10 @@ Ext.define('spider.view.AddUserWindow', {
                         {
                             xtype: 'button',
                             handler: function(button, e) {
-                                userConstants.me.createUser(button);
+                                userConstants.me.saveUser(button);
                             },
                             padding: '3 8 3 8',
-                            text: '등록'
+                            text: '저장'
                         },
                         {
                             xtype: 'button',

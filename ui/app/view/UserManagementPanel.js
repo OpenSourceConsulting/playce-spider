@@ -23,7 +23,7 @@ Ext.define('spider.view.UserManagementPanel', {
         'Ext.toolbar.Toolbar',
         'Ext.toolbar.Spacer',
         'Ext.button.Button',
-        'Ext.grid.column.Column'
+        'Ext.grid.column.Action'
     ],
 
     id: 'UserManagementPanel',
@@ -83,13 +83,40 @@ Ext.define('spider.view.UserManagementPanel', {
                             minWidth: 250,
                             dataIndex: 'email',
                             text: 'Email'
+                        },
+                        {
+                            xtype: 'actioncolumn',
+                            text: 'Delete',
+                            maxWidth: 80,
+                            minWidth: 80,
+                            style: 'text-align:center;',
+                            align: 'center',
+                            hideable: false,
+                            items: [
+                                {
+                                    handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                        userConstants.me.deleteUser(record);
+                                    },
+                                    icon: 'resources/images/icons/delete.png'
+                                }
+                            ]
                         }
-                    ]
+                    ],
+                    listeners: {
+                        select: {
+                            fn: me.onUserGridSelect,
+                            scope: me
+                        }
+                    }
                 }
             ]
         });
 
         me.callParent(arguments);
+    },
+
+    onUserGridSelect: function(rowmodel, record, index, eOpts) {
+        userConstants.me.popEditUserWindow(record);
     }
 
 });

@@ -73,9 +73,10 @@ Ext.define('spider.view.AddBondingWindow', {
                             xtype: 'textfield',
                             anchor: '100%',
                             padding: '0 0 0 5',
-                            fieldLabel: 'IP 주소',
+                            fieldLabel: 'IP 주소/Subnet',
                             name: 'address',
-                            allowBlank: false
+                            allowBlank: false,
+                            emptyText: '0.0.0.0/0'
                         },
                         {
                             xtype: 'combobox',

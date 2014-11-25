@@ -68,9 +68,10 @@ Ext.define('spider.view.AddRoutingWindow', {
                                 {
                                     xtype: 'textfield',
                                     flex: 1,
-                                    fieldLabel: 'Route Subnet',
+                                    fieldLabel: 'Route IP/Subnet',
                                     name: 'routing_subnet',
-                                    allowBlank: false
+                                    allowBlank: false,
+                                    emptyText: '0.0.0.0/0'
                                 },
                                 {
                                     xtype: 'checkboxfield',

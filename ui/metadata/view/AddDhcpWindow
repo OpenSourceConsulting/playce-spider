@@ -135,6 +135,7 @@
                             "codeClass": null,
                             "userConfig": {
                                 "allowBlank": false,
+                                "emptyText": "0.0.0.0/0",
                                 "fieldLabel": "IP/Subnet",
                                 "layout|flex": 1,
                                 "name": "subnet_ipv4net"
