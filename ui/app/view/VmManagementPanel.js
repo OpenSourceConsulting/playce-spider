@@ -2875,40 +2875,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                     overflowY: 'auto',
                                     header: false,
                                     title: 'My Panel',
-                                    dockedItems: [
-                                        {
-                                            xtype: 'toolbar',
-                                            dock: 'top',
-                                            height: 40,
-                                            ui: 'footer',
-                                            items: [
-                                                {
-                                                    xtype: 'combobox',
-                                                    id: 'comboDhcpNetworkName',
-                                                    margin: '0 0 0 10',
-                                                    width: 250,
-                                                    fieldLabel: 'Shared Network',
-                                                    labelWidth: 110,
-                                                    editable: false,
-                                                    displayField: 'key_name',
-                                                    queryMode: 'local',
-                                                    valueField: 'key_name'
-                                                },
-                                                {
-                                                    xtype: 'tbspacer',
-                                                    flex: 1
-                                                },
-                                                {
-                                                    xtype: 'button',
-                                                    handler: function(button, e) {
-                                                        vmConstants.me.popVmDhcpWindow();
-                                                    },
-                                                    margin: '0 20 0 0',
-                                                    text: '신규생성'
-                                                }
-                                            ]
-                                        }
-                                    ],
                                     items: [
                                         {
                                             xtype: 'form',
@@ -2927,7 +2893,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                             items: [
                                                 {
                                                     xtype: 'fieldset',
-                                                    margin: '10 20 20 20',
+                                                    margin: 10,
                                                     title: 'DHCP Global Options / Parameters',
                                                     items: [
                                                         {
@@ -3013,6 +2979,189 @@ Ext.define('spider.view.VmManagementPanel', {
                                             ]
                                         },
                                         {
+                                            xtype: 'fieldset',
+                                            margin: '20 20 10 20',
+                                            padding: 0,
+                                            title: '',
+                                            items: [
+                                                {
+                                                    xtype: 'toolbar',
+                                                    ui: 'footer',
+                                                    items: [
+                                                        {
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
+                                                        },
+                                                        {
+                                                            xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                vmConstants.me.popVmDhcpWindow();
+                                                            },
+                                                            margin: '0 20 0 0',
+                                                            text: '신규생성'
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'panel',
+                                                    bodyStyle: 'border-top-width: 1px !important;border-color:silver !important;',
+                                                    header: false,
+                                                    title: 'My Panel',
+                                                    items: [
+                                                        {
+                                                            xtype: 'gridpanel',
+                                                            viewConfig: {
+                                                                loadMask: false
+                                                            },
+                                                            height: 200,
+                                                            id: 'viewVmDhcpGrid',
+                                                            margin: 0,
+                                                            overflowY: 'auto',
+                                                            header: false,
+                                                            title: 'My Grid Panel',
+                                                            columnLines: true,
+                                                            forceFit: true,
+                                                            store: 'VmDhcpStore',
+                                                            listeners: {
+                                                                select: {
+                                                                    fn: me.onViewDhcpGridSelect,
+                                                                    scope: me
+                                                                }
+                                                            },
+                                                            columns: [
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    minWidth: 130,
+                                                                    dataIndex: 'shared_network_name',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Shared Network'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    minWidth: 120,
+                                                                    dataIndex: 'subnet_ipv4net',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'IP/Subnet'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 120,
+                                                                    dataIndex: 'start_ip',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Start IP Address'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 120,
+                                                                    dataIndex: 'stop_ip',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Stop IP Address'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 110,
+                                                                    dataIndex: 'default_router',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Default Router'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 100,
+                                                                    dataIndex: 'dns_server',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'DNS Server'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 110,
+                                                                    dataIndex: 'domain_name',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Domain Name'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        return '<center><input type="checkbox" name="checkbox" ' + (value ? 'checked="true"' : '') + '" disabled /></center>';
+                                                                    },
+                                                                    minWidth: 100,
+                                                                    dataIndex: 'authoritative',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Authoritative'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        return '<center><input type="checkbox" name="checkbox" ' + (value ? 'checked="true"' : '') + '" disabled /></center>';
+                                                                    },
+                                                                    minWidth: 70,
+                                                                    dataIndex: 'disable',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Disable'
+                                                                },
+                                                                {
+                                                                    xtype: 'actioncolumn',
+                                                                    text: 'Delete',
+                                                                    maxWidth: 80,
+                                                                    minWidth: 80,
+                                                                    style: 'text-align:center;',
+                                                                    align: 'center',
+                                                                    hideable: false,
+                                                                    items: [
+                                                                        {
+                                                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                                                vmConstants.me.deleteVmDhcpSharednet(record);
+                                                                            },
+                                                                            icon: 'resources/images/icons/delete.png'
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
                                             xtype: 'form',
                                             id: 'viewDhcpNetworkForm',
                                             autoScroll: true,
@@ -3029,13 +3178,24 @@ Ext.define('spider.view.VmManagementPanel', {
                                             items: [
                                                 {
                                                     xtype: 'fieldset',
-                                                    margin: '10 20 10 20',
+                                                    margin: 10,
                                                     title: '',
                                                     items: [
                                                         {
                                                             xtype: 'toolbar',
-                                                            height: 40,
+                                                            height: 45,
                                                             items: [
+                                                                {
+                                                                    xtype: 'displayfield',
+                                                                    id: 'displayDhcpNetworkName',
+                                                                    itemId: 'displayDhcpNetworkName',
+                                                                    margin: '20 0 0 23',
+                                                                    style: 'font-weight : bold;',
+                                                                    width: 400,
+                                                                    fieldLabel: 'Shared Network ',
+                                                                    labelStyle: 'font-weight : bold;',
+                                                                    labelWidth: 110
+                                                                },
                                                                 {
                                                                     xtype: 'tbspacer',
                                                                     flex: 1
@@ -3048,15 +3208,6 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     itemId: 'saveBtn',
                                                                     padding: '3 8 3 8',
                                                                     text: '저장'
-                                                                },
-                                                                {
-                                                                    xtype: 'button',
-                                                                    handler: function(button, e) {
-                                                                        vmConstants.me.deleteVmDhcpSharednet();
-                                                                    },
-                                                                    itemId: 'deleteBtn',
-                                                                    padding: '3 8 3 8',
-                                                                    text: '삭제'
                                                                 }
                                                             ]
                                                         },
@@ -4485,6 +4636,10 @@ Ext.define('spider.view.VmManagementPanel', {
             form.findField("transaddr").setDisabled(false);
             form.findField("transport").setDisabled(false);
         }
+    },
+
+    onViewDhcpGridSelect: function(rowmodel, record, index, eOpts) {
+        vmConstants.me.changeDhcpNetworkData(record);
     },
 
     onComboboxChange2: function(field, newValue, oldValue, eOpts) {

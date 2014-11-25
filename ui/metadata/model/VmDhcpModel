@@ -57,6 +57,102 @@
                 "name": "disable"
             },
             "designerId": "8daa563d-71bb-4b45-b0cd-48c97bcdeb70"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "shared_network_name"
+            },
+            "designerId": "2ed81493-5971-4366-9620-1a232b68e209"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "subnet_ipv4net"
+            },
+            "designerId": "81bc9e82-e7dc-4270-9bc4-f6e1e898e6f0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "start_ip"
+            },
+            "designerId": "baab760e-6424-453c-a754-8e87c6c4e9b0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "stop_ip"
+            },
+            "designerId": "cb449b24-8ba1-4e15-8127-f4d2c67dd860"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "default_router"
+            },
+            "designerId": "81335819-441a-4b23-9d34-e7d5593473e8"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dns_server"
+            },
+            "designerId": "bb975cbc-cc8d-44bb-b09f-c7eb23024bcb"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "domain_name"
+            },
+            "designerId": "0d9d5573-8d8c-4a57-9248-3a7a0134693a"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "static_mapping"
+            },
+            "designerId": "844b0218-9c55-4667-b7bb-ca318f9616c3"
         }
     ]
 }

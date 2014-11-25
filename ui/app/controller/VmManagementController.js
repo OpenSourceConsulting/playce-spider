@@ -2366,25 +2366,28 @@ Ext.define('spider.controller.VmManagementController', {
     setDhcp: function() {
 
         Ext.getCmp("viewDhcpForm").getForm().reset();
-        Ext.getCmp("comboDhcpNetworkName").setValue("");
+        Ext.getCmp("viewDhcpForm").down('#saveBtn').hide();
+
+        var viewDhcpNetworkForm = Ext.getCmp("viewDhcpNetworkForm");
+
+        viewDhcpNetworkForm.down('#saveBtn').hide();
+        viewDhcpNetworkForm.hide();
+
+        viewDhcpNetworkForm.getForm().reset();
+
+        Ext.getStore("VmDhcpMappingStore").removeAll();
 
         this.setDhcpNetworkData();
+
     },
 
-    setDhcpNetworkData: function(comboValue) {
+    setDhcpNetworkData: function() {
         var store;
         var grobalForm = Ext.getCmp("viewDhcpForm");
         var networkForm = Ext.getCmp("viewDhcpNetworkForm");
 
-        grobalForm.getForm().reset();
-        networkForm.getForm().reset();
-
-        Ext.getStore("VmDhcpMappingStore").removeAll();
-
-        grobalForm.down('#saveBtn').hide();
-        networkForm.down('#saveBtn').hide();
-        networkForm.down('#deleteBtn').hide();
-        networkForm.down('#addBtn').hide();
+        var gridStore = Ext.getStore("VmDhcpStore");
+        gridStore.removeAll();
 
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/dhcp',
@@ -2399,44 +2402,59 @@ Ext.define('spider.controller.VmManagementController', {
 
                     var data = Ext.decode(response.responseText);
 
+                    grobalForm.down('#saveBtn').show();
+
+                    grobalForm.getForm().setValues(data);
+
+                    if(data["dynamic-dns-update"] != null) {
+                        grobalForm.getForm().findField("dynamic_dns_update").setValue(data["dynamic-dns-update"]["enable"]);
+                    }
+
+                    if(data["global-parameters"] != null) {
+                        grobalForm.getForm().findField("parameters").setValue(data["global-parameters"].replace(/(?:\r,|\r|,)/g, '\n'));
+                    }
+
                     if(data["shared-network-name"] != null) {
-
-                        grobalForm.down('#saveBtn').show();
-
-                        grobalForm.getForm().setValues(data);
-
-                        if(data["dynamic-dns-update"] != null) {
-                            grobalForm.getForm().findField("dynamic_dns_update").setValue(data["dynamic-dns-update"]["enable"]);
-                        }
-
-                        if(data["global-parameters"] != null) {
-                            grobalForm.getForm().findField("parameters").setValue(data["global-parameters"].replace(/(?:\r,|\r|,)/g, '\n'));
-                        }
 
                         var recordData = data["shared-network-name"];
 
-                        store = Ext.create('Ext.data.Store', {
-                            model: 'spider.model.VmDhcpModel',
-                            data: recordData
+                        Ext.each(recordData, function (data){
+
+                            if(data.authoritative != null && data.authoritative == "enable") {
+                                data.authoritative = true;
+                            } else {
+                                data.authoritative = false;
+                            }
+
+                            data.shared_network_name = data.key_name;
+
+                            if(data.subnet != null && data.subnet.length > 0) {
+                                var subnet = data.subnet[0];
+
+                                data.subnet_ipv4net = subnet.key_name;
+
+                                if(subnet.start != null) {
+
+                                    data.start_ip = subnet.start[0].key_name;
+                                    data.stop_ip = subnet.start[0].stop;
+                                }
+
+                                data.default_router = subnet["default-router"];
+                                data.dns_server = subnet["dns-server"];
+                                data.domain_name = subnet["domain-name"];
+
+                                if(subnet["static-mapping"] != null) {
+                                    data.static_mapping = subnet["static-mapping"];
+                                }
+                            }
+
                         });
 
-                        Ext.getCmp("comboDhcpNetworkName").bindStore(store);
-
-                        if(comboValue != null) {
-
-                            vmConstants.me.changeDhcpNetworkData(comboValue);
-                        }
+                        gridStore.loadData(recordData, false);
 
                     } else {
-
-                        store = Ext.create('Ext.data.Store', {
-                            model: 'spider.model.VmDhcpModel',
-                            data: []
-                        });
-
-                        Ext.getCmp("comboDhcpNetworkName").bindStore(store);
+                        grobalForm.down('#saveBtn').hide();
                     }
-
                 }
 
             }
@@ -2444,10 +2462,7 @@ Ext.define('spider.controller.VmManagementController', {
 
     },
 
-    changeDhcpNetworkData: function(comboValue) {
-        var field = Ext.getCmp("comboDhcpNetworkName"),
-            store = field.getStore(),
-            record = store.findRecord("key_name", comboValue);
+    changeDhcpNetworkData: function(record) {
 
         var formCmp = Ext.getCmp("viewDhcpNetworkForm"),
             form = formCmp.getForm();
@@ -2455,53 +2470,33 @@ Ext.define('spider.controller.VmManagementController', {
         form.reset();
 
         formCmp.down('#saveBtn').show();
-        formCmp.down('#deleteBtn').show();
         formCmp.down('#addBtn').show();
 
-        formCmp.down('fieldset').setTitle(comboValue);
+        formCmp.down('fieldset').setTitle(record.get("shared_network_name"));
 
-        form.findField("disable").setValue(record.get("disable"));
+        Ext.getCmp("displayDhcpNetworkName").setValue(record.get("shared_network_name"));
 
-        if(record.get("authoritative") != null && record.get("authoritative") == "enable") {
-            form.findField("authoritative").setValue(true);
-        }
+        form.loadRecord(record);
 
-        form.findField("shared_network_name").setValue(record.get("key_name"));
+        formCmp.show();
 
-        if(record.get("subnet") != null && record.get("subnet").length > 0) {
-            var subnet = record.get("subnet")[0];
+        if(record.get("static_mapping")){
 
-            form.findField("subnet_ipv4net").setValue(subnet.key_name);
+            var gridData = [];
 
-            if(subnet.start != null) {
-
-                form.findField("start_ip").setValue(subnet.start[0].key_name);
-                form.findField("stop_ip").setValue(subnet.start[0].stop);
-            }
-
-            form.findField("default_router").setValue(subnet["default-router"]);
-            form.findField("dns_server").setValue(subnet["dns-server"]);
-            form.findField("domain_name").setValue(subnet["domain-name"]);
-
-            if(subnet["static-mapping"] != null){
-
-                var gridData = [];
-
-                Ext.each(subnet["static-mapping"], function(mapping){
-                    gridData.push({
-                        map_name : mapping.key_name,
-                        map_ip : mapping["ip-address"],
-                        map_mac : mapping["mac-address"]
-                    });
-
+            Ext.each(record.get("static_mapping"), function(mapping){
+                gridData.push({
+                    map_name : mapping.key_name,
+                    map_ip : mapping["ip-address"],
+                    map_mac : mapping["mac-address"]
                 });
 
-                Ext.getStore("VmDhcpMappingStore").loadData(gridData, false);
+            });
 
-            }
-
+            Ext.getStore("VmDhcpMappingStore").loadData(gridData, false);
 
         }
+
     },
 
     popVmDhcpWindow: function() {
@@ -2558,8 +2553,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                             addDhcpForm.up('window').close();
 
-                            Ext.getCmp("comboDhcpNetworkName").setValue("");
-                            vmConstants.me.setDhcpNetworkData();
+                            vmConstants.me.setDhcp();
 
                         });
 
@@ -2644,7 +2638,7 @@ Ext.define('spider.controller.VmManagementController', {
                      "Content-Type" : "application/json"
                  },
                  waitMsg: 'Saving Data...',
-                 waitMsgTarget : viewDhcpNetworkForm.getEl(),
+                 waitMsgTarget : viewDhcpNetworkForm.up('panel').getEl(),
                  jsonData: formData,
                  timeout : 3*60*1000,
                  success: function (response) {
@@ -2653,7 +2647,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
 
-                            vmConstants.me.setDhcpNetworkData(formData.shared_network_name);
+                            vmConstants.me.setDhcpNetworkData();
 
                         });
 
@@ -2669,21 +2663,20 @@ Ext.define('spider.controller.VmManagementController', {
 
     },
 
-    deleteVmDhcpSharednet: function(button) {
+    deleteVmDhcpSharednet: function(record) {
         Ext.MessageBox.confirm('Confirm', '해당 DHCP 정보를 삭제하시겠습니까?', function(btn){
 
             if(btn == "yes"){
 
                 var viewDhcpNetworkForm = Ext.getCmp("viewDhcpNetworkForm");
-                var formData = viewDhcpNetworkForm.getForm().getFieldValues();
 
                 var is_last = false;
-                if(Ext.getCmp("comboDhcpNetworkName").getStore().getCount() < 2) {
+                if(Ext.getStore("VmDhcpStore").getCount() < 2) {
                     is_last = true;
                 }
 
                 var sendData = {
-                    "shared_network_name" : formData.shared_network_name,
+                    "shared_network_name" : record.get("shared_network_name"),
                     "is_last" : is_last
                 };
 
@@ -2694,7 +2687,7 @@ Ext.define('spider.controller.VmManagementController', {
                         "Content-Type" : "application/json"
                     },
                     waitMsg: 'Delete Data...',
-                    waitMsgTarget : viewDhcpNetworkForm.getEl(),
+                    waitMsgTarget : viewDhcpNetworkForm.up('panel').getEl(),
                     jsonData: sendData,
                     success: function (response) {
 
@@ -2702,9 +2695,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                             Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
 
-                                Ext.getCmp("comboDhcpNetworkName").setValue("");
-                                viewDhcpNetworkForm.getForm().reset();
-                                vmConstants.me.setDhcpNetworkData();
+                                vmConstants.me.setDhcp();
 
                             });
 

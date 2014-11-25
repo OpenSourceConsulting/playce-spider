@@ -1,0 +1,14 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmDhcpStore",
+        "model": "VmDhcpModel",
+        "storeId": "VmDhcpStore"
+    },
+    "designerId": "942bde55-4787-4404-b683-965398ea6844"
+}

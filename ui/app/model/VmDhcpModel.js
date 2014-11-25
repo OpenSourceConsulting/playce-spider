@@ -32,6 +32,30 @@ Ext.define('spider.model.VmDhcpModel', {
         },
         {
             name: 'disable'
+        },
+        {
+            name: 'shared_network_name'
+        },
+        {
+            name: 'subnet_ipv4net'
+        },
+        {
+            name: 'start_ip'
+        },
+        {
+            name: 'stop_ip'
+        },
+        {
+            name: 'default_router'
+        },
+        {
+            name: 'dns_server'
+        },
+        {
+            name: 'domain_name'
+        },
+        {
+            name: 'static_mapping'
         }
     ]
 });
