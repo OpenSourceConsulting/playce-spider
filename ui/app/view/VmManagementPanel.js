@@ -33,13 +33,13 @@ Ext.define('spider.view.VmManagementPanel', {
         'Ext.grid.Panel',
         'Ext.form.field.ComboBox',
         'Ext.grid.View',
+        'Ext.form.CheckboxGroup',
+        'Ext.form.field.Checkbox',
         'Ext.toolbar.Spacer',
         'Ext.form.field.TextArea',
         'Ext.form.field.Hidden',
         'Ext.grid.column.Action',
         'Ext.form.field.Number',
-        'Ext.form.RadioGroup',
-        'Ext.form.field.Radio',
         'Ext.grid.plugin.CellEditing',
         'Ext.tree.Panel',
         'Ext.tree.View',
@@ -2388,356 +2388,476 @@ Ext.define('spider.view.VmManagementPanel', {
                                     xtype: 'panel',
                                     header: false,
                                     title: 'My Panel',
-                                    dockedItems: [
+                                    items: [
                                         {
-                                            xtype: 'toolbar',
-                                            dock: 'top',
-                                            height: 40,
-                                            ui: 'footer',
+                                            xtype: 'fieldset',
+                                            margin: '30 20 20 20',
+                                            padding: 0,
+                                            title: '',
                                             items: [
                                                 {
-                                                    xtype: 'form',
-                                                    margin: 0,
+                                                    xtype: 'toolbar',
                                                     ui: 'footer',
-                                                    width: 600,
-                                                    bodyPadding: 0,
-                                                    header: false,
-                                                    title: 'My Form',
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'stretch'
-                                                    },
                                                     items: [
                                                         {
-                                                            xtype: 'combobox',
-                                                            id: 'comboRuleName',
-                                                            margin: '0 0 0 10',
-                                                            width: 150,
-                                                            fieldLabel: 'Rule',
-                                                            labelWidth: 40,
-                                                            editable: false,
-                                                            displayField: 'rule',
-                                                            queryMode: 'local',
-                                                            valueField: 'rule'
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
                                                         },
                                                         {
-                                                            xtype: 'radiogroup',
-                                                            margin: '0 0 0 40',
-                                                            width: 200,
-                                                            fieldLabel: '',
-                                                            items: [
-                                                                {
-                                                                    xtype: 'radiofield',
-                                                                    handler: function(checkbox, checked) {
-                                                                        if(checked == true) {
-                                                                            vmConstants.me.changeNatData(Ext.getCmp("comboRuleName").getValue(), "source");
-                                                                        }
-
-                                                                    },
-                                                                    id: 'natRuleSource',
-                                                                    name: 'natRuleCombo',
-                                                                    boxLabel: 'Source',
-                                                                    inputValue: 'source'
-                                                                },
-                                                                {
-                                                                    xtype: 'radiofield',
-                                                                    handler: function(checkbox, checked) {
-                                                                        if(checked == true) {
-                                                                            vmConstants.me.changeNatData(Ext.getCmp("comboRuleName").getValue(), "destination");
-                                                                        }
-                                                                    },
-                                                                    id: 'natRuleDestination',
-                                                                    name: 'natRuleCombo',
-                                                                    boxLabel: 'Destination',
-                                                                    inputValue: 'destination'
-                                                                }
-                                                            ]
+                                                            xtype: 'button',
+                                                            handler: function(button, e) {
+                                                                vmConstants.me.popVmNatWindow();
+                                                            },
+                                                            margin: '0 20 0 0',
+                                                            text: '신규생성'
                                                         }
                                                     ]
                                                 },
                                                 {
-                                                    xtype: 'tbspacer',
-                                                    flex: 1
-                                                },
-                                                {
-                                                    xtype: 'button',
-                                                    handler: function(button, e) {
-                                                        vmConstants.me.popVmNatWindow();
-                                                    },
-                                                    margin: '0 20 0 0',
-                                                    text: '신규생성'
+                                                    xtype: 'panel',
+                                                    bodyStyle: 'border-top-width: 1px !important;border-color:silver !important;',
+                                                    header: false,
+                                                    title: 'My Panel',
+                                                    items: [
+                                                        {
+                                                            xtype: 'gridpanel',
+                                                            viewConfig: {
+                                                                loadMask: false
+                                                            },
+                                                            height: 230,
+                                                            id: 'viewVmNatGrid',
+                                                            margin: 0,
+                                                            overflowY: 'auto',
+                                                            header: false,
+                                                            title: 'My Grid Panel',
+                                                            columnLines: true,
+                                                            forceFit: true,
+                                                            store: 'VmNatStore',
+                                                            listeners: {
+                                                                select: {
+                                                                    fn: me.onViewNatGridSelect,
+                                                                    scope: me
+                                                                }
+                                                            },
+                                                            columns: [
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    minWidth: 80,
+                                                                    dataIndex: 'rulenum',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Rule Num'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    minWidth: 80,
+                                                                    dataIndex: 'ruletype',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Rule Type'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 80,
+                                                                    dataIndex: 'dispNic',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Interface'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 150,
+                                                                    dataIndex: 'dispSrc',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Source'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 150,
+                                                                    dataIndex: 'dispDest',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Destination'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 80,
+                                                                    dataIndex: 'protocol',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Protocol'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        if(value) {
+                                                                            return value;
+                                                                        } else {
+                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                            return "Default";
+                                                                        }
+                                                                    },
+                                                                    minWidth: 150,
+                                                                    dataIndex: 'dispTrans',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Translation'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        return '<center><input type="checkbox" name="checkbox" ' + (value ? 'checked="true"' : '') + '" disabled /></center>';
+                                                                    },
+                                                                    minWidth: 70,
+                                                                    dataIndex: 'disable',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Disable'
+                                                                },
+                                                                {
+                                                                    xtype: 'gridcolumn',
+                                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                                        return '<center><input type="checkbox" name="checkbox" ' + (value ? 'checked="true"' : '') + '" disabled /></center>';
+                                                                    },
+                                                                    minWidth: 70,
+                                                                    dataIndex: 'exclude',
+                                                                    emptyCellText: 'Default',
+                                                                    text: 'Exclude'
+                                                                },
+                                                                {
+                                                                    xtype: 'actioncolumn',
+                                                                    text: 'Delete',
+                                                                    maxWidth: 80,
+                                                                    minWidth: 80,
+                                                                    style: 'text-align:center;',
+                                                                    align: 'center',
+                                                                    hideable: false,
+                                                                    items: [
+                                                                        {
+                                                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                                                vmConstants.me.deleteVMNat(record);
+                                                                            },
+                                                                            icon: 'resources/images/icons/delete.png'
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 }
                                             ]
-                                        }
-                                    ],
-                                    items: [
+                                        },
                                         {
-                                            xtype: 'form',
-                                            id: 'viewNatForm',
-                                            bodyPadding: 10,
-                                            header: false,
-                                            title: 'My Form',
-                                            fieldDefaults: {
-                                                msgTarget: 'side',
-                                                labelStyle: 'color:#666;font-weight: bold;text-align: right;',
-                                                labelSeparator: ' : ',
-                                                margin: '0 10 0 0',
-                                                labelWidth: 145
-                                            },
-                                            dockedItems: [
+                                            xtype: 'fieldset',
+                                            margin: '0 20 20 20',
+                                            padding: 0,
+                                            title: '',
+                                            items: [
                                                 {
                                                     xtype: 'toolbar',
-                                                    dock: 'top',
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        pack: 'end'
-                                                    },
+                                                    height: 40,
+                                                    margin: '',
                                                     items: [
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            id: 'displayNatRuleNum',
+                                                            itemId: 'displayNatRuleNum',
+                                                            margin: '20 0 0 25',
+                                                            style: 'font-weight : bold;',
+                                                            width: 150,
+                                                            fieldLabel: 'Rule Num ',
+                                                            labelStyle: 'font-weight : bold;',
+                                                            labelWidth: 80
+                                                        },
+                                                        {
+                                                            xtype: 'displayfield',
+                                                            id: 'displayNatRuleType',
+                                                            itemId: 'displayNatRuleType',
+                                                            margin: '20 0 0 25',
+                                                            style: 'font-weight : bold;',
+                                                            width: 200,
+                                                            fieldLabel: 'Rule Type ',
+                                                            labelStyle: 'font-weight : bold;',
+                                                            labelWidth: 80
+                                                        },
+                                                        {
+                                                            xtype: 'tbspacer',
+                                                            flex: 1
+                                                        },
                                                         {
                                                             xtype: 'button',
                                                             handler: function(button, e) {
                                                                 vmConstants.me.saveVMNat(button);
                                                             },
-                                                            cls: 'saveBtn',
                                                             itemId: 'saveBtn',
-                                                            padding: '3 8 3 8',
+                                                            margin: '0 20 0 0',
+                                                            padding: '3 10 3 10',
                                                             text: '저장'
-                                                        },
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    xtype: 'form',
+                                                    id: 'viewNatForm',
+                                                    bodyPadding: 10,
+                                                    header: false,
+                                                    title: 'My Form',
+                                                    fieldDefaults: {
+                                                        msgTarget: 'side',
+                                                        labelStyle: 'color:#666;font-weight: bold;text-align: right;',
+                                                        labelSeparator: ' : ',
+                                                        margin: '0 10 0 0',
+                                                        labelWidth: 145
+                                                    },
+                                                    items: [
                                                         {
-                                                            xtype: 'button',
-                                                            handler: function(button, e) {
-                                                                vmConstants.me.deleteVMNat(button);
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
                                                             },
-                                                            cls: 'deleteBtn',
-                                                            itemId: 'deleteBtn',
-                                                            padding: '3 8 3 8',
-                                                            text: '삭제'
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            items: [
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'combobox',
-                                                            flex: 1,
-                                                            fieldLabel: 'Inbound Interface',
-                                                            name: 'ibnic',
-                                                            allowBlank: false,
-                                                            emptyText: 'Default',
-                                                            editable: false,
-                                                            displayField: 'ethName',
-                                                            queryMode: 'local',
-                                                            valueField: 'ethName'
-                                                        },
-                                                        {
-                                                            xtype: 'combobox',
-                                                            flex: 1,
-                                                            fieldLabel: 'Outbound Interface',
-                                                            name: 'obnic',
-                                                            allowBlank: false,
-                                                            emptyText: 'Default',
-                                                            editable: false,
-                                                            displayField: 'ethName',
-                                                            queryMode: 'local',
-                                                            valueField: 'ethName'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Source Address',
-                                                            name: 'srcaddr',
-                                                            emptyText: 'Default'
-                                                        },
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Destination Address',
-                                                            name: 'destaddr',
-                                                            emptyText: 'Default'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Source Port',
-                                                            name: 'srcport',
-                                                            emptyText: 'Default'
-                                                        },
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Destination Port',
-                                                            name: 'destport',
-                                                            emptyText: 'Default'
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            margin: '0 20 0 0',
-                                                            fieldLabel: 'Protocol',
-                                                            name: 'protocol',
-                                                            emptyText: 'Default'
-                                                        },
-                                                        {
-                                                            xtype: 'tbspacer',
-                                                            flex: 1
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            fieldLabel: 'Translation Address',
-                                                            name: 'transaddr',
-                                                            allowBlank: false,
-                                                            emptyText: 'Default'
-                                                        },
-                                                        {
-                                                            xtype: 'checkboxfield',
-                                                            flex: 1,
-                                                            fieldLabel: '',
-                                                            name: 'masquerade',
-                                                            boxLabel: 'Masquerade',
-                                                            listeners: {
-                                                                change: {
-                                                                    fn: me.onCheckboxfieldChange,
-                                                                    scope: me
-                                                                }
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'textfield',
-                                                            flex: 1,
-                                                            margin: '0 20 0 0',
-                                                            fieldLabel: 'Translation Port',
-                                                            name: 'transport',
-                                                            emptyText: 'Default'
-                                                        },
-                                                        {
-                                                            xtype: 'tbspacer',
-                                                            flex: 1
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    xtype: 'fieldcontainer',
-                                                    flex: '1',
-                                                    height: 35,
-                                                    fieldLabel: 'Label',
-                                                    hideLabel: true,
-                                                    layout: {
-                                                        type: 'hbox',
-                                                        align: 'middle'
-                                                    },
-                                                    items: [
-                                                        {
-                                                            xtype: 'checkboxgroup',
-                                                            flex: 1,
-                                                            width: 400,
-                                                            fieldLabel: 'Options',
                                                             items: [
                                                                 {
-                                                                    xtype: 'checkboxfield',
-                                                                    name: 'disable',
-                                                                    boxLabel: 'Disable'
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Inbound Interface',
+                                                                    name: 'ibnic',
+                                                                    allowBlank: false,
+                                                                    emptyText: 'Default',
+                                                                    editable: false,
+                                                                    displayField: 'ethName',
+                                                                    queryMode: 'local',
+                                                                    valueField: 'ethName'
                                                                 },
                                                                 {
-                                                                    xtype: 'checkboxfield',
-                                                                    name: 'exclude',
-                                                                    boxLabel: 'Exclude'
+                                                                    xtype: 'combobox',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Outbound Interface',
+                                                                    name: 'obnic',
+                                                                    allowBlank: false,
+                                                                    emptyText: 'Default',
+                                                                    editable: false,
+                                                                    displayField: 'ethName',
+                                                                    queryMode: 'local',
+                                                                    valueField: 'ethName'
                                                                 }
                                                             ]
                                                         },
                                                         {
-                                                            xtype: 'tbspacer',
-                                                            flex: 1
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Source Address',
+                                                                    name: 'srcaddr',
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Destination Address',
+                                                                    name: 'destaddr',
+                                                                    emptyText: 'Default'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Source Port',
+                                                                    name: 'srcport',
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Destination Port',
+                                                                    name: 'destport',
+                                                                    emptyText: 'Default'
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    margin: '0 20 0 0',
+                                                                    fieldLabel: 'Protocol',
+                                                                    name: 'protocol',
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: 'Translation Address',
+                                                                    name: 'transaddr',
+                                                                    allowBlank: false,
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'checkboxfield',
+                                                                    flex: 1,
+                                                                    fieldLabel: '',
+                                                                    name: 'masquerade',
+                                                                    boxLabel: 'Masquerade',
+                                                                    listeners: {
+                                                                        change: {
+                                                                            fn: me.onCheckboxfieldChange,
+                                                                            scope: me
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'textfield',
+                                                                    flex: 1,
+                                                                    margin: '0 20 0 0',
+                                                                    fieldLabel: 'Translation Port',
+                                                                    name: 'transport',
+                                                                    emptyText: 'Default'
+                                                                },
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'fieldcontainer',
+                                                            flex: '1',
+                                                            height: 35,
+                                                            fieldLabel: 'Label',
+                                                            hideLabel: true,
+                                                            layout: {
+                                                                type: 'hbox',
+                                                                align: 'middle'
+                                                            },
+                                                            items: [
+                                                                {
+                                                                    xtype: 'checkboxgroup',
+                                                                    flex: 1,
+                                                                    width: 400,
+                                                                    fieldLabel: 'Options',
+                                                                    items: [
+                                                                        {
+                                                                            xtype: 'checkboxfield',
+                                                                            name: 'disable',
+                                                                            boxLabel: 'Disable'
+                                                                        },
+                                                                        {
+                                                                            xtype: 'checkboxfield',
+                                                                            name: 'exclude',
+                                                                            boxLabel: 'Exclude'
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    xtype: 'tbspacer',
+                                                                    flex: 1
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            xtype: 'hiddenfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Label',
+                                                            name: 'rulenum'
+                                                        },
+                                                        {
+                                                            xtype: 'hiddenfield',
+                                                            anchor: '100%',
+                                                            fieldLabel: 'Label',
+                                                            name: 'ruletype'
                                                         }
                                                     ]
-                                                },
-                                                {
-                                                    xtype: 'hiddenfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'Label',
-                                                    name: 'rulenum'
-                                                },
-                                                {
-                                                    xtype: 'hiddenfield',
-                                                    anchor: '100%',
-                                                    fieldLabel: 'Label',
-                                                    name: 'ruletype'
                                                 }
                                             ]
                                         }
@@ -2852,7 +2972,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                         {
                                                                             xtype: 'checkboxfield',
                                                                             name: 'disabled',
-                                                                            boxLabel: 'Disable',
+                                                                            boxLabel: 'Disabled',
                                                                             checked: true
                                                                         },
                                                                         {
@@ -4347,6 +4467,10 @@ Ext.define('spider.view.VmManagementPanel', {
             form.findField("routing_next_hop2").setDisabled(true);
 
         }
+    },
+
+    onViewNatGridSelect: function(rowmodel, record, index, eOpts) {
+        vmConstants.me.changeNatData(record);
     },
 
     onCheckboxfieldChange: function(field, newValue, oldValue, eOpts) {

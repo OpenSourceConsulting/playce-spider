@@ -1,0 +1,14 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmNatStore",
+        "model": "VmNatModel",
+        "storeId": "VmNatStore"
+    },
+    "designerId": "6a505624-7bcf-45ca-a705-60b21fe0dc54"
+}

@@ -2003,62 +2003,23 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setNat: function() {
-        var store;
-        var form = Ext.getCmp("viewNatForm");
 
-        Ext.getCmp("comboRuleName").setValue("");
-        form.getForm().reset();
+        var viewNatForm = Ext.getCmp("viewNatForm");
 
-        if(vmConstants.vmNatRecords == null) {
+        viewNatForm.up('fieldset').down('#saveBtn').hide();
+        viewNatForm.up('fieldset').hide();
 
-            this.setVmNatRecords();
+        viewNatForm.getForm().reset();
 
-        } else {
-
-            var datas = vmConstants.vmNatRecords;
-
-            var recordData = [];
-            Ext.each(datas, function (record){
-
-                var addFlag = true;
-
-                Ext.each(recordData, function(rData) {
-
-                    if(record.rule === rData.rule) {
-
-                        rData.ruleTypes.push(record.isSource);
-
-                        addFlag = false;
-                        return false;
-                    }
-                });
-
-                if(addFlag) {
-
-                    record.ruleTypes = [];
-                    record.ruleTypes.push(record.isSource);
-                    recordData.push(record);
-
-                }
-
-            });
-
-            store = Ext.create('Ext.data.Store', {
-                model: 'spider.model.VmNatModel',
-                data: recordData
-            });
-
-            Ext.getCmp("comboRuleName").bindStore(store);
-
-            vmConstants.me.renderNicComboBox([form.getForm().findField("ibnic"), form.getForm().findField("obnic")], form.getEl());
-
-        }
-
+        vmConstants.me.setVmNatRecords();
     },
 
-    setVmNatRecords: function(comboValue, radioValue) {
-        var store;
-        var form = Ext.getCmp("viewNatForm");
+    setVmNatRecords: function() {
+
+        var viewNatForm = Ext.getCmp("viewNatForm");
+
+        var gridStore = Ext.getStore("VmNatStore");
+        gridStore.removeAll();
 
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/nat',
@@ -2068,161 +2029,113 @@ Ext.define('spider.controller.VmManagementController', {
             },
             disableCaching : true,
             waitMsg: 'Loading...',
-            waitMsgTarget : form.getEl(),
+            waitMsgTarget : viewNatForm.up('panel').getEl(),
             success: function(response){
 
                 if(response.status == 200) {
 
                     var datas = Ext.decode(response.responseText);
+                    var gridData = [];
 
-                    vmConstants.vmNatRecords = datas;
+                    Ext.each(datas, function (data){
 
-                    var recordData = [];
-                    Ext.each(datas, function (record){
+                        data.rulenum = data.rule;
 
-                        var addFlag = true;
+                        if(data.isSource) {
+                            data.ruletype = "source";
+                        } else {
+                            data.ruletype = "destination";
+                        }
 
-                        Ext.each(recordData, function(rData) {
+                        if(data["inbound-interface"]) {
 
-                            if(record.rule === rData.rule) {
+                            data.ibnic = data["inbound-interface"];
+                            data.dispNic = data["inbound-interface"]+"(in)";
 
-                                rData.ruleTypes.push(record.isSource);
+                        }
 
-                                addFlag = false;
-                                return false;
+                        if(data["outbound-interface"]) {
+
+                            data.obnic = data["outbound-interface"];
+                            data.dispNic = data["outbound-interface"]+"(out)";
+                        }
+
+                        if(data.source != null) {
+                            data.srcaddr = data.source.address;
+                            data.srcport = data.source.port;
+
+                            var dispSrc = data.srcaddr;
+                            if(data.srcport) {
+                                dispSrc += (dispSrc ? ":" : "") + data.srcport;
                             }
-                        });
+                            data.dispSrc = dispSrc;
 
-                        if(addFlag) {
+                        }
 
-                            record.ruleTypes = [];
-                            record.ruleTypes.push(record.isSource);
-                            recordData.push(record);
+
+                        if(data.destination != null) {
+                            data.destaddr = data.destination.address;
+                            data.destport = data.destination.port;
+
+                            var dispDest = data.destaddr;
+                            if(data.destport) {
+                                dispDest += (dispDest ? ":" : "") + data.destport;
+                            }
+                            data.dispDest = dispDest;
+                        }
+
+                        if(data.translation != null) {
+
+                            if(data.translation.address == "masquerade") {
+                                form.getForm().findField("masquerade").setValue(true);
+                            } else {
+                                data.transaddr = data.translation.address;
+                                data.transport = data.translation.port;
+
+                                var dispTrans = data.transaddr;
+                                if(data.transport) {
+                                    dispTrans += (dispTrans ? ":" : "") + data.transport;
+                                }
+                                data.dispTrans = dispTrans;
+                            }
 
                         }
 
                     });
 
-                    store = Ext.create('Ext.data.Store', {
-                        model: 'spider.model.VmNatModel',
-                        data: recordData
-                    });
+                    gridStore.loadData(datas, false);
 
-                    vmConstants.me.renderNicComboBox([form.getForm().findField("ibnic"), form.getForm().findField("obnic")], form.getEl());
+                    vmConstants.me.renderNicComboBox([viewNatForm.getForm().findField("ibnic"), viewNatForm.getForm().findField("obnic")], viewNatForm.up('panel').getEl());
 
-                    Ext.getCmp("comboRuleName").bindStore(store);
-
-                    if(comboValue != null) {
-
-                        vmConstants.me.changeNatData(comboValue, radioValue);
-
-                    }
                 }
 
             }
         });
-
-
     },
 
-    changeNatData: function(comboValue, radioValue) {
-        var data;
+    changeNatData: function(record) {
         var form = Ext.getCmp("viewNatForm");
+        form.getForm().reset();
 
-        if(comboValue == null || comboValue == "") {
-            return;
-        }
+        form.getForm().loadRecord(record);
+        form.up('fieldset').down('#saveBtn').show();
 
-        if(radioValue == null) {
+        Ext.getCmp("displayNatRuleNum").setValue(record.get("rulenum"));
+        Ext.getCmp("displayNatRuleType").setValue(record.get("ruletype"));
 
-            var isSource = false;
-            var isDestination = false;
-            Ext.each(vmConstants.vmNatRecords, function(record) {
-                if(record.rule === comboValue) {
+        form.up('fieldset').show();
 
-                    if(record.isSource) {
-                        isSource = true;
+        if(record.get("ruletype") == "source") {
 
-                        data = record;
-
-                    } else {
-                        isDestination = true;
-
-                        if(isSource == false) {
-                            data = record;
-                        }
-                    }
-                }
-            });
-
-            Ext.getCmp("natRuleSource").setDisabled(!isSource);
-            Ext.getCmp("natRuleDestination").setDisabled(!isDestination);
-
-            if(isSource) {
-                Ext.getCmp("natRuleSource").setValue(true);
-
-            } else {
-                Ext.getCmp("natRuleDestination").setValue(true);
-
-            }
-
-
-        } else {
-
-            var isSource = (radioValue == "source" ? true : false);
-            Ext.each(vmConstants.vmNatRecords, function(record) {
-
-                if(record.rule === comboValue && record.isSource === isSource) {
-                    data = record;
-                }
-            });
-
-            form.getForm().reset();
-
-        }
-
-        form.getForm().setValues(data);
-
-        form.getForm().findField("rulenum").setValue(data.rule);
-
-        if(data.isSource) {
-
-            form.getForm().findField("ruletype").setValue("source");
             form.getForm().findField("ibnic").setDisabled(true);
             form.getForm().findField("obnic").setDisabled(false);
 
         } else {
 
-            form.getForm().findField("ruletype").setValue("destination");
             form.getForm().findField("ibnic").setDisabled(false);
             form.getForm().findField("obnic").setDisabled(true);
 
         }
-
-        form.getForm().findField("ibnic").setValue(data["inbound-interface"]);
-        form.getForm().findField("obnic").setValue(data["outbound-interface"]);
-
-        if(data.source != null) {
-            form.getForm().findField("srcaddr").setValue(data.source.address);
-            form.getForm().findField("srcport").setValue(data.source.port);
-        }
-
-        if(data.destination != null) {
-            form.getForm().findField("destaddr").setValue(data.destination.address);
-            form.getForm().findField("destport").setValue(data.destination.port);
-        }
-
-        if(data.translation != null) {
-
-            if(data.translation.address == "masquerade") {
-                form.getForm().findField("masquerade").setValue(true);
-            } else {
-                form.getForm().findField("transaddr").setValue(data.translation.address);
-                form.getForm().findField("transport").setValue(data.translation.port);
-            }
-
-        }
-
     },
 
     renderNicComboBox: function(components, msgTarget, blankText) {
@@ -2334,8 +2247,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                             addNatForm.up('window').close();
 
-                            Ext.getCmp("comboRuleName").setValue("");
-                            vmConstants.me.setVmNatRecords();
+                            vmConstants.me.setNat();
 
                         });
 
@@ -2352,6 +2264,9 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     saveVMNat: function(button) {
+        var grid = Ext.getCmp("viewVmNatGrid"),
+            record = grid.getSelectionModel().getSelection()[0];
+
         var viewNatForm = Ext.getCmp("viewNatForm");
         var formData = viewNatForm.getForm().getFieldValues();
 
@@ -2376,7 +2291,7 @@ Ext.define('spider.controller.VmManagementController', {
                      "Content-Type" : "application/json"
                  },
                  waitMsg: 'Saving Data...',
-                 waitMsgTarget : viewNatForm.getEl(),
+                 waitMsgTarget : viewNatForm.up('panel').getEl(),
                  jsonData: formData,
                  success: function (response) {
 
@@ -2384,8 +2299,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
 
-                            viewNatForm.getForm().reset();
-                            vmConstants.me.setVmNatRecords(formData.rulenum, formData.ruletype);
+                            vmConstants.me.setVmNatRecords();
 
                         });
 
@@ -2399,9 +2313,10 @@ Ext.define('spider.controller.VmManagementController', {
 
         }
 
+
     },
 
-    deleteVMNat: function(button) {
+    deleteVMNat: function(record) {
         Ext.MessageBox.confirm('Confirm', '해당 NAT 정보를 삭제하시겠습니까?', function(btn){
 
             if(btn == "yes"){
@@ -2410,8 +2325,8 @@ Ext.define('spider.controller.VmManagementController', {
                 var formData = viewNatForm.getForm().getFieldValues();
 
                 var sendData = {
-                    "rulenum"		: formData.rulenum,
-                    "ruletype"		: formData.ruletype
+                    "rulenum"		: record.get("rulenum"),
+                    "ruletype"		: record.get("ruletype")
                 };
 
 
@@ -2422,7 +2337,7 @@ Ext.define('spider.controller.VmManagementController', {
                         "Content-Type" : "application/json"
                     },
                     waitMsg: 'Delete Data...',
-                    waitMsgTarget : viewNatForm.getEl(),
+                    waitMsgTarget : viewNatForm.up('panel').getEl(),
                     jsonData: sendData,
                     success: function (response) {
 
@@ -2430,9 +2345,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                             Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
 
-                                Ext.getCmp("comboRuleName").setValue("");
-                                viewNatForm.getForm().reset();
-                                vmConstants.me.setVmNatRecords();
+                                vmConstants.me.setNat();
 
                             });
 

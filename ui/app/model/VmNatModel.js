@@ -68,6 +68,18 @@ Ext.define('spider.model.VmNatModel', {
         },
         {
             name: 'rule'
+        },
+        {
+            name: 'dispNic'
+        },
+        {
+            name: 'dispSrc'
+        },
+        {
+            name: 'dispDest'
+        },
+        {
+            name: 'dispTrans'
         }
     ]
 });

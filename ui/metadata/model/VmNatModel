@@ -201,6 +201,54 @@
                 "name": "rule"
             },
             "designerId": "6f2fb37f-bc04-4b09-9638-8ba1749e477c"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dispNic"
+            },
+            "designerId": "d132310e-c381-4584-9ab6-c7bfbc9cefdb"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dispSrc"
+            },
+            "designerId": "ab23e511-598a-4f86-847a-a90786dd4728"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dispDest"
+            },
+            "designerId": "83bf8601-46d7-4219-b1a3-d637e31b4322"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dispTrans"
+            },
+            "designerId": "1261db2a-d06b-4597-95a2-7401e597c4dd"
         }
     ]
 }

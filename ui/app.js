@@ -57,7 +57,8 @@ Ext.application({
         'VmRoutingOspfStore',
         'VmRoutingAccessStore',
         'VmRoutingRediStore',
-        'VmRoutingStaticStore'
+        'VmRoutingStaticStore',
+        'VmNatStore'
     ],
     views: [
         'AthenaSpider',
