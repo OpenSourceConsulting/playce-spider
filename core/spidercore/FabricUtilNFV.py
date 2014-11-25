@@ -248,6 +248,9 @@ def show_nat_with_configure():
 	for line in lines:
 		print "LINE: " + line
 
+	result = result.replace('disable', 'disable true')
+	result = result.replace('exclude', 'exclude true')
+	
 	import pprint
 	results = elementList.parseString(result)
 	pprint.pprint( results.asList() )
@@ -257,26 +260,25 @@ def show_nat_with_configure():
 		if len(srctgt[1]) > 0:
 			for ruleAry in srctgt[1]:
 				#print "ruleAry :", ruleAry
-				if len(ruleAry) > 0:
-					ruleNum = ruleAry[1]
-				
-					rule = {'rule': ruleNum}
-					rule['isSource'] = (srctgt[0].lower() == 'source')
-				
-					for attr in ruleAry[2]:
-						if len(attr) == 1:
-							rule[attr[0]] = True
+				ruleNum = ruleAry[1]
+			
+				rule = {'rule': ruleNum}
+				rule['isSource'] = (srctgt[0].lower() == 'source')
+			
+				for attr in ruleAry[2]:
+					if len(attr) == 1:
+						rule[attr[0]] = True
+					else:
+						if type(attr[1]) == list:
+							temp = {}
+							for prop in attr[1]:
+								temp[prop[0]] = prop[1]
+							rule[attr[0]] = temp
 						else:
-							if type(attr[1]) == list:
-								temp = {}
-								for prop in attr[1]:
-									temp[prop[0]] = prop[1]
-								rule[attr[0]] = temp
-							else:
-								rule[attr[0]] = attr[1]
-						
-					#print "rule :", rule
-					rules.append(rule)
+							rule[attr[0]] = attr[1]
+					
+				#print "rule :", rule
+				rules.append(rule)
 
 	return rules
 
