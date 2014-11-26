@@ -732,9 +732,9 @@ def vm_cli(id=None):
 		
 		if result['success'] == 'success':
 			logs += "---------- %s ----------\n" % host
-			for line in result['msg']:
+			for line in result['msg'].split('\n'):
 				if line.find("cannot set terminal process group") < 0 and line.find("no job control in this shell") < 0:
-					logs += line
+					logs += line + '\n'
 		else:
 			logs = logs + "---------- %s ERROR ----------\n%s\n"% (host, result['errmsg'])
 		
