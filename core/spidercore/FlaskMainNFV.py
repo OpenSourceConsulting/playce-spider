@@ -711,7 +711,7 @@ def vm_cli(id=None):
 		env.passwords[host_string + ':22'] = sshpw 
 	
 	commands = ""
-	for line in jsonParams['commands']:
+	for line in jsonParams['commands'].split('\n'):
 		if line.startswith('set '):
 			line.replace('set ', '$SET ')
 		elif line.startswith('show '):
@@ -722,7 +722,7 @@ def vm_cli(id=None):
 			line.replace('save ', '$SAVE ')
 		elif line.startswith('commit '):
 			line.replace('commit ', '$COMMIT ')
-		commands += line
+		commands += line + '\n'
 	env.shell = '/bin/vbash -ic'
 	results = execute(vm_cli_task, params = commands)
 
