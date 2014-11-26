@@ -108,6 +108,68 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 		
 	return json.dumps(result) + '\n'
 
+#	111cc0cf-585c-42d8-8306-327f004aaa03.memory.memory.used.value
+@app.route("/mon/graphite/vmhostmem/<vmhostId>", methods=['GET'])
+def mon_graphite_vmhostmem(vmhostId=None):
+	if vmhostId == None:
+		return "No id for VM", 404
+
+	vms = read_repository('vms')
+	indexes = []
+	for vm in vms:
+		if vm['vmhost'] == vmhostId:
+			indexes.append("target=%s.memory.memory.used.value" % vm['_id'])
+	url = ""
+	for idx in indexes:
+		url += idx + '&' 
+	url += 'from=-30seconds&format=json'
+	url = 'http://localhost:8000/render/?' + url
+	logging.info("URL %s" % url)
+	result = requests.get(url).json()
+# 	for metric in result:
+# 		datapoints = metric['datapoints']
+# 		newDatapoints = []
+# 		for val in datapoints:
+# 			newVal = { "value": val[0], "date": val[1]}
+# 			newDatapoints.append(newVal)
+# 		metric['datapoints'] = newDatapoints
+
+	memResult = {}
+	size = 0
+	for metric in result:
+		target = metric['target'].split('.')
+		vmid, memid, valtype = target[0], target[2], target[3]
+		if vmid not in memResult:
+			memResult[vmid] = {}
+		if memid not in memResult[vmid]:
+			memResult[vmid][memid] = {}
+		memResult[vmid][memid][valtype] = []
+		
+		size = len(metric['datapoints'])
+		for val in metric['datapoints']:
+			memResult[vmid][memid][valtype].append(val['value'])
+		
+	for vmid in memResult:
+		memSum = 0.0
+		for memid in memResult[vmid]:
+			sum = 0.0
+			noneCount = 0
+			for i in range(0, size):
+				for valtype in memResult[vmid][memid]:
+					if memResult[vmid][memid][valtype][i] == None:
+						noneCount += 1
+					else:
+						sum += memResult[vmid][memid][valtype][i]
+			avg = sum / (size - noneCount)
+			memSum += avg
+		memResult[vmid]['memavg'] = memSum / len(memResult[vmid])  
+
+	result = {}
+	for vmid in memResult:
+		result[vmid] = memResult[vmid]['memavg']
+		
+	return json.dumps(result) + '\n'
+
 
 @app.route("/mon/graphite/cpu/<vmid>", methods=['GET'])
 def mon_graphite_cpu(vmid=None):
