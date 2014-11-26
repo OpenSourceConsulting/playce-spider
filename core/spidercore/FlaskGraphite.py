@@ -338,7 +338,7 @@ def mon_graphite_totalview():
 
 	jsonData = request.json
 	for vmid in jsonData:
-		cpuUrl += "&target=sum(averageSeries(%s.cpu.*.cpu.system.value), averageSeries(%s.cpu.*.cpu.user.value))" % (vmid, vmid)
+		cpuUrl += "&target=sum(averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
 		nicUrl += "&target=sum(%s.interface.if_octets.*.*)" % (vmid)
 		memUrl += "&target=%s.memory.memory.used.value" % (vmid)
 
