@@ -157,8 +157,8 @@ def vm_reg_init():
 
 				# 	Seeking which interface can be communicated via management network
 				mgrAddr = ''
-				if 'mgraddr' in vm and pingVM(mgrAddr = vm['mgrAddr'], jsonData['sshid'], jsonData['sshpw']):
-					break
+				if 'mgraddr' in vm and pingVM(vm['mgraddr'], jsonData['sshid'], jsonData['sshpw']):
+					mgrAddr = vm['mgraddr']
 				else:
 					for ifeth in ifs:
 						if 'ipaddr' in ifs[ifeth]:
