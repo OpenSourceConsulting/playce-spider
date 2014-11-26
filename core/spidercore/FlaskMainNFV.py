@@ -720,8 +720,10 @@ def vm_cli(id=None):
 		if result['success'] == 'success':
 			logs += "---------- %s ----------\n" % host
 			for line in result['msg']:
-				logs += line
+				if not line.start("vbash: "):
+					logs += line
 		else:
-			logs = logs + "---------- %s ----------\n%s\n"% (host, result['errmsg'])
-			
+			logs = logs + "---------- %s ERROR ----------\n%s\n"% (host, result['errmsg'])
+		
+		logs += '\n'
 	return logs, 200
