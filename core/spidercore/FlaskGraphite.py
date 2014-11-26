@@ -331,14 +331,24 @@ def mon_graphite_totalview():
 	timespan = request.args.get('timespan')
 	timeunit = request.args.get('timeunit')
 	
-#	url = "http://oscjenkins.ddns.net:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
-	url = "http://192.168.0.130:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
+#	cpuUrl = "http://oscjenkins.ddns.net:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
+	cpuUrl = "http://192.168.0.130:8000/render/?width=700&height=500&from=-%s%s&yMax=100" % (timespan, timeunit)
+	nicUrl = "http://192.168.0.130:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
+	memUrl = "http://192.168.0.130:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
 
 	jsonData = request.json
 	for vmid in jsonData:
-		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
+		cpuUrl += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
+		nicUrl += "&target=sum(%s.interface.if_octets.*.*)" % (vmid)
+		memUrl += "&target=%s.memory.memory.used.value" % (vmid)
 
-	return url + '\n'
+	result = {
+		'cpu': cpuUrl,
+		'nic': nicUrl,
+		'mem': memUrl
+	}
+
+	return json.dumps(result, indent=4)
 
 
 @app.route("/mon/ping", methods=['GET'])
