@@ -59,7 +59,9 @@ Ext.application({
         'VmRoutingRediStore',
         'VmRoutingStaticStore',
         'VmNatStore',
-        'VmDhcpStore'
+        'VmDhcpStore',
+        'ComboVmFirewallNameStore',
+        'VmFirewallStore'
     ],
     views: [
         'AthenaSpider',

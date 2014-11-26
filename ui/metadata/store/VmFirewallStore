@@ -1,0 +1,14 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmFirewallStore",
+        "model": "VmFirewallModel",
+        "storeId": "VmFirewallStore"
+    },
+    "designerId": "58feeec5-14f4-45dd-9cc9-f0631e925f2b"
+}

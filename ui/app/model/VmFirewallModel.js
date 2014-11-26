@@ -53,6 +53,12 @@ Ext.define('spider.model.VmFirewallModel', {
         },
         {
             name: 'source_mac-address'
+        },
+        {
+            name: 'dispSource'
+        },
+        {
+            name: 'dispDestination'
         }
     ]
 });

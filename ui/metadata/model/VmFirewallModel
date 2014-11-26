@@ -141,6 +141,30 @@
                 "name": "source_mac-address"
             },
             "designerId": "82dab9df-657e-4312-8522-ae89eec587d7"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dispSource"
+            },
+            "designerId": "410d0d19-adc4-4d5e-8da8-e9e16377d5e8"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dispDestination"
+            },
+            "designerId": "b4f8b816-d9d1-484a-a04f-be700ba2e342"
         }
     ]
 }

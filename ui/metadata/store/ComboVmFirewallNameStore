@@ -1,0 +1,27 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "ComboVmFirewallNameStore",
+        "storeId": "ComboVmFirewallNameStore"
+    },
+    "designerId": "02d3d5d9-6d40-4f1e-a6f0-cdbbf6acc3ff",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "name"
+            },
+            "designerId": "5d215276-6033-40ae-82d7-2e4fd394b67d"
+        }
+    ]
+}

@@ -81,135 +81,9 @@ Ext.define('spider.controller.VmManagementController', {
         //this.changeNetworkInstanceTab()
     },
 
-    onComboNicNameChange: function(field, newValue, oldValue, eOpts) {
-
-        if(newValue === '') {
-
-            field.up('toolbar').down('button').hide();
-
-        } else {
-
-            this.changeNicData(newValue);
-        }
-
-    },
-
-    onComboBondingNameChange: function(field, newValue, oldValue, eOpts) {
-
-        if(newValue !== '') {
-
-            this.changeBondingData(newValue);
-
-        } else {
-
-            var form = Ext.getCmp("viewBondingForm");
-            form.getForm().reset();
-
-            form.down('#saveBtn').hide();
-            form.down('#deleteBtn').hide();
-
-        }
-
-    },
-
     onComboRoutingTypeChange: function(field, newValue, oldValue, eOpts) {
         if(newValue != "") {
             this.changeRoutingMethod(newValue);
-        }
-    },
-
-    onComboRuleNameChange: function(field, newValue, oldValue, eOpts) {
-
-        if(newValue !== '') {
-
-            var form = Ext.getCmp("viewNatForm");
-            form.getForm().reset();
-
-            form.down('#saveBtn').show();
-            form.down('#deleteBtn').show();
-
-            this.changeNatData(newValue);
-
-        } else {
-
-            var form = Ext.getCmp("viewNatForm");
-            form.getForm().reset();
-
-            form.down('#saveBtn').hide();
-            form.down('#deleteBtn').hide();
-
-        }
-
-    },
-
-    onComboDhcpNetworkNameChange: function(field, newValue, oldValue, eOpts) {
-
-        if(newValue !== '') {
-
-            this.changeDhcpNetworkData(newValue);
-
-        } else {
-
-            var form = Ext.getCmp("viewDhcpNetworkForm");
-            form.getForm().reset();
-
-            form.down('#saveBtn').hide();
-            form.down('#deleteBtn').hide();
-
-        }
-
-    },
-
-    onComboFirewallNameChange: function(field, newValue, oldValue, eOpts) {
-        var firewallName = newValue,
-            ruleField = field.up('form').getForm().findField("comboFirewallRuleName");
-
-        ruleField.setValue("");
-        ruleField.getStore().removeAll();
-
-        var form = Ext.getCmp("viewFirewallForm");
-        form.getForm().reset();
-
-        if(firewallName != "") {
-
-            form.down('#saveBtn').hide();
-            form.down('#deleteBtn').show();
-
-            var recordData = [];
-            Ext.each(vmConstants.vmFirewallRecords, function(record) {
-                if(record.name === firewallName) {
-
-                    recordData = record.rules;
-                }
-            });
-
-            var store = Ext.create('Ext.data.Store', {
-                model: 'spider.model.VmFirewallModel',
-                data: recordData
-            });
-
-            ruleField.bindStore(store);
-
-        } else {
-
-            form.down('#saveBtn').hide();
-            form.down('#deleteBtn').hide();
-
-        }
-
-    },
-
-    onComboFirewallRuleNameChange: function(field, newValue, oldValue, eOpts) {
-        var firewall = field.up('form').getForm().findField("comboFirewallName"),
-            ruleName = newValue;
-
-        var form = Ext.getCmp("viewFirewallForm");
-        form.getForm().reset();
-
-        if(firewall.getValue() != "" && ruleName != "") {
-
-            this.changeFirewallData(firewall.getValue(), ruleName);
-
         }
     },
 
@@ -384,26 +258,8 @@ Ext.define('spider.controller.VmManagementController', {
             "#networkInstanceTabPanel": {
                 tabchange: this.onNetworkInstanceTabPanelTabChange
             },
-            "#comboNicName": {
-                change: this.onComboNicNameChange
-            },
-            "#comboBondingName": {
-                change: this.onComboBondingNameChange
-            },
             "#comboRoutingType": {
                 change: this.onComboRoutingTypeChange
-            },
-            "#comboRuleName": {
-                change: this.onComboRuleNameChange
-            },
-            "#comboDhcpNetworkName": {
-                change: this.onComboDhcpNetworkNameChange
-            },
-            "#comboFirewallName": {
-                change: this.onComboFirewallNameChange
-            },
-            "#comboFirewallRuleName": {
-                change: this.onComboFirewallRuleNameChange
             }
         });
     },
@@ -2949,189 +2805,136 @@ Ext.define('spider.controller.VmManagementController', {
     },
 
     setFirewall: function() {
-        var store;
-        var form = Ext.getCmp("viewFirewallForm");
 
-        Ext.getCmp("comboFirewallName").setValue("");
-        Ext.getCmp("comboFirewallRuleName").setValue("");
+        var viewFirewallForm = Ext.getCmp("viewFirewallForm");
 
-        form.getForm().reset();
+        viewFirewallForm.up('fieldset').down('#saveBtn').hide();
+        viewFirewallForm.up('fieldset').hide();
 
-        if(vmConstants.vmFirewallRecords == null) {
+        viewFirewallForm.getForm().reset();
 
-            this.setVmFirewallRecords();
-
-        } else {
-
-            var datas = vmConstants.vmFirewallRecords;
-
-            var recordData = [];
-            Ext.each(datas, function (record){
-
-                var addFlag = true;
-
-                Ext.each(recordData, function(rData) {
-
-                    if(record.name === rData.name) {
-
-                        addFlag = false;
-                        return false;
-                    }
-                });
-
-                if(addFlag) {
-                    recordData.push(record);
-                }
-
-            });
-
-            store = Ext.create('Ext.data.Store', {
-                model: 'spider.model.VmFirewallModel',
-                data: recordData
-            });
-
-            Ext.getCmp("comboFirewallName").bindStore(store);
-            Ext.getCmp("comboFirewallRuleName").getStore().removeAll();
-
-            vmConstants.me.renderNicComboBox([form.getForm().findField("ethernet")], form.up('panel').getEl(), "해당없음");
-        }
+        this.setVmFirewallRecords();
 
     },
 
-    setVmFirewallRecords: function(comboValue, ruleValue) {
-        var store;
+    setVmFirewallRecords: function() {
+
+        var gridStore = Ext.getStore("VmFirewallStore");
+        gridStore.removeAll();
+
+        var comboStore = Ext.getStore("ComboVmFirewallNameStore");
+        comboStore.removeAll();
+
         var form = Ext.getCmp("viewFirewallForm");
 
         Ext.Ajax.request({
             url: GLOBAL.apiUrlPrefix + 'nfv/' +vmConstants.selectRecord.get("id") + '/firewall/all',
+            method : "GET",
             disableCaching : true,
             waitMsg: 'Loading...',
+            timeout : 3*60*1000,
             waitMsgTarget : form.up('panel').getEl(),
-            //async  : false,
             success: function(response){
 
                 if(response.status == 200) {
 
                     var datas = Ext.decode(response.responseText);
+                    var gridData = [];
+                    var comboData = [];
 
-                    vmConstants.vmFirewallRecords = datas;
+                    Ext.each(datas, function(data) {
 
-                    var recordData = [];
-                    Ext.each(datas, function (record){
+                        if(data.rules != null && data.rules.length > 0) {
 
-                        var addFlag = true;
+                            Ext.each(data.rules, function(rule) {
+                                rule.ethernet = data.ethernet;
+                                rule.inout = data.inout;
+                                rule.name = data.name;
 
-                        Ext.each(recordData, function(rData) {
+                                gridData.push(rule);
+                            });
+                        } else {
 
-                            if(record.name === rData.name) {
+                            data.source_address = " ";
+                            data.source_port = " ";
+                            data.destination_address = " ";
+                            data.destination_port = " ";
+                            data.action = " ";
+                            data.protocol = " ";
+                            data["source_mac-address"] = " ";
 
-                                addFlag = false;
-                                return false;
-                            }
-                        });
-
-                        if(addFlag) {
-                            recordData.push(record);
+                            gridData.push(data);
                         }
 
+                        comboData.push(data);
                     });
 
-                    store = Ext.create('Ext.data.Store', {
-                        model: 'spider.model.VmFirewallModel',
-                        data: recordData
-                    });
-
-                    Ext.getCmp("comboFirewallName").bindStore(store);
-                    Ext.getCmp("comboFirewallRuleName").getStore().removeAll();
+                    gridStore.loadData(gridData, false);
+                    comboStore.loadData(comboData, false);
 
                     vmConstants.me.renderNicComboBox([form.getForm().findField("ethernet")], form.up('panel').getEl(), "해당없음");
-
-                    if(comboValue != null) {
-
-                        vmConstants.me.changeFirewallData(comboValue, ruleValue);
-
-                    }
                 }
 
             }
         });
-
     },
 
-    changeFirewallData: function(firewallName, ruleName) {
+    changeFirewallData: function(record) {
         var data;
         var form = Ext.getCmp("viewFirewallForm");
 
-        if(firewallName == "" || ruleName == "") {
-            return;
-        }
-
-        form.down('#saveBtn').show();
-        form.down('#deleteBtn').show();
-
-        Ext.each(vmConstants.vmFirewallRecords, function(record) {
-
-            if(record.name === firewallName) {
-
-                Ext.each(record.rules, function(rule) {
-
-                    if(rule.rule === ruleName) {
-                        rule.name = firewallName;
-                        rule.ethernet = record.ethernet;
-                        rule.inout = record.inout;
-
-                        data = rule;
-                    }
-                });
-
-            }
-        });
-
+        form.up('fieldset').down('#saveBtn').show();
         form.getForm().reset();
-        form.getForm().findField("name").setValue(firewallName);
-        form.getForm().setValues(data);
 
-        if(data.source_address != null && data.source_address.indexOf("!") === 0) {
+        Ext.getCmp("displayFirewallName").setValue(record.get("name"));
+        Ext.getCmp("displayFirewallRuleName").setValue(record.get("rule"));
 
-            form.getForm().findField("source_address").setValue(data.source_address.replace("!",""));
+        form.getForm().loadRecord(record);
+
+        if(record.get("source_address") != null && record.get("source_address").indexOf("!") === 0) {
+
+            form.getForm().findField("source_address").setValue(record.get("source_address").replace("!",""));
             form.getForm().findField("source_address").nextNode('checkboxfield').setValue(true);
 
         }
 
-        if(data.destination_address != null && data.destination_address.indexOf("!") === 0) {
+        if(record.get("destination_address") != null && record.get("destination_address").indexOf("!") === 0) {
 
-            form.getForm().findField("destination_address").setValue(data.destination_address.replace("!",""));
+            form.getForm().findField("destination_address").setValue(record.get("destination_address").replace("!",""));
             form.getForm().findField("destination_address").nextNode('checkboxfield').setValue(true);
 
         }
 
-        if(data.source_port != null && data.source_port.indexOf("!") === 0) {
+        if(record.get("source_port") != null && record.get("source_port").indexOf("!") === 0) {
 
-            form.getForm().findField("source_port").setValue(data.source_port.replace("!",""));
+            form.getForm().findField("source_port").setValue(record.get("source_port").replace("!",""));
             form.getForm().findField("source_port").nextNode('checkboxfield').setValue(true);
 
         }
 
-        if(data.destination_port != null && data.destination_port.indexOf("!") === 0) {
+        if(record.get("destination_port") != null && record.get("destination_port").indexOf("!") === 0) {
 
-            form.getForm().findField("destination_port").setValue(data.destination_port.replace("!",""));
+            form.getForm().findField("destination_port").setValue(record.get("destination_port").replace("!",""));
             form.getForm().findField("destination_port").nextNode('checkboxfield').setValue(true);
 
         }
 
-        if(data.protocol != null && data.protocol.indexOf("!") === 0) {
+        if(record.get("protocol") != null && record.get("protocol").indexOf("!") === 0) {
 
-            form.getForm().findField("protocol").setValue(data.protocol.replace("!",""));
+            form.getForm().findField("protocol").setValue(record.get("protocol").replace("!",""));
             form.getForm().findField("protocol").nextNode('checkboxfield').setValue(true);
 
         }
 
-        if(data["source_mac-address"] != null && data["source_mac-address"].indexOf("!") === 0) {
+        if(record.get("source_mac-address") != null && record.get("source_mac-address").indexOf("!") === 0) {
 
-            form.getForm().findField("source_mac-address").setValue(data["source_mac-address"].replace("!",""));
+            form.getForm().findField("source_mac-address").setValue(record.get("source_mac-address").replace("!",""));
             form.getForm().findField("source_mac-address").nextNode('checkboxfield').setValue(true);
 
         }
+
+        form.up('fieldset').show();
+
 
     },
 
@@ -3143,7 +2946,7 @@ Ext.define('spider.controller.VmManagementController', {
         var component = Ext.getCmp("addFirewallForm");
         var components = [component.getForm().findField("ethernet")];
 
-        component.getForm().findField("name").bindStore(Ext.getCmp("comboFirewallName").getStore());
+        component.getForm().findField("name").bindStore(Ext.getStore("ComboVmFirewallNameStore"));
 
         vmConstants.me.renderNicComboBox(components, component.getEl(), "해당없음");
     },
@@ -3228,9 +3031,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                             addFirewallForm.up('window').close();
 
-                            Ext.getCmp("comboFirewallName").setValue("");
-                            Ext.getCmp("comboFirewallRuleName").setValue("");
-                            vmConstants.me.setVmFirewallRecords();
+                            vmConstants.me.setFirewall();
 
                         });
 
@@ -3314,31 +3115,21 @@ Ext.define('spider.controller.VmManagementController', {
             sendData.after = formData;
 
             sendData.before = {};
-            Ext.each(vmConstants.vmFirewallRecords, function(record) {
 
-                if(record.name === formData.name) {
+            var grid = Ext.getCmp("viewVmFirewallGrid"),
+            record = grid.getSelectionModel().getSelection()[0];
 
-                    Ext.each(record.rules, function(rule) {
-
-                        if(rule.rule === formData.rule) {
-
-                            sendData.before.action					= (rule.action == null ? "" : rule.action);
-                            sendData.before.destination_address		= (rule.destination_address == null ? "" : rule.destination_address);
-                            sendData.before.destination_port		= (rule.destination_port == null ? "" : rule.destination_port);
-                            sendData.before.ethernet				= (rule.ethernet == null ? "" : rule.ethernet);
-                            sendData.before.inout					= (rule.inout == null ? "" : rule.inout);
-                            sendData.before.name					= (rule.name == null ? "" : rule.name);
-                            sendData.before.protocol				= (rule.protocol == null ? "" : rule.protocol);
-                            sendData.before.rule					= (rule.rule == null ? "" : rule.rule);
-                            sendData.before["source_mac-address"]	= (rule["source_mac-address"] == null ? "" : rule["source_mac-address"]);
-                            sendData.before.source_address			= (rule.source_address == null ? "" : rule.source_address);
-                            sendData.before.source_port				= (rule.source_port == null ? "" : rule.source_port);
-
-                        }
-                    });
-
-                }
-            });
+            sendData.before.action					= (record.get("action") == null ? "" : record.get("action"));
+            sendData.before.destination_address		= (record.get("destination_address") == null ? "" : record.get("destination_address"));
+            sendData.before.destination_port		= (record.get("destination_port") == null ? "" : record.get("destination_port"));
+            sendData.before.ethernet				= (record.get("ethernet") == null ? "" : record.get("ethernet"));
+            sendData.before.inout					= (record.get("inout") == null ? "" : record.get("inout"));
+            sendData.before.name					= (record.get("name") == null ? "" : record.get("name"));
+            sendData.before.protocol				= (record.get("protocol") == null ? "" : record.get("protocol"));
+            sendData.before.rule					= (record.get("rule") == null ? "" : record.get("rule"));
+            sendData.before["source_mac-address"]	= (record.get("source_mac-address") == null ? "" : record.get("source_mac-address"));
+            sendData.before.source_address			= (record.get("source_address")== null ? "" : record.get("source_address"));
+            sendData.before.source_port				= (record.get("source_port") == null ? "" : record.get("source_port"));
 
 
             Ext.Ajax.request({
@@ -3348,7 +3139,7 @@ Ext.define('spider.controller.VmManagementController', {
                      "Content-Type" : "application/json"
                  },
                  waitMsg: 'Saving Data...',
-                 waitMsgTarget : viewFirewallForm.getEl(),
+                 waitMsgTarget : viewFirewallForm.up('panel').getEl(),
                  jsonData: sendData,
                  success: function (response) {
 
@@ -3356,8 +3147,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                         Ext.Msg.alert('Success', '저장이 완료되었습니다.', function (){
 
-                            viewFirewallForm.getForm().reset();
-                            vmConstants.me.setVmFirewallRecords(formData.name, formData.rule);
+                            vmConstants.me.setVmFirewallRecords();
 
                         });
 
@@ -3373,14 +3163,7 @@ Ext.define('spider.controller.VmManagementController', {
 
     },
 
-    deleteVMFirewall: function(button) {
-
-        var ruleField = Ext.getCmp("comboFirewallRuleName");
-        if(ruleField.getStore().getCount() > 0 && (ruleField.getValue() == null || ruleField.getValue() == "") ) {
-
-            Ext.Msg.alert('Failure', "해당 Firewall 에 Rule 정보가 한 건 이상 존재할 경우 <br/> Rule 을 선택한 후에 삭제하시기 바랍니다.");
-            return;
-        }
+    deleteVMFirewall: function(record) {
 
         Ext.MessageBox.confirm('Confirm', '해당 Firewall 정보를 삭제하시겠습니까?', function(btn){
 
@@ -3389,30 +3172,17 @@ Ext.define('spider.controller.VmManagementController', {
                 var viewFirewallForm = Ext.getCmp("viewFirewallForm");
                 var formData = viewFirewallForm.getForm().getFieldValues();
 
-                var sendData = {rule : ruleField.getValue()};
-                Ext.each(vmConstants.vmFirewallRecords, function(record) {
-
-                    if(record.name === formData.name) {
-
-                        Ext.each(record.rules, function(rule) {
-
-                            if(rule.rule === formData.rule) {
-
-                                sendData = rule;
-                            }
-                        });
-
-                    }
-                });
+                var sendData = {rule : record.get("rule"),
+                                ethernet : record.get("ethernet")};
 
                 Ext.Ajax.request({
-                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/firewall/" + Ext.getCmp("comboFirewallName").getValue(),
+                    url: GLOBAL.apiUrlPrefix + "nfv/" + vmConstants.selectRecord.get("id") + "/firewall/" + record.get("name"),
                     method: "DELETE",
                     headers : {
                         "Content-Type" : "application/json"
                     },
                     waitMsg: 'Delete Data...',
-                    waitMsgTarget : viewFirewallForm.getEl(),
+                    waitMsgTarget : viewFirewallForm.up('panel').getEl(),
                     jsonData: sendData,
                     success: function (response) {
 
@@ -3420,9 +3190,7 @@ Ext.define('spider.controller.VmManagementController', {
 
                             Ext.Msg.alert('Success', '삭제가 완료되었습니다.', function (){
 
-                                Ext.getCmp("comboFirewallName").setValue("");
-                                Ext.getCmp("comboFirewallRuleName").setValue("");
-                                vmConstants.me.setVmFirewallRecords();
+                                vmConstants.me.setFirewall();
 
                             });
 
