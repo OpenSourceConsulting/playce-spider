@@ -156,29 +156,31 @@ def vm_reg_init():
 				}
 
 				# 	Seeking which interface can be communicated via management network
-				for ifeth in ifs:
-					if 'ipaddr' in ifs[ifeth]:
-						ipAddr = ifs[ifeth]['ipaddr']
-						if pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
-							break
+				mgrAddr = ''
+				if 'mgraddr' in vm and pingVM(mgrAddr = vm['mgrAddr'], jsonData['sshid'], jsonData['sshpw']):
+					break
 				else:
-					return "FAIL: ping", 503
+					for ifeth in ifs:
+						if 'ipaddr' in ifs[ifeth]:
+							ipAddr = ifs[ifeth]['ipaddr']
+							if ipAddr != mgrAddr and pingVM(ipAddr, jsonData['sshid'], jsonData['sshpw']):
+								mgrAddr = ipAddr
+								break
+					else:
+						return "FAIL: ping", 503
 				
 				if 'interim' in vm and vm['interim']:
+					init = True
 					vms[i] = jsonData
-					break
-				elif 'mgraddr' in vm and vm['mgraddr'] != ipAddr:		# vm, not vms
+				else:
 					init = False
 					vms[i] = jsonData
-					break
-				else:
-					return "DUP", 409
 		
 		#	Assign the unique VM is to NFV CollectD's hostname via Fabric
 		#	SSH Account should be one for newly created VM
 		
 		try:
-			jsonData['mgraddr'] = ipAddr
+			jsonData['mgraddr'] = mgrAddr
 			if init:
 				initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], vm['_id'], jsonData['hostname'])
 		except Exception, e:
