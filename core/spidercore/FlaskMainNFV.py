@@ -709,9 +709,22 @@ def vm_cli(id=None):
 		host_string = "%s@%s" % (sshid, addr)
 		env.hosts.append(host_string)
 		env.passwords[host_string + ':22'] = sshpw 
-		
+	
+	commands = ""
+	for line in jsonParams['commands']:
+		if line.startswith('set '):
+			line.replace('set ', '$SET ')
+		elif line.startswith('show '):
+			line.replace('show ', '$SHOW ')
+		elif line.startswith('delete '):
+			line.replace('delete ', '$DELETE ')
+		elif line.startswith('save '):
+			line.replace('save ', '$SAVE ')
+		elif line.startswith('commit '):
+			line.replace('commit ', '$COMMIT ')
+		commands += line
 	env.shell = '/bin/vbash -ic'
-	results = execute(vm_cli_task, params = jsonParams["commands"])
+	results = execute(vm_cli_task, params = commands)
 
 	logs = ""
 	for host in env.hosts:
@@ -720,7 +733,7 @@ def vm_cli(id=None):
 		if result['success'] == 'success':
 			logs += "---------- %s ----------\n" % host
 			for line in result['msg']:
-				if not line.startswith("vbash: "):
+				if line.find("cannot set terminal process group") < 0 and line.find("no job control in this shell") < 0:
 					logs += line
 		else:
 			logs = logs + "---------- %s ERROR ----------\n%s\n"% (host, result['errmsg'])
