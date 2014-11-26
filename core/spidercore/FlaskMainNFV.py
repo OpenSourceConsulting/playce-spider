@@ -676,8 +676,10 @@ def vmrouting_ospf_area(id=None, atype=None):
 		return "OK", 200
 	else:
 		return result['errmsg'], 500
-	
 
+from fabric.api import parallel
+
+@parallel
 def vm_cli_task(params):
 	commands = params.split("\n")
 	
@@ -696,22 +698,28 @@ def vm_cli(id=None):
 		jsonParams = json.loads(request.data)
 		logger.debug(json.dumps(jsonParams, indent=4))
 		
-	logs = ""
+	
+	env.hosts = []
+	env.passwords = {}
 	for vmid in jsonParams["vms"]:
 		vm = get_vm(vmid)
 		addr = vm['mgraddr']
+		sshid = vm['sshid']
+		sshpw = vm['sshpw']
+		host_string = "%s@%s" % (sshid, addr)
+		env.hosts.append(host_string)
+		env.passwords[host_string + ':22'] = sshpw 
 		
-		env.hosts = [ addr ]
-		env.user = vm['sshid']
-		env.password = vm['sshpw']
-		env.shell = '/bin/vbash -ic'
-		results = execute(vm_cli_task, hosts=[addr], params = jsonParams["commands"])
-	
-		result = results[addr]
+	env.shell = '/bin/vbash -ic'
+	results = execute(vm_cli_task, params = jsonParams["commands"])
+
+	logs = ""
+	for host in env.hosts:
+		result = results[host]
 		
 		if result['success'] == 'success':
-			logs = logs + "---------- %s ----------\n%s"% (addr, result['msg'])
+			logs = logs + "---------- %s ----------\n%s"% (host, result['msg'])
 		else:
-			logs = logs + "---------- %s ----------\n%s"% (addr, result['errmsg'])
+			logs = logs + "---------- %s ----------\n%s"% (host, result['errmsg'])
 			
 	return logs, 200

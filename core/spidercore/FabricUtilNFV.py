@@ -27,7 +27,6 @@ Created on 2014. 9. 11.
 
 from fabric.api import run, sudo, env, put, cd
 from fabric.tasks import execute
-import rpyc
 import json
 from spidercore import *
 from __builtin__ import int
@@ -35,26 +34,6 @@ import os
 import tempfile
 
 logger = logging.getLogger(__name__)
-
-def show_interfaces():
-	result = run('show interfaces', pty=False, quiet=True)
-	lines = result.split('\n')
-	try :
-		conn = rpyc.connect("centos7", 18881)
-	except:
-		print "You may not run python GrokService.py at centos7. Please check it"
-		exit(1)
-	conn.root.add_pattern('VYATTA_ETH_STATUS', '[uDA]')
-	foundHeader = False
-	for line in lines:
-# 		print "LINE: " + line
-		if conn.root.parse(line, r"Interface%{SPACE}IP Address%{SPACE}S/L  Description"):
-			foundHeader = True
-		
-		if foundHeader:
-			parsed = conn.root.parse(line, r"%{USERNAME:nic_name}%{SPACE:}%{IP:addr}/%{NUMBER:subnet}%{SPACE:}%{VYATTA_ETH_STATUS:state}/%{VYATTA_ETH_STATUS:link}")
-			if parsed != None:
-				print parsed
 
 def show_interfaces_with_configure(filter):
 	f = open(mainDir + '/commands.txt', 'w')
