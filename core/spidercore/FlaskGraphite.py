@@ -106,8 +106,8 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 
 	result = {}
 	for vmid in cpuResult:
-		result[vmid] = cpuResult[vmid]['cpuavg']
-		result['vmname'] = idtoname[vmid]
+		result[vmid] = {'value': cpuResult[vmid]['cpuavg']}
+		result[vmid]['vmname'] = idtoname[vmid]
 		
 	return json.dumps(result) + '\n'
 
@@ -171,8 +171,8 @@ def mon_graphite_vmhostmem(vmhostId=None):
 
 	result = {}
 	for vmid in memResult:
-		result[vmid] = memResult[vmid]['memavg']
-		result['vmname'] = idtoname[vmid]
+		result[vmid] = {'value': memResult[vmid]['memavg']}
+		result[vmid]['vmname'] = idtoname[vmid]
 		
 	return json.dumps(result) + '\n'
 
@@ -236,8 +236,8 @@ def mon_graphite_vmhostnet(vmhostId=None):
 
 	result = {}
 	for vmid in netResult:
-		result[vmid] = netResult[vmid]['netavg']
-		result['vmname'] = idtoname[vmid]
+		result[vmid] = {'value': netResult[vmid]['netavg']}
+		result[vmid]['vmname'] = idtoname[vmid]
 		
 	return json.dumps(result) + '\n'
 
