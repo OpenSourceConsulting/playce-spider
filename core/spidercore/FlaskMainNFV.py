@@ -718,8 +718,10 @@ def vm_cli(id=None):
 		result = results[host]
 		
 		if result['success'] == 'success':
-			logs = logs + "---------- %s ----------\n%s"% (host, result['msg'])
+			logs += "---------- %s ----------\n" % host
+			for line in result['msg']:
+				logs += line
 		else:
-			logs = logs + "---------- %s ----------\n%s"% (host, result['errmsg'])
+			logs = logs + "---------- %s ----------\n%s\n"% (host, result['errmsg'])
 			
 	return logs, 200
