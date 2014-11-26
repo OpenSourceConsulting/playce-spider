@@ -71,7 +71,34 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 # 			newVal = { "value": val[0], "date": val[1]}
 # 			newDatapoints.append(newVal)
 # 		metric['datapoints'] = newDatapoints
-	return json.dumps(result) + '\n'
+
+	cpuResult = {}
+	size = 0
+	for metric in result:
+		target = metric['target'].split('.')
+		vmid, cpuid, valtype = target[0], target[2], target[4]
+		if vmid not in cpuResult:
+			cpuResult[vmid] = {}
+		if cpuid in cpuResult[vmid]:
+			cpuResult[vmid][cpuid] = {}
+		cpuResult[vmid][cpuid][valtype] = []
+		
+		size = len(metric['datapoints'])
+		for val in metric['datapoints']:
+			cpuResult[vmid][cpuid][valtype].append(val['value'])
+		
+	for vmid in cpuResult:
+		cpuSum = 0.0
+		for cpuid in cpuResult[vmid]:
+			sum = 0.0
+			for i in range(0, size):
+				for valtype in cpuResult[vmid][cpuid]:
+					sum += cpuResult[vmid][cpuid][valtype][i]
+			avg = sum / size
+			cpuSum += avg
+		cpuResult[vmid]['cpuavg'] = cpuSum / len(cpuResult[vmid])  
+
+	return json.dumps(cpuResult) + '\n'
 
 
 @app.route("/mon/graphite/cpu/<vmid>", methods=['GET'])
