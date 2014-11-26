@@ -331,7 +331,8 @@ def mon_graphite_totalview():
 	timespan = request.args.get('timespan')
 	timeunit = request.args.get('timeunit')
 	
-	url = "http://localhost:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
+#	url = "http://oscjenkins.ddns.net:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
+	url = "http://192.168.0.130:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
 
 	jsonData = request.json
 	for vmid in jsonData:
