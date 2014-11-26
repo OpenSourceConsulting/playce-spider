@@ -45,30 +45,23 @@ def mon_graphite():
 	return json.dumps(result) + '\n'
 
 
+#	http://192.168.0.130:8000/render/?width=786&height=508&_salt=1417023959.735
+#	target=111cc0cf-585c-42d8-8306-327f004aaa03.cpu.*.cpu.{user,system}.value&from=-30seconds
 @app.route("/mon/graphite/vmhostcpu/<vmhostId>", methods=['GET'])
 def mon_graphite_vmhostcpu(vmhostId=None):
 	if vmhostId == None:
 		return "No id for VM", 404
 
 	vms = read_repository('vms')
-	selected_vms = []
+	indexes = []
 	for vm in vms:
 		if vm['vmhost'] == vmhostId:
-			selected_vms.append("sum(%s.cpu.*.cpu.system.value, %s.cpu.*.cpu.user.value)" % (vm['_id'], vm['_id']))
-	fun = "averageSeries("
-	first = True
-	for f in selected_vms:
-		if not first:
-			fun += ','
-		else:
-			first = False
-		fun += f
-	fun += ")"
-	# hours, days, minutes, seconds
-	timespan = request.args.get('timespan')
-	timeunit = request.args.get('timeunit')
-	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
-	url += "&target=%s" % (fun)
+			indexes.append("target=%s.cpu.*.cpu.{user,system}.value" % vm['_id'])
+	url = ""
+	for idx in indexes:
+		url += idx + '&' 
+	url += 'from=-30seconds&format=json'
+	url = 'http://localhost:8000/render/?' + url
 	logging.info("URL %s" % url)
 	result = requests.get(url).json()
 # 	for metric in result:
