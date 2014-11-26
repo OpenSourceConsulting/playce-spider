@@ -61,6 +61,21 @@ Start WebApp
 
 ```
 [jerryj@localhost graphite]$ sudo pip install 'gunicorn==19.1'
+[jerryj@localhost graphite]$ sudo gunicorn_django --workers=2 -b:8000
+```
 
-ubuntu@ip-10-230-165-211:/opt/graphite/webapp/graphite$ sudo gunicorn_django --workers=2 -b:8000
+Start NTP server
+
+```
+[jerryj@localhost graphite]$ sudo yum install ntp 
+[jerryj@localhost graphite]$ sudo vi /etc/ntp.conf
+# Use public servers from the pool.ntp.org project.
+# Please consider joining the pool (http://www.pool.ntp.org/join.html).
+#server 0.centos.pool.ntp.org
+#server 1.centos.pool.ntp.org
+#server 2.centos.pool.ntp.org
+server kr.pool.ntp.org
+server time.bora.net
+server time.kornet.net
+[jerryj@localhost graphite]$ sudo service ntpd restart
 ```
