@@ -698,7 +698,7 @@ def vm_cli(id=None):
 		jsonParams = json.loads(request.data)
 		logger.debug(json.dumps(jsonParams, indent=4))
 		
-	
+	vmname_map = {}
 	env.hosts = []
 	env.passwords = {}
 	for vmid in jsonParams["vms"]:
@@ -708,7 +708,8 @@ def vm_cli(id=None):
 		sshpw = vm['sshpw']
 		host_string = "%s@%s" % (sshid, addr)
 		env.hosts.append(host_string)
-		env.passwords[host_string + ':22'] = sshpw 
+		env.passwords[host_string + ':22'] = sshpw
+		vmname_map[host_string] = vm['vmname'] 
 	
 	commands = ""
 	for line in jsonParams['commands'].split('\n'):
@@ -731,7 +732,7 @@ def vm_cli(id=None):
 		result = results[host]
 		
 		if result['success'] == 'success':
-			logs += "---------- %s ----------\n" % host
+			logs += "---------- %s ----------\n" % vmname_map['host']
 			for line in result['msg'].split('\n'):
 				if line.find("cannot set terminal process group") < 0 and line.find("no job control in this shell") < 0:
 					logs += line + '\n'
