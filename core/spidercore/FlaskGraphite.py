@@ -79,7 +79,7 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 		vmid, cpuid, valtype = target[0], target[2], target[4]
 		if vmid not in cpuResult:
 			cpuResult[vmid] = {}
-		if cpuid in cpuResult[vmid]:
+		if cpuid not in cpuResult[vmid]:
 			cpuResult[vmid][cpuid] = {}
 		cpuResult[vmid][cpuid][valtype] = []
 		
@@ -91,10 +91,14 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 		cpuSum = 0.0
 		for cpuid in cpuResult[vmid]:
 			sum = 0.0
+			noneCount = 0
 			for i in range(0, size):
 				for valtype in cpuResult[vmid][cpuid]:
-					sum += cpuResult[vmid][cpuid][valtype][i]
-			avg = sum / size
+					if cpuResult[vmid][cpuid][valtype][i] == None:
+						noneCount += 1
+					else:
+						sum += cpuResult[vmid][cpuid][valtype][i]
+			avg = sum / (size - noneCount)
 			cpuSum += avg
 		cpuResult[vmid]['cpuavg'] = cpuSum / len(cpuResult[vmid])  
 
