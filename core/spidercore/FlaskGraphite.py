@@ -102,7 +102,11 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 			cpuSum += avg
 		cpuResult[vmid]['cpuavg'] = cpuSum / len(cpuResult[vmid])  
 
-	return json.dumps(cpuResult) + '\n'
+	result = {}
+	for vmid in cpuResult:
+		result[vmid] = cpuResult[vmid]['cpuavg']
+		
+	return json.dumps(result) + '\n'
 
 
 @app.route("/mon/graphite/cpu/<vmid>", methods=['GET'])
