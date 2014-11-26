@@ -713,15 +713,15 @@ def vm_cli(id=None):
 	commands = ""
 	for line in jsonParams['commands'].split('\n'):
 		if line.startswith('set '):
-			line.replace('set ', '$SET ')
+			line = line.replace('set ', '$SET ')
 		elif line.startswith('show '):
-			line.replace('show ', '$SHOW ')
+			line = line.replace('show ', '$SHOW ')
 		elif line.startswith('delete '):
-			line.replace('delete ', '$DELETE ')
+			line = line.replace('delete ', '$DELETE ')
 		elif line.startswith('save '):
-			line.replace('save ', '$SAVE ')
+			line = line.replace('save ', '$SAVE ')
 		elif line.startswith('commit '):
-			line.replace('commit ', '$COMMIT ')
+			line = line.replace('commit ', '$COMMIT ')
 		commands += line + '\n'
 	env.shell = '/bin/vbash -ic'
 	results = execute(vm_cli_task, params = commands)
