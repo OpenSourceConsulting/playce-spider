@@ -44,6 +44,7 @@ def vm_refresh(vmid=None):
 	for vm in vms:
 		if '_id' in vm and (vmid == vm['_id'] or vmid == '_all'):
 			logger.debug("refresh " + vm['id'])
+			refresh_vm(vm['mgraddr'], vm['sshid'], vm['sshpw'])
 			
 	return json.dumps(results)
 

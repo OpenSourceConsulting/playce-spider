@@ -1,0 +1,42 @@
+while true
+do
+COUNT=`/sbin/ifconfig -a | grep "inet addr" | grep -v "127\." | wc -l`
+if [ "$COUNT" -gt "0" ]; then
+	break
+fi
+echo $COUNT
+sleep 1
+done
+
+IFCFG=`ifconfig -a`
+ROUTE=`netstat -nr`
+VBASH=`vbash --version`
+UNAME=`uname -a`
+
+cat > /tmp/init.sh.tmp << EOF
+### IFCONFIG
+$IFCFG
+### ROUTE
+$ROUTE
+### VBASH
+$VBASH
+### UNAME
+$UNAME
+### END
+EOF
+
+set date ntp spider1.controller.osci.kr
+
+for i in 1 2
+do
+
+RESULT=`curl -X POST http://spider$i.controller.osci.kr:5001/vmreg -H "Content-Type: text/plain" --data-binary @/tmp/init.sh.tmp`
+
+if [ "$RESULT" == "OK" ]; then
+	echo $RESULT
+	exit
+else
+	echo $RESULT
+fi
+
+done

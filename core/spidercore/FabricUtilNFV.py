@@ -614,6 +614,9 @@ def get_all_nic_config(vmid):
 
 def refresh_vm_task():
 	try:
+		with cd('.spider'):
+			put(open(mainDir + '/init.txt'), 'init.sh', mode=0755)
+			sudo('mv init.sh /etc/spider/init.sh')
 		succeeded = sudo('/etc/spider/init.sh', pty=False, quiet=True).succeeded
 	except:
 		succeeded = False
