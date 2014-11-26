@@ -52,11 +52,13 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 	if vmhostId == None:
 		return "No id for VM", 404
 
+	idtoname = {}
 	vms = read_repository('vms')
-	indexes = []
+	indexes = {}
 	for vm in vms:
 		if vm['vmhost'] == vmhostId:
 			indexes.append("target=%s.cpu.*.cpu.{user,system}.value" % vm['_id'])
+			idtoname[vm['_id']] = vm['vmname']
 	url = ""
 	for idx in indexes:
 		url += idx + '&' 
@@ -105,6 +107,7 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 	result = {}
 	for vmid in cpuResult:
 		result[vmid] = cpuResult[vmid]['cpuavg']
+		result['vmname'] = idtoname[vmid]
 		
 	return json.dumps(result) + '\n'
 
@@ -114,11 +117,13 @@ def mon_graphite_vmhostmem(vmhostId=None):
 	if vmhostId == None:
 		return "No id for VM", 404
 
+	idtoname = {}
 	vms = read_repository('vms')
 	indexes = []
 	for vm in vms:
 		if vm['vmhost'] == vmhostId:
 			indexes.append("target=%s.memory.memory.used.value" % vm['_id'])
+			idtoname[vm['_id']] = vm['vmname']
 	url = ""
 	for idx in indexes:
 		url += idx + '&' 
@@ -167,6 +172,7 @@ def mon_graphite_vmhostmem(vmhostId=None):
 	result = {}
 	for vmid in memResult:
 		result[vmid] = memResult[vmid]['memavg']
+		result['vmname'] = idtoname[vmid]
 		
 	return json.dumps(result) + '\n'
 
@@ -176,11 +182,13 @@ def mon_graphite_vmhostnet(vmhostId=None):
 	if vmhostId == None:
 		return "No id for VM", 404
 
+	idtoname = {}
 	vms = read_repository('vms')
 	indexes = []
 	for vm in vms:
 		if vm['vmhost'] == vmhostId:
 			indexes.append("target=%s.interface.if_packets.*.{tx,rx}" % vm['_id'])
+			idtoname[vm['_id']] = vm['vmname']
 	url = ""
 	for idx in indexes:
 		url += idx + '&' 
@@ -229,6 +237,7 @@ def mon_graphite_vmhostnet(vmhostId=None):
 	result = {}
 	for vmid in netResult:
 		result[vmid] = netResult[vmid]['netavg']
+		result['vmname'] = idtoname[vmid]
 		
 	return json.dumps(result) + '\n'
 
