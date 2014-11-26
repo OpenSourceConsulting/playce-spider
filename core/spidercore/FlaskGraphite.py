@@ -334,8 +334,7 @@ def mon_graphite_totalview():
 	url = "http://localhost:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
 
 	jsonData = request.json
-	for vm in jsonData:
-		vmid = vm['vmid'],
+	for vmid in jsonData:
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
 
 	return url + '\n'
