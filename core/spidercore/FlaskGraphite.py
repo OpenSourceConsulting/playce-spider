@@ -170,6 +170,68 @@ def mon_graphite_vmhostmem(vmhostId=None):
 		
 	return json.dumps(result) + '\n'
 
+# 111cc0cf-585c-42d8-8306-327f004aaa03.interface.if_packets.eth0.tx
+@app.route("/mon/graphite/vmhostnet/<vmhostId>", methods=['GET'])
+def mon_graphite_vmhostnet(vmhostId=None):
+	if vmhostId == None:
+		return "No id for VM", 404
+
+	vms = read_repository('vms')
+	indexes = []
+	for vm in vms:
+		if vm['vmhost'] == vmhostId:
+			indexes.append("target=%s.interface.if_packets.*.{tx,rx}" % vm['_id'])
+	url = ""
+	for idx in indexes:
+		url += idx + '&' 
+	url += 'from=-30seconds&format=json'
+	url = 'http://localhost:8000/render/?' + url
+	logging.info("URL %s" % url)
+	result = requests.get(url).json()
+# 	for metric in result:
+# 		datapoints = metric['datapoints']
+# 		newDatapoints = []
+# 		for val in datapoints:
+# 			newVal = { "value": val[0], "date": val[1]}
+# 			newDatapoints.append(newVal)
+# 		metric['datapoints'] = newDatapoints
+
+	netResult = {}
+	size = 0
+	for metric in result:
+		target = metric['target'].split('.')
+		vmid, nicid, valtype = target[0], target[3], target[4]
+		if vmid not in netResult:
+			netResult[vmid] = {}
+		if nicid not in netResult[vmid]:
+			netResult[vmid][nicid] = {}
+		netResult[vmid][nicid][valtype] = []
+		
+		size = len(metric['datapoints'])
+		for val in metric['datapoints']:
+			netResult[vmid][nicid][valtype].append(val['value'])
+		
+	for vmid in netResult:
+		netSum = 0.0
+		for nicid in netResult[vmid]:
+			sum = 0.0
+			noneCount = 0
+			for i in range(0, size):
+				for valtype in netResult[vmid][nicid]:
+					if netResult[vmid][nicid][valtype][i] == None:
+						noneCount += 1
+					else:
+						sum += netResult[vmid][nicid][valtype][i]
+			avg = sum / (size - noneCount)
+			netSum += avg
+		netResult[vmid]['netavg'] = netSum / len(netResult[vmid])  
+
+	result = {}
+	for vmid in netResult:
+		result[vmid] = netResult[vmid]['netavg']
+		
+	return json.dumps(result) + '\n'
+
 
 @app.route("/mon/graphite/cpu/<vmid>", methods=['GET'])
 def mon_graphite_cpu(vmid=None):
