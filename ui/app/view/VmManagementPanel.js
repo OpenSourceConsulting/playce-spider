@@ -1019,7 +1019,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                             minWidth: 130,
                                                             dataIndex: 'address',
                                                             emptyCellText: 'Default',
-                                                            text: 'IP 주소'
+                                                            text: 'IP 주소/Subnet'
                                                         },
                                                         {
                                                             xtype: 'gridcolumn',
@@ -1194,7 +1194,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         labelStyle: 'color:#666;font-weight: bold;text-align: right;',
                                                         labelSeparator: ' :',
                                                         margin: '0 10 0 0',
-                                                        labelWidth: 80
+                                                        labelWidth: 110
                                                     },
                                                     items: [
                                                         {
@@ -1211,7 +1211,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
-                                                                    fieldLabel: 'IP 주소',
+                                                                    fieldLabel: 'IP 주소/Subnet',
                                                                     name: 'address',
                                                                     emptyText: 'Default'
                                                                 },
@@ -1410,7 +1410,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                     minWidth: 130,
                                                                     dataIndex: 'address',
                                                                     emptyCellText: 'Default',
-                                                                    text: 'IP 주소'
+                                                                    text: 'IP 주소/Subnet'
                                                                 },
                                                                 {
                                                                     xtype: 'gridcolumn',
@@ -1580,7 +1580,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                         labelStyle: 'color:#666;font-weight: bold;text-align: right;',
                                                         labelSeparator: ' :',
                                                         margin: '0 10 0 0',
-                                                        labelWidth: 80
+                                                        labelWidth: 110
                                                     },
                                                     items: [
                                                         {
@@ -1617,7 +1617,7 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                 {
                                                                     xtype: 'textfield',
                                                                     flex: 1,
-                                                                    fieldLabel: 'IP 주소',
+                                                                    fieldLabel: 'IP 주소/Subnet',
                                                                     name: 'address',
                                                                     emptyText: 'Default'
                                                                 },

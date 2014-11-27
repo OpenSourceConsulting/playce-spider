@@ -2140,7 +2140,7 @@
                                                         "dataIndex": "address",
                                                         "emptyCellText": "Default",
                                                         "minWidth": 130,
-                                                        "text": "IP 주소"
+                                                        "text": "IP 주소/Subnet"
                                                     },
                                                     "designerId": "c4e39366-e8e7-4b9e-af6a-fcbf8faf18ca",
                                                     "cn": [
@@ -2660,7 +2660,7 @@
                                                     "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
                                                     "    labelSeparator: ' :',",
                                                     "    margin: '0 10 0 0',",
-                                                    "    labelWidth : 80",
+                                                    "    labelWidth : 110",
                                                     "}"
                                                 ],
                                                 "header": false,
@@ -2704,7 +2704,7 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "emptyText": "Default",
-                                                                "fieldLabel": "IP 주소",
+                                                                "fieldLabel": "IP 주소/Subnet",
                                                                 "layout|flex": 1,
                                                                 "name": "address"
                                                             },
@@ -3198,7 +3198,7 @@
                                                                 "dataIndex": "address",
                                                                 "emptyCellText": "Default",
                                                                 "minWidth": 130,
-                                                                "text": "IP 주소"
+                                                                "text": "IP 주소/Subnet"
                                                             },
                                                             "designerId": "e76fa225-fc55-401b-aa2a-8ce0dd6dad0d",
                                                             "cn": [
@@ -3717,7 +3717,7 @@
                                                     "    labelStyle: 'color:#666;font-weight: bold;text-align: right;',",
                                                     "    labelSeparator: ' :',",
                                                     "    margin: '0 10 0 0',",
-                                                    "    labelWidth : 80",
+                                                    "    labelWidth : 110",
                                                     "}"
                                                 ],
                                                 "header": false,
@@ -3805,7 +3805,7 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "emptyText": "Default",
-                                                                "fieldLabel": "IP 주소",
+                                                                "fieldLabel": "IP 주소/Subnet",
                                                                 "layout|flex": 1,
                                                                 "name": "address"
                                                             },
