@@ -281,6 +281,16 @@ def mon_graphite_cpu(vmid=None):
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 	url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
 	result = requests.get(url).json()
+	
+	numofcore = 1.0
+	if vmid == 'Lion':
+		numofcore = 4
+	elif vmid == 'nipa_host':
+		numofcore = 8
+	for metric in result:
+		for data in metric['datapoints']:
+			data['value'] = data['value'] / numofcore
+			
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
 # 		newDatapoints = []
