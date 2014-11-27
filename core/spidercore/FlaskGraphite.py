@@ -44,6 +44,34 @@ def mon_graphite():
 		metric['datapoints'] = newDatapoints
 	return json.dumps(result) + '\n'
 
+@app.route("/mon/graphite/center/<centerId>", methods=['GET'])
+def mon_graphite_center_status(centerId=None):
+	if centerId == None:
+		return "No id for center", 404
+
+	locations = read_repository('locations')
+	vmhosts = read_repository('vmhosts')
+	targetVmhosts = []
+	for center in locations:
+		if center['name'] == centerId:
+			for vmhost in vmhosts:
+				if vmhost['location'] == centerId:
+					targetVmhosts.append(vmhost)
+	else:
+		return "Invalid center ID", 404
+
+	#	Collecting CPU usage for vmhosts belonging to the location/center	
+	timespan = "1"
+	timeunit = "minutes"
+	for vmhost in targetVmhosts:
+		vmhostId = vmhost['hostname']
+		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
+		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
+		result = requests.get(url).json()
+		return json.dumps(result) + '\n'
+
+	return "AAAAAAAAAAAAAa"
+
 
 #	http://192.168.0.130:8000/render/?width=786&height=508&_salt=1417023959.735
 #	target=111cc0cf-585c-42d8-8306-327f004aaa03.cpu.*.cpu.{user,system}.value&from=-30seconds
