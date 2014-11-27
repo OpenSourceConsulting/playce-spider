@@ -52,7 +52,7 @@ def mon_graphite_center_status(centerId=None):
 	locations = read_repository('locations')
 	vmhosts = read_repository('vmhosts')
 	targetVmhosts = []
-	center = locations[0]
+	center = locations[int(centerId)]
 # 	for center in locations:
 # 		if center['name'] == centerId:
 	for vmhost in vmhosts:
@@ -65,7 +65,7 @@ def mon_graphite_center_status(centerId=None):
 	timespan = "1"
 	timeunit = "minutes"
 	for vmhost in targetVmhosts:
-		vmhostId = vmhost['hostname']
+		vmhostId = vmhost['name']
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
 		result = requests.get(url).json()
