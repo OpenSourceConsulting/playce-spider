@@ -209,16 +209,17 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 	for vmid in cpuResult:
 		cpuSum = 0.0
 		for cpuid in cpuResult[vmid]:
-			sum = 0.0
-			noneCount = 0
-			for i in range(0, size):
-				for valtype in cpuResult[vmid][cpuid]:
-					if cpuResult[vmid][cpuid][valtype][i] == None:
-						noneCount += 1
-					else:
-						sum += cpuResult[vmid][cpuid][valtype][i]
-			avg = sum / (size - noneCount)
-			cpuSum += avg
+			if size > 0:
+				sum = 0.0
+				noneCount = 0
+				for i in range(0, size):
+					for valtype in cpuResult[vmid][cpuid]:
+						if cpuResult[vmid][cpuid][valtype][i] == None:
+							noneCount += 1
+						else:
+							sum += cpuResult[vmid][cpuid][valtype][i]
+				avg = sum / (size - noneCount)
+				cpuSum += avg
 		cpuResult[vmid]['cpuavg'] = cpuSum / len(cpuResult[vmid])  
 
 	result = {}
@@ -274,16 +275,17 @@ def mon_graphite_vmhostmem(vmhostId=None):
 	for vmid in memResult:
 		memSum = 0.0
 		for memid in memResult[vmid]:
-			sum = 0.0
-			noneCount = 0
-			for i in range(0, size):
-				for valtype in memResult[vmid][memid]:
-					if memResult[vmid][memid][valtype][i] == None:
-						noneCount += 1
-					else:
-						sum += memResult[vmid][memid][valtype][i]
-			avg = sum / (size - noneCount)
-			memSum += avg
+			if size > 0:
+				sum = 0.0
+				noneCount = 0
+				for i in range(0, size):
+					for valtype in memResult[vmid][memid]:
+						if memResult[vmid][memid][valtype][i] == None:
+							noneCount += 1
+						else:
+							sum += memResult[vmid][memid][valtype][i]
+				avg = sum / (size - noneCount)
+				memSum += avg
 		memResult[vmid]['memavg'] = memSum / len(memResult[vmid])  
 
 	result = {}
@@ -339,16 +341,17 @@ def mon_graphite_vmhostnet(vmhostId=None):
 	for vmid in netResult:
 		netSum = 0.0
 		for nicid in netResult[vmid]:
-			sum = 0.0
-			noneCount = 0
-			for i in range(0, size):
-				for valtype in netResult[vmid][nicid]:
-					if netResult[vmid][nicid][valtype][i] == None:
-						noneCount += 1
-					else:
-						sum += netResult[vmid][nicid][valtype][i]
-			avg = sum / (size - noneCount)
-			netSum += avg
+			if size > 0:
+				sum = 0.0
+				noneCount = 0
+				for i in range(0, size):
+					for valtype in netResult[vmid][nicid]:
+						if netResult[vmid][nicid][valtype][i] == None:
+							noneCount += 1
+						else:
+							sum += netResult[vmid][nicid][valtype][i]
+				avg = sum / (size - noneCount)
+				netSum += avg
 		netResult[vmid]['netavg'] = netSum / len(netResult[vmid])  
 
 	result = {}
