@@ -29,6 +29,16 @@ from flask import Flask, request, Response
 import json
 import requests
 
+def hostcore(vmhost):
+	numofcore = 1.0
+	if vmhost == 'Lion':
+		numofcore = 4
+	elif vmhost == 'nipa_host':
+		numofcore = 8
+	elif vmhost == 'kvmhost2':
+		numofcore = 2
+	return numofcore
+
 #	Monitoring API
 
 @app.route("/mon/graphite", methods=['GET'])
@@ -70,6 +80,14 @@ def mon_graphite_center_status(centerId=None):
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
 		result = requests.get(url).json()
+
+		numofcore = hostcore(vmhostId)
+		print "NumOfCore: %d %s" % (numofcore, vmhostId)
+		for metric in result:
+			for data in metric['datapoints']:
+				if data['value'] != None:
+					data['value'] = data['value'] / numofcore
+		
 		total = 0.0
 		count = 0
 		for metric in result:
@@ -87,7 +105,7 @@ def mon_graphite_center_status(centerId=None):
 	
 	avg = total / count
 
-	return avg
+	return str(avg)
 
 
 #	http://192.168.0.130:8000/render/?width=786&height=508&_salt=1417023959.735
@@ -299,13 +317,7 @@ def mon_graphite_cpu(vmid=None):
 	url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
 	result = requests.get(url).json()
 	
-	numofcore = 1.0
-	if vmid == 'Lion':
-		numofcore = 4
-	elif vmid == 'nipa_host':
-		numofcore = 8
-	elif vmid == 'kvmhost2':
-		numofcore = 2
+	numofcore = hostcore(vmid)
 	print "NumOfCore: %d %s" % (numofcore, vmid)
 	for metric in result:
 		for data in metric['datapoints']:
