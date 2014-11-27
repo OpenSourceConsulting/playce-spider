@@ -33,9 +33,9 @@ def hostcore(vmhost):
 	numofcore = 1.0
 	if vmhost == 'Lion':
 		numofcore = 4
-	elif vmhost == 'nipa_host':
+	elif vmhost == 'jboss.osci.kr':
 		numofcore = 8
-	elif vmhost == 'kvmhost2':
+	elif vmhost == 'localhost.localdomain':
 		numofcore = 2
 	return numofcore
 
