@@ -76,7 +76,7 @@ def mon_graphite_center_status(centerId=None):
 	timeunit = "seconds"
 	cpuavg = {}
 	for vmhost in targetVmhosts:
-		vmhostId = vmhost['name']
+		vmhostId = vmhost['hostname']
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
 		result = requests.get(url).json()
@@ -107,6 +107,58 @@ def mon_graphite_center_status(centerId=None):
 
 	return str(avg)
 
+
+@app.route("/mon/graphite/hostcpu/<vmhostId>", methods=['GET'])
+def mon_graphite_hostcpu(vmhostId=None):
+	if vmhostId == None:
+		return "No id for VM Host", 404
+
+	vmhosts = read_repository('vmhosts')
+	targetVmhosts = []
+
+# 	for center in locations:
+# 		if center['name'] == centerId:
+	for vmhost in vmhosts:
+		if vmhost['_id'] == vmhostId:
+			targetVmhosts.append(vmhost)
+# 	else:
+# 		return "Invalid center ID", 404
+
+	#	Collecting CPU usage for vmhosts belonging to the location/center	
+	timespan = "30"
+	timeunit = "seconds"
+	cpuavg = {}
+	for vmhost in targetVmhosts:
+		vmhostId = vmhost['hostname']
+		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
+		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
+		result = requests.get(url).json()
+
+		numofcore = hostcore(vmhostId)
+		print "NumOfCore: %d %s" % (numofcore, vmhostId)
+		for metric in result:
+			for data in metric['datapoints']:
+				if data['value'] != None:
+					data['value'] = data['value'] / numofcore
+		
+		total = 0.0
+		count = 0
+		for metric in result:
+			for val in metric['datapoints']:
+				if val['value'] != None:
+					total += val['value']
+					count += 1
+		cpuavg[vmhostId] = total / count
+
+	total = 0.0
+	count = 0
+	for name in cpuavg:
+		total += cpuavg[name]
+		count += 1
+	
+	avg = total / count
+
+	return str(avg)
 
 #	http://192.168.0.130:8000/render/?width=786&height=508&_salt=1417023959.735
 #	target=111cc0cf-585c-42d8-8306-327f004aaa03.cpu.*.cpu.{user,system}.value&from=-30seconds
