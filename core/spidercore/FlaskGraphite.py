@@ -64,14 +64,30 @@ def mon_graphite_center_status(centerId=None):
 	#	Collecting CPU usage for vmhosts belonging to the location/center	
 	timespan = "1"
 	timeunit = "minutes"
+	cpuavg = {}
 	for vmhost in targetVmhosts:
 		vmhostId = vmhost['name']
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
 		result = requests.get(url).json()
-		return json.dumps(result) + '\n'
+		total = 0.0
+		count = 0
+		for metric in result:
+			for val in metric['datapoints']:
+				if val['value'] != None:
+					total += val['value']
+					count += 1
+		cpuavg[vmhostId] = total / count
 
-	return "AAAAAAAAAAAAAa"
+	total = 0.0
+	count = 0
+	for name in cpuavg:
+		total += cpuavg[name]
+		count += 1
+	
+	avg = total / count
+
+	return avg
 
 
 #	http://192.168.0.130:8000/render/?width=786&height=508&_salt=1417023959.735
