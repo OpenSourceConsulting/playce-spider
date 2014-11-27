@@ -80,6 +80,7 @@ def mon_graphite_center_status(centerId=None):
 		vmhostId = vmhostId.replace(".", "_")
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
+		print "mon_graphite_center_status URL %s" % url
 		result = requests.get(url).json()
 
 		numofcore = hostcore(vmhostId)
@@ -134,6 +135,7 @@ def mon_graphite_hostcpu(vmhostId=None):
 		vmhostId = vmhostId.replace(".", "_")
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
+		print "mon_graphite_hostcpu URL %s" % url
 		result = requests.get(url).json()
 
 		numofcore = hostcore(vmhostId)
@@ -181,7 +183,7 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 		url += idx + '&' 
 	url += 'from=-30seconds&format=json'
 	url = 'http://localhost:8000/render/?' + url
-	logging.info("URL %s" % url)
+	print "mon_graphite_vmhostcpu URL %s" % url
 	result = requests.get(url).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
@@ -249,7 +251,7 @@ def mon_graphite_vmhostmem(vmhostId=None):
 		url += idx + '&' 
 	url += 'from=-30seconds&format=json'
 	url = 'http://localhost:8000/render/?' + url
-	logging.info("URL %s" % url)
+	print "mon_graphite_vmhostmem URL %s" % url
 	result = requests.get(url).json()
 # 	for metric in result:
 # 		datapoints = metric['datapoints']
@@ -317,6 +319,7 @@ def mon_graphite_vmhostnet(vmhostId=None):
 		url += idx + '&' 
 	url += 'from=-30seconds&format=json'
 	url = 'http://localhost:8000/render/?' + url
+	print "mon_graphite_vmhostnet URL %s" % url
 	logging.info("URL %s" % url)
 	result = requests.get(url).json()
 # 	for metric in result:
@@ -466,9 +469,9 @@ def mon_graphite_totalview():
 	timeunit = request.args.get('timeunit')
 	
 #	cpuUrl = "http://oscjenkins.ddns.net:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
-	cpuUrl = "http://oscjenkins.ddns.net:8000/render/?width=700&height=500&from=-%s%s&yMax=100" % (timespan, timeunit)
-	nicUrl = "http://oscjenkins.ddns.net:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
-	memUrl = "http://oscjenkins.ddns.net:8000/render/?width=700&height=500&from=-%s%s" % (timespan, timeunit)
+	cpuUrl = "http://oscjenkins.ddns.net:8000/render/?width=600&height=300&from=-%s%s&yMax=100" % (timespan, timeunit)
+	nicUrl = "http://oscjenkins.ddns.net:8000/render/?width=600&height=300&from=-%s%s" % (timespan, timeunit)
+	memUrl = "http://oscjenkins.ddns.net:8000/render/?width=600&height=300&from=-%s%s" % (timespan, timeunit)
 
 	jsonData = request.json
 	for vmid in jsonData:
