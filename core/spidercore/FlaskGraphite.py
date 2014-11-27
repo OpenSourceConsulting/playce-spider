@@ -77,6 +77,7 @@ def mon_graphite_center_status(centerId=None):
 	cpuavg = {}
 	for vmhost in targetVmhosts:
 		vmhostId = vmhost['hostname']
+		vmhostId = vmhostId.replace(".", "_")
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
 		result = requests.get(url).json()
@@ -130,6 +131,7 @@ def mon_graphite_hostcpu(vmhostId=None):
 	cpuavg = {}
 	for vmhost in targetVmhosts:
 		vmhostId = vmhost['hostname']
+		vmhostId = vmhostId.replace(".", "_")
 		url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 		url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmhostId, vmhostId)
 		result = requests.get(url).json()
