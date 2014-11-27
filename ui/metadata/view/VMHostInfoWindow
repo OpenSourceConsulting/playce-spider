@@ -161,7 +161,7 @@
                                                 "insetPadding": 5,
                                                 "itemId": "vmHostCpuChart",
                                                 "layout|flex": 1,
-                                                "margin": "0 30 0 10",
+                                                "margin": "0 0 0 10",
                                                 "maxHeight": null,
                                                 "minHeight": null,
                                                 "shadow": false,
@@ -303,6 +303,25 @@
                                                     "designerId": "a518ccf4-08eb-4775-89b2-09f02438d62e"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "type": "Ext.form.Label",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "layout|flex": null,
+                                                "margin": "15 10 0 0",
+                                                "style": "{font-size:12px;font-weight: bold;}",
+                                                "text": "CPU",
+                                                "width": 45
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "b5477a0c-9b4a-4c2c-9fc9-0b33030990b1"
                                         }
                                     ]
                                 },
@@ -339,7 +358,7 @@
                                                 "insetPadding": 5,
                                                 "itemId": "vmHostMemoryChart",
                                                 "layout|flex": 1,
-                                                "margin": "0 30 0 10",
+                                                "margin": "0 0 0 10",
                                                 "maxHeight": null,
                                                 "minHeight": null,
                                                 "shadow": false,
@@ -449,6 +468,25 @@
                                                     "designerId": "9267e624-acad-40a0-8a00-2072130892bd"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "type": "Ext.form.Label",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "layout|flex": null,
+                                                "margin": "15 10 0 0",
+                                                "style": "{font-size:12px;font-weight: bold;}",
+                                                "text": "Memory",
+                                                "width": 50
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "f9986029-2f1e-434c-a88f-c8131122ede1"
                                         }
                                     ]
                                 },
@@ -485,7 +523,7 @@
                                                 "insetPadding": 5,
                                                 "itemId": "vmHostNetworkChart",
                                                 "layout|flex": 1,
-                                                "margin": "0 30 0 10",
+                                                "margin": "0 0 0 10",
                                                 "maxHeight": null,
                                                 "minHeight": null,
                                                 "shadow": false,
@@ -614,6 +652,25 @@
                                                     "designerId": "80ddf971-4727-4882-b9bc-54cc083134aa"
                                                 }
                                             ]
+                                        },
+                                        {
+                                            "type": "Ext.form.Label",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "layout|flex": null,
+                                                "margin": "15 10 0 0",
+                                                "style": "{font-size:12px;font-weight: bold;}",
+                                                "text": "Network",
+                                                "width": 50
+                                            },
+                                            "configAlternates": {
+                                                "style": "string"
+                                            },
+                                            "designerId": "e2db660b-ee5f-4f97-b49a-1fb24791e612"
                                         }
                                     ]
                                 }

@@ -114,7 +114,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     xtype: 'chart',
                                                     flex: 1,
                                                     itemId: 'vmHostCpuChart',
-                                                    margin: '0 30 0 10',
+                                                    margin: '0 0 0 10',
                                                     shadow: false,
                                                     insetPadding: 5,
                                                     store: 'VmHostCpuChartStore',
@@ -176,6 +176,13 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                             }
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    xtype: 'label',
+                                                    margin: '15 10 0 0',
+                                                    style: '{font-size:12px;font-weight: bold;}',
+                                                    width: 45,
+                                                    text: 'CPU'
                                                 }
                                             ]
                                         },
@@ -195,7 +202,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     xtype: 'chart',
                                                     flex: 1,
                                                     itemId: 'vmHostMemoryChart',
-                                                    margin: '0 30 0 10',
+                                                    margin: '0 0 0 10',
                                                     shadow: false,
                                                     insetPadding: 5,
                                                     store: 'VmHostMemoryChartStore',
@@ -250,6 +257,13 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                             }
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    xtype: 'label',
+                                                    margin: '15 10 0 0',
+                                                    style: '{font-size:12px;font-weight: bold;}',
+                                                    width: 50,
+                                                    text: 'Memory'
                                                 }
                                             ]
                                         },
@@ -269,7 +283,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     xtype: 'chart',
                                                     flex: 1,
                                                     itemId: 'vmHostNetworkChart',
-                                                    margin: '0 30 0 10',
+                                                    margin: '0 0 0 10',
                                                     shadow: false,
                                                     insetPadding: 5,
                                                     store: 'VmHostNetworkChartStore',
@@ -329,6 +343,13 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                             }
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    xtype: 'label',
+                                                    margin: '15 10 0 0',
+                                                    style: '{font-size:12px;font-weight: bold;}',
+                                                    width: 50,
+                                                    text: 'Network'
                                                 }
                                             ]
                                         }
