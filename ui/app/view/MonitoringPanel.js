@@ -72,7 +72,7 @@ Ext.define('spider.view.MonitoringPanel', {
                         {
                             xtype: 'panel',
                             frame: true,
-                            height: 540,
+                            height: 340,
                             id: 'monitoringCpuChart',
                             margin: '10 20 10 10',
                             width: 700,
@@ -95,7 +95,7 @@ Ext.define('spider.view.MonitoringPanel', {
                         {
                             xtype: 'panel',
                             frame: true,
-                            height: 540,
+                            height: 340,
                             id: 'monitoringMemoryChart',
                             margin: '10 20 10 10',
                             width: 700,
@@ -112,7 +112,7 @@ Ext.define('spider.view.MonitoringPanel', {
                         {
                             xtype: 'panel',
                             frame: true,
-                            height: 540,
+                            height: 340,
                             id: 'monitoringNetworkChart',
                             margin: '10 20 10 10',
                             width: 700,

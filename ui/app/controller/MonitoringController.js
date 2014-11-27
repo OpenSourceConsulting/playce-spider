@@ -168,7 +168,7 @@ Ext.define('spider.controller.MonitoringController', {
             //monitoringConstants.height = cHeight;
 
             //nitoringConstants.width = 700;
-            monitoringConstants.height = 500;
+            monitoringConstants.height = 300;
 
 
             /*

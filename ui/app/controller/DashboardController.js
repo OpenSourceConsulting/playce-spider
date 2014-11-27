@@ -63,6 +63,28 @@ Ext.define('spider.controller.DashboardController', {
             var vmMemorys = nodePanel.down('#vmMemPanel').items.items;
             var vmDisks = nodePanel.down('#vmNetPanel').items.items;
 
+            //CPU
+            Ext.Ajax.request({
+                url : GLOBAL.apiUrlPrefix + 'mon/graphite/hostcpu/' + record.get('id'),
+                disableCaching : true,
+                failMsg : false,
+                success: function(response){
+
+                    cpu = Ext.decode(response.responseText);
+
+
+                    nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
+                    if(cpu <= 50) {
+                        nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
+                    } else if(cpu <= 70) {
+                        nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>', false);
+                    } else {
+                        nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
+                    }
+
+                }
+            });
+
             Ext.Ajax.request({
                 url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostcpu/' + record.get('id'),
                 method : "GET",
@@ -120,17 +142,8 @@ Ext.define('spider.controller.DashboardController', {
 
                                                 }
 
-                                                nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
                                                 nodePanel.down('#memoryBar').updateProgress(memory / record.get("maxmem"), (memory/1024/1024).toFixed(2) + "MB");
                                                 nodePanel.down('#networkBar').updateProgress(network / 100, network.toFixed(2) + "%");
-
-                                                if(cpu <= 50) {
-                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
-                                                } else if(cpu <= 70) {
-                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>', false);
-                                                } else {
-                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
-                                                }
 
                                             }
                                         }

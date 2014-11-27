@@ -108,7 +108,7 @@
                     "codeClass": null,
                     "userConfig": {
                         "frame": true,
-                        "height": 540,
+                        "height": 340,
                         "id": "monitoringCpuChart",
                         "margin": "10 20 10 10",
                         "title": "CPU Chart",
@@ -166,7 +166,7 @@
                     "codeClass": null,
                     "userConfig": {
                         "frame": true,
-                        "height": 540,
+                        "height": 340,
                         "id": "monitoringMemoryChart",
                         "margin": "10 20 10 10",
                         "title": "Memory Chart",
@@ -199,7 +199,7 @@
                     "codeClass": null,
                     "userConfig": {
                         "frame": true,
-                        "height": 540,
+                        "height": 340,
                         "id": "monitoringNetworkChart",
                         "margin": "10 20 10 10",
                         "title": "Network Chart",
