@@ -72,8 +72,8 @@ def mon_graphite_center_status(centerId=None):
 # 		return "Invalid center ID", 404
 
 	#	Collecting CPU usage for vmhosts belonging to the location/center	
-	timespan = "1"
-	timeunit = "minutes"
+	timespan = "30"
+	timeunit = "seconds"
 	cpuavg = {}
 	for vmhost in targetVmhosts:
 		vmhostId = vmhost['name']
