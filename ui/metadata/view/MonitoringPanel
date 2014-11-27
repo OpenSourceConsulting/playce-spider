@@ -8,6 +8,7 @@
     "userConfig": {
         "autoScroll": null,
         "bodyStyle": "background:#ffffff",
+        "designer|userAlias": "monitoringpanel",
         "designer|userClassName": "MonitoringPanel",
         "height": null,
         "id": "MonitoringPanel",
@@ -33,8 +34,8 @@
                 "frame": true,
                 "frameHeader": false,
                 "hideHeaders": true,
-                "id": "listCheckMenuPanel1",
-                "itemId": "listCheckMenuPanel",
+                "id": "listMonitoringCheckMenuPanel",
+                "itemId": "listMonitoringCheckMenuPanel",
                 "layout|region": "west",
                 "margin": 10,
                 "overflowY": "auto",
@@ -107,11 +108,54 @@
                     "codeClass": null,
                     "userConfig": {
                         "frame": true,
-                        "height": 280,
+                        "height": 540,
+                        "id": "monitoringCpuChart",
                         "margin": "10 20 10 10",
-                        "title": "CPU Chart"
+                        "title": "CPU Chart",
+                        "width": 700
                     },
-                    "designerId": "89e592ba-b91e-4a23-9013-f3285d9acf52"
+                    "designerId": "89e592ba-b91e-4a23-9013-f3285d9acf52",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onMonitoringCpuChartResize",
+                                "implHandler": [
+                                    "clearInterval(monitoringConstants.chartInterval);",
+                                    "monitoringConstants.me.showMonitoringImg(width, height);",
+                                    "",
+                                    "monitoringConstants.chartInterval = setInterval(function() {",
+                                    "    ",
+                                    "    monitoringConstants.me.showMonitoringImg();",
+                                    "    ",
+                                    "}, 5000);",
+                                    ""
+                                ],
+                                "name": "resize",
+                                "scope": "me"
+                            },
+                            "designerId": "738723b9-1479-4b51-8d34-764e839c62cf"
+                        },
+                        {
+                            "type": "Ext.Img",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": 201,
+                                "src": "/",
+                                "width": 201
+                            },
+                            "designerId": "2a501be4-b374-4216-822b-306bfd2a6987"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.panel.Panel",
@@ -122,11 +166,29 @@
                     "codeClass": null,
                     "userConfig": {
                         "frame": true,
-                        "height": 280,
+                        "height": 540,
+                        "id": "monitoringMemoryChart",
                         "margin": "10 20 10 10",
-                        "title": "Memory Chart"
+                        "title": "Memory Chart",
+                        "width": 700
                     },
-                    "designerId": "4a36e2e3-c02f-4ebe-808b-1a7debd7072a"
+                    "designerId": "4a36e2e3-c02f-4ebe-808b-1a7debd7072a",
+                    "cn": [
+                        {
+                            "type": "Ext.Img",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": 201,
+                                "src": "/",
+                                "width": 201
+                            },
+                            "designerId": "f52c0aa8-de5e-40df-ad58-9b75d13bad61"
+                        }
+                    ]
                 },
                 {
                     "type": "Ext.panel.Panel",
@@ -137,11 +199,29 @@
                     "codeClass": null,
                     "userConfig": {
                         "frame": true,
-                        "height": 280,
+                        "height": 540,
+                        "id": "monitoringNetworkChart",
                         "margin": "10 20 10 10",
-                        "title": "Network Chart"
+                        "title": "Network Chart",
+                        "width": 700
                     },
-                    "designerId": "31fc0853-21fc-4620-9169-1f9bc52dad1f"
+                    "designerId": "31fc0853-21fc-4620-9169-1f9bc52dad1f",
+                    "cn": [
+                        {
+                            "type": "Ext.Img",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": 201,
+                                "src": "/",
+                                "width": 201
+                            },
+                            "designerId": "36cdf90a-f68e-4b0c-bf75-6622fa434551"
+                        }
+                    ]
                 }
             ]
         }

@@ -28,6 +28,7 @@ Ext.Loader.addClassPathMappings({
   "dashboardConstants": "../../app/controller/DashboardController.js",
   "loginConstants": "../../app/controller/LoginController.js",
   "menuConstants": "../../app/controller/MenuController.js",
+  "monitoringConstants": "../../app/controller/MonitoringController.js",
   "spider": "../../app",
   "spider.form.field.Base": "../../app/controller/GlobalController.js",
   "userConstants": "../../app/controller/UserController.js",
@@ -872,6 +873,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "dashboardConstants": [],
   "loginConstants": [],
   "menuConstants": [],
+  "monitoringConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
   "spider.controller.GlobalController": [],
@@ -879,6 +881,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.controller.LoginController": [],
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
+  "spider.controller.MonitoringController": [],
   "spider.controller.SampleController": [],
   "spider.controller.UserController": [],
   "spider.controller.VmHostController": [],
@@ -908,7 +911,10 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.store.VmDhcpStore": [],
   "spider.store.VmFirewallStore": [],
   "spider.store.VmHostChartStore": [],
+  "spider.store.VmHostCpuChartStore": [],
   "spider.store.VmHostInterfaceStore": [],
+  "spider.store.VmHostMemoryChartStore": [],
+  "spider.store.VmHostNetworkChartStore": [],
   "spider.store.VmInterfaceStore": [],
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNatStore": [],
@@ -1952,6 +1958,7 @@ Ext.ClassManager.addNameAliasMappings({
   "dashboardConstants": [],
   "loginConstants": [],
   "menuConstants": [],
+  "monitoringConstants": [],
   "spider.Application": [],
   "spider.controller.DashboardController": [],
   "spider.controller.GlobalController": [],
@@ -1959,6 +1966,7 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.controller.LoginController": [],
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
+  "spider.controller.MonitoringController": [],
   "spider.controller.SampleController": [],
   "spider.controller.UserController": [],
   "spider.controller.VmHostController": [],
@@ -1988,7 +1996,10 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.store.VmDhcpStore": [],
   "spider.store.VmFirewallStore": [],
   "spider.store.VmHostChartStore": [],
+  "spider.store.VmHostCpuChartStore": [],
   "spider.store.VmHostInterfaceStore": [],
+  "spider.store.VmHostMemoryChartStore": [],
+  "spider.store.VmHostNetworkChartStore": [],
   "spider.store.VmInterfaceStore": [],
   "spider.store.VmMemoryChartStore": [],
   "spider.store.VmNatStore": [],
@@ -2046,7 +2057,9 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.view.Main": [
     "widget.app-main"
   ],
-  "spider.view.MonitoringPanel": [],
+  "spider.view.MonitoringPanel": [
+    "widget.monitoringpanel"
+  ],
   "spider.view.MyContainer1": [
     "widget.mycontainer1"
   ],

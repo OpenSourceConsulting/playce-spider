@@ -165,7 +165,7 @@
                                                 "maxHeight": null,
                                                 "minHeight": null,
                                                 "shadow": false,
-                                                "store": "VmHostChartStore",
+                                                "store": "VmHostCpuChartStore",
                                                 "style": null,
                                                 "width": null
                                             },
@@ -229,17 +229,19 @@
                                                     "userConfig": {
                                                         "dashSize": null,
                                                         "fields": [
-                                                            "cpu"
+                                                            "user_cpu",
+                                                            "system_cpu"
                                                         ],
                                                         "grid": false,
                                                         "label": [
                                                             "\"\""
                                                         ],
                                                         "majorTickSteps": 1,
-                                                        "maximum": null,
-                                                        "minimum": null,
+                                                        "maximum": 100,
+                                                        "minimum": 0,
                                                         "minorTickSteps": 1,
-                                                        "title": null
+                                                        "title": null,
+                                                        "width": null
                                                     },
                                                     "configAlternates": {
                                                         "grid": "boolean"
@@ -268,10 +270,37 @@
                                                         ],
                                                         "xField": "date",
                                                         "yField": [
-                                                            "cpu"
+                                                            "user_cpu"
                                                         ]
                                                     },
                                                     "designerId": "3968ec53-ff1c-41f7-a086-ac6b66f7ba1d"
+                                                },
+                                                {
+                                                    "type": "Ext.chart.series.Line",
+                                                    "reference": {
+                                                        "name": "series",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "showMarkers": false,
+                                                        "smooth": 3,
+                                                        "style": [
+                                                            "{",
+                                                            "    fill: \"#94AE0A\",",
+                                                            "    'stroke-width': 1.2,",
+                                                            "    stroke: \"#94AE0A\"",
+                                                            "}"
+                                                        ],
+                                                        "xField": "date",
+                                                        "yField": [
+                                                            "system_cpu"
+                                                        ]
+                                                    },
+                                                    "designerId": "a518ccf4-08eb-4775-89b2-09f02438d62e"
                                                 }
                                             ]
                                         }
@@ -314,7 +343,7 @@
                                                 "maxHeight": null,
                                                 "minHeight": null,
                                                 "shadow": false,
-                                                "store": "VmHostChartStore",
+                                                "store": "VmHostMemoryChartStore",
                                                 "width": null
                                             },
                                             "designerId": "aeff0f6f-91a1-4eff-b911-f163e52ac35e",
@@ -370,7 +399,16 @@
                                                         ],
                                                         "grid": false,
                                                         "label": [
-                                                            "\"\""
+                                                            "{",
+                                                            "    renderer: function(v) {",
+                                                            "        ",
+                                                            "        if(v == null) {",
+                                                            "            return v;",
+                                                            "        }",
+                                                            "        ",
+                                                            "        return (v/1024/1024).toFixed(0) + \" Mb\";",
+                                                            "    }",
+                                                            "}"
                                                         ],
                                                         "majorTickSteps": 1,
                                                         "maximum": null,
@@ -451,7 +489,7 @@
                                                 "maxHeight": null,
                                                 "minHeight": null,
                                                 "shadow": false,
-                                                "store": "VmHostChartStore",
+                                                "store": "VmHostNetworkChartStore",
                                                 "width": null
                                             },
                                             "designerId": "21631177-ffef-4432-b458-ec51dd051ad6",
@@ -503,7 +541,8 @@
                                                     "userConfig": {
                                                         "dashSize": null,
                                                         "fields": [
-                                                            "network"
+                                                            "col_0",
+                                                            "col_1"
                                                         ],
                                                         "grid": false,
                                                         "label": [
@@ -542,10 +581,37 @@
                                                         ],
                                                         "xField": "date",
                                                         "yField": [
-                                                            "network"
+                                                            "col_0"
                                                         ]
                                                     },
                                                     "designerId": "20b82984-db40-4e56-9b24-5840217b6457"
+                                                },
+                                                {
+                                                    "type": "Ext.chart.series.Line",
+                                                    "reference": {
+                                                        "name": "series",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "label": [
+                                                            "\"\""
+                                                        ],
+                                                        "showMarkers": false,
+                                                        "smooth": 3,
+                                                        "style": [
+                                                            "{",
+                                                            "    fill: \"#94AE0A\",",
+                                                            "    'stroke-width': 1.2,",
+                                                            "    stroke: \"#94AE0A\"",
+                                                            "}"
+                                                        ],
+                                                        "xField": "date",
+                                                        "yField": [
+                                                            "col_1"
+                                                        ]
+                                                    },
+                                                    "designerId": "80ddf971-4727-4882-b9bc-54cc083134aa"
                                                 }
                                             ]
                                         }
@@ -632,6 +698,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "height": 35,
                                                         "hidden": true,
                                                         "layout|flex": null,
                                                         "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
@@ -672,7 +739,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "height": null,
+                                                        "height": 35,
                                                         "html": "<center><b>CPU</b></center>",
                                                         "layout|flex": null,
                                                         "layout|margins": null,
@@ -732,7 +799,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "height": null,
+                                                        "height": 35,
                                                         "html": "<center><b>Mem</b></center>",
                                                         "layout|flex": null,
                                                         "layout|margins": null,
@@ -753,6 +820,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "height": 35,
                                                         "hidden": true,
                                                         "layout|flex": null,
                                                         "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
@@ -792,7 +860,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "height": null,
+                                                        "height": 35,
                                                         "html": "<center><b>Net</b></center>",
                                                         "layout|flex": null,
                                                         "layout|margins": null,
@@ -1554,6 +1622,24 @@
                     ]
                 }
             ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onVMHostInfoWindowClose",
+                "implHandler": [
+                    "clearInterval(vmHostConstants.chartInterval);",
+                    ""
+                ],
+                "name": "close",
+                "scope": "me"
+            },
+            "designerId": "41761ef5-b702-4c93-9a7e-340b10f27c31"
         }
     ]
 }

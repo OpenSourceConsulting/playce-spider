@@ -165,7 +165,10 @@ Ext.define('spider.controller.VmHostController', {
                     contextMenu: vmHostContextMenu,
                     selectRecord : null,
                     actionRecord : null,
-                    vmStatus : null
+                    vmStatus : null,
+
+                    chartInterval : null
+
                 });
 
         this.control({
@@ -267,102 +270,15 @@ Ext.define('spider.controller.VmHostController', {
         });
 
 
-        //Sample Data
+        this.setVmHostMonitoringChart(popWindow, record);
 
-        // Case 3
-        var currentDate = new Date();
+        clearInterval(vmHostConstants.chartInterval);
 
-        // milli second 값을 지운다.
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDay(), currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+        vmHostConstants.chartInterval = setInterval(function() {
 
-        // chart에 표시될 x축 개수
-        var length = 10;
+            vmHostConstants.me.setVmHostMonitoringChart(popWindow, record);
 
-        // x축의 시간 차(초)
-        // length가 20이고 step이 3일 경우 1분간의 데이터가 3초 단위로 20번 표시된다.
-        // length가 30이고 step이 2일 경우 1분간의 데이터가 2초 단위로 30번 표시된다.
-        var step = 1;
-
-        // CPU, Memory, Network Chart를 위한 변수 설정
-        var panel = Ext.getCmp("popVmHostInfoPanel");
-
-        var namePanel, cpuPanel, memoryPanel, networkPanel;
-        var cpu = 20,
-            memory = 30,
-            disk = 10,
-            network = 35;
-
-        Ext.each(record.get("children"), function(cRecord, cIdx) {
-
-            namePanel = panel.down('#vmNamePanel').items.items[1].cloneConfig({itemId : "vmNamePanel"+cIdx});
-            cpuPanel = panel.down('#vmCpuPanel').items.items[1].cloneConfig({itemId : "vmCpuPanel"+cIdx});
-            memoryPanel = panel.down('#vmMemoryPanel').items.items[1].cloneConfig({itemId : "vmMemoryPanel"+cIdx});
-            networkPanel = panel.down('#vmNetworkPanel').items.items[1].cloneConfig({itemId : "vmNetworkPanel"+cIdx});
-
-            namePanel.setText(cRecord.text);
-            cpuPanel.setText(Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0)).toFixed(0) + "%");
-            memoryPanel.setText(Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0)).toFixed(0) + "%");
-            networkPanel.setText(Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0)).toFixed(0) + "%");
-
-            panel.down('#vmNamePanel').add(namePanel);
-            panel.down('#vmCpuPanel').add(cpuPanel);
-            panel.down('#vmMemoryPanel').add(memoryPanel);
-            panel.down('#vmNetworkPanel').add(networkPanel);
-
-            namePanel.show();
-            cpuPanel.show();
-            memoryPanel.show();
-            networkPanel.show();
-        });
-
-        var chartData = [];
-        var last = {
-                date: "aaaa",
-                cpu: 20,
-                memory: 40,
-                network: 30
-            };
-
-        var i = 0;
-        for(i=0;i<60;i++) {
-            chartData.push({
-                date: "aaaa"+i,
-                cpu: Math.min(100, Math.max(last? last.cpu + (Math.random() - 0.5) * 10 : 5, 5)),
-                memory: Math.min(100, Math.max(last? last.memory + (Math.random() - 0.5) * 25 : 40, 40)),
-                network: Math.min(100, Math.max(last? last.network + (Math.random() - 0.5) * 15 : 20, 20))
-            });
-        }
-
-        Ext.getStore("VmHostChartStore").loadData(chartData, false);
-
-        // Real-Time Chart를 위해 주기적으로 상태정보 조회 호출하도록 설정한다.
-        clearInterval(vmHostConstants.intervalId1);
-        vmHostConstants.intervalId1 = setInterval(function() {
-
-            chartData.splice(0, 1);
-
-            chartData.push({
-                date: "aaaa"+i,
-                cpu: Math.min(100, Math.max(last? last.cpu + (Math.random() - 0.5) * 10 : 5, 5)),
-                memory: Math.min(100, Math.max(last? last.memory + (Math.random() - 0.5) * 25 : 40, 40)),
-                network: Math.min(100, Math.max(last? last.network + (Math.random() - 0.5) * 15 : 20, 20))
-            });
-
-            i++;
-
-            Ext.getStore("VmHostChartStore").loadData(chartData);
-
-
-            Ext.each(record.get("children"), function(cRecord, cIdx) {
-
-                panel.down('#vmCpuPanel'+cIdx).setText(Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0)).toFixed(0) + "%");
-                panel.down('#vmMemoryPanel'+cIdx).setText(Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0)).toFixed(0) + "%");
-                panel.down('#vmNetworkPanel'+cIdx).setText(Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0)).toFixed(0) + "%");
-
-            });
-
-
-        }, 3000);
+        }, 10000);
 
     },
 
@@ -578,6 +494,241 @@ Ext.define('spider.controller.VmHostController', {
                 });
             }
 
+        });
+
+    },
+
+    setVmHostMonitoringChart: function(popWindow, record) {
+
+
+        // CPU, Memory, Network Chart를 위한 변수 설정
+        var panel = Ext.getCmp("popVmHostInfoPanel");
+
+        var namePanel, cpuPanel, memoryPanel, networkPanel;
+        var cpu = 0;
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostcpu/' + record.get('id'),
+            method : "GET",
+            disableCaching : true,
+            success: function(cpuResponse){
+
+                if(cpuResponse.status == 200) {
+
+                    var cpuData = Ext.JSON.decode(cpuResponse.responseText);
+
+                    Ext.Ajax.request({
+                        url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostmem/' + record.get('id'),
+                        method : "GET",
+                        disableCaching : true,
+                        success: function(memResponse){
+
+                            if(memResponse.status == 200) {
+
+                                var memData = Ext.JSON.decode(memResponse.responseText);
+
+                                Ext.Ajax.request({
+                                    url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostnet/' + record.get('id'),
+                                    method : "GET",
+                                    disableCaching : true,
+                                    success: function(netResponse){
+
+                                        if(netResponse.status == 200) {
+
+                                            var netData = Ext.JSON.decode(netResponse.responseText);
+
+                                            var vmKey = Object.keys(cpuData);
+
+                                            if(vmKey.length > 0) {
+
+                                                for(var iIdx=panel.down('#vmNamePanel').items.items.length-1; iIdx>1;iIdx--) {
+                                                    panel.down('#vmNamePanel').items.items[iIdx].destroy();
+                                                    panel.down('#vmCpuPanel').items.items[iIdx].destroy();
+                                                    panel.down('#vmMemoryPanel').items.items[iIdx].destroy();
+                                                    panel.down('#vmNetworkPanel').items.items[iIdx].destroy();
+                                                }
+
+                                                Ext.each(vmKey, function(vmId, vIdx) {
+
+                                                    namePanel = panel.down('#vmNamePanel').items.items[1].cloneConfig({itemId : "vmNamePanel"+vIdx});
+                                                    cpuPanel = panel.down('#vmCpuPanel').items.items[1].cloneConfig({itemId : "vmCpuPanel"+vIdx});
+                                                    memoryPanel = panel.down('#vmMemoryPanel').items.items[1].cloneConfig({itemId : "vmMemoryPanel"+vIdx});
+                                                    networkPanel = panel.down('#vmNetworkPanel').items.items[1].cloneConfig({itemId : "vmNetworkPanel"+vIdx});
+
+                                                    namePanel.setText(cpuData[vmId].vmname);
+                                                    cpuPanel.setText(cpuData[vmId].value.toFixed(0) + "%");
+                                                    memoryPanel.setText((memData[vmId].value/1024/1024).toFixed(2) + "MB");
+                                                    networkPanel.setText(netData[vmId].value.toFixed(0) + "%");
+
+                                                    panel.down('#vmNamePanel').add(namePanel);
+                                                    panel.down('#vmCpuPanel').add(cpuPanel);
+                                                    panel.down('#vmMemoryPanel').add(memoryPanel);
+                                                    panel.down('#vmNetworkPanel').add(networkPanel);
+
+                                                    namePanel.show();
+                                                    cpuPanel.show();
+                                                    memoryPanel.show();
+                                                    networkPanel.show();
+
+                                                    cpu += parseFloat(cpuData[vmId].value);
+
+                                                });
+
+                                                cpu = cpu / vmKey.length;
+
+                                            } else {
+                                                cpu =  0; memory = 0; network = 0;
+
+                                            }
+
+                                            if(cpu <= 50) {
+                                                popWindow.down("#VmHostStat").setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
+                                            } else if(cpu <= 70) {
+                                                popWindow.down("#VmHostStat").setText('<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>', false);
+                                            } else {
+                                                popWindow.down("#VmHostStat").setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
+                                            }
+
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+
+
+        //CPU
+        Ext.Ajax.request({
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/cpu/' + record.get("text") + '?timespan=10&timeunit=minutes',
+            disableCaching : true,
+            failMsg : false,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+
+                if(columnData.length > 0) {
+
+                    var data = columnData[0];
+                    var chartList = [];
+
+                    Ext.each(data.datapoints, function (chartData, dateIdx) {
+                        var chartCol = {};
+
+                        chartCol.date = new Date(chartData.date*1000);
+                        if(data.target.indexOf("user") >= 0) {
+                            chartCol.user_cpu = chartData.value;
+                        } else {
+                            chartCol.system_cpu = chartData.value;
+                        }
+
+
+                        for(var i=1; i<columnData.length; i++) {
+                            if(columnData[i].target.indexOf("user") >= 0) {
+                                chartCol.user_cpu = columnData[i].datapoints[dateIdx].value;
+                            } else {
+                                chartCol.system_cpu = columnData[i].datapoints[dateIdx].value;
+                            }
+                        }
+
+                        if(chartCol.user_cpu != null && chartCol.system_cpu != null) {
+                            chartCol.user_cpu += chartCol.system_cpu;
+                            chartList.push(chartCol);
+                        }
+                    });
+
+                    Ext.getStore('VmHostCpuChartStore').loadData(chartList, false);
+                }
+            }
+        });
+
+        //Memory
+        Ext.Ajax.request({
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/memory/' +record.get("text") + '?timespan=10&timeunit=minutes',
+            disableCaching : true,
+            failMsg : false,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+                if(columnData.length > 0) {
+
+                    var data = columnData[0];
+
+                    // Get the quality field from record
+                    // Update chart with data
+                    var chartList = [];
+                    Ext.each(data.datapoints, function (chartData) {
+                        var chartCol = {};
+                        chartCol.memory = chartData.value;
+                        chartCol.date = new Date(chartData.date*1000);
+
+                        if(chartCol.memory != null) {
+                            chartList.push(chartCol);
+                        }
+
+                    });
+
+                    Ext.getStore('VmHostMemoryChartStore').loadData(chartList, false);
+                }
+            }
+        });
+
+        //Network
+        Ext.Ajax.request({
+            url : GLOBAL.apiUrlPrefix + 'mon/graphite/interface/' + record.get("text") + '?timespan=10&timeunit=minutes',
+            disableCaching : true,
+            failMsg : false,
+            success: function(response){
+
+                var columnData = Ext.decode(response.responseText);
+
+                if(columnData.length > 0) {
+
+                    var data = columnData[0];
+                    var chartList = [];
+                    var colNames = [];
+
+                    Ext.each(data.datapoints, function (chartData, dateIdx) {
+                        var chartCol = {};
+                        var txValue = 0;
+                        var rxValue = 0;
+
+                        chartCol.date = new Date(chartData.date*1000);
+
+                        if(data.target.indexOf(".tx") > 0) {
+                            txValue += chartData.value;
+                        } else {
+                            rxValue += chartData.value;
+                        }
+
+                        for(var i=1; i<columnData.length; i++) {
+
+
+                            if(columnData[i].target.indexOf(".tx") > 0) {
+                                txValue += columnData[i].datapoints[dateIdx].value;
+                            } else {
+                                rxValue += columnData[i].datapoints[dateIdx].value;
+                            }
+
+                            chartCol["col_0"] = txValue;
+                            chartCol["col_1"] = rxValue;
+
+                        }
+
+                        if(txValue > 0 && rxValue > 0) {
+                            chartList.push(chartCol);
+                        }
+
+
+                    });
+
+                    Ext.getStore('VmHostNetworkChartStore').loadData(chartList, false);
+                }
+            }
         });
 
     }

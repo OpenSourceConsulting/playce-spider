@@ -1,0 +1,51 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmHostCpuChartStore",
+        "storeId": "VmHostCpuChartStore"
+    },
+    "designerId": "dda1367b-9372-4d8e-babc-e43d29f0c717",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "date"
+            },
+            "designerId": "1f57d36a-826c-4e23-b4fe-b996304adecb"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "user_cpu"
+            },
+            "designerId": "44774d14-da65-4162-b5a2-f2fcd5de52ea"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "system_cpu"
+            },
+            "designerId": "1e1cab74-88e0-4328-b905-fc13fd23bf30"
+        }
+    ]
+}

@@ -368,7 +368,8 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
-                                                "itemId": "VmHostStat1",
+                                                "id": "locationStat",
+                                                "itemId": "locationStat",
                                                 "layout|flex": null,
                                                 "margin": "0 25 5 0",
                                                 "minHeight": 36,
@@ -840,12 +841,8 @@
                                         "type": "array"
                                     },
                                     "codeClass": null,
-                                    "userConfig": {
-                                        "height": 150,
-                                        "id": "samplePanel"
-                                    },
-                                    "designerId": "1df16852-3010-4d50-922a-3c2e26217d5e",
-                                    "masterInstanceId": "39eb896a-2ca4-4a41-adc4-0cc0fbcbaf8c"
+                                    "designerId": "6259c9e1-362f-4fab-86a8-229095079d0f",
+                                    "masterInstanceId": "c6416746-8b34-4cb4-a28b-ac10351b1cf3"
                                 },
                                 {
                                     "type": "linkedinstance",

@@ -141,6 +141,18 @@
                 "name": "interim"
             },
             "designerId": "ebc17fac-5045-4056-8aa3-6e11954a9445"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "maxmem"
+            },
+            "designerId": "1417dcd6-e19c-4455-8a19-f28324528794"
         }
     ]
 }

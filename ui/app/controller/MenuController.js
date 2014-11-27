@@ -99,6 +99,7 @@ Ext.define('spider.controller.MenuController', {
 
         centerContainer.layout.setActiveItem(2);
 
+        monitoringConstants.me.initMonitoring();
     },
 
     onUserManagementBtnBtnClick: function(button, e, eOpts) {
@@ -170,12 +171,18 @@ Ext.define('spider.controller.MenuController', {
 
     renderServerTree: function() {
         clearInterval(dashboardConstants.renderInterval);
+        clearInterval(dashboardConstants.centerInterval);
 
         var center = Ext.getCmp("lnbLocationCombo").getValue();
         var treeData = [];
 
+        dashboardConstants.me.setCenterStat();
+        dashboardConstants.centerInterval = setInterval(function() {
+            dashboardConstants.me.setCenterStat();
+        }, 5000);
+
         Ext.Ajax.request({
-            url: GLOBAL.apiUrlPrefix + 'mon/vmhost/_all',
+            url: GLOBAL.apiUrlPrefix + 'mon/vmhost/_all?detail=true',
             disableCaching : true,
             success: function(response){
 
@@ -254,6 +261,12 @@ Ext.define('spider.controller.MenuController', {
                     host.icon = 'resources/images/icons/server.png';
                     host.type = 'vmhost';
 
+                    Ext.each(host.info, function(hostInfo){
+                        if(hostInfo.name == "Memory size") {
+                            host.maxmem = parseInt(hostInfo.value.substring(0, hostInfo.value.length-4))*1024;
+                        }
+                    });
+
                     if(menuConstants.activeFlag) {
                         if(index == 0) {
                             host.expanded = true;
@@ -322,6 +335,8 @@ Ext.define('spider.controller.MenuController', {
 
                     }
 
+                    delete host.checked;
+
                     treeData.push(host);
 
                 }
@@ -329,6 +344,7 @@ Ext.define('spider.controller.MenuController', {
             });
 
             var treeStore = Ext.create('Ext.data.TreeStore', {
+                storeId: 'mainTreeStore',
                 model: 'spider.model.VmHostModel',
                 root: {
                     expanded: true,

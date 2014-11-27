@@ -117,7 +117,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     margin: '0 30 0 10',
                                                     shadow: false,
                                                     insetPadding: 5,
-                                                    store: 'VmHostChartStore',
+                                                    store: 'VmHostCpuChartStore',
                                                     axes: [
                                                         {
                                                             type: 'Category',
@@ -136,12 +136,15 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Numeric',
                                                             fields: [
-                                                                'cpu'
+                                                                'user_cpu',
+                                                                'system_cpu'
                                                             ],
                                                             label: '',
                                                             grid: false,
                                                             majorTickSteps: 1,
                                                             minorTickSteps: 1,
+                                                            maximum: 100,
+                                                            minimum: 0,
                                                             position: 'left'
                                                         }
                                                     ],
@@ -150,13 +153,26 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                             type: 'line',
                                                             label: '',
                                                             xField: 'date',
-                                                            yField: 'cpu',
+                                                            yField: 'user_cpu',
                                                             showMarkers: false,
                                                             smooth: 3,
                                                             style: {
                                                                 fill: '#3892d3',
                                                                 'stroke-width': 1.2,
                                                                 stroke: '#3892d3'
+                                                            }
+                                                        },
+                                                        {
+                                                            type: 'line',
+                                                            label: '',
+                                                            xField: 'date',
+                                                            yField: 'system_cpu',
+                                                            showMarkers: false,
+                                                            smooth: 3,
+                                                            style: {
+                                                                fill: '#94AE0A',
+                                                                'stroke-width': 1.2,
+                                                                stroke: '#94AE0A'
                                                             }
                                                         }
                                                     ]
@@ -182,7 +198,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     margin: '0 30 0 10',
                                                     shadow: false,
                                                     insetPadding: 5,
-                                                    store: 'VmHostChartStore',
+                                                    store: 'VmHostMemoryChartStore',
                                                     axes: [
                                                         {
                                                             type: 'Category',
@@ -203,7 +219,16 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                             fields: [
                                                                 'memory'
                                                             ],
-                                                            label: '',
+                                                            label: {
+                                                                renderer: function(v) {
+                                                                    
+                                                                    if(v == null) {
+                                                                        return v;
+                                                                    }
+                                                                    
+                                                                    return (v/1024/1024).toFixed(0) + " Mb";
+                                                                }
+                                                            },
                                                             grid: false,
                                                             majorTickSteps: 1,
                                                             minorTickSteps: 1,
@@ -247,7 +272,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     margin: '0 30 0 10',
                                                     shadow: false,
                                                     insetPadding: 5,
-                                                    store: 'VmHostChartStore',
+                                                    store: 'VmHostNetworkChartStore',
                                                     axes: [
                                                         {
                                                             type: 'Category',
@@ -266,7 +291,8 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         {
                                                             type: 'Numeric',
                                                             fields: [
-                                                                'network'
+                                                                'col_0',
+                                                                'col_1'
                                                             ],
                                                             label: '',
                                                             grid: false,
@@ -280,13 +306,26 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                             type: 'line',
                                                             label: '',
                                                             xField: 'date',
-                                                            yField: 'network',
+                                                            yField: 'col_0',
                                                             showMarkers: false,
                                                             smooth: 3,
                                                             style: {
                                                                 fill: '#3892d3',
                                                                 'stroke-width': 1.2,
                                                                 stroke: '#3892d3'
+                                                            }
+                                                        },
+                                                        {
+                                                            type: 'line',
+                                                            label: '',
+                                                            xField: 'date',
+                                                            yField: 'col_1',
+                                                            showMarkers: false,
+                                                            smooth: 3,
+                                                            style: {
+                                                                fill: '#94AE0A',
+                                                                'stroke-width': 1.2,
+                                                                stroke: '#94AE0A'
                                                             }
                                                         }
                                                     ]
@@ -327,6 +366,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                         },
                                                         {
                                                             xtype: 'label',
+                                                            height: 35,
                                                             hidden: true,
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                             text: ''
@@ -345,6 +385,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     items: [
                                                         {
                                                             xtype: 'label',
+                                                            height: 35,
                                                             html: '<center><b>CPU</b></center>',
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;}'
                                                         },
@@ -369,11 +410,13 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     items: [
                                                         {
                                                             xtype: 'label',
+                                                            height: 35,
                                                             html: '<center><b>Mem</b></center>',
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;}'
                                                         },
                                                         {
                                                             xtype: 'label',
+                                                            height: 35,
                                                             hidden: true,
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}',
                                                             text: ''
@@ -392,6 +435,7 @@ Ext.define('spider.view.VMHostInfoWindow', {
                                                     items: [
                                                         {
                                                             xtype: 'label',
+                                                            height: 35,
                                                             html: '<center><b>Net</b></center>',
                                                             style: '{display:inline-block;padding-top:10px;height: 36px;}'
                                                         },
@@ -725,10 +769,21 @@ Ext.define('spider.view.VMHostInfoWindow', {
                         }
                     ]
                 }
-            ]
+            ],
+            listeners: {
+                close: {
+                    fn: me.onVMHostInfoWindowClose,
+                    scope: me
+                }
+            }
         });
 
         me.callParent(arguments);
+    },
+
+    onVMHostInfoWindowClose: function(panel, eOpts) {
+        clearInterval(vmHostConstants.chartInterval);
+
     }
 
 });

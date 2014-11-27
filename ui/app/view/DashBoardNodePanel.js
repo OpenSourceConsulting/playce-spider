@@ -63,9 +63,10 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                     items: [
                                         {
                                             xtype: 'label',
+                                            margins: '0 0 15 0',
                                             html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
                                             itemId: 'VmHostStat',
-                                            minHeight: 36,
+                                            minHeight: 39,
                                             style: '{text-align: center;}',
                                             width: 36
                                         },
@@ -73,7 +74,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                             xtype: 'label',
                                             html: '',
                                             itemId: 'VmHostName',
-                                            margin: '0 10 0 0',
+                                            margin: '0 0 15 0',
                                             style: '{text-align: center;font-size : 18px;font-weight: bold;}'
                                         }
                                     ]
@@ -100,8 +101,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                             xtype: 'progressbar',
                                             flex: 5,
                                             itemId: 'cpuBar',
-                                            animate: true,
-                                            text: 'N/A'
+                                            animate: true
                                         }
                                     ]
                                 },
@@ -125,34 +125,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                             xtype: 'progressbar',
                                             flex: 5,
                                             itemId: 'memoryBar',
-                                            animate: true,
-                                            text: 'N/A'
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'panel',
-                                    flex: 1,
-                                    height: 28,
-                                    margin: 0,
-                                    layout: {
-                                        type: 'hbox',
-                                        align: 'middle'
-                                    },
-                                    items: [
-                                        {
-                                            xtype: 'label',
-                                            margins: '0 5 0 0',
-                                            style: '{text-align:right;font-weight:bold;}',
-                                            width: 70,
-                                            text: 'Disk :  '
-                                        },
-                                        {
-                                            xtype: 'progressbar',
-                                            flex: 5,
-                                            itemId: 'diskBar',
-                                            animate: true,
-                                            text: 'N/A'
+                                            animate: true
                                         }
                                     ]
                                 },
@@ -177,8 +150,7 @@ Ext.define('spider.view.DashBoardNodePanel', {
                                             xtype: 'progressbar',
                                             flex: 5,
                                             itemId: 'networkBar',
-                                            animate: true,
-                                            text: 'N/A'
+                                            animate: true
                                         }
                                     ]
                                 }

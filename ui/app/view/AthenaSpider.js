@@ -19,7 +19,7 @@ Ext.define('spider.view.AthenaSpider', {
     requires: [
         'spider.view.DashboardPanel',
         'spider.view.VmManagementPanel',
-        'spider.view.MyContainer1',
+        'spider.view.MonitoringPanel',
         'spider.view.UserManagementPanel',
         'Ext.Img',
         'Ext.toolbar.Toolbar',
@@ -215,7 +215,8 @@ Ext.define('spider.view.AthenaSpider', {
                                                 {
                                                     xtype: 'label',
                                                     html: '<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>',
-                                                    itemId: 'VmHostStat1',
+                                                    id: 'locationStat',
+                                                    itemId: 'locationStat',
                                                     margin: '0 25 5 0',
                                                     minHeight: 36,
                                                     style: '{text-align: center;}',
@@ -433,9 +434,7 @@ Ext.define('spider.view.AthenaSpider', {
                                             xtype: 'VmManagementPanel'
                                         },
                                         {
-                                            xtype: 'mycontainer1',
-                                            height: 150,
-                                            id: 'samplePanel'
+                                            xtype: 'monitoringpanel'
                                         },
                                         {
                                             xtype: 'usermanagementpanel'

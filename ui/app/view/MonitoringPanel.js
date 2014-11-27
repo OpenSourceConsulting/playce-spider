@@ -15,11 +15,13 @@
 
 Ext.define('spider.view.MonitoringPanel', {
     extend: 'Ext.panel.Panel',
+    alias: 'widget.monitoringpanel',
 
     requires: [
         'Ext.tree.Panel',
         'Ext.tree.View',
-        'Ext.tree.Column'
+        'Ext.tree.Column',
+        'Ext.Img'
     ],
 
     id: 'MonitoringPanel',
@@ -36,8 +38,8 @@ Ext.define('spider.view.MonitoringPanel', {
                     xtype: 'treepanel',
                     region: 'west',
                     frame: true,
-                    id: 'listCheckMenuPanel1',
-                    itemId: 'listCheckMenuPanel',
+                    id: 'listMonitoringCheckMenuPanel',
+                    itemId: 'listMonitoringCheckMenuPanel',
                     margin: 10,
                     padding: 0,
                     width: 200,
@@ -70,23 +72,59 @@ Ext.define('spider.view.MonitoringPanel', {
                         {
                             xtype: 'panel',
                             frame: true,
-                            height: 280,
+                            height: 540,
+                            id: 'monitoringCpuChart',
                             margin: '10 20 10 10',
-                            title: 'CPU Chart'
+                            width: 700,
+                            title: 'CPU Chart',
+                            listeners: {
+                                resize: {
+                                    fn: me.onMonitoringCpuChartResize,
+                                    scope: me
+                                }
+                            },
+                            items: [
+                                {
+                                    xtype: 'image',
+                                    height: 201,
+                                    width: 201,
+                                    src: '/'
+                                }
+                            ]
                         },
                         {
                             xtype: 'panel',
                             frame: true,
-                            height: 280,
+                            height: 540,
+                            id: 'monitoringMemoryChart',
                             margin: '10 20 10 10',
-                            title: 'Memory Chart'
+                            width: 700,
+                            title: 'Memory Chart',
+                            items: [
+                                {
+                                    xtype: 'image',
+                                    height: 201,
+                                    width: 201,
+                                    src: '/'
+                                }
+                            ]
                         },
                         {
                             xtype: 'panel',
                             frame: true,
-                            height: 280,
+                            height: 540,
+                            id: 'monitoringNetworkChart',
                             margin: '10 20 10 10',
-                            title: 'Network Chart'
+                            width: 700,
+                            title: 'Network Chart',
+                            items: [
+                                {
+                                    xtype: 'image',
+                                    height: 201,
+                                    width: 201,
+                                    src: '/'
+                                }
+                            ]
                         }
                     ]
                 }
@@ -94,6 +132,18 @@ Ext.define('spider.view.MonitoringPanel', {
         });
 
         me.callParent(arguments);
+    },
+
+    onMonitoringCpuChartResize: function(component, width, height, oldWidth, oldHeight, eOpts) {
+        clearInterval(monitoringConstants.chartInterval);
+        monitoringConstants.me.showMonitoringImg(width, height);
+
+        monitoringConstants.chartInterval = setInterval(function() {
+
+            monitoringConstants.me.showMonitoringImg();
+
+        }, 5000);
+
     }
 
 });

@@ -53,6 +53,9 @@ Ext.define('spider.model.VmHostModel', {
         },
         {
             name: 'interim'
+        },
+        {
+            name: 'maxmem'
         }
     ]
 });

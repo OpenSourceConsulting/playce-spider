@@ -613,14 +613,14 @@ Ext.define('spider.view.VmManagementPanel', {
                                                                                 {
                                                                                     xtype: 'gridcolumn',
                                                                                     renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-                                                                                        if(value.indexOf("disable") >= 0) {
-                                                                                            metaData.tdAttr = 'style="color:gray;"';
-                                                                                            return value;
-                                                                                        }
-
                                                                                         if(value === vmConstants.selectRecord.get("mgraddr")) {
                                                                                             metaData.tdAttr = 'style="font-weight : bold;"';
                                                                                             return value+" (관리)";
+                                                                                        } else if(value.indexOf("disable") >= 0) {
+                                                                                            metaData.tdAttr = 'style="color:gray;"';
+                                                                                            return value;
+                                                                                        } else {
+                                                                                            return value;
                                                                                         }
                                                                                     },
                                                                                     dataIndex: 'ipaddr',
