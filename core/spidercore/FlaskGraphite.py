@@ -52,13 +52,14 @@ def mon_graphite_center_status(centerId=None):
 	locations = read_repository('locations')
 	vmhosts = read_repository('vmhosts')
 	targetVmhosts = []
-	for center in locations:
-		if center['name'] == centerId:
-			for vmhost in vmhosts:
-				if vmhost['location'] == centerId:
-					targetVmhosts.append(vmhost)
-	else:
-		return "Invalid center ID", 404
+	center = locations[0]
+# 	for center in locations:
+# 		if center['name'] == centerId:
+	for vmhost in vmhosts:
+		if vmhost['location'] == center['name']:
+			targetVmhosts.append(vmhost)
+# 	else:
+# 		return "Invalid center ID", 404
 
 	#	Collecting CPU usage for vmhosts belonging to the location/center	
 	timespan = "1"
