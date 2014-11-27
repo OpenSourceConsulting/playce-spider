@@ -54,7 +54,7 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 
 	idtoname = {}
 	vms = read_repository('vms')
-	indexes = {}
+	indexes = []
 	for vm in vms:
 		if vm['vmhost'] == vmhostId:
 			indexes.append("target=%s.cpu.*.cpu.{user,system}.value" % vm['_id'])
