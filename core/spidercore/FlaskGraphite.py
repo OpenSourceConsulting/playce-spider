@@ -287,6 +287,8 @@ def mon_graphite_cpu(vmid=None):
 		numofcore = 4
 	elif vmid == 'nipa_host':
 		numofcore = 8
+	elif vmid == 'kvmhost2':
+		numofcore = 2
 	print "NumOfCore: %d %s" % (numofcore, vmid)
 	for metric in result:
 		for data in metric['datapoints']:
