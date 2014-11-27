@@ -218,7 +218,8 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 							noneCount += 1
 						else:
 							sum += cpuResult[vmid][cpuid][valtype][i]
-				avg = sum / (size - noneCount)
+				if size > noneCount:
+					avg = sum / (size - noneCount)
 				cpuSum += avg
 		cpuResult[vmid]['cpuavg'] = cpuSum / len(cpuResult[vmid])  
 
@@ -284,7 +285,8 @@ def mon_graphite_vmhostmem(vmhostId=None):
 							noneCount += 1
 						else:
 							sum += memResult[vmid][memid][valtype][i]
-				avg = sum / (size - noneCount)
+				if size > noneCount:
+					avg = sum / (size - noneCount)
 				memSum += avg
 		memResult[vmid]['memavg'] = memSum / len(memResult[vmid])  
 
@@ -350,7 +352,8 @@ def mon_graphite_vmhostnet(vmhostId=None):
 							noneCount += 1
 						else:
 							sum += netResult[vmid][nicid][valtype][i]
-				avg = sum / (size - noneCount)
+				if size > noneCount:
+					avg = sum / (size - noneCount)
 				netSum += avg
 		netResult[vmid]['netavg'] = netSum / len(netResult[vmid])  
 
