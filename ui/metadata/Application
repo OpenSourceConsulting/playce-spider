@@ -14,7 +14,8 @@
             "VmManagementController",
             "VmHostController",
             "LoginController",
-            "UserController"
+            "UserController",
+            "MonitoringController"
         ],
         "models": [
             "SampleModel",
@@ -57,7 +58,10 @@
             "VmNatStore",
             "VmDhcpStore",
             "ComboVmFirewallNameStore",
-            "VmFirewallStore"
+            "VmFirewallStore",
+            "VmHostCpuChartStore",
+            "VmHostMemoryChartStore",
+            "VmHostNetworkChartStore"
         ],
         "views": [
             "AthenaSpider",

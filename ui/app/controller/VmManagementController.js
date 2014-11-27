@@ -1998,65 +1998,43 @@ Ext.define('spider.controller.VmManagementController', {
 
         var store;
 
-        if(vmConstants.vmIfAllRecords == null) {
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
+            disableCaching : true,
+            method : "GET",
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            waitMsg: 'Loading...',
+            waitMsgTarget : msgTarget,
+            success: function(response){
 
-            Ext.Ajax.request({
-                url: GLOBAL.apiUrlPrefix + 'mon/nfv/' +vmConstants.selectRecord.get("id") + '/if/_all',
-                disableCaching : true,
-                method : "GET",
-                headers : {
-                    "Content-Type" : "application/json"
-                },
-                waitMsg: 'Loading...',
-                waitMsgTarget : msgTarget,
-                success: function(response){
+                if(response.status == 200) {
 
-                    if(response.status == 200) {
+                    var datas = Ext.decode(response.responseText);
 
-                        var datas = Ext.decode(response.responseText);
+                    vmConstants.vmIfAllRecords = datas;
 
-                        vmConstants.vmIfAllRecords = datas;
+                    store = Ext.create('Ext.data.Store', {
+                        model: 'spider.model.VmNicModel',
+                        data: datas
+                    });
 
-                        store = Ext.create('Ext.data.Store', {
-                            model: 'spider.model.VmNicModel',
-                            data: datas
-                        });
+                    Ext.each(components, function(component) {
 
-                        Ext.each(components, function(component) {
+                        component.getStore().removeAll();
+                        component.bindStore(store);
+                        if(blankText) {
+                            store.insert(0, {ethName : blankText});
+                            component.setValue(blankText);
+                        }
 
-                            component.getStore().removeAll();
-                            component.bindStore(store);
-                            if(blankText) {
-                                store.insert(0, {ethName : blankText});
-                                component.setValue(blankText);
-                            }
-
-                        });
-                    }
-
+                    });
                 }
-            });
 
+            }
+        });
 
-        } else {
-
-            var datas = vmConstants.vmIfAllRecords;
-
-            store = Ext.create('Ext.data.Store', {
-                model: 'spider.model.VmNicModel',
-                data: datas
-            });
-
-            Ext.each(components, function(component) {
-
-                component.getStore().removeAll();
-                component.bindStore(store);
-                if(blankText) {
-                    store.insert(0, {ethName : blankText});
-                    component.setValue(blankText);
-                }
-            });
-        }
 
     },
 
@@ -3266,7 +3244,8 @@ Ext.define('spider.controller.VmManagementController', {
 
         });
 
-        var treeStore = Ext.create('Ext.data.TreeStore', {
+        var cliTreeStore = Ext.create('Ext.data.TreeStore', {
+            storeId: 'cliTreeStore',
             model: 'spider.model.VmHostModel',
             root: {
                 expanded: true,
@@ -3277,7 +3256,7 @@ Ext.define('spider.controller.VmManagementController', {
             }
         });
 
-        Ext.getCmp("listCheckMenuPanel").bindStore(treeStore);
+        Ext.getCmp("listCheckMenuPanel").bindStore(cliTreeStore);
 
 
     },

@@ -76,7 +76,8 @@
                                         "html": "<center><img src=\"resources/images/icons/status_01.png\" width=\"36\" height=\"36\" border=\"0\"></center>",
                                         "itemId": "VmHostStat",
                                         "layout|flex": null,
-                                        "minHeight": 36,
+                                        "layout|margins": "0 0 15 0",
+                                        "minHeight": 39,
                                         "minWidth": null,
                                         "style": "{text-align: center;}",
                                         "text": null,
@@ -95,10 +96,11 @@
                                     },
                                     "codeClass": null,
                                     "userConfig": {
+                                        "height": null,
                                         "html": "",
                                         "itemId": "VmHostName",
                                         "layout|flex": null,
-                                        "margin": "0 10 0 0",
+                                        "margin": "0 0 15 0",
                                         "style": "{text-align: center;font-size : 18px;font-weight: bold;}",
                                         "text": null
                                     },
@@ -158,7 +160,7 @@
                                         "itemId": "cpuBar",
                                         "layout|flex": 5,
                                         "style": null,
-                                        "text": "N/A"
+                                        "text": null
                                     },
                                     "configAlternates": {
                                         "style": "string"
@@ -217,67 +219,12 @@
                                         "layout|flex": 5,
                                         "maxHeight": null,
                                         "style": null,
-                                        "text": "N/A"
+                                        "text": null
                                     },
                                     "configAlternates": {
                                         "style": "string"
                                     },
                                     "designerId": "ad89ddf4-8b0f-4255-9454-014557c4d881"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "Ext.panel.Panel",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "container|align": "middle",
-                                "height": 28,
-                                "layout": "hbox",
-                                "layout|flex": 1,
-                                "margin": 0,
-                                "title": null
-                            },
-                            "designerId": "d7fd0cf8-0733-446b-9cc6-81ade2f07c97",
-                            "cn": [
-                                {
-                                    "type": "Ext.form.Label",
-                                    "reference": {
-                                        "name": "items",
-                                        "type": "array"
-                                    },
-                                    "codeClass": null,
-                                    "userConfig": {
-                                        "layout|flex": null,
-                                        "layout|margins": "0 5 0 0",
-                                        "style": "{text-align:right;font-weight:bold;}",
-                                        "text": "Disk :  ",
-                                        "width": 70
-                                    },
-                                    "configAlternates": {
-                                        "style": "string"
-                                    },
-                                    "designerId": "6b776c94-83f0-4a64-b7ef-022c893cb740"
-                                },
-                                {
-                                    "type": "Ext.ProgressBar",
-                                    "reference": {
-                                        "name": "items",
-                                        "type": "array"
-                                    },
-                                    "codeClass": null,
-                                    "userConfig": {
-                                        "animate": true,
-                                        "height": null,
-                                        "id": null,
-                                        "itemId": "diskBar",
-                                        "layout|flex": 5,
-                                        "text": "N/A"
-                                    },
-                                    "designerId": "3af48df8-fbfd-49e1-ad0d-60e3b5a91f1e"
                                 }
                             ]
                         },
@@ -330,7 +277,7 @@
                                         "id": null,
                                         "itemId": "networkBar",
                                         "layout|flex": 5,
-                                        "text": "N/A"
+                                        "text": null
                                     },
                                     "designerId": "7b287575-8118-43a0-94c5-1c609eede1d0"
                                 }

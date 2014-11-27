@@ -61,7 +61,10 @@ Ext.application({
         'VmNatStore',
         'VmDhcpStore',
         'ComboVmFirewallNameStore',
-        'VmFirewallStore'
+        'VmFirewallStore',
+        'VmHostCpuChartStore',
+        'VmHostMemoryChartStore',
+        'VmHostNetworkChartStore'
     ],
     views: [
         'AthenaSpider',
@@ -90,7 +93,8 @@ Ext.application({
         'VmManagementController',
         'VmHostController',
         'LoginController',
-        'UserController'
+        'UserController',
+        'MonitoringController'
     ],
     name: 'spider',
 

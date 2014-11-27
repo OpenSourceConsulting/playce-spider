@@ -31,7 +31,8 @@ Ext.define('spider.controller.DashboardController', {
             singleton: true,
             me : dashBoard,
 
-            renderInterval : null
+            renderInterval : null,
+            centerInterval : null
         });
     },
 
@@ -43,30 +44,18 @@ Ext.define('spider.controller.DashboardController', {
             return;
         }
 
-        var cpu = 20,
-            memory = 30,
-            disk = 10,
-            network = 35;
-
         Ext.getCmp("DashBoardLeftPanel").removeAll();
         Ext.getCmp("DashBoardRightPanel").removeAll();
 
         Ext.each(Ext.getCmp("listMenuPanel").store.getRootNode().childNodes, function(record, idx){
 
+            var cpu = 0,
+            memory = 0,
+            network = 0;
+
             var nodePanel = Ext.getCmp("DashBoardNodePanel").cloneConfig({itemId : "DashBoardNodePanel"+idx});
 
-            nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
             nodePanel.down('#VmHostName').setText(record.get('text'));
-
-            cpu = Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0));
-            memory = Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0));
-            disk = Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0));
-            network = Math.min(100, Math.max(+network + (Math.random() - 0.5) / 2, 0));
-
-            nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
-            nodePanel.down('#memoryBar').updateProgress(memory / 100, memory.toFixed(2) + "%");
-            nodePanel.down('#diskBar').updateProgress(disk / 100, disk.toFixed(2) + "%");
-            nodePanel.down('#networkBar').updateProgress(network / 100, network.toFixed(2) + "%");
 
             //VM 정보
             var vms = nodePanel.down('#vmNamePanel').items.items;
@@ -74,15 +63,87 @@ Ext.define('spider.controller.DashboardController', {
             var vmMemorys = nodePanel.down('#vmMemPanel').items.items;
             var vmDisks = nodePanel.down('#vmNetPanel').items.items;
 
-            Ext.each(record.get("children"), function(cRecord, cIdx) {
+            Ext.Ajax.request({
+                url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostcpu/' + record.get('id'),
+                method : "GET",
+                disableCaching : true,
+                success: function(cpuResponse){
 
-                if(cIdx < 4) {
-                    vms[cIdx+1].setText(cRecord.text);
-                    vmCpus[cIdx+1].setText(Math.min(100, Math.max(+cpu + (Math.random() - 0.5), 0)).toFixed(0) + "%");
-                    vmMemorys[cIdx+1].setText(Math.min(100, Math.max(+memory + (Math.random() - 0.5) * 2, 0)).toFixed(0) + "%");
-                    vmDisks[cIdx+1].setText(Math.min(100, Math.max(+disk + (Math.random() - 0.5) / 2, 0)).toFixed(0) + "%");
+                    if(cpuResponse.status == 200) {
+
+                        var cpuData = Ext.JSON.decode(cpuResponse.responseText);
+
+                        Ext.Ajax.request({
+                            url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostmem/' + record.get('id'),
+                            method : "GET",
+                            disableCaching : true,
+                            success: function(memResponse){
+
+                                if(memResponse.status == 200) {
+
+                                    var memData = Ext.JSON.decode(memResponse.responseText);
+
+                                    Ext.Ajax.request({
+                                        url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostnet/' + record.get('id'),
+                                        method : "GET",
+                                        disableCaching : true,
+                                        success: function(netResponse){
+
+                                            if(netResponse.status == 200) {
+
+                                                var netData = Ext.JSON.decode(netResponse.responseText);
+
+                                                var vmKey = Object.keys(cpuData);
+
+                                                if(vmKey.length > 0) {
+
+                                                    Ext.each(vmKey, function(vmId, vIdx) {
+
+                                                        if(vIdx < 4) {
+                                                            vms[vIdx+1].setText(cpuData[vmId].vmname);
+                                                            vmCpus[vIdx+1].setText(cpuData[vmId].value.toFixed(0) + "%");
+                                                            vmMemorys[vIdx+1].setText((memData[vmId].value/1024/1024).toFixed(2) + "MB");
+                                                            vmDisks[vIdx+1].setText(netData[vmId].value.toFixed(0) + "%");
+                                                        }
+                                                        cpu += parseFloat(cpuData[vmId].value);
+                                                        memory += parseFloat(memData[vmId].value);
+                                                        network += parseFloat(netData[vmId].value);
+
+                                                    });
+
+                                                    cpu = cpu / vmKey.length;
+                                                    memory = memory / vmKey.length;
+                                                    network = network / vmKey.length;
+
+                                                } else {
+                                                    cpu =  0; memory = 0; network = 0;
+
+                                                }
+
+                                                nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
+                                                nodePanel.down('#memoryBar').updateProgress(memory / record.get("maxmem"), (memory/1024/1024).toFixed(2) + "MB");
+                                                nodePanel.down('#networkBar').updateProgress(network / 100, network.toFixed(2) + "%");
+
+                                                if(cpu <= 50) {
+                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
+                                                } else if(cpu <= 70) {
+                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>', false);
+                                                } else {
+                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
+                                                }
+
+                                            }
+                                        }
+                                    });
+
+                                }
+                            }
+                        });
+
+                    }
                 }
             });
+
 
             //node add
             if(idx%2 === 0) {
@@ -100,6 +161,33 @@ Ext.define('spider.controller.DashboardController', {
 
         Ext.getBody().unmask();
 
+    },
+
+    setCenterStat: function() {
+
+        var center = Ext.getCmp("lnbLocationCombo").getValue();
+
+        Ext.Ajax.request({
+            url: GLOBAL.apiUrlPrefix + 'mon/graphite/center/' + (center == "대전" ? 0 : 1),
+            method : "GET",
+            disableCaching : true,
+            success: function(netResponse){
+
+                if(netResponse.status == 200) {
+
+                    var cpu = netResponse.responseText;
+
+                    if(cpu <= 50) {
+                        Ext.getCmp('locationStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
+                    } else if(cpu <= 70) {
+                        Ext.getCmp('locationStat').setText('<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>', false);
+                    } else {
+                        Ext.getCmp('locationStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
+                    }
+
+                }
+            }
+        });
     }
 
 });

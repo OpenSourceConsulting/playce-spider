@@ -1,0 +1,39 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "VmHostMemoryChartStore",
+        "storeId": "VmHostMemoryChartStore"
+    },
+    "designerId": "b14ffefe-132a-48ef-ac0b-ab7c1089d167",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "date"
+            },
+            "designerId": "be551685-86ea-4bd4-90b3-0312a644cf2b"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "memory"
+            },
+            "designerId": "d1e54a7b-fb44-4bf3-9941-b5fe4e6256fb"
+        }
+    ]
+}
