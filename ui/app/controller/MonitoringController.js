@@ -24,18 +24,7 @@ Ext.define('spider.controller.MonitoringController', {
     ],
 
     onListMonitoringCheckMenuPanelCheckChange: function(node, checked, eOpts) {
-        /*if(checked == true)  {
 
-            monitoringConstants.checkVm.push(node);
-
-        } else {
-
-            var i = monitoringConstants.checkVm.indexOf(node);
-            if(i != -1) {
-                monitoringConstants.checkVm.splice(node, 1);
-            }
-        }
-        */
         clearInterval(monitoringConstants.chartInterval);
         this.showMonitoringImg();
 
@@ -170,22 +159,6 @@ Ext.define('spider.controller.MonitoringController', {
             //nitoringConstants.width = 700;
             monitoringConstants.height = 300;
 
-
-            /*
-            var imgCmp = component.down('image');
-
-            if(type == 'CPU') {
-
-
-                render/?width=700&height=500&from=-10minutes&yMax=100&target=sum(averageSeries(111cc0cf-585c-42d8-8306-327f004aaa03.cpu.*.cpu.system.value)&target=averageSeries(111cc0cf-585c-42d8-8306-327f004aaa03.cpu.*.cpu.user.value)&target=sum(averageSeries(1bc13019-3597-4387-bed2-fafc2a7e8a4f.cpu.*.cpu.system.value)&target=averageSeries(1bc13019-3597-4387-bed2-fafc2a7e8a4f.cpu.*.cpu.user.value)"
-            }
-
-            //imgCmp.setWidth(cmpWidth);
-            //imgCmp.setHeight(cmpHeight);
-            /*
-            imgCmp.setSrc('http://192.168.0.3:8000/render/?_salt=1409028000.87&target=vyos.cpu.0.cpu.user.value&from=-2minutes'
-                    + '&width='+cmpWidth + '&height=' + (cmpHeight+35));
-            */
         }
 
 

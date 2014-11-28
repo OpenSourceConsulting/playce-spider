@@ -437,7 +437,6 @@ Ext.ClassManager.addNameAlternateMappings({
   ],
   "Ext.grid.RowEditor": [],
   "Ext.grid.RowEditorButtons": [],
-  "Ext.grid.Scroller": [],
   "Ext.grid.View": [],
   "Ext.grid.ViewDropZone": [],
   "Ext.grid.column.Action": [
@@ -882,7 +881,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.MonitoringController": [],
-  "spider.controller.SampleController": [],
   "spider.controller.UserController": [],
   "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],
@@ -1388,7 +1386,6 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.grid.RowEditorButtons": [
     "widget.roweditorbuttons"
   ],
-  "Ext.grid.Scroller": [],
   "Ext.grid.View": [
     "widget.gridview"
   ],
@@ -1967,7 +1964,6 @@ Ext.ClassManager.addNameAliasMappings({
   "spider.controller.Main": [],
   "spider.controller.MenuController": [],
   "spider.controller.MonitoringController": [],
-  "spider.controller.SampleController": [],
   "spider.controller.UserController": [],
   "spider.controller.VmHostController": [],
   "spider.controller.VmManagementController": [],

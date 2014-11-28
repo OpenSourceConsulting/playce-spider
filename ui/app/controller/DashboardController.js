@@ -49,8 +49,7 @@ Ext.define('spider.controller.DashboardController', {
 
         Ext.each(Ext.getCmp("listMenuPanel").store.getRootNode().childNodes, function(record, idx){
 
-            var cpu = 0,
-            memory = 0,
+            var memory = 0,
             network = 0;
 
             var nodePanel = Ext.getCmp("DashBoardNodePanel").cloneConfig({itemId : "DashBoardNodePanel"+idx});
@@ -70,7 +69,7 @@ Ext.define('spider.controller.DashboardController', {
                 failMsg : false,
                 success: function(response){
 
-                    cpu = Ext.decode(response.responseText);
+                    var cpu = Ext.decode(response.responseText);
 
 
                     nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
@@ -127,18 +126,15 @@ Ext.define('spider.controller.DashboardController', {
                                                             vmMemorys[vIdx+1].setText((memData[vmId].value/1024/1024).toFixed(2) + "MB");
                                                             vmDisks[vIdx+1].setText(netData[vmId].value.toFixed(0) + "%");
                                                         }
-                                                        cpu += parseFloat(cpuData[vmId].value);
                                                         memory += parseFloat(memData[vmId].value);
                                                         network += parseFloat(netData[vmId].value);
 
                                                     });
 
-                                                    cpu = cpu / vmKey.length;
-                                                    memory = memory / vmKey.length;
                                                     network = network / vmKey.length;
 
                                                 } else {
-                                                    cpu =  0; memory = 0; network = 0;
+                                                    memory = 0; network = 0;
 
                                                 }
 
