@@ -1943,7 +1943,7 @@ Ext.define('spider.controller.VmManagementController', {
                         if(data.translation != null) {
 
                             if(data.translation.address == "masquerade") {
-                                form.getForm().findField("masquerade").setValue(true);
+                                data.masquerade = true;
                             } else {
                                 data.transaddr = data.translation.address;
                                 data.transport = data.translation.port;
