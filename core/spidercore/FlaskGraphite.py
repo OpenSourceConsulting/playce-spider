@@ -227,8 +227,8 @@ def mon_graphite_hostnet(vmhostId=None):
 	vmhostId = targetVmhost['hostname']
 	vmhostId = vmhostId.replace(".", "_")
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
-	url += "&target=maxSeries(%s.interface.if_octets.vnet*.*)" % vmhostId
-	print "mon_graphite_hostmem URL %s" % url
+	url += "&target=maxSeries(%s.interface.if_octets.*.*)" % vmhostId
+	print "mon_graphite_hostnet URL %s" % url
 	result = requests.get(url).json()
 
 	
