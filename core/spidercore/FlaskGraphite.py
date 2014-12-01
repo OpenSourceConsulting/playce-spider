@@ -388,7 +388,7 @@ def mon_graphite_vmhostnet(vmhostId=None):
 	vms = read_repository('vms')
 	indexes = []
 	for vm in vms:
-		if vm['vmhost'] == vmhostId:
+		if vm['vmhost'] == vmhostId and not vm['interim']:
 			indexes.append("target=maxSeries(%s.interface.if_octets.*.{tx,rx})" % vm['_id'])
 			idtoname[vm['_id']] = vm['vmname']
 	url = ""
