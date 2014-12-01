@@ -199,6 +199,44 @@ Ext.define('spider.view.DashBoardNodePanel', {
                         {
                             xtype: 'panel',
                             flex: 1,
+                            itemId: 'vmStatPanel',
+                            layout: {
+                                type: 'vbox',
+                                align: 'stretch'
+                            },
+                            items: [
+                                {
+                                    xtype: 'label',
+                                    flex: 1,
+                                    margin: '5 0 5 0',
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;}'
+                                },
+                                {
+                                    xtype: 'label',
+                                    flex: 1,
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                },
+                                {
+                                    xtype: 'label',
+                                    flex: 1,
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                },
+                                {
+                                    xtype: 'label',
+                                    flex: 1,
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                },
+                                {
+                                    xtype: 'label',
+                                    flex: 1,
+                                    margin: '0 0 5 0',
+                                    style: '{display:inline-block;padding-top:10px;height: 36px;text-align:center;}'
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'panel',
+                            flex: 1,
                             itemId: 'vmCpuPanel',
                             layout: {
                                 type: 'vbox',

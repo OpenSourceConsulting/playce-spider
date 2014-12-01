@@ -400,6 +400,119 @@
                     "codeClass": null,
                     "userConfig": {
                         "container|align": "stretch",
+                        "itemId": "vmStatPanel",
+                        "layout": "vbox",
+                        "layout|flex": 1,
+                        "title": null,
+                        "width": null
+                    },
+                    "designerId": "867be3fb-0ad0-4382-bb9f-269aaf35be52",
+                    "cn": [
+                        {
+                            "type": "Ext.form.Label",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "height": null,
+                                "html": null,
+                                "layout|flex": 1,
+                                "layout|margins": null,
+                                "margin": "5 0 5 0",
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;}",
+                                "text": null
+                            },
+                            "configAlternates": {
+                                "style": "string"
+                            },
+                            "designerId": "a2157464-ac92-4597-a2a9-373ca423ba51"
+                        },
+                        {
+                            "type": "Ext.form.Label",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "html": null,
+                                "layout|flex": 1,
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": null
+                            },
+                            "configAlternates": {
+                                "style": "string"
+                            },
+                            "designerId": "60a3c047-528f-4ec8-a67c-d97ecf9bb144"
+                        },
+                        {
+                            "type": "Ext.form.Label",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "html": null,
+                                "layout|flex": 1,
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": null
+                            },
+                            "configAlternates": {
+                                "style": "string"
+                            },
+                            "designerId": "d883357b-230e-42a7-a4c9-f8ca4f559447"
+                        },
+                        {
+                            "type": "Ext.form.Label",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "html": null,
+                                "layout|flex": 1,
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": null
+                            },
+                            "configAlternates": {
+                                "style": "string"
+                            },
+                            "designerId": "92d82082-c717-4b85-a6f2-9cef89704980"
+                        },
+                        {
+                            "type": "Ext.form.Label",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "html": null,
+                                "layout|flex": 1,
+                                "margin": "0 0 5 0",
+                                "style": "{display:inline-block;padding-top:10px;height: 36px;text-align:center;}",
+                                "text": null
+                            },
+                            "configAlternates": {
+                                "style": "string"
+                            },
+                            "designerId": "7381f633-2dba-4917-8c11-75378c681c1b"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.panel.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|align": "stretch",
                         "itemId": "vmCpuPanel",
                         "layout": "vbox",
                         "layout|flex": 1,
