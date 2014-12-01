@@ -80,7 +80,7 @@ def set_global_system(vmid, params):
     env.shell = '/bin/vbash -ic'
     results = execute(set_global_system_task, hosts=[addr], systeminfo = params)
     
-    if results[addr]['success'] == 'success':
+    if results[addr]['success'] == 'success' or 'already exists' in results[addr]['errmsg']:
         vms = read_repository('vms')
         
         for vm in vms:
