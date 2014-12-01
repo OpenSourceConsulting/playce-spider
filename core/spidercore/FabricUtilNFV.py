@@ -117,14 +117,23 @@ def getInterfaces_with_ifconfig_task(filter):
 	#vyatta configs
 	configs = {}
 	configList = []
+	ethName = ""
 	for line in vyattaConfigs:
-		if "{" in line:
+		if "ethernet" in line or "bonding" in line or "loopback" in line:
+			
+			if len(configList) > 0 and len(ethName) > 0:
+				configs[ethName] = "\n".join(configList[0:len(configList)-1]) # '}' 제거
+				configList = []
+			
 			ethName = line.split()[1]
-		elif "}" in line:
-			configs[ethName] = "\n".join(configList)
-			configList = []
+			
 		else:
 			configList.append(line)	
+			
+	# 마지막 interface 추가.
+	if len(configList) > 0 and len(ethName) > 0:
+		configs[ethName] = "\n".join(configList[0:len(configList)-1]) # '}' 제거
+		configList = []
 	
 	#ifconfig
 	ifconfig = {}
