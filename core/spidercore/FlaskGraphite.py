@@ -227,7 +227,7 @@ def mon_graphite_hostnet(vmhostId=None):
 	vmhostId = targetVmhost['hostname']
 	vmhostId = vmhostId.replace(".", "_")
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
-	url += "&target=averageSeries(%s.interface.if_packets.*.{tx,rx})" % vmhostId
+	url += "&target=maxSeries(%s.interface.if_octets.vnet*.*)" % vmhostId
 	print "mon_graphite_hostmem URL %s" % url
 	result = requests.get(url).json()
 
@@ -237,7 +237,7 @@ def mon_graphite_hostnet(vmhostId=None):
 	for metric in result:
 		for val in metric['datapoints']:
 			if val['value'] != None:
-				total += val['value']
+				total += val['value'] 
 				count += 1
 				
 	if count == 0:
@@ -245,7 +245,7 @@ def mon_graphite_hostnet(vmhostId=None):
 	else:
 		avg = total / count
 
-	return str(avg)
+	return str(avg*100/(1024*1024*10))
 
 #	http://192.168.0.130:8000/render/?width=786&height=508&_salt=1417023959.735
 #	target=111cc0cf-585c-42d8-8306-327f004aaa03.cpu.*.cpu.{user,system}.value&from=-30seconds
