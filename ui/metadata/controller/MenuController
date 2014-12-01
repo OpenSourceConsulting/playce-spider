@@ -352,7 +352,7 @@
                     "                host.leaf = true;",
                     "",
                     "            }",
-                    "            ",
+                    "",
                     "            delete host.checked;",
                     "",
                     "            treeData.push(host);",

@@ -160,7 +160,90 @@ def mon_graphite_hostcpu(vmhostId=None):
 		total += cpuavg[name]
 		count += 1
 	
-	avg = total / count
+	if count == 0:
+		avg = 0
+	else:
+		avg = total / count
+
+	return str(avg)
+
+@app.route("/mon/graphite/hostmem/<vmhostId>", methods=['GET'])
+def mon_graphite_hostmem(vmhostId=None):
+	if vmhostId == None:
+		return "No id for VM Host", 404
+
+	vmhosts = read_repository('vmhosts')
+	targetVmhost = None;
+
+
+	for vmhost in vmhosts:
+		if vmhost['_id'] == vmhostId:
+			targetVmhost = vmhost
+
+
+	timespan = "30"
+	timeunit = "seconds"
+	
+	vmhostId = targetVmhost['hostname']
+	vmhostId = vmhostId.replace(".", "_")
+	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
+	url += "&target=averageSeries(%s.memory.memory.used.value)" % vmhostId
+	print "mon_graphite_hostmem URL %s" % url
+	result = requests.get(url).json()
+
+	
+	total = 0.0
+	count = 0
+	for metric in result:
+		for val in metric['datapoints']:
+			if val['value'] != None:
+				total += val['value']
+				count += 1
+	
+	if count == 0:
+		avg = 0
+	else:
+		avg = total / count
+
+	return str(avg)
+
+@app.route("/mon/graphite/hostnet/<vmhostId>", methods=['GET'])
+def mon_graphite_hostnet(vmhostId=None):
+	if vmhostId == None:
+		return "No id for VM Host", 404
+
+	vmhosts = read_repository('vmhosts')
+	targetVmhost = None;
+
+
+	for vmhost in vmhosts:
+		if vmhost['_id'] == vmhostId:
+			targetVmhost = vmhost
+
+
+	timespan = "30"
+	timeunit = "seconds"
+	
+	vmhostId = targetVmhost['hostname']
+	vmhostId = vmhostId.replace(".", "_")
+	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
+	url += "&target=averageSeries(%s.interface.if_packets.*.{tx,rx})" % vmhostId
+	print "mon_graphite_hostmem URL %s" % url
+	result = requests.get(url).json()
+
+	
+	total = 0.0
+	count = 0
+	for metric in result:
+		for val in metric['datapoints']:
+			if val['value'] != None:
+				total += val['value']
+				count += 1
+				
+	if count == 0:
+		avg = 0
+	else:
+		avg = total / count
 
 	return str(avg)
 

@@ -500,7 +500,6 @@ Ext.define('spider.controller.VmHostController', {
 
     setVmHostMonitoringChart: function(popWindow, record) {
 
-
         // CPU, Memory, Network Chart를 위한 변수 설정
         var panel = Ext.getCmp("popVmHostInfoPanel");
 

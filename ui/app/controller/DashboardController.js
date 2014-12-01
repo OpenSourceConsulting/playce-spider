@@ -49,8 +49,7 @@ Ext.define('spider.controller.DashboardController', {
 
         Ext.each(Ext.getCmp("listMenuPanel").store.getRootNode().childNodes, function(record, idx){
 
-            var cpu = 0,
-            memory = 0,
+            var memory = 0,
             network = 0;
 
             var nodePanel = Ext.getCmp("DashBoardNodePanel").cloneConfig({itemId : "DashBoardNodePanel"+idx});
@@ -62,6 +61,28 @@ Ext.define('spider.controller.DashboardController', {
             var vmCpus = nodePanel.down('#vmCpuPanel').items.items;
             var vmMemorys = nodePanel.down('#vmMemPanel').items.items;
             var vmDisks = nodePanel.down('#vmNetPanel').items.items;
+
+            //CPU
+            Ext.Ajax.request({
+                url : GLOBAL.apiUrlPrefix + 'mon/graphite/hostcpu/' + record.get('id'),
+                disableCaching : true,
+                failMsg : false,
+                success: function(response){
+
+                    var cpu = Ext.decode(response.responseText);
+
+
+                    nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
+                    if(cpu <= 50) {
+                        nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
+                    } else if(cpu <= 70) {
+                        nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>', false);
+                    } else {
+                        nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
+                    }
+
+                }
+            });
 
             Ext.Ajax.request({
                 url: GLOBAL.apiUrlPrefix + 'mon/graphite/vmhostcpu/' + record.get('id'),
@@ -105,32 +126,20 @@ Ext.define('spider.controller.DashboardController', {
                                                             vmMemorys[vIdx+1].setText((memData[vmId].value/1024/1024).toFixed(2) + "MB");
                                                             vmDisks[vIdx+1].setText(netData[vmId].value.toFixed(0) + "%");
                                                         }
-                                                        cpu += parseFloat(cpuData[vmId].value);
                                                         memory += parseFloat(memData[vmId].value);
                                                         network += parseFloat(netData[vmId].value);
 
                                                     });
 
-                                                    cpu = cpu / vmKey.length;
-                                                    memory = memory / vmKey.length;
                                                     network = network / vmKey.length;
 
                                                 } else {
-                                                    cpu =  0; memory = 0; network = 0;
+                                                    memory = 0; network = 0;
 
                                                 }
 
-                                                nodePanel.down('#cpuBar').updateProgress(cpu / 100, cpu.toFixed(2) + "%");
                                                 nodePanel.down('#memoryBar').updateProgress(memory / record.get("maxmem"), (memory/1024/1024).toFixed(2) + "MB");
                                                 nodePanel.down('#networkBar').updateProgress(network / 100, network.toFixed(2) + "%");
-
-                                                if(cpu <= 50) {
-                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_01.png" width="36" height="36" border="0"></center>', false);
-                                                } else if(cpu <= 70) {
-                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_02.png" width="36" height="36" border="0"></center>', false);
-                                                } else {
-                                                    nodePanel.down('#VmHostStat').setText('<center><img src="resources/images/icons/status_03.png" width="36" height="36" border="0"></center>', false);
-                                                }
 
                                             }
                                         }
