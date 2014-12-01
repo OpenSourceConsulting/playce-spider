@@ -462,7 +462,7 @@ def mon_graphite_cpu(vmid=None):
 	vmhosts = read_repository("vmhosts")
 	for vmhost in vmhosts:
 		if vmid == vmhost['name']:
-			vmid = vmhost['hostname']
+			vmid = vmhost['hostname'].replace('.', '_')
 			break
 			
 	# hours, days, minutes, seconds
@@ -470,6 +470,7 @@ def mon_graphite_cpu(vmid=None):
 	timeunit = request.args.get('timeunit')
 	url = "http://localhost:8000/render/?width=500&height=500&from=-%s%s&format=json" % (timespan, timeunit)
 	url += "&target=averageSeries(%s.cpu.*.cpu.system.value)&target=averageSeries(%s.cpu.*.cpu.user.value)" % (vmid, vmid)
+	print "URL mon_graphite_cpu %s" % url
 	result = requests.get(url).json()
 	
 	numofcore = hostcore(vmid)
