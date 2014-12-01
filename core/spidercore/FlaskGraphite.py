@@ -417,7 +417,7 @@ def mon_graphite_vmhostnet(vmhostId=None):
 	size = 0
 	for metric in result:
 		target = metric['target'].split('.')
-		vmid, nicid, valtype = target[0], target[3], target[4]
+		vmid, nicid, valtype = target[0].replace("maxSeries(",""), target[3], target[4]
 		if vmid not in netResult:
 			netResult[vmid] = {}
 		if nicid not in netResult[vmid]:
