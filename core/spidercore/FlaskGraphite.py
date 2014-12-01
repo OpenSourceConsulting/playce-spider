@@ -395,7 +395,7 @@ def mon_graphite_vmhostnet(vmhostId=None):
 	indexes = []
 	for vm in vms:
 		if vm['vmhost'] == vmhostId:
-			indexes.append("target=%s.interface.if_packets.*.{tx,rx}" % vm['_id'])
+			indexes.append("target=maxSeries(%s.interface.if_octets.*.{tx,rx})" % vm['_id'])
 			idtoname[vm['_id']] = vm['vmname']
 	url = ""
 	for idx in indexes:
@@ -448,7 +448,7 @@ def mon_graphite_vmhostnet(vmhostId=None):
 
 	result = {}
 	for vmid in netResult:
-		result[vmid] = {'value': netResult[vmid]['netavg']}
+		result[vmid] = {'value': netResult[vmid]['netavg']*100/(1024*1024*10)}
 		result[vmid]['vmname'] = idtoname[vmid]
 		
 	return json.dumps(result) + '\n'
