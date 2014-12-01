@@ -463,12 +463,15 @@ def virsh_getAllInfo():
 	return {'info': info, 'version': version, 'hostname': hostname, 'interfaces': interfaces}
 
 def getAllInfo(addr, sshid, sshpw):
-	env.hosts = [ addr ]
-	env.user = sshid
-	env.password = sshpw
-	env.shell = '/bin/bash -l -c'
-	results = execute(virsh_getAllInfo, hosts=[addr])
-	return results[addr]
+	try:
+		env.hosts = [ addr ]
+		env.user = sshid
+		env.password = sshpw
+		env.shell = '/bin/bash -l -c'
+		results = execute(virsh_getAllInfo, hosts=[addr])
+		return results[addr]
+	except:
+		return {"msg":"Unhandled Exception has occurred."}
 
 
 def clonestate(vmname):
