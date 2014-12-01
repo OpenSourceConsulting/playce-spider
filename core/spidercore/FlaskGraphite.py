@@ -160,7 +160,10 @@ def mon_graphite_hostcpu(vmhostId=None):
 		total += cpuavg[name]
 		count += 1
 	
-	avg = total / count
+	if count == 0:
+		avg = 0
+	else:
+		avg = total / count
 
 	return str(avg)
 
@@ -196,7 +199,11 @@ def mon_graphite_hostmem(vmhostId=None):
 			if val['value'] != None:
 				total += val['value']
 				count += 1
-	avg = total / count
+	
+	if count == 0:
+		avg = 0
+	else:
+		avg = total / count
 
 	return str(avg)
 
@@ -232,7 +239,11 @@ def mon_graphite_hostnet(vmhostId=None):
 			if val['value'] != None:
 				total += val['value']
 				count += 1
-	avg = total / count
+				
+	if count == 0:
+		avg = 0
+	else:
+		avg = total / count
 
 	return str(avg)
 
