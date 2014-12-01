@@ -495,6 +495,12 @@ def mon_graphite_interface(vmid=None):
 	if vmid == None:
 		return "No id for VM", 404
 
+	vmhosts = read_repository("vmhosts")
+	for vmhost in vmhosts:
+		if vmid == vmhost['name']:
+			vmid = vmhost['hostname'].replace('.', '_')
+			break
+
 	# hours, days, minutes, seconds
 	timespan = request.args.get('timespan')
 	timeunit = request.args.get('timeunit')
@@ -536,6 +542,12 @@ def mon_graphite_memory(vmid=None):
 	if vmid == None:
 		return "No id for VM", 404
 
+	vmhosts = read_repository("vmhosts")
+	for vmhost in vmhosts:
+		if vmid == vmhost['name']:
+			vmid = vmhost['hostname'].replace('.', '_')
+			break
+		
 	# hours, days, minutes, seconds
 	timespan = request.args.get('timespan')
 	timeunit = request.args.get('timeunit')
