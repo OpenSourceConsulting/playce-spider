@@ -30,13 +30,7 @@ import json
 import requests
 
 def hostcore(vmhost):
-	numofcore = 1.0
-	if vmhost == 'Lion':
-		numofcore = 4
-	elif vmhost == 'jboss.osci.kr':
-		numofcore = 8
-	elif vmhost == 'localhost.localdomain':
-		numofcore = 2
+	numofcore = 5.0
 	return numofcore
 
 #	Monitoring API
