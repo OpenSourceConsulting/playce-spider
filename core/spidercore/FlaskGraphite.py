@@ -252,7 +252,7 @@ def mon_graphite_vmhostcpu(vmhostId=None):
 	vms = read_repository('vms')
 	indexes = []
 	for vm in vms:
-		if vm['vmhost'] == vmhostId:
+		if vm['vmhost'] == vmhostId and not vm['interim']:
 			indexes.append("target=%s.cpu.*.cpu.{user,system}.value" % vm['_id'])
 			idtoname[vm['_id']] = vm['vmname']
 	url = ""
@@ -320,7 +320,7 @@ def mon_graphite_vmhostmem(vmhostId=None):
 	vms = read_repository('vms')
 	indexes = []
 	for vm in vms:
-		if vm['vmhost'] == vmhostId:
+		if vm['vmhost'] == vmhostId and not vm['interim']:
 			indexes.append("target=%s.memory.memory.used.value" % vm['_id'])
 			idtoname[vm['_id']] = vm['vmname']
 	url = ""
