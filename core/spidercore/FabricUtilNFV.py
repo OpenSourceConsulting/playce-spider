@@ -532,7 +532,7 @@ def send_vyatta_command(commands):
 	os.system("rm ~/.ssh/known_hosts")
 	
 	results = []
-	tempDir = mainDir+"/tmp"
+	tempDir = "/tmp"
 	#f = open(mainDir + '/commands.txt', 'w')
 	# 임시파일 생성해서 사용
 	f = tempfile.NamedTemporaryFile(mode='w+b', delete=False, dir=tempDir, suffix=".sh")

@@ -182,7 +182,7 @@ def vm_reg_init():
 		try:
 			jsonData['mgraddr'] = mgrAddr
 			if init:
-				initVM(ipAddr, jsonData['sshid'], jsonData['sshpw'], vm['_id'], jsonData['hostname'])
+				initVM(mgrAddr, jsonData['sshid'], jsonData['sshpw'], vm['_id'], jsonData['hostname'])
 		except Exception, e:
 			print e
 			return "FAIL: init", 503
