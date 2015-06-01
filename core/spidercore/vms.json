@@ -1,18 +1,26 @@
 [
 	{
 		"sshid":"vyatta",
-		"vmhost":"cdf685a2-0530-4d03-87b0-0db4471fb1d6",
+		"vmhost":"85cb6c1b-b94c-4a32-ba3b-605f6fd363e6",
 		"sshpw":"vyatta",
 		"vmname":"vyatta",
 		"interfaces":[
 			{
-				"nic":"eth2",
-				"addr":"192.168.56.13"
+				"nic":"eth0",
+				"addr":"192.168.72.132"
+			},
+			{
+				"nic":"eth1",
+				"addr":"192.168.19.131"
 			}
 		],
+		"mgraddr":"192.168.19.131",
 		"hostname":"vyatta",
+		"vmhostName":"vmware-kvmhost",
+		"templateName":"none",
 		"vmtype":"kvm",
 		"vendor":"vyatta",
+		"interim":true,
 		"_id":"607de2f1-45ad-4354-9d96-b4841664d2d8",
 		"type":"nfv",
 		"addr":"vyatta"
